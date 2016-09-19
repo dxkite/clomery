@@ -3,10 +3,12 @@ use Core\Arr;
 
 spl_autoload_register(function ($name) {
     static $imported=[];
+    if (isset($imported[$name])) return $imported[$name];
     $paths=[CORE_PATH];
     $name=str_replace('\\', DIRECTORY_SEPARATOR, $name);
     foreach ($paths as $root) {
         if (file_exists($require=$root.'/'.$name.'.php')) {
+            $imported[$name]=$require;
             require_once $require;
         }
     }
