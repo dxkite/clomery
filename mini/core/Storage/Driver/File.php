@@ -1,13 +1,12 @@
 <?php
     namespace Storage\Driver;
 
-class File implements \Storage\Storage_Driver
+class File implements \Storage\Driver
 {
     // 递归创建文件夹
     public static function mkdirs(string $dir, int $mode=0777)
     {
-        if (!self::isDir($dir))
-        {
+        if (!self::isDir($dir)) {
             if (!self::mkdirs(dirname($dir), $mode)) {
                 return false;
             }
@@ -20,18 +19,12 @@ class File implements \Storage\Storage_Driver
     // 递归删除文件夹
     public static function rmdirs(string $dir)
     {
-        if( $handle=opendir($dir) )
-        {
-            while(false!== ($item=readdir($handle)) )
-            {
-                if($item!="."&&$item!="..")
-                {
-                    if(self::isDir("$dir/$item"))
-                    {
+        if ($handle=opendir($dir)) {
+            while (false!== ($item=readdir($handle))) {
+                if ($item!="."&&$item!="..") {
+                    if (self::isDir("$dir/$item")) {
                         self::rmdirs("$dir/$item");
-                    }
-                    else
-                    {
+                    } else {
                         unlink("$dir/$item");
                     }
                 }
@@ -40,18 +33,18 @@ class File implements \Storage\Storage_Driver
     }
 
     // 创建文件夹
-    public static function mkdir(string $dirname, int $mode)
+    public static function mkdir(string $dirname, int $mode=0777)
     {
-        return mkdir($path,$mode);
+        return mkdir($path, $mode);
     }
     // 删除文件夹
     public static function rmdir(string $dirname)
     {
         return rmdir($path);
     }
-    public static function put(string $name, mixed $content)
+    public static function put(string $name, $content)
     {
-        return file_put_contents($name,$content);
+        return file_put_contents($name, $content);
     }
 
     public static function get(string $name)
@@ -82,9 +75,5 @@ class File implements \Storage\Storage_Driver
     public static function type(string $name)
     {
         return filetype($name);
-    }
-    public static function parseIniFile(string $file,bool $process_sections = false)
-    {
-        return parse_ini_file($file,$process_sections);
     }
 }

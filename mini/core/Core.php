@@ -1,8 +1,24 @@
 <?php
 use Core\Arr;
 
+spl_autoload_register(function ($name) {
+    static $imported=[];
+    $paths=[CORE_PATH];
+    $name=str_replace('\\', DIRECTORY_SEPARATOR, $name);
+    foreach ($paths as $root) {
+        if (file_exists($require=$root.'/'.$name.'.php')) {
+            require_once $require;
+        }
+    }
+});
+
 // 获取配置
-function mini(string $name,mixed $default)
+function mini(string $name, $default=null)
 {
-    return Arr::get(Storage::parseIniFile(APP_PATH.'/'.MINI_INI,true),$name,$default);
+    static $mini=null;
+    if (is_null($mini)) {
+        $mini=parse_ini_file(APP_PATH.'/'.MINI_INI, true);
+    }
+    // var_dump($mini);
+    return Arr::get($mini, $name, $default);
 }

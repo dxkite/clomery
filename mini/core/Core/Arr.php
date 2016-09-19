@@ -120,7 +120,7 @@ class Arr
     }
 
 
-    private static function toString($arrname, $array)
+    public static function toString($arrname, $array)
     {
         $exstr = '';
         foreach ($array as $key => $value) {

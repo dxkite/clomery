@@ -1,7 +1,7 @@
 <?php
 namespace Storage;
 
-interface Storage_Driver
+interface Driver
 {
     // 文件类型
     const TYPE_DIR='dir';
@@ -17,7 +17,7 @@ interface Storage_Driver
     public static function mkdir(string $dirname, int $mode=0777);
     public static function rmdir(string $dirname);
     public static function rmdirs(string $dir);
-    
+
     public static function put(string $name, $content);
     public static function get(string $name);
     public static function remove(string $name);
@@ -27,5 +27,5 @@ interface Storage_Driver
     public static function isReadable(string $name);
     public static function size(string $name);
     public static function type(string $name);
-    public static function parseIniFile(string $file,bool $process_sections = false);
+
 }
