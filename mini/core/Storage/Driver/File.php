@@ -75,10 +75,10 @@ class Storage_Driver_File implements Storage_Driver
     {
         return filetype($name);
     }
-    public static function exsit(string $name, array $charset=[])
+    public static function exist(string $name, array $charset=[])
     {
         // UTF-8 格式文件路径
-        if (self::exisi_case($name)) {
+        if (self::exist_case($name)) {
             return true;
         }
         // Windows 文件中文编码
@@ -88,15 +88,15 @@ class Storage_Driver_File implements Storage_Driver
         }
         foreach ($ch as $code) {
             $file = iconv('UTF-8', $code, $filename);
-            if (self::exsit_case($file)) {
+            if (self::exist_case($file)) {
                 return $file;
             }
         }
         return false;
     }
-    
+
     // 判断文件存在
-    private function exsit_case($name)
+    private function exist_case($name)
     {
         if (file_exists($name) && is_file($name) && $real=realpath($name)) {
             if (basename($real) === basename($name)) {

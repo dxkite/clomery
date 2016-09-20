@@ -11,5 +11,4 @@
     $ini=parse_ini_file('D:\Server\three\three\.mini.ini',true);
     require_once CORE_PATH.'/Core.php';
     
-    $var=Storage::get('hello.txt');
-    var_dump($var);
+    View::test();

@@ -9,8 +9,9 @@ class View
             self::$compiler=new $compiler;
         }
     }
-    public static function echo($echo)
+    public static function  test()
     {
-        echo htmlspecialchars($echo);
+        self::loadCompile();
+        self::$compiler->compileFile('pomelo.html');
     }
 }

@@ -3,3 +3,5 @@
     define('WEB_ROOT',__DIR__);
     define('APP_PATH',dirname(__DIR__).'/three');
     require_once '../mini/loader.php';
+
+  

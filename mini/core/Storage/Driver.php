@@ -25,6 +25,6 @@ interface Storage_Driver
     public static function isReadable(string $name);
     public static function size(string $name);
     public static function type(string $name);
-    public static function exsit(string $file);
+    public static function exist(string $file);
 
 }
