@@ -1,7 +1,5 @@
 <?php
-    namespace Storage\Driver;
-
-class File implements \Storage\Driver
+class Storage_Driver_File implements Storage_Driver
 {
     // 递归创建文件夹
     public static function mkdirs(string $dir, int $mode=0777)

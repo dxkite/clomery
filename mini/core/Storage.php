@@ -2,17 +2,17 @@
 
 class Storage
 {
-    public static $driver=null;
-    public static function setDriver()
+    private static $driver=null;
+    private static function setDriver()
     {
         if (is_null(self::$driver)) {
-            $driver='Storage\Driver\\'. mini('Driver.Storage','File');
+            $driver='Storage_Driver_'. mini('Driver.Storage','File');
             self::$driver=new $driver;
         }
     }
     public static function  __callStatic($method,$args)
     {
         self::setDriver();
-        forward_static_call_array([self::$driver,$method],$args);
+        return forward_static_call_array([self::$driver,$method],$args);
     }
 }

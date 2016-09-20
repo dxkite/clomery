@@ -1,7 +1,5 @@
 <?php
-namespace Storage;
-
-interface Driver
+interface Storage_Driver
 {
     // 文件类型
     const TYPE_DIR='dir';
