@@ -1,10 +1,10 @@
 <?php
-use Core\Arr;
+use Core\Arr; // 引入Arr数组操纵类
 
 spl_autoload_register(function ($name) {
     static $imported=[];
     if (isset($imported[$name])) return $imported[$name];
-    $paths=[CORE_PATH];
+    $paths=[CORE_PATH,MINI_LIB]; // 搜索目录
     $name=preg_replace('/[\\_]/', DIRECTORY_SEPARATOR, $name);
     foreach ($paths as $root) {
         // var_dump($root.'/'.$name.'.php',$name);

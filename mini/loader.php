@@ -1,5 +1,7 @@
 <?php
+    
     defined ('DOC_ROOT') or define ('DOC_ROOT',dirname(__DIR__));
+    defined ('MINI_ROOT') or define ('MINI_ROOT',DOC_ROOT.'/mini');
     defined ('APP_PATH') or define ('APP_PATH',DOC_ROOT.'/app');
     defined ('WEB_ROOT') or define ('WEB_ROOT',DOC_ROOT.'/public');
     defined ('MINI_INI') or define ('MINI_INI','.mini.ini');
