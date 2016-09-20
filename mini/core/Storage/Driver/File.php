@@ -1,6 +1,7 @@
 <?php
 class Storage_Driver_File implements Storage_Driver
 {
+    public static $charset=['GBK','GBK','GB2312','BIG5','GB13000','GB18030'];
     // 递归创建文件夹
     public static function mkdirs(string $dir, int $mode=0777)
     {
@@ -73,5 +74,35 @@ class Storage_Driver_File implements Storage_Driver
     public static function type(string $name)
     {
         return filetype($name);
+    }
+    public static function exsit(string $name, array $charset=[])
+    {
+        // UTF-8 格式文件路径
+        if (self::exisi_case($name)) {
+            return true;
+        }
+        // Windows 文件中文编码
+        static $charset=null;
+        if (is_null($charset)) {
+            $charset=array_merge(self::$charset, $charset);
+        }
+        foreach ($ch as $code) {
+            $file = iconv('UTF-8', $code, $filename);
+            if (self::exsit_case($file)) {
+                return $file;
+            }
+        }
+        return false;
+    }
+    
+    // 判断文件存在
+    private function exsit_case($name)
+    {
+        if (file_exists($name) && is_file($name) && $real=realpath($name)) {
+            if (basename($real) === basename($name)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
