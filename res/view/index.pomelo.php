@@ -20,12 +20,11 @@
 		<? Env::echo( csrf_field() ) ?>
 		<table class="custom-table auth-request-table">
 			<?php if(isset($errors)): ?>
-				@foreach($errors->all() as $error)
+				<?php foreach($errors->all() as $error): ?>
 					<tr>
 						<td colspan="3"><span class="label label-warning"><? Env::echo( $error ) ?></span></td>
 					</tr>
-				@endforeach
-			
+				<?php endforeach; ?>
 			<?php endif; ?>
 			<?php if(isset($info)): ?>
 				<tr>

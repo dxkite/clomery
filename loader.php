@@ -19,6 +19,6 @@
     require_once CORE_PATH.'/Core.php';
 
     $caller=new Core\Caller(['View', 'compile']);
-    $caller->call(['pomelo.html', 'pomelo.php']);
+    $caller->call(['index']);
     Env::Options('Hello', '<h1>World</h1>')->hello();
     Env::include('Hello', '<h1>World</h1>')->render();

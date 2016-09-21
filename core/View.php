@@ -12,15 +12,14 @@ class View
         }
     }
 
-    public static function render(string $page,array $values=[])
+    public static function render(string $page, array $values=[])
     {
-        
     }
     
-    public static function  compile($input,$output)
+    public static function compile($input)
     {
         self::loadCompile();
         $content=self::$compiler->compileFile($input);
-        return Storage::put($output,$content);
+        
     }
 }

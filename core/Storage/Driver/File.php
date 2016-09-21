@@ -1,7 +1,7 @@
 <?php
 class Storage_Driver_File implements Storage_Driver
 {
-    public static $charset=['GBK','GBK','GB2312','BIG5','GB13000','GB18030'];
+    public static $charset=['GBK','GB2312','BIG5'];
     // 递归创建文件夹
     public static function mkdirs(string $dir, int $mode=0777)
     {
@@ -82,12 +82,10 @@ class Storage_Driver_File implements Storage_Driver
             return true;
         }
         // Windows 文件中文编码
-        static $charset=null;
-        if (is_null($charset)) {
-            $charset=array_merge(self::$charset, $charset);
-        }
-        foreach ($ch as $code) {
-            $file = iconv('UTF-8', $code, $filename);
+        $charset=array_merge(self::$charset, $charset);
+
+        foreach ($charset as $code) {
+            $file = iconv('UTF-8', $code, $name);
             if (self::exist_case($file)) {
                 return $file;
             }
