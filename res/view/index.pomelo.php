@@ -17,22 +17,21 @@
 	<?php Env::include("layout.header") -> render(); ?>
 	<h3 class="custom-heading">Request</h3>
 	<form action="/auth/request" method="POST">
-		<? Env::echo( csrf_field() ) ?>
 		<table class="custom-table auth-request-table">
 			<?php if(isset($errors)): ?>
 				<?php foreach($errors->all() as $error): ?>
 					<tr>
-						<td colspan="3"><span class="label label-warning"><? Env::echo( $error ) ?></span></td>
+						<td colspan="3"><span class="label label-warning"><?php Env::echo( $error ) ?></span></td>
 					</tr>
 				<?php endforeach; ?>
 			<?php endif; ?>
 			<?php if(isset($info)): ?>
 				<tr>
-					<td colspan="3"><span class="label label-info"><? Env::echo( $info ) ?></span></td>
+					<td colspan="3"><span class="label label-info"><?php Env::echo( $info ) ?></span></td>
 				</tr>
 				<?php else: ?>
 				<tr>
-					<td colspan="3"><span class="label label-info"><? Env::echo( $infoelse ) ?></span></td>
+					<td colspan="3"><span class="label label-info"><?php Env::echo( $infoelse ) ?></span></td>
 				</tr>
 			<?php endif; ?>
 			<tr>
@@ -42,7 +41,7 @@
 			<tr>
 				<td>Captcha</td>
 				<td><input class="form-control" name="captcha" type="text" /></td>
-				<td><img id="captcha" src="<? Env::echo( captcha_src("flat") ) ?>" alt="Captcha" /></td>
+				<td><img id="captcha" src="<?php Env::echo( captcha_src("flat") ) ?>" alt="Captcha" /></td>
 			</tr>
 			<tr>
 				<td></td>

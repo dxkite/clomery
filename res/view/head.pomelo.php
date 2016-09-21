@@ -1,1 +1,1 @@
-<? Env::echo( 'HEAD FILE ') ?>
+<?php Env::echo( 'HEAD FILE ') ?>

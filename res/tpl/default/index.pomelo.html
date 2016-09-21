@@ -17,7 +17,6 @@
 	@include("layout.header")
 	<h3 class="custom-heading">Request</h3>
 	<form action="/auth/request" method="POST">
-		{{ csrf_field() }}
 		<table class="custom-table auth-request-table">
 			@if(isset($errors))
 				@foreach($errors->all() as $error)
