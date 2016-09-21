@@ -13,26 +13,27 @@
 	</script>
 </head>
 <body>
+	<?php /*  注释  */ ?>
 	<?php Env::include("layout.header") -> rander(); ?>
 	<h3 class="custom-heading">Request</h3>
 	<form action="/auth/request" method="POST">
-		{{ csrf_field() }}
+		<? Env::echo( csrf_field() ) ?>
 		<table class="custom-table auth-request-table">
 			<?php if(isset($errors)): ?>
 				@foreach($errors->all() as $error)
 					<tr>
-						<td colspan="3"><span class="label label-warning">{{ $error }}</span></td>
+						<td colspan="3"><span class="label label-warning"><? Env::echo( $error ) ?></span></td>
 					</tr>
 				@endforeach
 			
 			<?php endif; ?>
 			<?php if(isset($info)): ?>
 				<tr>
-					<td colspan="3"><span class="label label-info">{{ $info }}</span></td>
+					<td colspan="3"><span class="label label-info"><? Env::echo( $info ) ?></span></td>
 				</tr>
 				<?php else: ?>
 				<tr>
-					<td colspan="3"><span class="label label-info">{{ $infoelse }}</span></td>
+					<td colspan="3"><span class="label label-info"><? Env::echo( $infoelse ) ?></span></td>
 				</tr>
 			<?php endif; ?>
 			<tr>
@@ -42,7 +43,7 @@
 			<tr>
 				<td>Captcha</td>
 				<td><input class="form-control" name="captcha" type="text" /></td>
-				<td><img id="captcha" src="{{ captcha_src("flat") }}" alt="Captcha" /></td>
+				<td><img id="captcha" src="<? Env::echo( captcha_src("flat") ) ?>" alt="Captcha" /></td>
 			</tr>
 			<tr>
 				<td></td>

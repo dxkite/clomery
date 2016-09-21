@@ -9,6 +9,11 @@ class View
             self::$compiler=new $compiler;
         }
     }
+    public static function renderPage(string $page,array $values)
+    {
+        
+        
+    }
     public static function  test($input,$output)
     {
         self::loadCompile();
