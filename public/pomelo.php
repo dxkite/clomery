@@ -2,7 +2,8 @@
 <html>
 <head>
 	<title><?php echo 'Forget Password' ?></title>
-	@include("layout.head")
+	<?php Env::include("layout.head") -> path(array (
+)) -> rander(); ?>
 	<link rel="stylesheet" href="/css/main.css">
 	<script>
 		$(function() {
@@ -13,27 +14,29 @@
 	</script>
 </head>
 <body>
-	@include("layout.header")
+	<?php Env::include("layout.header") -> path(array (
+)) -> rander(); ?>
 	<h3 class="custom-heading">Request</h3>
 	<form action="/auth/request" method="POST">
 		{{ csrf_field() }}
 		<table class="custom-table auth-request-table">
-			@if(isset($errors))
+			<?php if(isset($errors)): ?>
 				@foreach($errors->all() as $error)
 					<tr>
 						<td colspan="3"><span class="label label-warning">{{ $error }}</span></td>
 					</tr>
 				@endforeach
-			@endif
-			@if(isset($info))
+			
+			<?php endif; ?>
+			<?php if(isset($info)): ?>
 				<tr>
 					<td colspan="3"><span class="label label-info">{{ $info }}</span></td>
 				</tr>
-				@else
+				<?php else: ?>
 				<tr>
 					<td colspan="3"><span class="label label-info">{{ $infoelse }}</span></td>
 				</tr>
-			@endif
+			<?php endif; ?>
 			<tr>
 				<td>Email</td>
 				<td><input class="form-control" name="email" type="text" /></td>

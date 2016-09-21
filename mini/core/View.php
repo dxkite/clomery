@@ -12,6 +12,7 @@ class View
     public static function  test()
     {
         self::loadCompile();
-        self::$compiler->compileFile('pomelo.html');
+        $content=self::$compiler->compileFile('pomelo.html');
+        Storage::put('pomelo.php',$content);
     }
 }

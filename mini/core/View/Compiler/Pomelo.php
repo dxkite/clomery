@@ -2,14 +2,14 @@
 
 class View_Compiler_Pomelo
 {
-    public static $ext='.pomelo.html';
-    public static $error=[
+    protected static $ext='.pomelo.html';
+    protected static $error=[
         0=>'No Error',
         1=>'Include Too Deep',
     ];
-    public static $erron=0;
-    public static $echoTag=['{{','}}'];
-    public static $commentTag=['{--','--}'];
+    protected static $erron=0;
+    protected static $echoTag=['{{','}}'];
+    protected static $commentTag=['{--','--}'];
     
     // 编译单文件
     public function compileFile(string $file, array $include_path=[])
@@ -45,7 +45,39 @@ class View_Compiler_Pomelo
 
     private function compileString(string $str, array $include_path=[])
     {
-        return $str;
+        $callback=function ($match) use ($include_path) {
+            if (method_exists($this, $method = 'parse'.ucfirst($match[1]))) {
+                $match[0] = $this->$method(isset($match[3])?$match[3]:null, $include_path);
+            }
+            return isset($match[3]) ? $match[0] : $match[0].$match[2];
+        };
+        return preg_replace_callback('/\B@(\w+)(\s*)(\( ( (?>[^()]+) | (?3) )* \))?/x', $callback, $str);
+    }
+
+    // IF 语句
+    private function parseIf($exp)
+    {
+        return "<?php if{$exp}: ?>";
+    }
+    private function parseEndif()
+    {
+        return '<?php endif; ?>';
+    }
+    private function parseElse()
+    {
+        return '<?php else: ?>';
+    }
+
+    private function parseElseif($exp)
+    {
+        return "<?php elseif {$exp}: ?>";
+    }
+
+    private function parseInclude($exp, array $includes=[])
+    {
+        return count($includes)?
+         "<?php Env::include{$exp} -> path(".var_export($includes, true).') -> rander(); ?>':
+         "<?php Env::include{$exp} -> rander(); ?>";
     }
     // 错误报错
     public function error()
