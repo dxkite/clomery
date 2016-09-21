@@ -1,7 +1,9 @@
 <?php
 class View
 {
-    public static $compiler=null;
+    private static $compiler=null;
+    private static $values=[];
+
     private function loadCompile()
     {
         if (is_null(self::$compiler)) {
@@ -9,16 +11,16 @@ class View
             self::$compiler=new $compiler;
         }
     }
-    public static function renderPage(string $page,array $values)
+
+    public static function render(string $page,array $values=[])
     {
         
-        
     }
-    public static function  test($input,$output)
+    
+    public static function  compile($input,$output)
     {
         self::loadCompile();
         $content=self::$compiler->compileFile($input);
-        Storage::put($output,$content);
-        return $content;
+        return Storage::put($output,$content);
     }
 }
