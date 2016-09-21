@@ -10,5 +10,6 @@
     
     $ini=parse_ini_file('D:\Server\three\three\.mini.ini',true);
     require_once CORE_PATH.'/Core.php';
-    
-    View::test();
+
+    $caller=new Core\Caller(['View','test']);
+    $caller->call(['pomelo.html','pomelo.php']);

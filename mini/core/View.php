@@ -9,10 +9,11 @@ class View
             self::$compiler=new $compiler;
         }
     }
-    public static function  test()
+    public static function  test($input,$output)
     {
         self::loadCompile();
-        $content=self::$compiler->compileFile('pomelo.html');
-        Storage::put('pomelo.php',$content);
+        $content=self::$compiler->compileFile($input);
+        Storage::put($output,$content);
+        return $content;
     }
 }

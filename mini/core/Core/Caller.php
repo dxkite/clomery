@@ -1,6 +1,8 @@
 <?php
 namespace Core;
-
+/**
+ * 可回调对象
+ */
 class Caller
 {
     public $caller;
@@ -21,7 +23,6 @@ class Caller
         if (count($params)) {
             $this->params=$params;
         }
-        // 匿名
         return call_user_func_array($this->caller, $this->params);
     }
 }

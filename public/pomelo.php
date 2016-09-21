@@ -2,8 +2,7 @@
 <html>
 <head>
 	<title><?php echo 'Forget Password' ?></title>
-	<?php Env::include("layout.head") -> path(array (
-)) -> rander(); ?>
+	<?php Env::include("layout.head") -> rander(); ?>
 	<link rel="stylesheet" href="/css/main.css">
 	<script>
 		$(function() {
@@ -14,8 +13,7 @@
 	</script>
 </head>
 <body>
-	<?php Env::include("layout.header") -> path(array (
-)) -> rander(); ?>
+	<?php Env::include("layout.header") -> rander(); ?>
 	<h3 class="custom-heading">Request</h3>
 	<form action="/auth/request" method="POST">
 		{{ csrf_field() }}
