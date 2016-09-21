@@ -20,7 +20,7 @@
     View::compile('head');
     View::compile('index');
     $caller=new Core\Caller(['View', 'render']);
-    $caller->call(['index']);
+    $caller->call(['index',['infoelse'=>'Info INFO Set']]);
     //  Env::Options('Hello', '<h1>World</h1>')->hello();
 
 

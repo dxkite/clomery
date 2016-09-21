@@ -15,6 +15,9 @@ class View
     public static function render(string $page, array $values=[])
     {
         self::loadCompile();
+        $values=array_merge($values,self::$values);
+        // 分解变量
+        extract($values, EXTR_OVERWRITE);
         $file=self::$compiler->getViewPath($page);
         if (Storage::exist($file))
             require_once $file;
