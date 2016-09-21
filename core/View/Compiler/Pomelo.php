@@ -13,6 +13,7 @@ class View_Compiler_Pomelo
     protected static $erron=0;
     protected static $echoTag=['{{','}}'];
     protected static $commentTag=['{--','--}'];
+   
     protected static $theme='default';
 
     public static function getViewPath(string $name)
@@ -78,11 +79,13 @@ class View_Compiler_Pomelo
 
     private function compileCommand(string $str)
     {
+        $orecho=sprintf('/%s\s*?(?=\$)(.+?)\s+or\s+(.+?)\s*?%s/', self::$echoTag[0], self::$echoTag[1]);
         $echo=sprintf('/%s(.+)%s/', self::$echoTag[0], self::$echoTag[1]);
         $comment=sprintf('/%s(.+)%s/', self::$commentTag[0], self::$commentTag[1]);
+        // var_dump($orecho);
         return preg_replace(
-            [$echo, $comment],
-            ['<? Env::echo($1) ?>', '<?php /* $1 */ ?>'],
+            [$orecho,$echo, $comment],
+            ['<?php Env::echo(isset($1) ? $1 : $2) ?>','<? Env::echo($1) ?>', '<?php /* $1 */ ?>'],
             $str
         );
     }

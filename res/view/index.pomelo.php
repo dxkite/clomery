@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-	<title><? Env::echo( $hello or 'No Value' ) ?></title>
+	<title><?php Env::echo(isset($hello) ? $hello : 'No Value') ?></title>
 	<?php Env::include("head") -> render(); ?>
 	<link rel="stylesheet" href="/css/main.css">
 	<script>
