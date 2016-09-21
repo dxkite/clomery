@@ -1,8 +1,8 @@
 <!doctype html>
 <html>
 <head>
-	<title><?php echo 'Forget Password' ?></title>
-	<?php Env::include("layout.head") -> rander(); ?>
+	<title><? Env::echo( $hello or 'No Value' ) ?></title>
+	<?php Env::include("head") -> render(); ?>
 	<link rel="stylesheet" href="/css/main.css">
 	<script>
 		$(function() {
@@ -14,7 +14,7 @@
 </head>
 <body>
 	<?php /*  注释  */ ?>
-	<?php Env::include("layout.header") -> rander(); ?>
+	<?php Env::include("layout.header") -> render(); ?>
 	<h3 class="custom-heading">Request</h3>
 	<form action="/auth/request" method="POST">
 		<? Env::echo( csrf_field() ) ?>

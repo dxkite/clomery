@@ -14,17 +14,24 @@ class View_Compiler_Pomelo
     protected static $echoTag=['{{','}}'];
     protected static $commentTag=['{--','--}'];
     protected static $theme='default';
-    
+
+    public static function getViewPath(string $name)
+    {
+        $file=preg_replace('/[.|\\\\|\/]+/', DIRECTORY_SEPARATOR, $name);
+        return APP_VIEW.'/'.$file.self::$extCpl;
+    }
     // 编译单文件
     public function compileFile(string $file)
     {
-        $file=preg_replace('/[.|\\\\|\/]+/',DIRECTORY_SEPARATOR,$file);
+        $file=preg_replace('/[.|\\\\|\/]+/', DIRECTORY_SEPARATOR, $file);
         $filename=APP_TPL.'/'.self::$theme.'/'.$file.self::$extRaw;
         if (Storage::exist($filename)) {
             $content= self::compileText(Storage::get($filename));
             $output=APP_VIEW.'/'.$file.self::$extCpl;
+            // if (!Storage::exsit($output)) {
             Storage::mkdirs(dirname($output));
             Storage::put($output, $content);
+            // }
             return true;
         }
         self::$erron=1;
@@ -98,7 +105,7 @@ class View_Compiler_Pomelo
     {
         return "<?php elseif {$exp}: ?>";
     }
-    // for 
+    // for
     protected function parseFor($expression)
     {
         return "<?php for{$expression}: ?>";
@@ -132,7 +139,7 @@ class View_Compiler_Pomelo
         foreach ($includes as $path) {
             $compile=self::compileFile($path.'/'.$match[2]);
         }
-        return "<?php Env::include{$exp} -> rander(); ?>";
+        return "<?php Env::include{$exp} -> render(); ?>";
     }
     // 错误报错
     public function error()
