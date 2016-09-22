@@ -17,7 +17,8 @@
     defined('WEB_MIME') or define('WEB_MIME', '.mime');
     
     require_once CORE_PATH.'/Core.php';
-    
+
+
     Page::visit('/{article}', function ($article) {
         echo "OK hello page:$article";
     })
@@ -30,11 +31,12 @@
     ->with('name', 'string')
     ->name('main');
 
-    Page::visit('/',function()
+    Page::visit('/getUser/{id}',function($id=0)
     {
-        View::set('hello','main page');
-        return ['infoelse'=>'Set Info Else'];
-    })->json();
+        return (new Qurey('SELECT * FROM `#{users}` WHERE `uid`=:uid LIMIT 1;',['uid'=>$id]))->fetch();
+    })
+    ->with('id','int')
+    ->json();
     
     Page::default(function () {
          echo '__default__';
