@@ -18,7 +18,7 @@
     
     require_once CORE_PATH.'/Core.php';
 
-    Page::autoload('/autoload',['/']);
+    
     
     Page::visit('/{id}/{name}', function ($id, $name) {
         echo 'OK ==> ', $id, $name;
@@ -35,7 +35,8 @@
     ->with('id','int')
     ->json();
 
-    Page::default(function () {
-         echo '__default__';
-    });
+    // Page::default(function () {
+    //      echo '__default__';
+    // });
+	Page::autoload('/admin',['/admin']);
     Page::display();

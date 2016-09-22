@@ -32,23 +32,26 @@ class Page
         self::$names[$name]=$url;
     }
     // 自动加载App目录下的程序
-    public static function autoload(string $path, array $inpath)
+    public static function autoload(string $name_path, array $search_path)
     {
-        $auto=function ($path) use ($path, $inpath) {
-            foreach ($inpath as $pathroot) {
-                $path=trim($pathroot.'/'.$path, '/');
-                $file=APP_ROOT.'/'.$path.'.php';
+        $auto=function ($path) use ( $search_path) {
+            foreach ($search_path as $pathroot) {
+                $names=trim($pathroot.'/'.$path, '/');
+                $file=APP_ROOT.'/'.$names.'.php';
                 if (Storage::exist($file)) {
                     require_once $file;
-                    $class= preg_replace('/\\\\+\/+/', '\\', $path);
+                    $class= preg_replace('/(\\\\+|\/+)/', '\\', $names);
+                    // var_dump($class,class_exists('Hello\eOoo',false));
+                    // $c=new Hello\eOoo();
+                    // $c->main();
                     if (class_exists($class, false)) {
-                        $app = new $path();
+                        $app = new $class();
                         $app ->main();
                     }
                 }
             }
         };
-        return self::visit(rtrim($path).'/{path}', $auto)
+        return self::visit(rtrim($name_path).'/{path}', $auto)
         ->with('path', 'string')->override();
     }
 
