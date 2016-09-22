@@ -7,7 +7,9 @@ class Page_Controller extends Caller
     private $name;
     private $regs=[];
     private $tpl='index';
-    
+    private $type='html';
+    private $raw=false;
+
     public function __construct($caller, array $params=[])
     {
         // 设置父类
@@ -52,8 +54,37 @@ class Page_Controller extends Caller
         }
         return $this->tpl;
     }
-    public function render()
+    public function type($type='')
     {
-        View::render($this->tpl);
+        $this->type=$type;
+        return $this;
+    }
+    public function raw(bool $raw=true)
+    {
+        $this->raw=$raw;
+        return $this;
+    }
+    public function json()
+    {
+        return $this->raw()->type('json');
+    }
+    public function render(array $value=[])
+    {
+        if ($this->raw)
+        {
+            switch ($this->type)
+            {
+                case 'json':
+                    header('Content-type: '.mime($this->type,'text/plain;charset=UTF-8'));
+                    echo json_encode($value);
+                    break;
+                default:
+                    header('Content-type: '.mime($this->type,'text/plain;charset=UTF-8'));
+            }
+        }
+        else
+        {
+            View::render($this->tpl,$value);
+        }
     }
 }

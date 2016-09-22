@@ -14,7 +14,7 @@ class Page
         self::$maps['__default__']=$caller;
         return $caller;
     }
-    
+
     public static function visit(string $url, $caller)
     {
         $caller=new Page_Controller($caller);
@@ -22,7 +22,7 @@ class Page
         return $caller;
     }
 
-    public static function hand()
+    public static function display()
     {
         preg_match('/(.*)\/index.php([^?]*)([?].+)?$/', $_SERVER['PHP_SELF'], $match);
         $success=false;
@@ -56,19 +56,16 @@ class Page
                     }
                 }
                 if ($success) {
-                    $caller->call($values);
-                    $caller->render();
+                    $caller->render($caller->call($values));
                 }
             } elseif (preg_match('/^'.preg_quote($url, '/').'$/', $path)) {
                 $success=true;
-                $caller->call($values);
-                $caller->render();
+                $caller->render($caller->call($values));
             }
         }
         // 默认
         if (!$success && isset(self::$maps['__default__'])) {
-            self::$maps['__default__']->call([$path]);
-            self::$maps['__default__']->render();
+            self::$maps['__default__']->render(self::$maps['__default__']->call([$path]));
         }
         
     }

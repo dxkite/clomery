@@ -2,6 +2,7 @@
 
     defined('DOC_ROOT') or define('DOC_ROOT', __DIR__);
     defined('WEB_ROOT') or define('WEB_ROOT', DOC_ROOT.'/public');
+    
     defined('CORE_PATH') or define('CORE_PATH', __DIR__.'/core');
     // APP 相关数据
     defined('APP_ROOT') or define('APP_ROOT', DOC_ROOT.'/app');
@@ -13,7 +14,7 @@
     defined('APP_TPL')or define('APP_TPL', APP_RES.'/tpl');
     // 配置文件名
     defined('APP_CONF') or define('APP_CONF', '.conf');
-    
+    defined('WEB_MIME') or define('WEB_MIME', '.mime');
     
     require_once CORE_PATH.'/Core.php';
     // View::compile('head');
@@ -33,12 +34,13 @@
     Page::visit('/',function()
     {
         View::set('hello','main page');
-    });
+        return ['infoelse'=>'Set Info Else'];
+    })->json();
     Page::visit('/hello', function () {
         echo 'OK hello page';
     });
     Page::default(function () {
          echo '__default__';
     });
-    Page::hand();
+    Page::display();
     // var_dump(Route::$maps);
