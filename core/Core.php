@@ -17,7 +17,7 @@ spl_autoload_register(function ($name) {
         // 其次查找目录配驱动
         elseif (is_dir($root.'/'.$name)) {
             // 配置存在
-            if (conf('Driver.'.$name) && file_exists($require="$root/$name/".conf('Driver.'.$name)."_$name.php")) {
+            if (conf('Driver.'.$name) && file_exists($require="{$root}/{$name}/".conf('Driver.'.$name)."_{$name}.php")) {
                 require_once $require;
             }
         }

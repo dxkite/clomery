@@ -5,6 +5,7 @@ use Core\Arr;
 class Page_Controller extends Caller
 {
     private $name;
+    private $url;
     private $regs=[];
     private $tpl='index';
     private $type='html';
@@ -41,9 +42,19 @@ class Page_Controller extends Caller
     {
         if ($name) {
             $this->name=$name;
+            Page::name($name,$this->url);
             return $this; // 链式调用
         }
         return $this->name;
+    }
+    // 获取/设置 标识
+    public function url(string $url=null)
+    {
+        if ($url) {
+            $this->url=$url;
+            return $this; // 链式调用
+        }
+        return $this->url;
     }
     // 获取/设置 模板
     public function template(string $name=null)

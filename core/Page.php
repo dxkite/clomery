@@ -4,21 +4,45 @@ use Core\Caller;
 // 简单路由
 class Page
 {
-    public static $maps;
-    public static $type=[
+    private static $maps;
+    private static $type=[
         'int'=>'/\d+/',
         'string'=>'/\S+/'
     ];
+    private static $names=[];
     public static function default($caller)
     {
         $caller=new Page_Controller($caller);
         self::$maps['__default__']=$caller;
         return $caller;
     }
+    public static function url(string $name, array $args)
+    {
+        if (isset(self::$names[$name])) {
+            $url=self::$names[$name];
+            foreach ($args as $name =>$value) {
+                $url=preg_replace("/\{{$name}\}/", $value, $url);
+            }
+            return $url;
+        }
+        return '/';
+    }
+    public static function name(string $name, string $url)
+    {
+        self::$names[$name]=$url;
+    }
+    // public static function autourl(string $path)
+    // {
+    //     $auto=function ($path)
+    //     {
 
+    //     };
+    //     return self::visit($path.'/{path}',$auto)->with('path','/^(.*)$/');
+    // }
     public static function visit(string $url, $caller)
     {
         $caller=new Page_Controller($caller);
+        $caller->url($url);
         self::$maps[$url]=$caller;
         return $caller;
     }

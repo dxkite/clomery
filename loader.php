@@ -33,11 +33,12 @@
 
     Page::visit('/getUser/{id}',function($id=0)
     {
+        var_dump(Page::url('main',['id'=>5,'name'=>'urlpage']));
         return (new Qurey('SELECT * FROM `#{users}` WHERE `uid`=:uid LIMIT 1;',['uid'=>$id]))->fetch();
     })
     ->with('id','int')
     ->json();
-    
+
     Page::default(function () {
          echo '__default__';
     });
