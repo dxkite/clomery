@@ -1,5 +1,6 @@
 <?php
 namespace Core;
+
 /**
  * 数组操纵，
  * 设置值，
@@ -118,8 +119,14 @@ class Arr
         $exstr .= 'return '.$name.";\r\n?>";
         return file_put_contents($path, $exstr) ? true : false;
     }
-
-
+    // 数目不同
+    public static function combine(array $key, array $value)
+    {
+        if (count($name)!==count($preg)) {
+            $value=array_slice($value, 0, count($name));
+        }
+        return array_combine($key, $value);
+    }
     public static function toString($arrname, $array)
     {
         $exstr = '';

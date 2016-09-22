@@ -41,7 +41,7 @@
 			<tr>
 				<td>Captcha</td>
 				<td><input class="form-control" name="captcha" type="text" /></td>
-				<td><img id="captcha" src="<?php Env::echo( captcha_src("flat") ) ?>" alt="Captcha" /></td>
+				<td><img id="captcha" src="<?php Env::echo( 'flat' ) ?>" alt="Captcha" /></td>
 			</tr>
 			<tr>
 				<td></td>

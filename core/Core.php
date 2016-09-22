@@ -16,11 +16,11 @@ spl_autoload_register(function ($name) {
 });
 
 // 获取配置
-function mini(string $name, $default=null)
+function conf(string $name, $default=null)
 {
-    static $mini=null;
-    if (is_null($mini)) {
-        $mini=parse_ini_file(DOC_ROOT.'/'.APP_INI, true);
+    static $conf=null;
+    if (is_null($conf)) {
+        $conf=parse_ini_file(DOC_ROOT.'/'.APP_CONF, true);
     }
-    return Arr::get($mini, $name, $default);
+    return Arr::get($conf, $name, $default);
 }

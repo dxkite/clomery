@@ -6,7 +6,7 @@ class Storage
     private static function setDriver()
     {
         if (is_null(self::$driver)) {
-            $driver='Storage_Driver_'. mini('Driver.Storage','File');
+            $driver='Storage_Driver_'. conf('Driver.Storage','File');
             self::$driver=new $driver;
         }
     }

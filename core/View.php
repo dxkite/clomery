@@ -7,22 +7,28 @@ class View
     private function loadCompile()
     {
         if (is_null(self::$compiler)) {
-            $compiler='View_Compiler_'. mini('Driver.View', 'Pomelo');
+            $compiler='View_Compiler_'. conf('Driver.View', 'Pomelo');
             self::$compiler=new $compiler;
         }
+    }
+    
+    public static function set(string $name, $value)
+    {
+        self::$values[$name]=$value;
     }
 
     public static function render(string $page, array $values=[])
     {
         self::loadCompile();
-        $values=array_merge($values,self::$values);
+        $values=array_merge($values, self::$values);
         // 分解变量
         extract($values, EXTR_OVERWRITE);
         $file=self::$compiler->getViewPath($page);
-        if (Storage::exist($file))
+        if (Storage::exist($file)) {
             require_once $file;
-        else
-            echo $page.' TPL NO FIND!'; 
+        } else {
+            echo $page.' TPL NO FIND!';
+        }
     }
     
     public static function compile($input)
