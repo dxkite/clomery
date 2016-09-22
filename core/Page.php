@@ -1,5 +1,6 @@
 <?php
 use Core\Caller;
+
 // 简单路由
 class Page
 {
@@ -56,17 +57,29 @@ class Page
                     }
                 }
                 if ($success) {
-                    $caller->render($caller->call($values));
+                    $return=$caller->call($values);
+                    if (!is_array($return)) {
+                        $return=[$return];
+                    }
+                    $caller->render($return);
                 }
             } elseif (preg_match('/^'.preg_quote($url, '/').'$/', $path)) {
                 $success=true;
-                $caller->render($caller->call($values));
+                $return=$caller->call($values);
+                if (!is_array($return)) {
+                    $return=[$return];
+                }
+                $caller->render($return);
             }
         }
         // 默认
         if (!$success && isset(self::$maps['__default__'])) {
-            self::$maps['__default__']->render(self::$maps['__default__']->call([$path]));
+            $caller=self::$maps['__default__'];
+            $return=$caller->call($values);
+            if (!is_array($return)) {
+                $return=[$return];
+            }
+            $caller->render($return);
         }
-        
     }
 }
