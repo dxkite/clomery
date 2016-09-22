@@ -17,14 +17,13 @@
     defined('WEB_MIME') or define('WEB_MIME', '.mime');
     
     require_once CORE_PATH.'/Core.php';
-    // View::compile('head');
-    // View::compile('index');
-    // $caller=new Core\Caller(['View', 'render']);
-    // $caller->call(['index',['infoelse'=>'Info INFO Set']]);
-
-
     
-    Page::visit('/{id}/{name}/', function ($id, $name) {
+    Page::visit('/{article}', function ($article) {
+        echo "OK hello page:$article";
+    })
+    ->with('article','int')->name('article');
+    
+    Page::visit('/{id}/{name}', function ($id, $name) {
         echo 'OK ==> ', $id, $name;
     })
     ->with('id', 'int')
@@ -36,11 +35,8 @@
         View::set('hello','main page');
         return ['infoelse'=>'Set Info Else'];
     })->json();
-    Page::visit('/hello', function () {
-        echo 'OK hello page';
-    });
+    
     Page::default(function () {
          echo '__default__';
     });
     Page::display();
-    // var_dump(Route::$maps);

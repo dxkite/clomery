@@ -52,6 +52,7 @@ class Page
                     if (array_key_exists($preg, self::$type)) {
                         $preg=self::$type[$preg];
                     }
+                     
                     if (!preg_match($preg, $keymap[$name])) {
                         $success=false;
                     }
