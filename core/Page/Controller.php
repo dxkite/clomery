@@ -10,11 +10,22 @@ class Page_Controller extends Caller
     private $tpl='index';
     private $type='html';
     private $raw=false;
+    private $override=null;
 
     public function __construct($caller, array $params=[])
     {
         // 设置父类
         parent::__construct($caller, $params);
+    }
+    // 最后参数覆盖
+    public function isOverride()
+    {
+        return $this->override;
+    }
+    public function override(bool $set=true)
+    {
+        $this->override=$set;
+        return $this;
     }
     public function preg()
     {
@@ -42,7 +53,7 @@ class Page_Controller extends Caller
     {
         if ($name) {
             $this->name=$name;
-            Page::name($name,$this->url);
+            Page::name($name, $this->url);
             return $this; // 链式调用
         }
         return $this->name;
@@ -81,21 +92,17 @@ class Page_Controller extends Caller
     }
     public function render(array $value=[])
     {
-        if ($this->raw)
-        {
-            switch ($this->type)
-            {
+        if ($this->raw) {
+            switch ($this->type) {
                 case 'json':
-                    header('Content-type: '.mime($this->type,'text/plain;charset=UTF-8'));
+                    header('Content-type: '.mime($this->type, 'text/plain;charset=UTF-8'));
                     echo json_encode($value);
                     break;
                 default:
-                    header('Content-type: '.mime($this->type,'text/plain;charset=UTF-8'));
+                    header('Content-type: '.mime($this->type, 'text/plain;charset=UTF-8'));
             }
-        }
-        else
-        {
-            View::render($this->tpl,$value);
+        } else {
+            View::render($this->tpl, $value);
         }
     }
 }

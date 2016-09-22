@@ -18,11 +18,7 @@
     
     require_once CORE_PATH.'/Core.php';
 
-
-    Page::visit('/{article}', function ($article) {
-        echo "OK hello page:$article";
-    })
-    ->with('article','int')->name('article');
+    Page::autoload('/autoload',['/']);
     
     Page::visit('/{id}/{name}', function ($id, $name) {
         echo 'OK ==> ', $id, $name;

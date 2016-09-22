@@ -31,14 +31,27 @@ class Page
     {
         self::$names[$name]=$url;
     }
-    // public static function autourl(string $path)
-    // {
-    //     $auto=function ($path)
-    //     {
+    // 自动加载App目录下的程序
+    public static function autoload(string $path, array $inpath)
+    {
+        $auto=function ($path) use ($path, $inpath) {
+            foreach ($inpath as $pathroot) {
+                $path=trim($pathroot.'/'.$path, '/');
+                $file=APP_ROOT.'/'.$path.'.php';
+                if (Storage::exist($file)) {
+                    require_once $file;
+                    $class= preg_replace('/\\\\+\/+/', '\\', $path);
+                    if (class_exists($class, false)) {
+                        $app = new $path();
+                        $app ->main();
+                    }
+                }
+            }
+        };
+        return self::visit(rtrim($path).'/{path}', $auto)
+        ->with('path', 'string')->override();
+    }
 
-    //     };
-    //     return self::visit($path.'/{path}',$auto)->with('path','/^(.*)$/');
-    // }
     public static function visit(string $url, $caller)
     {
         $caller=new Page_Controller($caller);
@@ -52,7 +65,6 @@ class Page
         preg_match('/(.*)\/index.php([^?]*)([?].+)?$/', $_SERVER['PHP_SELF'], $match);
         $success=false;
         $path=$match[2]?rtrim($match[2], '/'):'/';
-        
         foreach (self::$maps as $url=>$caller) {
             if ($success) {
                 break;
@@ -63,7 +75,12 @@ class Page
             preg_match_all('/{(\S+?)}/', $url, $args);
             $url=strlen($url)>1?rtrim($url, '/'):'/';
             // 获取初步匹配的参数
-            $regpath=preg_replace(['/\//', '/{(\S+?)}/'], ['\\/', '([^\/]+)'], $url);
+            // 覆盖后续
+            if ($caller->isOverride()) {
+                $regpath=preg_replace(['/\//', '/{(\S+?)}\/?$/', '/{(\S+?)}/'], ['\\/', '(.*)', '([^\/]+)'], $url);
+            } else {
+                $regpath=preg_replace(['/\//', '/{(\S+?)}/'], ['\\/', '([^\/]+)'], $url);
+            }
             // 检查是否有要匹配的动态变量
             // 检查变量是否存在URL中
             if (count($regs)===count($args[1]) && preg_match('/^'.$regpath.'$/', $path, $values)) {
