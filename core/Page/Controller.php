@@ -11,14 +11,14 @@ class Page_Controller extends Caller
     private $type='html';
     private $raw=false;
     private $override=null;
-
+    private $preRule=true;
     public function __construct($caller, array $params=[])
     {
         // 设置父类
         parent::__construct($caller, $params);
     }
     // 最后参数覆盖
-    public function isOverride()
+    public function useOverride()
     {
         return $this->override;
     }
@@ -30,6 +30,11 @@ class Page_Controller extends Caller
     public function preg()
     {
         return $this->regs;
+    }
+    // 前提条件
+    public function preRule()
+    {
+        return $this->preRule;
     }
     // 获取匹配
     public function with($name, $preg)
@@ -104,5 +109,64 @@ class Page_Controller extends Caller
         } else {
             View::render($this->tpl, $value);
         }
+    }
+    public function isPost()
+    {
+        $this->preRule=($_SERVER['REQUEST_METHOD'] === 'POST');
+        return $this;
+    }
+    public function accept(string $accept)
+    {
+        $this->preRule=preg_match('/'.preg_quote($accept).'/i', $_SERVER['HTTP_ACCEPT']);
+        return $this;
+    }
+    public function port($port=80)
+    {
+        $this->preRule=($_SERVER['SERVER_PORT']===$port);
+        return $this;
+    }
+    public function userAgent($caller)
+    {
+        $this->preRule=(new Caller($caller))->call();
+        return $this;
+    }
+    public function isSpider()
+    {
+        $is_spider = false;
+        $tmp = $_SERVER['HTTP_USER_AGENT'];
+        if (strpos($tmp, 'Googlebot') !== false) {
+            $is_spider = true;
+        } elseif (strpos($tmp, 'Baiduspider') >0) {
+            $is_spider = true;
+        } elseif (strpos($tmp, 'Yahoo! Slurp') !== false) {
+            $is_spider = true;
+        } elseif (strpos($tmp, 'msnbot') !== false) {
+            $is_spider = true;
+        } elseif (strpos($tmp, 'Sosospider') !== false) {
+            $is_spider = true;
+        } elseif (strpos($tmp, 'YodaoBot') !== false || strpos($tmp, 'OutfoxBot') !== false) {
+            $is_spider = true;
+        } elseif (strpos($tmp, 'Sogou web spider') !== false || strpos($tmp, 'Sogou Orion spider') !== false) {
+            $is_spider = true;
+        } elseif (strpos($tmp, 'fast-webcrawler') !== false) {
+            $is_spider = true;
+        } elseif (strpos($tmp, 'Gaisbot') !== false) {
+            $is_spider = true;
+        } elseif (strpos($tmp, 'ia_archiver') !== false) {
+            $is_spider = true;
+        } elseif (strpos($tmp, 'altavista') !== false) {
+            $is_spider = true;
+        } elseif (strpos($tmp, 'lycos_spider') !== false) {
+            $is_spider = true;
+        } elseif (strpos($tmp, 'Inktomi slurp') !== false) {
+            $is_spider = true;
+        }
+        $this->preRule=$is_spider;
+        return $this;
+    }
+    public function isGet()
+    {
+        $this->preRule=($_SERVER['REQUEST_METHOD'] === 'GET');
+        return $this;
     }
 }

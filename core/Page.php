@@ -34,7 +34,7 @@ class Page
     // 自动加载App目录下的程序
     public static function autoload(string $name_path, array $search_path)
     {
-        $auto=function ($path) use ( $search_path) {
+        $auto=function ($path) use ($search_path) {
             foreach ($search_path as $pathroot) {
                 $names=trim($pathroot.'/'.$path, '/');
                 $file=APP_ROOT.'/'.$names.'.php';
@@ -69,6 +69,11 @@ class Page
         $success=false;
         $path=$match[2]?rtrim($match[2], '/'):'/';
         foreach (self::$maps as $url=>$caller) {
+            // 满足前提条件
+            if (!$caller->preRule()) {
+                break;
+            }
+            // 完成匹配
             if ($success) {
                 break;
             }
@@ -79,7 +84,7 @@ class Page
             $url=strlen($url)>1?rtrim($url, '/'):'/';
             // 获取初步匹配的参数
             // 覆盖后续
-            if ($caller->isOverride()) {
+            if ($caller->useOverride()) {
                 $regpath=preg_replace(['/\//', '/{(\S+?)}\/?$/', '/{(\S+?)}/'], ['\\/', '(.*)', '([^\/]+)'], $url);
             } else {
                 $regpath=preg_replace(['/\//', '/{(\S+?)}/'], ['\\/', '([^\/]+)'], $url);

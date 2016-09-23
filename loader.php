@@ -18,25 +18,25 @@
     
     require_once CORE_PATH.'/Core.php';
 
-        View::loadCompile();
+    View::loadCompile();
     
     Page::visit('/{id}/{name}', function ($id, $name) {
         echo 'OK ==> ', $id, $name;
     })
     ->with('id', 'int')
     ->with('name', 'string')
+    ->isGet()
     ->name('main');
-
-    Page::visit('/getUser/{id}',function($id=0)
-    {
-        var_dump(Page::url('main',['id'=>5,'name'=>'urlpage']));
-        return (new Qurey('SELECT * FROM `#{users}` WHERE `uid`=:uid LIMIT 1;',['uid'=>$id]))->fetch();
+    
+    Page::visit('/getUser/{id}', function ($id=0) {
+        var_dump(Page::url('main', ['id'=>5, 'name'=>'urlpage']));
+        return (new Qurey('SELECT * FROM `#{users}` WHERE `uid`=:uid LIMIT 1;', ['uid'=>$id]))->fetch();
     })
-    ->with('id','int')
+    ->with('id', 'int')
     ->json();
 
     // Page::default(function () {
     //      echo '__default__';
     // });
-	Page::autoload('/admin',['/admin']);
+    Page::autoload('/admin', ['/admin']);
     Page::display();
