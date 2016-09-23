@@ -125,7 +125,7 @@ class Page
         // 默认
         if (!$success && isset(self::$maps['__default__'])) {
             $caller=self::$maps['__default__'];
-            $return=$caller->call($values);
+            $return=$caller->call([$path]);
             if (!is_array($return)) {
                 $return=[$return];
             }

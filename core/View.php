@@ -16,7 +16,6 @@ class View
     public static function set(string $name, $value)
     {
         self::$values[$name]=$value;
-        return $this;
     }
 
     public static function theme(string $theme=null)
@@ -50,7 +49,7 @@ class View
         if (Storage::exist($file)) {
             require_once $file;
         } else {
-            echo $page.' TPL NO FIND!';
+            trigger_error($page.' TPL no Find!');
         }
     }
 
