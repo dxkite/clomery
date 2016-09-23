@@ -18,7 +18,7 @@
     
     require_once CORE_PATH.'/Core.php';
 
-    
+        View::loadCompile();
     
     Page::visit('/{id}/{name}', function ($id, $name) {
         echo 'OK ==> ', $id, $name;

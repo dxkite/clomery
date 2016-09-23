@@ -3,8 +3,9 @@ class View
 {
     private static $compiler=null;
     private static $values=[];
+    private static $use=null;
 
-    private function loadCompile()
+    public static function loadCompile()
     {
         if (is_null(self::$compiler)) {
             $compiler='View_Compiler_'. conf('Driver.View', 'Pomelo');
@@ -15,14 +16,36 @@ class View
     public static function set(string $name, $value)
     {
         self::$values[$name]=$value;
+        return $this;
+    }
+
+    public static function theme(string $theme=null)
+    {
+        if (is_null($theme)) {
+            return self::$compiler->getTheme();
+        }
+        self::$compiler->setTheme($theme);
+    }
+
+    public static function use(string $page)
+    {
+        self::$use=$page;
+    }
+
+    public static function assign(array $values)
+    {
+        self::$values=array_merge(self::$values, $values);
     }
 
     public static function render(string $page, array $values=[])
     {
-        self::loadCompile();
-        $values=array_merge($values, self::$values);
+        // 合并数据
+        self::assign($values);
         // 分解变量
-        extract($values, EXTR_OVERWRITE);
+        extract(self::$values, EXTR_OVERWRITE);
+        // 内部可设置界面
+        $page=is_null(self::$use)?$page:self::$use;
+        // 获取界面路径
         $file=self::$compiler->getViewPath($page);
         if (Storage::exist($file)) {
             require_once $file;
@@ -30,10 +53,9 @@ class View
             echo $page.' TPL NO FIND!';
         }
     }
-    
+
     public static function compile($input)
     {
-        self::loadCompile();
-        $content=self::$compiler->compileFile($input);
+        return self::$compiler->compileFile($input);
     }
 }
