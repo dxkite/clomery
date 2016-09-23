@@ -1,9 +1,11 @@
 <?php
 namespace admin;
+
 class Hello
 {
-    function main()
+    function main($args)
     {
+        var_dump($args);
         echo 'Hello World';
     }
 }

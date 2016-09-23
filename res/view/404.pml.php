@@ -19,7 +19,7 @@
 
 <body>
     <div id="text">404</div>
-    <div id="url"><?php Env::echo( $url ) ?></div>
+    <div id="url"><?php Env::echo(isset($url) ? $url : '页面找不到了哦！') ?></div>
 </body>
 
 </html>
