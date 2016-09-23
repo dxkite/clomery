@@ -25,6 +25,9 @@ spl_autoload_register(function ($name) {
 });
 
 // 获取配置
+/**
+获取conf 
+*/
 function conf(string $name, $default=null)
 {
     static $conf=null;
