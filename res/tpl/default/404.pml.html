@@ -2,7 +2,8 @@
 <html>
 
 <head>
-    <title>404 - {{ $title }}</title>
+    <meta charset="utf-8">
+    <title>404 - {{ $title or '页面找不到了哦！'}}</title>
     <style>
         #text {
             font-size: 18em;
@@ -19,7 +20,11 @@
 
 <body>
     <div id="text">404</div>
-    <div id="url">{{ $url or '页面找不到了哦！' }}</div>
+    @if (isset($url))
+    <div id="url">网页：{{ $url}} 找不到相关元素。</div>
+    @else
+    <div id="url">（*/∇＼*）页面找不到了啦！</div>
+    @endif
 </body>
 
 </html>

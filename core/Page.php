@@ -16,7 +16,13 @@ class Page
         self::$maps['__default__']=$caller;
         return $caller;
     }
-    public static function url(string $name, array $args)
+    /**
+    * 获取页面url
+    * @param string $name  页面名称
+    * @param array $args URL需要的参数
+    * @return string 组建的URL
+    */
+    public static function url(string $name, array $args=[])
     {
         if (isset(self::$names[$name])) {
             $url=self::$names[$name];
