@@ -31,6 +31,11 @@ class Page
     {
         self::$names[$name]=$url;
     }
+    // 设置控制器
+    public static function visitController(string $url,Page_Controller $page)
+    {
+        self::$maps[$url]=$page;
+    }
     // 自动加载App目录下的程序
     public static function autoload(string $name_path, array $search_path)
     {

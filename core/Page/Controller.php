@@ -68,6 +68,7 @@ class Page_Controller extends Caller
     {
         if ($url) {
             $this->url=$url;
+            Page::visitController($url,$this);
             return $this; // 链式调用
         }
         return $this->url;

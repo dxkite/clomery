@@ -19,14 +19,12 @@
     require_once CORE_PATH.'/Core.php';
 
     View::loadCompile();
-    
-    Page::visit('/{id}/{name}', function ($id, $name) {
+
+    (new Page_Controller(function ($id, $name) {
         echo 'OK ==> ', $id, $name;
-    })
-    ->with('id', 'int')
-    ->with('name', 'string')
-    ->isPost()
-    ->name('main');
+    }))-> url('/{id}/{name}')->with('id', 'int')->with('name', 'string');
+
+    
 
     Page::visit('/getUser/{id}', function ($id=0) {
         var_dump(Page::url('main', ['id'=>5, 'name'=>'urlpage']));
@@ -36,7 +34,7 @@
     ->json();
 
     Page::default(function ($page) {
-        View::set('hello','404 - No  Find');
+        View::set('hello', '404 - No  Find');
         echo '__default__';
     });
     Page::autoload('/admin', ['/admin']);
