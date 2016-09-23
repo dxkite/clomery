@@ -34,7 +34,21 @@ class View
     {
         self::$values=array_merge(self::$values, $values);
     }
-
+    public static function resource($path)
+    {
+        $extension=pathinfo($path, PATHINFO_EXTENSION);
+        // Resource
+        if (array_key_exists($extension, mime()) && Storage::exist($path=View::tplRoot().'/'.$path)) {
+            self::type($extension);
+            echo Storage::get($path);
+            return true;
+        }
+        return false;
+    }
+    public static function type(string $type)
+    {
+        header('Content-type: '.mime($type, 'text/plain;charset=UTF-8'));
+    }
     public static function render(string $page, array $values=[])
     {
         // 合并数据
@@ -61,9 +75,8 @@ class View
     }
     public static function compileAll()
     {
-        $files=Storage::readDirFiles(APP_TPL,'/\.pml\.html$/',true);
-        foreach ($files as $file)
-        {
+        $files=Storage::readDirFiles(APP_TPL, '/\.pml\.html$/', true);
+        foreach ($files as $file) {
             View::compile($file);
         }
     }

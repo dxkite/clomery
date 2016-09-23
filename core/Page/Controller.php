@@ -100,11 +100,9 @@ class Page_Controller extends Caller
         if ($this->raw) {
             switch ($this->type) {
                 case 'json':
-                    header('Content-type: '.mime($this->type, 'text/plain;charset=UTF-8'));
                     echo json_encode($value);
-                    break;
                 default:
-                    header('Content-type: '.mime($this->type, 'text/plain;charset=UTF-8'));
+                View::type($this->type);
             }
         } else {
             View::render($this->tpl, $value);

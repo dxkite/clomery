@@ -27,7 +27,7 @@ class Page
         }
         return '/';
     }
-    public static function  controller()
+    public static function controller()
     {
         return self::$controller;
     }
@@ -113,20 +113,24 @@ class Page
                     }
                 }
                 if ($success) {
-                   self::call($caller,$values);
+                    self::call($caller, $values);
                 }
             } elseif (preg_match('/^'.preg_quote($url, '/').'$/', $path)) {
                 $success=true;
-                 self::call($caller,$values);
+                self::call($caller, $values);
             }
+        }
+        // 查找资源
+        if (View::resource($path)) {
+            $success=true;
         }
         // 默认
         if (!$success && isset(self::$maps['__default__'])) {
-            self::call(self::$maps['__default__'],[$path]);
+            self::call(self::$maps['__default__'], [$path]);
         }
     }
     
-    private function call(Page_Controller $caller,array $args)
+    private function call(Page_Controller $caller, array $args)
     {
         self::$controller=$caller;
         $return=$caller->call($args);
