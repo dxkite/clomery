@@ -4,7 +4,6 @@ class View
     private static $compiler=null;
     private static $values=[];
     private static $use=null;
-
     public static function loadCompile()
     {
         if (is_null(self::$compiler)) {
@@ -45,20 +44,27 @@ class View
         // 内部可设置界面
         $page=is_null(self::$use)?$page:self::$use;
         // 获取界面路径
-        $file=self::$compiler->getViewPath($page);
+        $file=self::$compiler->viewPath($page);
         if (Storage::exist($file)) {
             require_once $file;
         } else {
             trigger_error($page.' TPL no Find!');
         }
     }
-
+    public static function tplRoot()
+    {
+        return self::$compiler->tplRoot();
+    }
     public static function compile($input)
     {
         return self::$compiler->compileFile($input);
     }
     public static function compileAll()
     {
-        
+        $files=Storage::readDirFiles(APP_TPL,'/\.pml\.html$/',true);
+        foreach ($files as $file)
+        {
+            View::compile($file);
+        }
     }
 }

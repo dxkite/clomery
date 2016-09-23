@@ -1,7 +1,6 @@
 <?php
-use Core\Caller;
 
-// 简单路由
+// 简单页面控制
 class Page
 {
     private static $maps;
@@ -10,6 +9,7 @@ class Page
         'string'=>'/\S+/'
     ];
     private static $names=[];
+    private static $controller;
     public static function default($caller)
     {
         $caller=new Page_Controller($caller);
@@ -26,6 +26,10 @@ class Page
             return $url;
         }
         return '/';
+    }
+    public static function  controller()
+    {
+        return self::$controller;
     }
     public static function name(string $name, string $url)
     {
@@ -109,29 +113,26 @@ class Page
                     }
                 }
                 if ($success) {
-                    $return=$caller->call($values);
-                    if (!is_array($return)) {
-                        $return=[$return];
-                    }
-                    $caller->render($return);
+                   self::call($caller,$values);
                 }
             } elseif (preg_match('/^'.preg_quote($url, '/').'$/', $path)) {
                 $success=true;
-                $return=$caller->call($values);
-                if (!is_array($return)) {
-                    $return=[$return];
-                }
-                $caller->render($return);
+                 self::call($caller,$values);
             }
         }
         // 默认
         if (!$success && isset(self::$maps['__default__'])) {
-            $caller=self::$maps['__default__'];
-            $return=$caller->call([$path]);
-            if (!is_array($return)) {
-                $return=[$return];
-            }
-            $caller->render($return);
+            self::call(self::$maps['__default__'],[$path]);
         }
+    }
+    
+    private function call(Page_Controller $caller,array $args)
+    {
+        self::$controller=$caller;
+        $return=$caller->call($args);
+        if (!is_array($return)) {
+            $return=[$return];
+        }
+        $caller->render($return);
     }
 }

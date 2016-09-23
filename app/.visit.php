@@ -10,8 +10,15 @@
     ->with('id', 'int')
     ->json();
 
-  Page::default(function ($page) {
-      View::set('hello', '404 - No  Find');
-      echo '__default__';
-  });
- Page::auto('/admin', ['/admin']);
+Page::default(function ($path) {
+      $extension=pathinfo($path, PATHINFO_EXTENSION);
+      // Resource
+      if (array_key_exists($extension, mime()) && Storage::exist($path=View::tplRoot().'/'.$path)) {
+          Page::controller()->type($extension)->raw();
+          echo Storage::get($path);
+      } else {
+          View::set('title', '页面找不到了哦！');
+          View::set('url', $path);
+      }
+  })->use(404);
+Page::auto('/admin', ['/admin']);

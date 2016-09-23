@@ -16,7 +16,7 @@ class View_Compiler_Pomelo
    
     protected static $theme='default';
 
-    public static function getViewPath(string $name)
+    public static function viewPath(string $name)
     {
         $file=preg_replace('/[.|\\\\|\/]+/', DIRECTORY_SEPARATOR, $name);
         return APP_VIEW.'/'.$file.self::$extCpl;
@@ -66,7 +66,10 @@ class View_Compiler_Pomelo
     {
         self::$theme=$theme;
     }
-
+    public function tplRoot()
+    {
+        return APP_TPL.'/'.self::$theme;
+    }
     private function compileString(string $str)
     {
         $callback=function ($match) {

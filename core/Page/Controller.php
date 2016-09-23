@@ -73,7 +73,7 @@ class Page_Controller extends Caller
         return $this->url;
     }
     // 获取/设置 模板
-    public function template(string $name=null)
+    public function use(string $name=null)
     {
         if ($name) {
             $this->tpl=$name;

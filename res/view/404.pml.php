@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>404 - {{ $title }}</title>
+        <title>404 - <?php Env::echo( $title ) ?></title>
     </head>
     <body>
         <h1>404</h1>
-        {{ $url }}
+        <?php Env::echo( $url ) ?>
     </body>
 </html>

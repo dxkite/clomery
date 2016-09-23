@@ -37,12 +37,13 @@ function conf(string $name, $default=null)
     return Arr::get($conf, $name, $default);
 }
 // 获取MIME
-function mime(string $name, $default=null)
+function mime(string $name=null, $default=null)
 {
     static $mime=null;
     if (is_null($mime)) {
         $mime=parse_ini_file(DOC_ROOT.'/'.WEB_MIME);
     }
+    if (is_null($name)) return $mime;
     return Arr::get($mime, $name, $default);
 }
 

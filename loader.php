@@ -19,12 +19,6 @@
     
     require_once CORE_PATH.'/Core.php';
     View::loadCompile(); 
-    
-    $files=Storage::readDirFiles(APP_TPL,'/\.pml\.html$/',true);
-    foreach ($files as $file)
-    {
-        var_dump(View::compile($file));
-    }
-    
+    View::compileAll();
     require_once APP_ROOT.'/'.APP_VISIT;
     Page::display();
