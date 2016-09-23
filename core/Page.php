@@ -46,9 +46,6 @@ class Page
                 if (Storage::exist($file)) {
                     require_once $file;
                     $class= preg_replace('/(\\\\+|\/+)/', '\\', $names);
-                    // var_dump($class,class_exists('Hello\eOoo',false));
-                    // $c=new Hello\eOoo();
-                    // $c->main();
                     if (class_exists($class, false)) {
                         $app = new $class();
                         $app ->main();

@@ -18,6 +18,9 @@
     defined('APP_VISIT') or define('APP_VISIT', '.visit.php');
     
     require_once CORE_PATH.'/Core.php';
+    $function=new ReflectionFunction('file_get_contents');
+    $name=$function->getExtensionName();
+    var_dump($name);
     View::loadCompile();
     require_once APP_ROOT.'/'.APP_VISIT;
     Page::display();

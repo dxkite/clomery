@@ -6,7 +6,7 @@ spl_autoload_register(function ($name) {
     if (isset($imported[$name])) {
         return $imported[$name];
     }
-    $paths=[APP_LIB, CORE_PATH]; // 搜索目录
+    $paths=[APP_LIB, CORE_PATH, APP_ROOT]; // 搜索目录
     $name=preg_replace('/[\\_]/', DIRECTORY_SEPARATOR, $name);
     foreach ($paths as $root) {
         // 优先查找文件
@@ -42,3 +42,5 @@ function mime(string $name, $default=null)
     }
     return Arr::get($mime, $name, $default);
 }
+
+
