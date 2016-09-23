@@ -13,5 +13,5 @@
 Page::default(function ($path) {
           View::set('title', '页面找不到了哦！');
           View::set('url', $path);
-  })->use(404);
+  })->use(404)->status(404);
 Page::auto('/admin', ['/admin']);

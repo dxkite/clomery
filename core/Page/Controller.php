@@ -95,6 +95,11 @@ class Page_Controller extends Caller
     {
         return $this->raw()->type('json');
     }
+    public function status(int $status)
+    {
+        send_http_status($status);
+        return $this;
+    }
     public function render(array $value=[])
     {
         if ($this->raw) {
