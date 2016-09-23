@@ -21,6 +21,7 @@ interface Storage_Driver
     public static function remove(string $name);
 
     public static function isFile(string $name);
+    public static function readDirFiles(string $dir,string $preg='/^.+$/',bool $repeat=false);
     public static function isDir(string $name);
     public static function isReadable(string $name);
     public static function size(string $name);

@@ -2,8 +2,8 @@
 
 class View_Compiler_Pomelo
 {
-    public static $extRaw='.pomelo.html';
-    public static $extCpl='.pomelo.php';
+    public static $extRaw='.pml.html';
+    public static $extCpl='.pml.php';
     protected static $errorInfo=[
         0=>'No Error',
         1=>'File %s Not Exist',
@@ -22,24 +22,26 @@ class View_Compiler_Pomelo
         return APP_VIEW.'/'.$file.self::$extCpl;
     }
     // 编译单文件
-    public function compileFile(string $file)
+    public function compileFile(string $filename)
     {
-        $file=preg_replace('/[.|\\\\|\/]+/', DIRECTORY_SEPARATOR, $file);
-        $filename=APP_TPL.'/'.self::$theme.'/'.$file.self::$extRaw;
+        $file=preg_replace('/^'.preg_quote(APP_TPL.'/'.self::$theme.'/','/').'/','',$filename);
         if (Storage::exist($filename)) {
             $content= self::compileText(Storage::get($filename));
-            $output=APP_VIEW.'/'.$file.self::$extCpl;
-            // if (!Storage::exsit($output)) {
+            $output=APP_VIEW.'/'.preg_replace('/'.preg_quote(self::$extRaw).'$/',self::$extCpl,$file);
             Storage::mkdirs(dirname($output));
             Storage::put($output, $content);
-            // }
             return true;
         }
         self::$erron=1;
         self::$error=sprintf(self::$errorInfo[1], $filename);
         return false;
     }
-
+    public function compileName(string $name)
+    {
+        $file=preg_replace('/[.|\\\\|\/]+/', DIRECTORY_SEPARATOR, $name);
+        $filename=APP_TPL.'/'.self::$theme.'/'.$file.self::$extRaw;
+        self::compileFile($filename);
+    }
     // 编译文本
     public function compileText(string $text)
     {
@@ -90,6 +92,11 @@ class View_Compiler_Pomelo
         );
     }
 
+    // IF 语句
+    protected function parseUrl($exp)
+    {
+        return "<?php echo Page::url{$exp} ?>";
+    }
     // IF 语句
     protected function parseIf($exp)
     {

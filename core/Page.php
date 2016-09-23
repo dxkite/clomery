@@ -37,7 +37,7 @@ class Page
         self::$maps[$page->url()]=$page;
     }
     // 自动加载App目录下的程序
-    public static function autoload(string $name_path, array $search_path)
+    public static function auto(string $name_path, array $search_path)
     {
         $auto=function ($path) use ($search_path) {
             foreach ($search_path as $pathroot) {

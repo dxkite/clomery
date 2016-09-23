@@ -14,4 +14,4 @@
       View::set('hello', '404 - No  Find');
       echo '__default__';
   });
- Page::autoload('/admin', ['/admin']);
+ Page::auto('/admin', ['/admin']);

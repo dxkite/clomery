@@ -1,8 +1,8 @@
-<!doctype html>
+<!DOCTYPE HTML>
 <html>
 <head>
-	<title>{{ $hello or 'No Value' }}</title>
-	@include("head")
+	<title><?php Env::echo(isset($title) ? $title : 'Three - 三人行，必有我师焉') ?></title>
+	<?php Env::include("head") -> render(); ?>
 	<link rel="stylesheet" href="/css/main.css">
 	<script>
 		$(function() {
@@ -13,27 +13,27 @@
 	</script>
 </head>
 <body>
-	{-- 注释 --}
-	@include("layout.header")
+	<?php /*  注释  */ ?>
+	<?php Env::include("layout.header") -> render(); ?>
 	<h3 class="custom-heading">Request</h3>
 	<form action="/auth/request" method="POST">
 		<table class="custom-table auth-request-table">
-			@if(isset($errors))
-				@foreach($errors->all() as $error)
+			<?php if(isset($errors)): ?>
+				<?php foreach($errors->all() as $error): ?>
 					<tr>
-						<td colspan="3"><span class="label label-warning">{{ $error }}</span></td>
+						<td colspan="3"><span class="label label-warning"><?php Env::echo( $error ) ?></span></td>
 					</tr>
-				@endforeach
-			@endif
-			@if(isset($info))
+				<?php endforeach; ?>
+			<?php endif; ?>
+			<?php if(isset($info)): ?>
 				<tr>
-					<td colspan="3"><span class="label label-info">{{ $info }}</span></td>
+					<td colspan="3"><span class="label label-info"><?php Env::echo( $info ) ?></span></td>
 				</tr>
-				@else
+				<?php else: ?>
 				<tr>
-					<td colspan="3"><span class="label label-info">{{ $infoelse }}</span></td>
+					<td colspan="3"><span class="label label-info"><?php Env::echo( $infoelse ) ?></span></td>
 				</tr>
-			@endif
+			<?php endif; ?>
 			<tr>
 				<td>Email</td>
 				<td><input class="form-control" name="email" type="text" /></td>
@@ -41,7 +41,7 @@
 			<tr>
 				<td>Captcha</td>
 				<td><input class="form-control" name="captcha" type="text" /></td>
-				<td><img id="captcha" src="{{ 'flat' }}" alt="Captcha" /></td>
+				<td><img id="captcha" src="<?php Env::echo( 'flat' ) ?>" alt="Captcha" /></td>
 			</tr>
 			<tr>
 				<td></td>

@@ -1,5 +1,5 @@
 <?php
-class Storage_Driver_File implements Storage_Driver
+class Storage implements Storage_Driver
 {
     public static $charset=['GBK','GB2312','BIG5'];
     // 递归创建文件夹
@@ -14,6 +14,24 @@ class Storage_Driver_File implements Storage_Driver
             }
         }
         return true;
+    }
+
+    public static function readDirFiles(string $dirs, string $preg='/^.+$/', bool $repeat=false)
+    {
+        $file_totu=[];
+        if (self::isDir($dirs)) {
+            $hd=opendir($dirs);
+            while ($file=readdir($hd)) {
+                if (strcmp($file, '.') !== 0 && strcmp($file, '..') !==0) {
+                    if (self::exist($filereal=$dirs.'/'.$file) && preg_match($preg, $file) ) {
+                            $file_totu[]=$filereal;
+                    } elseif ($repeat) {
+                        $file_totu=array_merge($file_totu, self::readDirFiles($dirs.'/'.$file,$preg, $repeat));
+                    }
+                }
+            }
+        }
+        return $file_totu;
     }
     // 递归删除文件夹
     public static function rmdirs(string $dir)

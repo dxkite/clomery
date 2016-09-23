@@ -57,4 +57,8 @@ class View
     {
         return self::$compiler->compileFile($input);
     }
+    public static function compileAll()
+    {
+        
+    }
 }
