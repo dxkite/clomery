@@ -21,7 +21,7 @@
 <body>
     <div id="text">404</div>
     <?php if(isset($url)): ?>
-    <div id="url">网页：<?php Env::echo( $url) ?> 找不到相关元素。</div>
+    <div id="url">网页：<?php Env::echo(isset( $url) ?  $url : "[NULL]") ?> 找不到相关元素。</div>
     <?php else: ?>
     <div id="url">（*/∇＼*）页面找不到了啦！</div>
     <?php endif; ?>

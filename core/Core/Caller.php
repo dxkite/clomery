@@ -23,6 +23,7 @@ class Caller
         if (count($params)) {
             $this->params=$params;
         }
+        // 调用非静态接口
         if (!is_callable($this->caller) && is_array($this->caller))
         {
             $this->caller[0]=new $this->caller[0];

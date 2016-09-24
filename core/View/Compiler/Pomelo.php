@@ -107,7 +107,7 @@ class View_Compiler_Pomelo
         // var_dump($orecho);
         return preg_replace(
             [$orecho,$echo, $comment],
-            ['<?php Env::echo(isset($1) ? $1 : $2) ?>','<?php Env::echo($1) ?>', '<?php /* $1 */ ?>'],
+            ['<?php Env::echo(isset($1) ? $1 : $2) ?>','<?php Env::echo(isset($1) ? $1 : "[NULL]") ?>', '<?php /* $1 */ ?>'],
             $str
         );
     }
