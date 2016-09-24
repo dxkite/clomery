@@ -19,6 +19,7 @@
     
     require_once CORE_PATH.'/Core.php';
     View::loadCompile(); 
-    View::compileAll();
     require_once APP_ROOT.'/'.APP_VISIT;
+    // Debug 模式 实时生成模板
+    if (conf('Mini.DEBUG',false)) View::compileAll(); 
     Page::display();
