@@ -3,7 +3,7 @@
 class Env
 {
     // View echo
-    public static function echo()
+    public static function echo($something)
     {
         foreach (func_get_args() as $arg)
         {
