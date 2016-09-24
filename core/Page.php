@@ -125,7 +125,7 @@ class Page
                 }
             } elseif (preg_match('/^'.preg_quote($url, '/').'$/', $path)) {
                 $success=true;
-                self::call($caller, $values);
+                self::call($caller, [$path]);
             }
         }
         // 查找资源

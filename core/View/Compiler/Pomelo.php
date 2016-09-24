@@ -71,7 +71,7 @@ class View_Compiler_Pomelo
         }
         return $result;
     }
-    public function setThemes(string $theme='default')
+    public function setTheme(string $theme='default')
     {
         self::$theme=$theme;
     }

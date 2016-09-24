@@ -4,12 +4,9 @@ if (is_spider())
 {
     View::theme('spider');
 }
-/// 访问规则
-Page::visitController((new Page_Controller(function ($id, $name) {
-     echo 'OK ==> ', $id, $name;
-}))-> url('/{id}/{name}')->with('id', 'int')->with('name', 'string'));
-    
-Page::visit('/getUser/{id}',['admin\Hello','main'])->with('id', 'int');
+
+
+Page::visit('/',['Main','main'])->use('index');
 
 Page::visit('/QAQ',function () {})->use(404)->status(404)->name('404_page');
 

@@ -59,6 +59,7 @@ class View
         $page=is_null(self::$use)?$page:self::$use;
         // 获取界面路径
         $file=self::$compiler->viewPath($page);
+        // var_dump($file);
         if (Storage::exist($file)) {
             require_once $file;
         } else {

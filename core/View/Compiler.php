@@ -3,8 +3,8 @@
 interface View_Compiler
 {
     // 编译样式
-    public function setThemes(string $theme='default');
-    public function getThemes();
+    public function setTheme(string $theme='default');
+    public function getTheme();
     public static function viewPath(string $name);
     public static function tplRoot();
     // 编译单文件

@@ -23,6 +23,10 @@ class Caller
         if (count($params)) {
             $this->params=$params;
         }
+        if (!is_callable($this->caller) && is_array($this->caller))
+        {
+            $this->caller[0]=new $this->caller[0];
+        }
         return call_user_func_array($this->caller, $this->params);
     }
 }
