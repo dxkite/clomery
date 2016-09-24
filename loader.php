@@ -16,8 +16,11 @@
     defined('APP_CONF') or define('APP_CONF', '.conf');
     defined('WEB_MIME') or define('WEB_MIME', '.mime');
     defined('APP_VISIT') or define('APP_VISIT', '.visit.php');
-    
     require_once CORE_PATH.'/Core.php';
+    
+    set_time_limit(0);
+    date_default_timezone_set(conf('timezone','PRC'));
+
     View::loadCompile(); 
     require_once APP_ROOT.'/'.APP_VISIT;
     // Debug 模式 实时生成模板

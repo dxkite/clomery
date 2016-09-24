@@ -17,9 +17,14 @@ class Env
         $include->setParams(func_get_args());
         return $include;
     }
+    public static function markdown($text)
+    {
+        $parser=new \Markdown\Parser();
+        echo $parser->makeHTML($text);
+    }
     public static function url(string $name, array $args=[])
     {
-        return Page::url($name,$args);
+        echo Page::url($name,$args);
     }
     // 载入接口 Env::接口名 
     public static function __callStatic($method, $args)

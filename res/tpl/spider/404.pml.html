@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh">
 
 <head>
-    <meta charset="utf-8">
+    @include ("page_meta")
     <title>404 - {{ $title or '页面找不到了哦！'}}</title>
     <style>
         #text {
@@ -21,7 +21,7 @@
 <body>
     <div id="text">404</div>
     @if (isset($url))
-    <div id="url">网页：{{ $url}} 找不到相关元素。</div>
+    <div id="url"> URL: {{ $url}} 找不到相关元素。</div>
     @else
     <div id="url">（*/∇＼*）页面找不到了啦！</div>
     @endif

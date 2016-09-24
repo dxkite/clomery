@@ -171,6 +171,10 @@ class View_Compiler_Pomelo
         }
         return "<?php Env::include{$exp} -> render(); ?>";
     }
+    protected function parseMarkdown($exp)
+    {
+        return "<?php Env::markdown{$exp} ?>";
+    }
     // 错误报错
     public function error()
     {
