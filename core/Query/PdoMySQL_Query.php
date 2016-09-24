@@ -1,34 +1,34 @@
 <?php
 // 数据库查询方案
-class Qurey implements Qurey_Interface
+class Query implements Query_Interface
 {
     protected static $pdo=null;
     protected static $prefix=null;
     protected $stmt=null;
     // 查询语句
-    protected $qurey=null;
+    protected $query=null;
     // 模板值
     protected $values=null;
 
 
-    public function __construct(string $qurey, array $binds=[])
+    public function __construct(string $query, array $binds=[])
     {
         self::connectPdo();
-        $this->qurey=$qurey;
+        $this->query=$query;
         $this->values=$binds;
     }
 
-    public function fetch(int $fetch_style = Qurey::FETCH_ASSOC)
+    public function fetch(int $fetch_style = query::FETCH_ASSOC)
     {
-        if (self::qurey($this->qurey, $this->values)) {
+        if (self::query($this->query, $this->values)) {
             return $this->stmt->fetch($fetch_style);
         }
         return false;
     }
 
-    public function fetchAll(int $fetch_style = Qurey::FETCH_ASSOC)
+    public function fetchAll(int $fetch_style = query::FETCH_ASSOC)
     {
-        if (self::qurey($this->qurey, $this->values)) {
+        if (self::query($this->query, $this->values)) {
             return $this->stmt->fetchAll($fetch_style);
         }
         return false;
@@ -40,10 +40,10 @@ class Qurey implements Qurey_Interface
         return $this;
     }
     
-    private function qurey(string $qurey, array $array=[])
+    public function query(string $query, array $array=[])
     {
-        $qurey=self::auto_prefix($qurey);
-        $stmt=self::$pdo->prepare($qurey);
+        $query=self::auto_prefix($query);
+        $stmt=self::$pdo->prepare($query);
         foreach ($array as $key=> $value) {
             $key=':'.ltrim($key, ':');
             if (is_array($value)) {
@@ -71,9 +71,9 @@ class Qurey implements Qurey_Interface
     {
         return self::$pdo->lastInsertId();
     }
-    protected function auto_prefix(string $qurey)
+    protected function auto_prefix(string $query)
     {
-        return preg_replace('/#{(\S+?)}/', self::$prefix.'$1', $qurey);
+        return preg_replace('/#{(\S+?)}/', self::$prefix.'$1', $query);
     }
     protected function connectPdo()
     {
