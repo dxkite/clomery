@@ -1,11 +1,15 @@
 <?php 
+// SEO 优化 蜘蛛专用样式
+if (is_spider())
+{
+    View::theme('spider');
+}
 /// 访问规则
- Page::visitController((new Page_Controller(function ($id, $name) {
+Page::visitController((new Page_Controller(function ($id, $name) {
      echo 'OK ==> ', $id, $name;
- }))-> url('/{id}/{name}')->with('id', 'int')->with('name', 'string'));
+}))-> url('/{id}/{name}')->with('id', 'int')->with('name', 'string'));
     
-Page::visit('/getUser/{id}',['admin\Hello','main'])
-->with('id', 'int');
+Page::visit('/getUser/{id}',['admin\Hello','main'])->with('id', 'int');
 
 Page::visit('/QAQ',function () {})->use(404)->status(404)->name('404_page');
 

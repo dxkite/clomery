@@ -15,11 +15,17 @@ class View_Compiler_Pomelo
     protected static $commentTag=['{--','--}'];
    
     protected static $theme='default';
+    protected static $spider='spider';
 
     public static function viewPath(string $name)
     {
         $file=preg_replace('/[.|\\\\|\/]+/', DIRECTORY_SEPARATOR, $name);
-        return APP_VIEW.'/'.$file.self::$extCpl;
+        $path= APP_VIEW.'/'.$file.self::$extCpl;
+        if (self::$theme==='spider')
+        {
+            $path=$path= APP_VIEW.'/@spider/'.$file.self::$extCpl;
+        }
+        return $path;
     }
     // 编译单文件
     public function compileFile(string $filename)
@@ -27,7 +33,8 @@ class View_Compiler_Pomelo
         $file=preg_replace('/^'.preg_quote(APP_TPL.'/'.self::$theme.'/','/').'/','',$filename);
         if (Storage::exist($filename)) {
             $content= self::compileText(Storage::get($filename));
-            $output=APP_VIEW.'/'.preg_replace('/'.preg_quote(self::$extRaw).'$/',self::$extCpl,$file);
+            $spider=self::$theme==='spider'?'/@spider/':'/';
+            $output=APP_VIEW.$spider.preg_replace('/'.preg_quote(self::$extRaw).'$/',self::$extCpl,$file);
             Storage::mkdirs(dirname($output));
             Storage::put($output, $content);
             return true;

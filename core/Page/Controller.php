@@ -135,36 +135,7 @@ class Page_Controller extends Caller
     }
     public function isSpider()
     {
-        $is_spider = false;
-        $tmp = $_SERVER['HTTP_USER_AGENT'];
-        if (strpos($tmp, 'Googlebot') !== false) {
-            $is_spider = true;
-        } elseif (strpos($tmp, 'Baiduspider') >0) {
-            $is_spider = true;
-        } elseif (strpos($tmp, 'Yahoo! Slurp') !== false) {
-            $is_spider = true;
-        } elseif (strpos($tmp, 'msnbot') !== false) {
-            $is_spider = true;
-        } elseif (strpos($tmp, 'Sosospider') !== false) {
-            $is_spider = true;
-        } elseif (strpos($tmp, 'YodaoBot') !== false || strpos($tmp, 'OutfoxBot') !== false) {
-            $is_spider = true;
-        } elseif (strpos($tmp, 'Sogou web spider') !== false || strpos($tmp, 'Sogou Orion spider') !== false) {
-            $is_spider = true;
-        } elseif (strpos($tmp, 'fast-webcrawler') !== false) {
-            $is_spider = true;
-        } elseif (strpos($tmp, 'Gaisbot') !== false) {
-            $is_spider = true;
-        } elseif (strpos($tmp, 'ia_archiver') !== false) {
-            $is_spider = true;
-        } elseif (strpos($tmp, 'altavista') !== false) {
-            $is_spider = true;
-        } elseif (strpos($tmp, 'lycos_spider') !== false) {
-            $is_spider = true;
-        } elseif (strpos($tmp, 'Inktomi slurp') !== false) {
-            $is_spider = true;
-        }
-        $this->preRule=$is_spider;
+        $this->preRule=is_spider();
         return $this;
     }
     public function isGet()
