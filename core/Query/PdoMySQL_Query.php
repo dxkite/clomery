@@ -20,7 +20,7 @@ class Query implements Query_Interface
 
     public function fetch(int $fetch_style = query::FETCH_ASSOC)
     {
-        if (self::query($this->query, $this->values)) {
+        if (self::lazyQuery($this->query, $this->values)) {
             return $this->stmt->fetch($fetch_style);
         }
         return false;
@@ -28,7 +28,7 @@ class Query implements Query_Interface
 
     public function fetchAll(int $fetch_style = query::FETCH_ASSOC)
     {
-        if (self::query($this->query, $this->values)) {
+        if (self::lazyQuery($this->query, $this->values)) {
             return $this->stmt->fetchAll($fetch_style);
         }
         return false;
@@ -41,6 +41,29 @@ class Query implements Query_Interface
     }
     
     public function query(string $query, array $array=[])
+    {
+        $this->query=$query;
+        $this->values=$array;
+        return $this;
+    }
+    
+    public function error()
+    {
+        return $this->stmt->errorInfo();
+    }
+    public function erron()
+    {
+        return $this->stmt->errorCode();
+    }
+    public function lastInsertId()
+    {
+        return self::$pdo->lastInsertId();
+    }
+    protected function auto_prefix(string $query)
+    {
+        return preg_replace('/#{(\S+?)}/', self::$prefix.'$1', $query);
+    }
+    protected function lazyQuery(string $query, array $array=[])
     {
         $query=self::auto_prefix($query);
         $stmt=self::$pdo->prepare($query);
@@ -58,22 +81,6 @@ class Query implements Query_Interface
         $return=$stmt->execute();
         $this->stmt=$stmt;
         return $return;
-    }
-    public function error()
-    {
-        return $this->stmt->errorInfo();
-    }
-    public function erron()
-    {
-        return $this->stmt->errorCode();
-    }
-    public function lastInsertId()
-    {
-        return self::$pdo->lastInsertId();
-    }
-    protected function auto_prefix(string $query)
-    {
-        return preg_replace('/#{(\S+?)}/', self::$prefix.'$1', $query);
     }
     protected function connectPdo()
     {
