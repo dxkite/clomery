@@ -34,7 +34,6 @@ function conf(string $name, $default=null)
     if (is_null($conf)) {
         $conf=parse_ini_file(DOC_ROOT.'/'.APP_CONF, true);
     }
-    var_dump($conf);
     return Arr::get($conf, $name, $default);
 }
 // 获取MIME

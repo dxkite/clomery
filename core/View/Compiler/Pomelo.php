@@ -35,6 +35,8 @@ class View_Compiler_Pomelo
             $content= self::compileText(Storage::get($filename));
             $spider=self::$theme==='spider'?'/@spider/':'/';
             $output=APP_VIEW.$spider.preg_replace('/'.preg_quote(self::$extRaw).'$/',self::$extCpl,$file);
+            // debug_print_backtrace();
+            // var_dump($output);
             Storage::mkdirs(dirname($output));
             Storage::put($output, $content);
             return true;
@@ -73,8 +75,16 @@ class View_Compiler_Pomelo
     {
         self::$theme=$theme;
     }
+    public function getTheme()
+    {
+        return self::$theme;
+    }
     public function tplRoot()
     {
+        if (self::$theme==='spider')
+        {
+            return APP_TPL.'/spider';
+        }
         return APP_TPL.'/'.self::$theme;
     }
     private function compileString(string $str)

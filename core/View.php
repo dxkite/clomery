@@ -75,7 +75,7 @@ class View
     }
     public static function compileAll()
     {
-        $files=Storage::readDirFiles(APP_TPL, '/\.pml\.html$/', true);
+        $files=Storage::readDirFiles(APP_TPL.'/'.self::$compiler->getTheme(), '/\.pml\.html$/', true);
         foreach ($files as $file) {
             View::compile($file);
         }
