@@ -46,7 +46,7 @@ class Query implements Query_Interface
         $this->values=$array;
         return $this;
     }
-    
+    // 获取错误
     public function error()
     {
         return $this->stmt->errorInfo();
