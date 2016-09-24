@@ -53,14 +53,14 @@ class View
     {
         // 合并数据
         self::assign($values);
-        // 分解变量
-        extract(self::$values, EXTR_OVERWRITE);
         // 内部可设置界面
         $page=is_null(self::$use)?$page:self::$use;
         // 获取界面路径
         $file=self::$compiler->viewPath($page);
         // var_dump($file);
         if (Storage::exist($file)) {
+            // 分解变量
+            extract(self::$values, EXTR_OVERWRITE);
             require_once $file;
         } else {
             trigger_error($page.' TPL no Find!');

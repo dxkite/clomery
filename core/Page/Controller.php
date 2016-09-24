@@ -1,32 +1,77 @@
 <?php
 use Core\Caller;
 use Core\Arr;
-
+/**
+* 页面控制器，控制页面的加载
+* 
+*/
 class Page_Controller extends Caller
 {
-    private $name;
+    /**
+    * $id 页面唯一标识
+    */
+    private $id;
+    /**
+    * $url 页面访问路径匹配
+    */
     private $url;
+    /**
+    * $url 中对应的元素的匹配符号
+    */
     private $regs=[];
+    /**
+    * $tpl当前页面模板
+    */
     private $tpl='index';
+    /**
+    * $type 当前页面会被呈现的Content-type
+    */
     private $type='html';
+    /**
+    * $raw 当前页面是否会调用模板输出
+    */
     private $raw=false;
-    private $override=null;
+    /**
+    * 当前页面是否会覆盖后续页面：
+    * 如 a/b/c  属于 a/ 的后续
+    */
+    private $override=false;
+    /**
+    * 是否满足先决条件
+    */
     private $preRule=true;
+    /**
+    * @param $caller 可回调对象
+    * @param $params 可回调函数的参数
+    * 
+    */
     public function __construct($caller, array $params=[])
     {
         // 设置父类
         parent::__construct($caller, $params);
     }
-    // 最后参数覆盖
+    /**
+    * 最后参数覆盖
+    * 判断是否覆盖后续页面
+    * @return bool 
+    */
     public function useOverride()
     {
         return $this->override;
     }
+    /**
+    * 设置覆盖属性
+    * @param bool $set 设置覆盖属性
+    * @return 当前对象-链式调用支持
+    */
     public function override(bool $set=true)
     {
         $this->override=$set;
         return $this;
     }
+    /**
+    * 获取
+    */
     public function preg()
     {
         return $this->regs;
@@ -54,14 +99,14 @@ class Page_Controller extends Caller
     }
     
     // 获取/设置 标识
-    public function name(string $name=null)
+    public function id(string $id=null)
     {
-        if ($name) {
-            $this->name=$name;
-            Page::name($name, $this->url);
+        if ($id) {
+            $this->id=$id;
+            Page::id($id, $this->url);
             return $this; // 链式调用
         }
-        return $this->name;
+        return $this->id;
     }
     // 获取/设置 标识
     public function url(string $url=null)

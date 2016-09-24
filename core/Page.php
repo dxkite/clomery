@@ -8,7 +8,7 @@ class Page
         'int'=>'/\d+/',
         'string'=>'/\S+/'
     ];
-    private static $names=[];
+    private static $ids=[];
     private static $controller;
     public static function default($caller)
     {
@@ -22,10 +22,10 @@ class Page
     * @param array $args URL需要的参数
     * @return string 组建的URL
     */
-    public static function url(string $name, array $args=[])
+    public static function url(string $id, array $args=[])
     {
-        if (isset(self::$names[$name])) {
-            $url=self::$names[$name];
+        if (isset(self::$ids[$id])) {
+            $url=self::$ids[$id];
             foreach ($args as $name =>$value) {
                 $url=preg_replace("/\{{$name}\}/", $value, $url);
             }
@@ -37,9 +37,9 @@ class Page
     {
         return self::$controller;
     }
-    public static function name(string $name, string $url)
+    public static function id(string $id, string $url)
     {
-        self::$names[$name]=$url;
+        self::$ids[$id]=$url;
     }
     // 设置控制器
     public static function visitController(Page_Controller $page)

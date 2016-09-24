@@ -8,14 +8,13 @@
 
 <body>
     <header>
-        <nav>
-            <a href="/html/index.asp">Home</a>
-            <a href="/html/html_intro.asp">Previous</a>
-            <a href="/html/html_elements.asp">Next</a>
+        <nav rel="index">
+            <a href="<?php echo Page::url('home_page') ?>">Home</a>
+            <a href="<?php echo Page::url('404_page') ?>">404Page</a>
         </nav>
     </header>
     <main>
-        <?php Env::markdown("## here is a markdown text\n```内容啊哈哈哈哈哈哈```") ?>
+        <?php Env::markdown("## here is a markdown text\n内容啊哈哈哈哈哈哈") ?>
 
     </main>
     <footer>
