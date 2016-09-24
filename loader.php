@@ -21,5 +21,5 @@
     View::loadCompile(); 
     require_once APP_ROOT.'/'.APP_VISIT;
     // Debug 模式 实时生成模板
-    if (conf('Mini.DEBUG',false)) View::compileAll(); 
+    if (conf('DEBUG',0)==1) View::compileAll(); 
     Page::display();

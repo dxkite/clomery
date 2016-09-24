@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
     <title>404 - <?php Env::echo(isset($title) ? $title : '页面找不到了哦！') ?></title>
