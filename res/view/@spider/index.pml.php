@@ -14,7 +14,7 @@
         </nav>
     </header>
     <main>
-        <?php Env::markdown("## here is a markdown text\n内容啊哈哈哈哈哈哈") ?>
+        <?php Env::markdown($markdown_text) ?>
 
     </main>
     <footer>

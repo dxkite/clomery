@@ -15,4 +15,5 @@ Page::default(function ($path) {
     View::set('title', '页面找不到了哦！');
     View::set('url', $path);
 })->use(404)->status(404);
-Page::auto('/admin', ['/admin']);
+// TODO : 自动寻址需要优化
+Page::auto('/@_@', ['/admin']);

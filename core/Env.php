@@ -19,7 +19,9 @@ class Env
     }
     public static function markdown($text)
     {
-        $parser=new \Markdown\Parser();
+        static $parser=null;
+        if (is_null($parser))
+            $parser=new \Markdown\Parser();
         echo $parser->makeHTML($text);
     }
     public static function url(string $name, array $args=[])
