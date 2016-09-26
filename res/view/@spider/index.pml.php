@@ -14,8 +14,6 @@
         </nav>
     </header>
     <main>
-        <?php Env::markdown($markdown_text) ?>
-
     </main>
     <footer>
     </footer>

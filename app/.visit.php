@@ -7,7 +7,7 @@ if (is_spider())
 
 
 Page::visit('/',['Main','main'])->use('index')->id('home_page');
-
+Page::visit('/{id}?',['Main','article'])->with('id','int')->use('index')->id('home_page');
 // 访问的url为 /QAQ ,无回调函数，使用404的页面，返回状态404，设置名称为 404_page
 Page::visit('/QAQ',null)->use(404)->status(404)->id('404_page');
 

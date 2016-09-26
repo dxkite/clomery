@@ -94,7 +94,8 @@ class Page
             // 获取动态参数
             $regs=$caller->preg();
             // 获取动态变量
-            preg_match_all('/{(\S+?)}/', $url, $args);
+            preg_match_all('/{(\S+?)}([?])?/', $url, $args);
+            // var_dump($args);
             $url=strlen($url)>1?rtrim($url, '/'):'/';
             // 获取初步匹配的参数
             // 覆盖后续
