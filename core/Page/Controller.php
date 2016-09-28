@@ -41,6 +41,10 @@ class Page_Controller extends Caller
     */
     private $preRule=true;
     /**
+    * 网页状态
+    */
+    private $status=NULL;
+    /**
     * @param $caller 可回调对象
     * @param $params 可回调函数的参数
     * 
@@ -142,11 +146,15 @@ class Page_Controller extends Caller
     }
     public function status(int $status)
     {
-        send_http_status($status);
+        $this->status=$status;
         return $this;
     }
     public function render(array $value=[])
     {
+        if (!is_null($this->status))
+        {
+             send_http_status($this->status);
+        }
         if ($this->raw) {
             switch ($this->type) {
                 case 'json':

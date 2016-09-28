@@ -39,9 +39,7 @@ class View
         $extension=pathinfo($path, PATHINFO_EXTENSION);
         // Resource
         if (array_key_exists($extension, mime()) && Storage::exist($path=View::tplRoot().'/'.$path)) {
-            self::type($extension);
-            echo Storage::get($path);
-            return true;
+            return $path;
         }
         return false;
     }

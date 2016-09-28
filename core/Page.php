@@ -130,7 +130,13 @@ class Page
             }
         }
         // 查找资源
-        if (View::resource($path)) {
+        if ($path_raw=View::resource($path)) {
+            self::call((new Page_Controller(function($path_raw) {
+                echo Storage::get($path_raw);
+            }))->raw()->status(200),[$path_raw]);
+            // self::type($extension);
+            // self::status(200);
+            // echo Storage::get($path);
             $success=true;
         }
         // 默认
@@ -138,9 +144,12 @@ class Page
             self::call(self::$maps['__default__'], [$path]);
         }
     }
-    
+    /**
+    * 载入控制器，开始渲染页面
+    */
     private function call(Page_Controller $caller, array $args)
     {
+        // 将控制器压入当前控制器
         self::$controller=$caller;
         $return=$caller->call($args);
         if (!is_array($return)) {

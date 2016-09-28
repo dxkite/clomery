@@ -5,7 +5,7 @@ if (is_spider())
     View::theme('spider');
 }
 
-
+// TODO：需要可省略参数
 Page::visit('/',['Main','main'])->use('index')->id('main_page');
 Page::visit('/article/{id}',['Main','article'])->with('id','int')->use('index')->id('main_article');
 // 访问的url为 /QAQ ,无回调函数，使用404的页面，返回状态404，设置名称为 404_page
