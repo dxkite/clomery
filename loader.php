@@ -28,7 +28,7 @@
     require_once APP_ROOT.'/'.APP_VISIT;
     // Debug 模式 实时生成模板
     if (conf('DEBUG',0)==1) {
-        View::theme('spider');
+        // View::theme('spider');
         View::compileAll();
     } 
     // 渲染页面
