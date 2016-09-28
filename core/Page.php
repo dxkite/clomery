@@ -133,7 +133,7 @@ class Page
         if ($path_raw=View::resource($path)) {
             self::call((new Page_Controller(function($path_raw) {
                 echo Storage::get($path_raw);
-            }))->raw()->status(200),[$path_raw]);
+            }))->raw()->status(200)->type(pathinfo($path_raw, PATHINFO_EXTENSION)),[$path_raw]);
             // self::type($extension);
             // self::status(200);
             // echo Storage::get($path);
