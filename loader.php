@@ -35,3 +35,5 @@
     Session::start();
     // 渲染页面
     Page::display();
+    // 写入Cookie
+    Cookie::write();

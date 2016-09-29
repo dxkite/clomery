@@ -3,7 +3,7 @@ class Main
 {
     function __construct()
     {
-        
+
     }
     function main()
     {
@@ -34,8 +34,8 @@ class Main
                'url'=>Page::url('admin',['path'=>'login'])
            ]
        ];
-       debug_print_backtrace();
-       var_dump(Session::id());
+       // Cookie::set('set_uid','iweqeqqewesxafsa')->httpOnly();
+       var_dump(Cookie::get('set_uid'));
        View::set('head_index',$head_index);
 
     }
