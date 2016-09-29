@@ -30,7 +30,7 @@ class Page
                 $url=preg_replace("/\{{$name}\}/", $value, $url);
             }
             // 去除未设置参数的
-            return preg_replace('/\{(\S+?)\}([?])/','',$url);
+            return preg_replace('/\{(\S+?)\}([?])/', '', $url);
         }
         return '/';
     }
@@ -48,25 +48,27 @@ class Page
         self::$maps[$page->url()]=$page;
     }
     /**
-     * 自动加载App目录下的程序
+     * 自动加载目录下的程序
      */
-    public static function auto(string $name_path, array $search_path)
+    public static function auto(string $name_path, string $pathroot)
     {
-        $auto=function ($path) use ($search_path) {
-            foreach ($search_path as $pathroot) {
-                $names=trim($pathroot.'/'.$path, '/');
-                $file=APP_ROOT.'/'.$names.'.php';
-                if (Storage::exist($file)) {
-                    require_once $file;
-                    $class= preg_replace('/(\\\\+|\/+)/', '\\', $names);
-                    if (class_exists($class, false)) {
-                        $app = new $class();
-                        $app ->main();
-                    }
+        $auto=function ($path='Main') use ($name_path,$pathroot) {
+            $names=trim($pathroot.'/'.$path, '/');
+            $file=APP_ROOT.'/'.$names.'.php';
+            if (Storage::exist($file)) {
+                require_once $file;
+                $class= preg_replace('/(\\\\+|\/+)/', '\\', $names);
+                if (class_exists($class, false)) {
+                    $app = new $class();
+                    $app ->main();
                 }
+            } else {
+                View::set('title', '页面找不到了哦！');
+                View::set('url', $name_path);
+                View::use(404);
             }
         };
-        return self::visit(rtrim($name_path).'/{path}', $auto)
+        return self::visit(rtrim($name_path).'/{path}?', $auto)
         ->with('path', 'string')->override();
     }
 
@@ -83,7 +85,7 @@ class Page
         preg_match('/(.*)\/index.php([^?]*)([?].+)?$/', $_SERVER['PHP_SELF'], $match);
         $success=false;
         // 保证URL后面都含有 /
-        $path=rtrim($match[2],'/').'/';
+        $path=rtrim($match[2], '/').'/';
         // 开始匹配
         foreach (self::$maps as $url=>$caller) {
             // 满足前提条件
@@ -103,7 +105,7 @@ class Page
             // 获取初步匹配的参数
             // 覆盖后续
             if ($caller->useOverride()) {
-                $regpath=preg_replace(['/\//', '/{(\S+?)}\/?$/', '/{(\S+?)}/'], ['\\/', '(.*)', '([^\/]+)'], $url);
+                $regpath=preg_replace(['/\//', '/{(\S+?)}([?])?\/?$/', '/{(\S+?)}/'], ['\\/', '(.*)', '([^\/]+)'], $url);
             } else {
                 $regpath=preg_replace(['/\//', '/{(\S+?)}/'], ['\\/', '([^\/]+)'], $url);
             }
@@ -115,11 +117,14 @@ class Page
                 // 去除第一个值
                 array_shift($values);
                 // 去除非必须参数
-                while (end($args[2])==='?')
+                if (count($args[1])>count($values))
                 {
-                    array_pop($args[2]);
-                    array_pop($args[1]);
+                    while (end($args[2])==='?') {
+                        array_pop($args[2]);
+                        array_pop($args[1]);
+                    }
                 }
+                
                 $keymap=array_combine($args[1], $values);
                 foreach ($regs as $name => $preg) {
                     // 载入内置类型
@@ -140,9 +145,9 @@ class Page
         }
         // 查找资源
         if ($path_raw=View::resource($path)) {
-            self::call((new Page_Controller(function($path_raw) {
+            self::call((new Page_Controller(function ($path_raw) {
                 echo Storage::get($path_raw);
-            }))->raw()->status(200)->type(pathinfo($path_raw, PATHINFO_EXTENSION)),[$path_raw]);
+            }))->raw()->status(200)->type(pathinfo($path_raw, PATHINFO_EXTENSION)), [$path_raw]);
             $success=true;
         }
         // 默认

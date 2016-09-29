@@ -1,7 +1,7 @@
 <?php
 namespace admin;
 
-class Hello
+class Main
 {
     function main($args=null)
     {
