@@ -14,4 +14,4 @@ Page::default(function ($path) {
     View::set('url', $path);
 })->use(404)->status(404);
 // TODO : 自动寻址需要优化
-Page::auto('/@_@', '/admin');
+Page::auto('/@_@', '/admin')->id('admin');

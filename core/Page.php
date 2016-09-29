@@ -53,6 +53,7 @@ class Page
     public static function auto(string $name_path, string $pathroot)
     {
         $auto=function ($path='Main') use ($name_path,$pathroot) {
+            if (!$path) $path='Main';
             $names=trim($pathroot.'/'.$path, '/');
             $file=APP_ROOT.'/'.$names.'.php';
             if (Storage::exist($file)) {
@@ -69,7 +70,7 @@ class Page
             }
         };
         return self::visit(rtrim($name_path).'/{path}?', $auto)
-        ->with('path', 'string')->override();
+        ->with('path', '/^(.*)$/')->override();
     }
 
     public static function visit(string $url, $caller)
@@ -131,6 +132,7 @@ class Page
                     if (array_key_exists($preg, self::$type)) {
                         $preg=self::$type[$preg];
                     }
+                    // 类型再次验证
                     if (isset($keymap[$name]) && !preg_match($preg, $keymap[$name])) {
                         $success=false;
                     }
