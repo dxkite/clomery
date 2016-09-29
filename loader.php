@@ -31,5 +31,7 @@
         // View::theme('spider');
         View::compileAll();
     } 
+    // 开启Session
+    Session::start();
     // 渲染页面
     Page::display();

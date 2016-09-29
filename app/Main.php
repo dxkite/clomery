@@ -1,6 +1,10 @@
 <?php
 class Main
 {
+    function __construct()
+    {
+        
+    }
     function main()
     {
         View::set('title','管理页面 - 三人行，必有我师焉。');
@@ -30,6 +34,8 @@ class Main
                'url'=>Page::url('admin',['path'=>'login'])
            ]
        ];
+       debug_print_backtrace();
+       var_dump(Session::id());
        View::set('head_index',$head_index);
 
     }
