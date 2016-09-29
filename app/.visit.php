@@ -4,14 +4,23 @@ if (is_spider())
 {
     View::theme('spider');
 }
-
+// 主页
 Page::visit('/',['Main','main'])->use('index')->id('main_page');
+
+// 查看文章
 Page::visit('/article/{id}?',['Main','article'])->with('id','int')->use('index')->id('main_article');
-// 访问的url为 /QAQ ,无回调函数，使用404的页面，返回状态404，设置名称为 404_page
+
+// 404 页面 访问的url为 /QAQ ,无回调函数，使用404的页面，返回状态404，设置名称为 404_page
 Page::visit('/QAQ',null)->use(404)->status(404)->id('404_page');
+
+// 留言板 
+Page::visit('/notes',['Notes','main'])->id('Notes_page');
+
+// 管理界面导向
+Page::auto('/@_@', '/admin')->id('admin');
+
+// 找不到页面时
 Page::default(function ($path) {
     View::set('title', '页面找不到了哦！');
     View::set('url', $path);
 })->use(404)->status(404);
-// TODO : 自动寻址需要优化
-Page::auto('/@_@', '/admin')->id('admin');
