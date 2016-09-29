@@ -13,7 +13,7 @@ class Main
            ],
            [
                'text'=>'文章',
-               'url'=>'/article/',
+               'url'=>Page::url('main_article'),
            ],
            [
                'text'=>'问答',
@@ -29,9 +29,9 @@ class Main
        View::set('head_index',$head_index);
 
     }
-    function article(int $id)
+    function article(int $id=0)
     {
        //  var_dump($id);
-        View::set('title','文章阅读 '.$id.' - 三人行，必有我师焉。');
+        View::set('title','文章- '.$id.' - 三人行，必有我师焉。');
     }
 }

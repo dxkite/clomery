@@ -7,10 +7,9 @@ if (is_spider())
 
 // TODO：需要可省略参数
 Page::visit('/',['Main','main'])->use('index')->id('main_page');
-Page::visit('/article/{id}',['Main','article'])->with('id','int')->use('index')->id('main_article');
+Page::visit('/article/{id}?',['Main','article'])->with('id','int')->use('index')->id('main_article');
 // 访问的url为 /QAQ ,无回调函数，使用404的页面，返回状态404，设置名称为 404_page
 Page::visit('/QAQ',null)->use(404)->status(404)->id('404_page');
-
 Page::default(function ($path) {
     View::set('title', '页面找不到了哦！');
     View::set('url', $path);

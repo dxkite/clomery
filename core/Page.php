@@ -29,7 +29,8 @@ class Page
             foreach ($args as $name =>$value) {
                 $url=preg_replace("/\{{$name}\}/", $value, $url);
             }
-            return $url;
+            // 去除未设置参数的
+            return preg_replace('/\{(\S+?)\}([?])/','',$url);
         }
         return '/';
     }
@@ -81,7 +82,9 @@ class Page
     {
         preg_match('/(.*)\/index.php([^?]*)([?].+)?$/', $_SERVER['PHP_SELF'], $match);
         $success=false;
-        $path=$match[2]?rtrim($match[2], '/'):'/';
+        // 保证URL后面都含有 /
+        $path=rtrim($match[2],'/').'/';
+        // 开始匹配
         foreach (self::$maps as $url=>$caller) {
             // 满足前提条件
             if (!$caller->preRule()) {
@@ -95,7 +98,7 @@ class Page
             $regs=$caller->preg();
             // 获取动态变量
             preg_match_all('/{(\S+?)}([?])?/', $url, $args);
-            // var_dump($args);
+            
             $url=strlen($url)>1?rtrim($url, '/'):'/';
             // 获取初步匹配的参数
             // 覆盖后续
@@ -106,18 +109,24 @@ class Page
             }
             // 检查是否有要匹配的动态变量
             // 检查变量是否存在URL中
-            if (count($regs)===count($args[1]) && preg_match('/^'.$regpath.'$/', $path, $values)) {
+            if (count($regs)===count($args[1]) && preg_match('/^'.$regpath.'\/?$/', $path, $values)) {
                 // 初步验证成功
                 $success=true;
                 // 去除第一个值
                 array_shift($values);
+                // 去除非必须参数
+                while (end($args[2])==='?')
+                {
+                    array_pop($args[2]);
+                    array_pop($args[1]);
+                }
                 $keymap=array_combine($args[1], $values);
                 foreach ($regs as $name => $preg) {
+                    // 载入内置类型
                     if (array_key_exists($preg, self::$type)) {
                         $preg=self::$type[$preg];
                     }
-                     
-                    if (!preg_match($preg, $keymap[$name])) {
+                    if (isset($keymap[$name]) && !preg_match($preg, $keymap[$name])) {
                         $success=false;
                     }
                 }
@@ -134,9 +143,6 @@ class Page
             self::call((new Page_Controller(function($path_raw) {
                 echo Storage::get($path_raw);
             }))->raw()->status(200)->type(pathinfo($path_raw, PATHINFO_EXTENSION)),[$path_raw]);
-            // self::type($extension);
-            // self::status(200);
-            // echo Storage::get($path);
             $success=true;
         }
         // 默认
