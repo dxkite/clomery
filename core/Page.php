@@ -27,7 +27,7 @@ class Page
         if (isset(self::$ids[$id])) {
             $url=self::$ids[$id];
             foreach ($args as $name =>$value) {
-                $url=preg_replace("/\{{$name}\}/", $value, $url);
+                $url=preg_replace("/\{{$name}\}[?]?/", $value, $url);
             }
             // 去除未设置参数的
             return preg_replace('/\{(\S+?)\}([?])/', '', $url);
@@ -52,8 +52,10 @@ class Page
      */
     public static function auto(string $name_path, string $pathroot)
     {
-        $auto=function ($path='Main') use ($name_path,$pathroot) {
-            if (!$path) $path='Main';
+        $auto=function ($path='Main') use ($name_path, $pathroot) {
+            if (!$path) {
+                $path='Main';
+            }
             $names=trim($pathroot.'/'.$path, '/');
             $file=APP_ROOT.'/'.$names.'.php';
             if (Storage::exist($file)) {
@@ -64,9 +66,9 @@ class Page
                     $app ->main();
                 }
             } else {
+                Page::controller()->status(404)->use(404);
                 View::set('title', '页面找不到了哦！');
-                View::set('url', $name_path);
-                View::use(404);
+                View::set('url', $names);
             }
         };
         return self::visit(rtrim($name_path).'/{path}?', $auto)
@@ -118,8 +120,7 @@ class Page
                 // 去除第一个值
                 array_shift($values);
                 // 去除非必须参数
-                if (count($args[1])>count($values))
-                {
+                if (count($args[1])>count($values)) {
                     while (end($args[2])==='?') {
                         array_pop($args[2]);
                         array_pop($args[1]);

@@ -24,6 +24,10 @@ class Main
            [
                'title'=>'OJ测试',
                'text'=>'测试',
+           ],
+           [
+               'text'=>'登陆',
+               'url'=>Page::url('admin',['path'=>'login'])
            ]
        ];
        View::set('head_index',$head_index);
