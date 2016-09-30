@@ -1,12 +1,18 @@
 <?php
 /**
-* 文件缓存
-*/
+ * Class Cache
+ */
 class Cache implements Cache_Interface
 {
     public static $cache;
-    // 设置
-    public static function set(string $name, $value, int $expire=0)
+    /**
+     * 设置
+     * @param string $name 名
+     * @param $value 值
+     * @param int $expire 过期时间
+     * @return int
+     */
+    public static function set(string $name, $value, int $expire=0):int
     {
         $path=APP_RES.'/cache/'.self::nam($name);
         self::$cache[$name]=$value;
@@ -14,7 +20,12 @@ class Cache implements Cache_Interface
         $value=serialize($value);
         return file_put_contents($path, $expire.'|'.$value);
     }
-    // 获取
+
+    /**
+     * 获取值
+     * @param string $name 名
+     * @return mixed|null
+     */
     public static function get(string $name)
     {
         if (isset(self::$cache[$name])) {
@@ -22,8 +33,7 @@ class Cache implements Cache_Interface
             return is_array($value)?Core\Arr::get($value, $name):$value;
         }
         $path=APP_RES.'/cache/'.self::nam($name);
-        if (Storage::exist($path))
-        {
+        if (Storage::exist($path)) {
             $value=Storage::get($path);
             $time=explode('|', $value, 2);
             if (time()<intval($time[0])) {
@@ -33,8 +43,13 @@ class Cache implements Cache_Interface
         }
         return null;
     }
-    // 删除
-    public static function delete(string $name)
+
+    /**
+     * 删除值
+     * @param string $name 名
+     * @return bool
+     */
+    public static function delete(string $name) :bool
     {
         return Storage::remove(self::nam($name));
     }
@@ -43,8 +58,15 @@ class Cache implements Cache_Interface
     {
         return self::get($name)!==null;
     }
-    // 替换
-    public static function replace(string $name, $value, int $expire=0)
+
+    /**
+     * 替换某元素
+     * @param string $name
+     * @param $value 值
+     * @param int $expire 过期时间
+     * @return int 
+     */
+    public static function replace(string $name, $value, int $expire=0) :int
     {
         $get_value=self::get($name);
         if (is_array($get_value)) {
@@ -54,10 +76,12 @@ class Cache implements Cache_Interface
         }
         return self::set($name, $get_value, $expire);
     }
-    // 垃圾回收
+    /**
+     * 垃圾回收
+     */
     public static function gc()
     {
-        $files=Storage::readDirFiles($path=APP_RES.'/cache','/^(?!\.)/');
+        $files=Storage::readDirFiles($path=APP_RES.'/cache', '/^(?!\.)/');
         foreach ($files as $file) {
             $value=Storage::get($file);
             $time=explode('|', $value, 2);
@@ -68,7 +92,7 @@ class Cache implements Cache_Interface
     }
     private static function nam(string $name)
     {
-        $str=preg_split('/[.\/]+/', $name, 2,PREG_SPLIT_NO_EMPTY);
+        $str=preg_split('/[.\/]+/', $name, 2, PREG_SPLIT_NO_EMPTY);
         return $str[0].'_'.md5($name);
     }
 }

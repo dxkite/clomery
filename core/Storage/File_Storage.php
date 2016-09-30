@@ -69,7 +69,11 @@ class Storage implements Storage_Driver
         return file_get_contents($name);
     }
 
-    public static function remove(string $name)
+    /**
+     * @param string $name
+     * @return bool
+     */
+    public static function remove(string $name) : bool
     {
         return unlink($name);
     }
