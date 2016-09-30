@@ -56,7 +56,7 @@ class Cache implements Cache_Interface
     // 垃圾回收
     public static function gc()
     {
-        $files=Storage::readDirFiles($path=APP_RES.'/cache');
+        $files=Storage::readDirFiles($path=APP_RES.'/cache','/^(?!\.)/');
         foreach ($files as $file) {
             $value=Storage::get($file);
             $time=explode('|', $value, 2);
@@ -67,7 +67,7 @@ class Cache implements Cache_Interface
     }
     private static function nam(string $name)
     {
-        $str=preg_split('/[.\/]+/', $name, 2);
+        $str=preg_split('/[.\/]+/', $name, 2,PREG_SPLIT_NO_EMPTY);
         return $str[0].'_'.md5($name);
     }
 }

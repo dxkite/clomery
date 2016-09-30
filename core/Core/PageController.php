@@ -17,7 +17,7 @@ class PageController extends Caller
     */
     private $url;
     /**
-    * $url 中对应的元素的匹配符号
+    * $regs 中对应的元素的匹配符号
     */
     private $regs=[];
     /**
