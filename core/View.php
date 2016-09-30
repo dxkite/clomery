@@ -93,7 +93,7 @@ class View
         $resources=Storage::readDirFiles(APP_TPL.'/'.$theme,'/(?<!\.pml)\.('.$extensions.')$/',true,false);
         foreach ($resources as $resource)
         {
-            $path=WEB_ROOT.'/static/'.$resource;
+            $path=APP_VIEW.'/'.$resource;
             Storage::mkdirs(dirname($path));
             Storage::copy(APP_TPL.'/'.$theme.'/'.$resource,$path);
         }

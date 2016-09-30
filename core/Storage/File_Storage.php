@@ -30,7 +30,9 @@ class Storage implements Storage_Driver
                             $file_totu[]=$file;
                         }
                     } elseif ($repeat) {
-                        $file_totu=array_merge($file_totu, self::readDirFiles($dirs.'/'.$file, $preg, $repeat, $preroot));
+                        foreach (self::readDirFiles($dirs.'/'.$file, $preg, $repeat, $preroot) as $read_file) {
+                            $file_totu[]=$file.'/'.$read_file;
+                        }
                     }
                 }
             }
@@ -51,7 +53,7 @@ class Storage implements Storage_Driver
                 }
             }
             if (!$keep) {
-                unlink("$dir");
+                rmdir($dir);
             }
         }
     }

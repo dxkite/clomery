@@ -16,6 +16,22 @@ Page::visit('/QAQ',null)->use(404)->status(404)->id('404_page');
 // 留言板 
 Page::visit('/notes',['Notes','main'])->id('Notes_page');
 
+Page::visit('/resource/{path}',function ($path_raw) {
+    $type=pathinfo($path_raw,PATHINFO_EXTENSION);
+    $path_raw=rtrim($path_raw,'/');
+    if (Storage::exist(APP_VIEW.'/'.$path_raw))
+    {
+        Page::controller()->raw()->type($type);
+        echo Storage::get(APP_VIEW.'/'.$path_raw);
+    }
+    else
+    {
+        View::set('title', '找不到相关资源！');
+        View::set('url', $path_raw);
+        Page::controller()->use(404)->status(404);
+    }
+})->with('path','/^(.+)$/')->id('resource')->override();
+
 // 管理界面导向
 Page::auto('/@_@', '/admin')->id('admin');
 
