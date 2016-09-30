@@ -33,6 +33,8 @@
     } 
     // 开启Session
     Session::start();
+    Site\Options::init();
+    View::theme(Site\Options::getTheme());
     // 渲染页面
     Page::display();
     // 写入Cookie

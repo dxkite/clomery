@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-	<title><?php Env::echo(isset($title) ? $title : "") ?></title>
+	<title><?php Env::echo(Env::Options()->getSitename()) ?></title>
 	<?php Env::include("page_meta") -> render(); ?>
 	<link rel="stylesheet" href="<?php echo Page::url('resource',['path'=>'main.css']) ?>">
 </head>

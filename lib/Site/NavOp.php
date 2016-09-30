@@ -12,10 +12,7 @@ class NavOp
         if (Cache::has('SiteNav')) {
             self::$navs=Cache::get('SiteNav');
         } else {
-            $q=new Query('SELECT `id`,`name` as `text`,`url` FROM `#{nav}` WHERE `show` =1 ORDER BY `sort` ASC;');
-            self::$navs=$q->fetchAll();
-            Cache::set('SiteNav', self::$navs, 0);
-            return $q->erron()===0;
+            return self::refresh();
         }
         return true;
     }
@@ -34,8 +31,14 @@ class NavOp
         Cache::set('SiteNav', self::$navs, 0);
         return $q->erron()===0;
     }
-    public static function addNavs()
+    public static function addNavs(string $name,string $url,int $sort)
     {
         $sql='INSERT INTO `atd_nav` (`name`, `url`, `sort`) VALUES (:name,:url,:sort);';
+        return (new Query($sql,['name'=>$name,'url'=>$url,'sort'=>$sort]))->exec();
+    }
+
+    public static function changeSort(int $id,int $sort)
+    {
+        
     }
 }

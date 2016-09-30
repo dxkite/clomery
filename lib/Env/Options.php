@@ -1,17 +1,7 @@
 <?php
 namespace Env;
 
-class Options implements \Env_Method
+class Options extends \Site\Options implements \Env_Method
 {
-    
-
-    function setParams(array $params)
-    {
-        var_dump($params);
-    }
-    function hello()
-    {
-        echo 'hello';
-    }
-    
+    function setParams(array $params) {}
 }

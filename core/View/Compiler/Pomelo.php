@@ -112,7 +112,7 @@ class View_Compiler_Pomelo
         );
     }
 
-    // IF 语句
+
     protected function parseUrl($exp)
     {
         return "<?php echo Page::url{$exp} ?>";
@@ -135,7 +135,6 @@ class View_Compiler_Pomelo
     {
         return '<?php else: ?>';
     }
-
     protected function parseElseif($exp)
     {
         return "<?php elseif {$exp}: ?>";

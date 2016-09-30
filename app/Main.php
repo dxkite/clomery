@@ -1,5 +1,6 @@
 <?php
 use Site\NavOp;
+use Site\Options;
 
 class Main
 {
@@ -11,6 +12,7 @@ class Main
     {
         View::set('title', '管理页面 - 三人行，必有我师焉。');
         $nav=NavOp::getNavs();
+        var_dump(Options::getOptions());
         View::set('head_index', $nav);
         View::set('copyright', 'atd3.cn');
     }
