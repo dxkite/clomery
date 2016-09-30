@@ -12,31 +12,25 @@ class Main
        $data=(new Query('SELECT * FROM `#{users}` LIMIT 3;'))->fetchAll();
        $head_index=[
            [
-               'text'=>'计科Online',
+               'text'=>'首页',
                'url'=>Page::url('main_page'),
+               'select'=>true,
            ],
            [
                'text'=>'文章',
                'url'=>Page::url('main_article'),
            ],
            [
-               'text'=>'问答',
-           ],
-           [
                'text'=>'资源',
            ],
            [
-               'title'=>'OJ测试',
-               'text'=>'测试',
-           ],
-           [
-               'text'=>'登陆',
-               'url'=>Page::url('admin',['path'=>'login'])
+               'text'=>'留言板',
+               'url'=>Page::url('notes_page')
            ]
        ];
 
        View::set('head_index',$head_index);
-
+       View::set('copyright','atd3.cn');
     }
     function article(int $id=0)
     {

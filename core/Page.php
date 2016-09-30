@@ -1,6 +1,9 @@
 <?php
 use \Core\PageController  as Page_Controller;
 // 简单页面控制
+/**
+ * Class Page
+ */
 class Page
 {
     private static $maps;
@@ -11,6 +14,7 @@ class Page
     ];
     private static $ids=[];
     private static $controller;
+    private static $content='';
     public static function default($caller)
     {
         $caller=new Page_Controller($caller);
@@ -35,10 +39,7 @@ class Page
         }
         return '/';
     }
-    public static function controller()
-    {
-        return self::$controller;
-    }
+
     public static function id(string $id, string $url)
     {
         self::$ids[$id]=$url;
@@ -158,6 +159,22 @@ class Page
     }
 
     /**
+     * @return mixed
+     */
+    public static function getController()
+    {
+        return self::$controller;
+    }
+
+    /**
+     * @return string
+     */
+    public static function getContent(): string
+    {
+        return self::$content;
+    }
+
+    /**
      * 调用控制器，渲染页面
      * @param Page_Controller $caller 可回调对象
      * @param array $args 调用参数
@@ -166,7 +183,9 @@ class Page
     {
         // 将控制器压入当前控制器
         self::$controller=$caller;
+        ob_start();
         $return=$caller->call($args);
+        self::$content=ob_get_clean();
         if (!is_array($return)) {
             $return=[$return];
         }

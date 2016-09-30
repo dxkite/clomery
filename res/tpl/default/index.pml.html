@@ -1,9 +1,3 @@
 @include("head")
-<body>
-	<nav>
-	@foreach ($head_index as $index)
-		<div><a title="{{$index['title']}}" href="{{$index['url']}}"> {{$index['text']}} </a></div>
-	@endforeach
-	</nav>
-</body>
-</html>
+@include("main");
+@include("footer")

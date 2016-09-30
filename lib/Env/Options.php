@@ -11,4 +11,8 @@ class Options implements \Env_Method
     {
         echo 'hello';
     }
+    function runtime()
+    {
+        
+    }
 }

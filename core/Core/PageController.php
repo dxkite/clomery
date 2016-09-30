@@ -46,7 +46,7 @@ class PageController extends Caller
      * @var null
      */
     private $status=NULL;
-
+    private $allowOutput=true;
     /**
      * PageController constructor.
      * @param mixed $caller 可调用对象
@@ -75,6 +75,11 @@ class PageController extends Caller
     public function override(bool $set=true)
     {
         $this->override=$set;
+        return $this;
+    }
+    public function allowOutput(bool $set=false)
+    {
+        $this->allowOutput=$set;
         return $this;
     }
     /**
@@ -165,9 +170,14 @@ class PageController extends Caller
                     echo json_encode($value);
                 default:
                 View::type($this->type);
+                echo Page::getContent();
             }
         } else {
             View::render($this->tpl, $value);
+            if ($this->allowOutput)
+            {
+                echo Page::getContent();
+            }
         }
     }
     public function isPost()

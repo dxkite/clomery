@@ -1,4 +1,81 @@
 html,body
 {
-    background: #ccf;
+	font-family:sans-serif,"微软雅黑",Arial,Helvetica;
+	padding: 0;
+	margin: 0;
 }
+
+/* 导航菜单 */
+#nav-menu {
+  border: 1px solid #EEE;
+  padding: 0 0 0 2em;
+}
+
+.nav-menu-item {
+  display: block;
+  margin-right: -1px;
+  padding: 0 20px;
+  border: 1px solid #EEE;
+  border-bottom: none;
+  border-top: none;
+  height: 32px;
+  line-height: 32px;
+  color: #444;
+  float: left;
+}
+.nav-menu-item:hover,
+#nav-menu .current {
+  background: #F6F6F6;
+}
+
+
+.clearfix{
+  zoom: 1; 
+}
+.clearfix:before,.clearfix:after
+{
+    content: " ";
+    display: table; 
+}
+.clearfix:after{
+    clear: both; 
+}
+#site-logo
+{
+  height: 6em;
+  width: 10em;
+  float: left;
+  background: #EEE;
+  border: 1px solid #EEE;
+}
+#user-info
+{
+  height: 6em;
+  width: 10em;
+  float: right;
+  background: #EEE;
+  border: 1px solid #EEE;
+}
+
+#footer {
+  padding: 2em 0;
+  line-height: 1.5;
+  text-align: center;
+  color: #999;
+}
+#footer-time
+{
+  float: right;
+  padding: 1em;
+}
+#footer-copyright
+{
+	color: #999;
+	text-align:center;
+}
+#footer-copyright a 
+{
+	text-decoration:none;
+	color: #999;
+}
+
