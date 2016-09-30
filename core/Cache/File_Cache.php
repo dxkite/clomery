@@ -36,7 +36,7 @@ class Cache implements Cache_Interface
         if (Storage::exist($path)) {
             $value=Storage::get($path);
             $time=explode('|', $value, 2);
-            if (time()<intval($time[0])) {
+            if (time()<intval($time[0]) || intval($time[0])===0) {
                 return unserialize($time[1]);
             } else {
                 self::delete($path);
@@ -67,10 +67,14 @@ class Cache implements Cache_Interface
     {
         $files=Storage::readDirFiles($path=APP_RES.'/cache', '/^(?!\.)/');
         foreach ($files as $file) {
-            $value=Storage::get($file);
-            $time=explode('|', $value, 2);
-            if (intval($time[0])<time()) {
+            if (conf('NoCache', 0)) {
                 Storage::remove($file);
+            } else {
+                $value=Storage::get($file);
+                $time=explode('|', $value, 2);
+                if (intval($time[0])!==0 && intval($time[0])<time()) {
+                    Storage::remove($file);
+                }
             }
         }
     }

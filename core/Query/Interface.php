@@ -10,5 +10,5 @@ interface Query_Interface{
     public function values(array $values);
     public function query(string $query, array $array=[]);
     public function error();
-    public function erron();
+    public function erron():int;
 }

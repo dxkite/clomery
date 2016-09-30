@@ -3,6 +3,8 @@ namespace Env;
 
 class Options implements \Env_Method
 {
+    
+
     function setParams(array $params)
     {
         var_dump($params);
@@ -11,8 +13,5 @@ class Options implements \Env_Method
     {
         echo 'hello';
     }
-    function runtime()
-    {
-        
-    }
+    
 }

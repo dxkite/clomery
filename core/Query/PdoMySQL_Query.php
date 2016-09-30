@@ -33,13 +33,18 @@ class Query implements Query_Interface
         }
         return false;
     }
+    
+    public function exec():bool
+    {
+        return self::lazyQuery($this->query, $this->values);
+    }
 
     public function values(array $values)
     {
-        $this->$values=array_merge($this->$values, $values);
+        $this->values=array_merge($this->values, $values);
         return $this;
     }
-    
+
     public function query(string $query, array $array=[])
     {
         $this->query=$query;
@@ -51,7 +56,7 @@ class Query implements Query_Interface
     {
         return $this->stmt->errorInfo();
     }
-    public function erron()
+    public function erron():int
     {
         return $this->stmt->errorCode();
     }
