@@ -6,6 +6,7 @@ if (is_spider())
 }
 // 主页
 Page::visit('/',['Main','main'])->use('index')->id('main_page');
+// 待开发的页面
 Page::visit('/{pagename}',['Develop','main'])
 ->with('pagename','/^(notes|question|test|books|article)$/')
 ->use('index')->id('develop_page');
