@@ -35,7 +35,9 @@ class Main
            ]
        ];
        // Cookie::set('set_uid','iweqeqqewesxafsa')->httpOnly();
-       var_dump(Cookie::get('set_uid'));
+       Session::set('hello',['value']);
+       Cache::set('hello','value',time()+1000);
+       var_dump(Cache::get('hello'));
        View::set('head_index',$head_index);
 
     }

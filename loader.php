@@ -37,3 +37,4 @@
     Page::display();
     // 写入Cookie
     Cookie::write();
+    Cache::gc();
