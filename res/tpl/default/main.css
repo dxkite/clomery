@@ -7,7 +7,8 @@ html,body
 
 /* 导航菜单 */
 #nav-menu {
-  border: 1px solid #EEE;
+  border-top: 1px solid #EEE;
+  border-bottom: 1px solid #EEE;
   padding: 0 0 0 2em;
 }
 
@@ -42,11 +43,9 @@ html,body
 }
 #site-logo
 {
-  height: 6em;
-  width: 10em;
+  padding: 0.2em;
+  padding-left: 2em;
   float: left;
-  background: #EEE;
-  border: 1px solid #EEE;
 }
 #user-info
 {
@@ -79,3 +78,10 @@ html,body
 	color: #999;
 }
 
+.developing
+{
+  font-size: 8em;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}

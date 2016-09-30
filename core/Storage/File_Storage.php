@@ -47,13 +47,14 @@ class Storage implements Storage_Driver
                 if ($item!="."&&$item!="..") {
                     if (self::isDir("$dir/$item")) {
                         self::rmdirs("$dir/$item");
-                    } else {
-                        unlink("$dir/$item");
+                    } elseif (self::exist("$dir/$item")) {
+                        // waring
+                        @unlink("$dir/$item");
                     }
                 }
             }
-            if (!$keep) {
-                rmdir($dir);
+            if (!$keep && self::isDir($dir)) {
+                @rmdir($dir);
             }
         }
     }

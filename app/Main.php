@@ -10,11 +10,11 @@ class Main
     }
     public function main()
     {
-        View::set('title', '管理页面 - 三人行，必有我师焉。');
+        View::set('title', ' 三人行，必有我师焉。');
         $nav=NavOp::getNavs();
-        var_dump(Options::getOptions());
+        $nav[0]['select']=true;
         View::set('head_index', $nav);
-        View::set('copyright', 'atd3.cn');
+        View::set('copyright', 'mongci.cn');
     }
     public function article(int $id=0)
     {
