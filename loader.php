@@ -37,4 +37,5 @@
     Page::display();
     // 写入Cookie
     Cookie::write();
+    // 回收过期缓存
     Cache::gc();

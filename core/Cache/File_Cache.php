@@ -30,15 +30,16 @@ class Cache implements Cache_Interface
     {
         if (isset(self::$cache[$name])) {
             $value=self::$cache[$name];
-            return is_array($value)?Core\Arr::get($value, $name):$value;
+            return $value;
         }
         $path=APP_RES.'/cache/'.self::nam($name);
         if (Storage::exist($path)) {
             $value=Storage::get($path);
             $time=explode('|', $value, 2);
             if (time()<intval($time[0])) {
-                $value=unserialize($time[1]);
-                return is_array($value)?Core\Arr::get($value, $name):$value;
+                return unserialize($time[1]);
+            } else {
+                self::delete($path);
             }
         }
         return null;
@@ -59,23 +60,6 @@ class Cache implements Cache_Interface
         return self::get($name)!==null;
     }
 
-    /**
-     * 替换某元素
-     * @param string $name
-     * @param $value 值
-     * @param int $expire 过期时间
-     * @return int 
-     */
-    public static function replace(string $name, $value, int $expire=0) :int
-    {
-        $get_value=self::get($name);
-        if (is_array($get_value)) {
-            $get_value=Core\Arr::set($get_value, $name, $value);
-        } else {
-            $get_value=$value;
-        }
-        return self::set($name, $get_value, $expire);
-    }
     /**
      * 垃圾回收
      */

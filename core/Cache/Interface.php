@@ -33,14 +33,6 @@ interface Cache_Interface
     public static function has(string $name):bool;
 
     /**
-     * 替换元素
-     * @param string $name
-     * @param $value
-     * @param int $expire
-     * @return int
-     */
-    public static function replace(string $name, $value, int $expire=0):int;
-    /**
      * 垃圾回收
      */
     public static function gc();
