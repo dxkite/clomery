@@ -27,5 +27,6 @@ interface Storage_Driver
     public static function size(string $name);
     public static function type(string $name);
     public static function exist(string $file);
+    public static function copy(string $source, string $dest):bool;
 
 }

@@ -34,12 +34,7 @@ class Main
                'url'=>Page::url('admin',['path'=>'login'])
            ]
        ];
-       Cookie::set('set_uid','iweqeqqewesxafsa')->httpOnly()->path('/cookie');
-       Session::set('hello',['value']);
-       // Cache::set('hello.world',['value'],time()+10);
-       //Cache::set('hello','value',time()+10);
-       var_dump(Cache::get('hello.world'));
-       var_dump(preg_match('/^(?!\.)/','.gitignore'));
+
        View::set('head_index',$head_index);
 
     }

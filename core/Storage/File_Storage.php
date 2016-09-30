@@ -16,17 +16,21 @@ class Storage implements Storage_Driver
         return true;
     }
 
-    public static function readDirFiles(string $dirs, string $preg='/^.+$/', bool $repeat=false)
+    public static function readDirFiles(string $dirs, string $preg='/^.+$/', bool $repeat=false, bool $preroot=true)
     {
         $file_totu=[];
         if (self::isDir($dirs)) {
             $hd=opendir($dirs);
             while ($file=readdir($hd)) {
                 if (strcmp($file, '.') !== 0 && strcmp($file, '..') !==0) {
-                    if (self::exist($filereal=$dirs.'/'.$file) && preg_match($preg, $file) ) {
+                    if (self::exist($filereal=$dirs.'/'.$file) && preg_match($preg, $file)) {
+                        if ($preroot) {
                             $file_totu[]=$filereal;
+                        } else {
+                            $file_totu[]=$file;
+                        }
                     } elseif ($repeat) {
-                        $file_totu=array_merge($file_totu, self::readDirFiles($dirs.'/'.$file,$preg, $repeat));
+                        $file_totu=array_merge($file_totu, self::readDirFiles($dirs.'/'.$file, $preg, $repeat, $preroot));
                     }
                 }
             }
@@ -34,7 +38,7 @@ class Storage implements Storage_Driver
         return $file_totu;
     }
     // 递归删除文件夹
-    public static function rmdirs(string $dir)
+    public static function rmdirs(string $dir, bool $keep=false)
     {
         if ($handle=opendir($dir)) {
             while (false!== ($item=readdir($handle))) {
@@ -46,9 +50,15 @@ class Storage implements Storage_Driver
                     }
                 }
             }
+            if (!$keep) {
+                unlink("$dir");
+            }
         }
     }
-
+    public static function copy(string $source, string $dest):bool
+    {
+        return copy($source, $dest);
+    }
     // 创建文件夹
     public static function mkdir(string $dirname, int $mode=0777)
     {

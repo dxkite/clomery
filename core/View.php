@@ -38,7 +38,7 @@ class View
     {
         $extension=pathinfo($path, PATHINFO_EXTENSION);
         // Resource
-        if (array_key_exists($extension, mime()) && Storage::exist($path=View::tplRoot().'/'.$path)) {
+        if (array_key_exists($extension, mime()) && Storage::exist($path=APP_VIEW.'/'.$path)) {
             return $path;
         }
         return false;
@@ -72,11 +72,30 @@ class View
     {
         return self::$compiler->compileFile($input);
     }
-    public static function compileAll()
+    public static function compileAll(string $theme='default')
     {
-        $files=Storage::readDirFiles(APP_TPL.'/'.self::$compiler->getTheme(), '/\.pml\.html$/', true);
+        if (self::$compiler)
+        {
+            $theme=self::$compiler->getTheme();
+        }
+        
+        $files=Storage::readDirFiles(APP_TPL.'/'.$theme, '/\.pml\.html$/', true);
+        Storage::rmdirs(APP_VIEW,true);
         foreach ($files as $file) {
             View::compile($file);
+        }
+        $extensions='';
+        foreach (array_keys (mime()) as $ext)
+        {
+            $extensions.='|'.$ext;
+        }
+        $extensions=trim($extensions,'|');
+        $resources=Storage::readDirFiles(APP_TPL.'/'.$theme,'/(?<!\.pml)\.('.$extensions.')$/',true,false);
+        foreach ($resources as $resource)
+        {
+            $path=WEB_ROOT.'/static/'.$resource;
+            Storage::mkdirs(dirname($path));
+            Storage::copy(APP_TPL.'/'.$theme.'/'.$resource,$path);
         }
     }
 }

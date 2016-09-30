@@ -151,13 +151,6 @@ class Page
                 self::call($caller, [$path]);
             }
         }
-        // 查找资源
-        if ($path_raw=View::resource($path)) {
-            self::call((new Page_Controller(function ($path_raw) {
-                echo Storage::get($path_raw);
-            }))->raw()->status(200)->type(pathinfo($path_raw, PATHINFO_EXTENSION)), [$path_raw]);
-            $success=true;
-        }
         // 默认
         if (!$success && isset(self::$default)) {
             self::call(self::$default, [$path]);

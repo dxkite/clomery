@@ -1,9 +1,9 @@
 @include("head")
 <body>
-	<ol>
+	<nav>
 	@foreach ($head_index as $index)
-		<li><a title="{{$index['title']}}" href="{{$index['url']}}"> {{$index['text']}} </a></li>
+		<div><a title="{{$index['title']}}" href="{{$index['url']}}"> {{$index['text']}} </a></div>
 	@endforeach
-	</ol>
+	</nav>
 </body>
 </html>
