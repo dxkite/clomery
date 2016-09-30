@@ -4,6 +4,7 @@ use \Core\PageController  as Page_Controller;
 class Page
 {
     private static $maps;
+    private static $default;
     private static $type=[
         'int'=>'/\d+/',
         'string'=>'/\S+/'
@@ -13,16 +14,16 @@ class Page
     public static function default($caller)
     {
         $caller=new Page_Controller($caller);
-        self::$maps['__default__']=$caller;
+        self::$default=$caller;
         return $caller;
     }
+
     /**
-    * 获取页面url
-    * @param string $name  页面名称
-    * @param array $args URL需要的参数
-    * @return string 组建的URL
-    */
-    public static function url(string $id, array $args=[])
+     * @param string $id 页面名称
+     * @param array $args URL需要的参数
+     * @return string 组建的URL
+     */
+    public static function url(string $id, array $args=[]) : string
     {
         if (isset(self::$ids[$id])) {
             $url=self::$ids[$id];
@@ -47,8 +48,12 @@ class Page
     {
         self::$maps[$page->url()]=$page;
     }
+
     /**
      * 自动加载目录下的程序
+     * @param string $name_path
+     * @param string $pathroot
+     * @return $this
      */
     public static function auto(string $name_path, string $pathroot)
     {
@@ -154,13 +159,16 @@ class Page
             $success=true;
         }
         // 默认
-        if (!$success && isset(self::$maps['__default__'])) {
-            self::call(self::$maps['__default__'], [$path]);
+        if (!$success && isset(self::$default)) {
+            self::call(self::$default, [$path]);
         }
     }
+
     /**
-    * 载入控制器，开始渲染页面
-    */
+     * 调用控制器，渲染页面
+     * @param Page_Controller $caller 可回调对象
+     * @param array $args 调用参数
+     */
     private function call(Page_Controller $caller, array $args)
     {
         // 将控制器压入当前控制器

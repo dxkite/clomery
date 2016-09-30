@@ -42,14 +42,16 @@ class PageController extends Caller
     */
     private $preRule=true;
     /**
-    * 网页状态
-    */
+     * 网页状态
+     * @var null
+     */
     private $status=NULL;
+
     /**
-    * @param $caller 可回调对象
-    * @param $params 可回调函数的参数
-    * 
-    */
+     * PageController constructor.
+     * @param mixed $caller 可调用对象
+     * @param array $params
+     */
     public function __construct($caller, array $params=[])
     {
         // 设置父类
@@ -64,11 +66,12 @@ class PageController extends Caller
     {
         return $this->override;
     }
+
     /**
-    * 设置覆盖属性
-    * @param bool $set 设置覆盖属性
-    * @return 当前对象-链式调用支持
-    */
+     * 设置覆盖属性
+     * @param bool $set 设置覆盖属性
+     * @return $this
+     */
     public function override(bool $set=true)
     {
         $this->override=$set;

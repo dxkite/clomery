@@ -8,12 +8,11 @@ class Cache implements Cache_Interface
     // 设置
     public static function set(string $name, $value, int $expire=0)
     {
-        $fname=self::nam($name);
-        $path=APP_RES.'/cache/'.$fname;
+        $path=APP_RES.'/cache/'.self::nam($name);
         self::$cache[$name]=$value;
         Storage::mkdirs(dirname($path));
         $value=serialize($value);
-        file_put_contents($path, $expire.'|'.$value);
+        return file_put_contents($path, $expire.'|'.$value);
     }
     // 获取
     public static function get(string $name)
@@ -22,13 +21,15 @@ class Cache implements Cache_Interface
             $value=self::$cache[$name];
             return is_array($value)?Core\Arr::get($value, $name):$value;
         }
-        $fname=self::nam($name);
-        $path=APP_RES.'/cache/'.$fname;
-        $value=Storage::get($path);
-        $time=explode('|', $value, 2);
-        if (time()<intval($time[0])) {
-            $value=unserialize($time[1]);
-            return is_array($value)?Core\Arr::get($value, $name):$value;
+        $path=APP_RES.'/cache/'.self::nam($name);
+        if (Storage::exist($path))
+        {
+            $value=Storage::get($path);
+            $time=explode('|', $value, 2);
+            if (time()<intval($time[0])) {
+                $value=unserialize($time[1]);
+                return is_array($value)?Core\Arr::get($value, $name):$value;
+            }
         }
         return null;
     }
@@ -38,20 +39,20 @@ class Cache implements Cache_Interface
         return Storage::remove(self::nam($name));
     }
     // 检测
-    public static function has(string $name)
+    public static function has(string $name):bool
     {
         return self::get($name)!==null;
     }
     // 替换
     public static function replace(string $name, $value, int $expire=0)
     {
-        $gvalue=self::get($name);
-        if (is_array($gvalue)) {
-            $gvalue=Core\Arr::set($gvalue, $name, $value);
+        $get_value=self::get($name);
+        if (is_array($get_value)) {
+            $get_value=Core\Arr::set($get_value, $name, $value);
         } else {
-            $gvalue=$value;
+            $get_value=$value;
         }
-        return self::set($name, $gvalue, $expire);
+        return self::set($name, $get_value, $expire);
     }
     // 垃圾回收
     public static function gc()

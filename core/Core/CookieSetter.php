@@ -8,9 +8,9 @@ class CookieSetter
     public $httponly=false;
     public $path='/';
     public $domain=null;
-    public $expire=1440;
+    public $expire=0;
     public $secure=false;
-    public function __construct(string $name, string $value, int $expire=1440)
+    public function __construct(string $name, string $value, int $expire=0)
     {
         $this->name=$name;
         $this->value=$value;

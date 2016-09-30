@@ -26,10 +26,13 @@ spl_autoload_register(function ($name) {
     }
 });
 
-// 获取配置
+
 /**
-获取conf 
-*/
+ * 获取conf配置
+ * @param string $name
+ * @param null $default
+ * @return mixed
+ */
 function conf(string $name, $default=null)
 {
     static $conf=null;
@@ -38,7 +41,12 @@ function conf(string $name, $default=null)
     }
     return Arr::get($conf, $name, $default);
 }
-// 获取MIME
+
+/**
+ * @param string|null $name
+ * @param null $default
+ * @return array|mixed|null
+ */
 function mime(string $name=null, $default=null)
 {
     static $mime=null;
