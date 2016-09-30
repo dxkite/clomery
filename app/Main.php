@@ -34,7 +34,7 @@ class Main
                'url'=>Page::url('admin',['path'=>'login'])
            ]
        ];
-       // Cookie::set('set_uid','iweqeqqewesxafsa')->httpOnly();
+       Cookie::set('set_uid','iweqeqqewesxafsa')->httpOnly()->path('/cookie');
        Session::set('hello',['value']);
        Cache::set('hello','value',time()+1000);
        var_dump(Cache::get('hello'));

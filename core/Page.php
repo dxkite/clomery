@@ -1,5 +1,5 @@
 <?php
-
+use \Core\PageController  as Page_Controller;
 // 简单页面控制
 class Page
 {

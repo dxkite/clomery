@@ -1,11 +1,12 @@
 <?php
-use Core\Caller;
-use Core\Arr;
+namespace Core;
+use \Page;
+use \View;
 /**
 * 页面控制器，控制页面的加载
 * 
 */
-class Page_Controller extends Caller
+class PageController extends Caller
 {
     /**
     * $id 页面唯一标识
