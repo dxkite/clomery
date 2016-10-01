@@ -46,14 +46,19 @@ html,body
   padding: 1em;
   padding-left: 2em;
   float: left;
+  max-height: 8em;
+  max-width: 12em;
+}
+#site-logo img[alt='logo']
+{
+  max-height: 8em;
+  max-width: 12em;
 }
 #user-info
 {
   height: 6em;
   width: 10em;
   float: right;
-  background: #EEE;
-  border: 1px solid #EEE;
 }
 
 #footer {
