@@ -1,6 +1,7 @@
 <?php
 use Site\NavOp;
 use Site\Options;
+import('Site.functions');
 
 class Main
 {
@@ -10,11 +11,8 @@ class Main
     }
     public function main()
     {
-        Page::set('title', ' 三人行，必有我师焉。');
-        $nav=NavOp::getNavs();
-        $nav[0]['select']=true;
-        Page::set('head_index', $nav);
-        Page::set('copyright', 'mongci.cn');
+        Site\page_common_set();
+        Page::set('head_index_nav_select', 0 );
     }
     public function article(int $id=0)
     {

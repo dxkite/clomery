@@ -1,18 +1,15 @@
 <?php
 use Site\NavOp;
 use Site\Options;
-
+import('Site.functions');
 class Develop
 {
     public function main(string $name)
     {
-        NavOp::init();
-        Page::set('title', '管理页面 - 三人行，必有我师焉。');
-        $nav=NavOp::getNavs();
+        Page::set('site_title', '网页开发中');
         $index='article|books|question|test|notes';
         $atr=explode('|', $index);
-        $nav[array_search($name, $atr)+1]['select']=true;
-        Page::set('head_index', $nav);
-        Page::set('copyright', 'mongci.cn');
+        Site\page_common_set();
+        Page::set('head_index_nav_select',array_search($name, $atr)+1);
     }
 }

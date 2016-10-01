@@ -9,7 +9,7 @@ Page::visit('/',['Main','main'])->use('index')->id('main_page');
 // 待开发的页面
 Page::visit('/{pagename}',['Develop','main'])
 ->with('pagename','/^(notes|question|test|books|article)$/')
-->use('index')->id('develop_page');
+->use('developing')->id('develop_page');
 // 查看文章
 //Page::visit('/article/{id}?',['Main','article'])->with('id','int')->use('index')->id('main_article');
 
@@ -29,6 +29,8 @@ Page::visit('/resource/{path}',function ($path_raw) {
     }
     else
     {
+        import('Site.functions');
+        Site\page_common_set();
         Page::set('title', '找不到相关资源！');
         Page::set('url', $path_raw);
         Page::controller()->use(404)->status(404);
@@ -40,6 +42,8 @@ Page::auto('/@_@', '/admin')->id('admin');
 
 // 找不到页面时
 Page::default(function ($path) {
+    import('Site.functions');
+    Site\page_common_set();
     Page::set('title', '页面找不到了哦！');
     Page::set('url', $path);
 })->use(404)->status(404);

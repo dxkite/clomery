@@ -1,13 +1,16 @@
 <?php
 use Core\Arr; // 引入Arr数组操纵类
 
-spl_autoload_register(function ($name) {
+spl_autoload_register('import');
+
+function import(string $name)
+{
     static $imported=[];
     if (isset($imported[$name])) {
         return $imported[$name];
     }
     $paths=[APP_LIB, CORE_PATH, APP_ROOT]; // 搜索目录
-    $name=preg_replace('/[\\_]/', DIRECTORY_SEPARATOR, $name);
+    $name=preg_replace('/[\\_\/.]/', DIRECTORY_SEPARATOR, $name);
     foreach ($paths as $root) {
         // 优先查找文件
         if (file_exists($require=$root.'/'.$name.'.php')) {
@@ -16,16 +19,15 @@ spl_autoload_register(function ($name) {
         }
         // 其次查找目录配驱动
         elseif (is_dir($dir=$root.'/'.$name)) {
-            $option=strpos($name,'\\')?substr($name,0,strpos($name,'\\')):$name;
-            $name=strpos($name,'\\')?substr($name,strpos($name,'\\')+1):$name;
+            $option=strpos($name, '\\')?substr($name, 0, strpos($name, '\\')):$name;
+            $name=strpos($name, '\\')?substr($name, strpos($name, '\\')+1):$name;
             // 配置存在
             if (conf('Driver.'. $option) && file_exists($require=$dir.'/'.conf('Driver.'. $option)."_{$name}.php")) {
                 require_once $require;
             }
         }
     }
-});
-
+}
 
 /**
  * 获取conf配置
@@ -53,7 +55,9 @@ function mime(string $name=null, $default=null)
     if (is_null($mime)) {
         $mime=parse_ini_file(DOC_ROOT.'/'.WEB_MIME);
     }
-    if (is_null($name)) return $mime;
+    if (is_null($name)) {
+        return $mime;
+    }
     return Arr::get($mime, $name, $default);
 }
 
@@ -112,33 +116,33 @@ function send_http_status($code)
 function is_spider()
 {
     $is_spider = false;
-        $tmp = $_SERVER['HTTP_USER_AGENT'];
-        if (strpos($tmp, 'Googlebot') !== false) {
-            $is_spider = true;
-        } elseif (strpos($tmp, 'Baiduspider') >0) {
-            $is_spider = true;
-        } elseif (strpos($tmp, 'Yahoo! Slurp') !== false) {
-            $is_spider = true;
-        } elseif (strpos($tmp, 'msnbot') !== false) {
-            $is_spider = true;
-        } elseif (strpos($tmp, 'Sosospider') !== false) {
-            $is_spider = true;
-        } elseif (strpos($tmp, 'YodaoBot') !== false || strpos($tmp, 'OutfoxBot') !== false) {
-            $is_spider = true;
-        } elseif (strpos($tmp, 'Sogou web spider') !== false || strpos($tmp, 'Sogou Orion spider') !== false) {
-            $is_spider = true;
-        } elseif (strpos($tmp, 'fast-webcrawler') !== false) {
-            $is_spider = true;
-        } elseif (strpos($tmp, 'Gaisbot') !== false) {
-            $is_spider = true;
-        } elseif (strpos($tmp, 'ia_archiver') !== false) {
-            $is_spider = true;
-        } elseif (strpos($tmp, 'altavista') !== false) {
-            $is_spider = true;
-        } elseif (strpos($tmp, 'lycos_spider') !== false) {
-            $is_spider = true;
-        } elseif (strpos($tmp, 'Inktomi slurp') !== false) {
-            $is_spider = true;
-        }
-        return $is_spider;
+    $tmp = $_SERVER['HTTP_USER_AGENT'];
+    if (strpos($tmp, 'Googlebot') !== false) {
+        $is_spider = true;
+    } elseif (strpos($tmp, 'Baiduspider') >0) {
+        $is_spider = true;
+    } elseif (strpos($tmp, 'Yahoo! Slurp') !== false) {
+        $is_spider = true;
+    } elseif (strpos($tmp, 'msnbot') !== false) {
+        $is_spider = true;
+    } elseif (strpos($tmp, 'Sosospider') !== false) {
+        $is_spider = true;
+    } elseif (strpos($tmp, 'YodaoBot') !== false || strpos($tmp, 'OutfoxBot') !== false) {
+        $is_spider = true;
+    } elseif (strpos($tmp, 'Sogou web spider') !== false || strpos($tmp, 'Sogou Orion spider') !== false) {
+        $is_spider = true;
+    } elseif (strpos($tmp, 'fast-webcrawler') !== false) {
+        $is_spider = true;
+    } elseif (strpos($tmp, 'Gaisbot') !== false) {
+        $is_spider = true;
+    } elseif (strpos($tmp, 'ia_archiver') !== false) {
+        $is_spider = true;
+    } elseif (strpos($tmp, 'altavista') !== false) {
+        $is_spider = true;
+    } elseif (strpos($tmp, 'lycos_spider') !== false) {
+        $is_spider = true;
+    } elseif (strpos($tmp, 'Inktomi slurp') !== false) {
+        $is_spider = true;
+    }
+    return $is_spider;
 }

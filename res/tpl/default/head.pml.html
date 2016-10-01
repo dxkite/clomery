@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-	<title>{{Env::Options()->getSitename()}}</title>
+	<title>{{isset($site_title)?$site_title:Env::Options()->getSitename()}}</title>
 	@insert('head_htmlhead')
 	@include("page_meta")
 	<link rel="stylesheet" href="@resource('main.css')">
@@ -17,8 +17,8 @@
 			</div>
 		</div>
 		<nav id="nav-menu" class="clearfix" >
-		@foreach ($head_index as $index)
-			<a title="{{$index['title']}}" href="{{$index['url']}}"><div class="nav-menu-item @if(isset($index['select']) && $index['select']=true) current @endif"> {{$index['text']}}</div> </a>
+		@foreach ($head_index_nav as $at=>$index)
+			<a title="{{$index['title']}}" href="{{$index['url']}}"><div class="nav-menu-item @if($head_index_nav_select==$at) current @endif"> {{$index['text']}}</div> </a>
 		@endforeach
 		</nav>
 	</header>
