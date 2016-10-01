@@ -1,5 +1,5 @@
 <?php
-
+    
     defined('DOC_ROOT') or define('DOC_ROOT', __DIR__.'/..');
     defined('WEB_ROOT') or define('WEB_ROOT', DOC_ROOT.'/public');
     
@@ -36,7 +36,7 @@
     // 开启Session
     Session::start();
     Site\Options::init();
-    View::theme(Site\Options::$theme);
+    View::theme(Site\Options::getTheme());
     // 显示页面
     Page::display();
     // 写入Cookie
