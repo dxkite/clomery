@@ -36,19 +36,20 @@ interface Storage_Driver
     const TYPE_UNKNOWN='unknown';
 
     // 创建文件夹
-    /**
-     * @param string $dirname
-     * @param int $mode
-     * @return mixed
-     */
-    public static function mkdirs(string $dirname, int $mode=0777);
 
     /**
      * @param string $dirname
      * @param int $mode
-     * @return mixed
+     * @return bool
      */
-    public static function mkdir(string $dirname, int $mode=0777);
+    public static function mkdirs(string $dirname, int $mode=0777):bool;
+    
+    /**
+     * @param string $dirname
+     * @param int $mode
+     * @return bool
+     */
+    public static function mkdir(string $dirname, int $mode=0777):bool;
 
     /**
      * @param string $dirname
@@ -65,65 +66,65 @@ interface Storage_Driver
     /**
      * @param string $name
      * @param $content
-     * @return mixed
+     * @return bool
      */
-    public static function put(string $name, $content);
+    public static function put(string $name, $content):bool;
 
     /**
      * @param string $name
-     * @return mixed
+     * @return string
      */
-    public static function get(string $name);
+    public static function get(string $name):string;
 
     /**
      * @param string $name
-     * @return mixed
+     * @return bool
      */
-    public static function remove(string $name);
+    public static function remove(string $name):bool;
 
     /**
      * @param string $name
-     * @return mixed
+     * @return bool
      */
-    public static function isFile(string $name);
+    public static function isFile(string $name):bool;
 
     /**
      * @param string $dirs
      * @param bool $repeat
      * @param string $preg
-     * @return mixed
+     * @return array
      */
-    public static function readDirFiles(string $dirs, bool $repeat=false, string $preg='/^.+$/');
+    public static function readDirFiles(string $dirs, bool $repeat=false, string $preg='/^.+$/'):array;
 
     /**
      * @param string $name
-     * @return mixed
+     * @return bool
      */
-    public static function isDir(string $name);
+    public static function isDir(string $name):bool;
 
     /**
      * @param string $name
-     * @return mixed
+     * @return bool
      */
-    public static function isReadable(string $name);
+    public static function isReadable(string $name):bool;
 
     /**
      * @param string $name
-     * @return mixed
+     * @return int
      */
-    public static function size(string $name);
+    public static function size(string $name):int;
 
     /**
      * @param string $name
-     * @return mixed
+     * @return int
      */
-    public static function type(string $name);
+    public static function type(string $name):int;
 
     /**
      * @param string $file
-     * @return mixed
+     * @return bool
      */
-    public static function exist(string $file);
+    public static function exist(string $file) :bool;
 
     /**
      * @param string $source
