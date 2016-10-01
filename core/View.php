@@ -34,13 +34,12 @@ class View
     }
     public static function compileAll(string $theme='default')
     {
+        Storage::rmdirs(APP_VIEW,true);
         if (self::$compiler)
         {
             $theme=self::$compiler->getTheme();
         }
-        
-        $files=Storage::readDirFiles(APP_TPL.'/'.$theme, '/\.pml\.html$/', true);
-        Storage::rmdirs(APP_VIEW,true);
+        $files=Storage::readDirFiles(APP_TPL.'/'.$theme, true, '/\.pml\.html$/');
         foreach ($files as $file) {
             View::compile($file);
         }
@@ -50,12 +49,13 @@ class View
             $extensions.='|'.$ext;
         }
         $extensions=trim($extensions,'|');
-        $resources=Storage::readDirFiles(APP_TPL.'/'.$theme,'/(?<!\.pml)\.('.$extensions.')$/',true,false);
+        $resources=Storage::readDirFiles(APP_TPL.'/'.$theme,true,'/(?<!\.pml)\.('.$extensions.')$/');
+        $len=strlen(APP_TPL.'/'.$theme);
         foreach ($resources as $resource)
         {
-            $path=APP_VIEW.'/'.$resource;
+            $path=APP_VIEW.'/'.substr($resource,$len+1);
             Storage::mkdirs(dirname($path));
-            Storage::copy(APP_TPL.'/'.$theme.'/'.$resource,$path);
+            Storage::copy($resource,$path);
         }
     }
 }

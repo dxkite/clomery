@@ -16,6 +16,12 @@
 				<div class="site-title"><?php Env::echo($__Op->site_title) ?></div>
 			<?php endif; ?>
 			</div>
+			<div id="user-info">
+				<nav>
+					<a href="<?php echo Page::url('user',['path'=>'Register']) ?>">注册</a>
+					<a href="#">登陆</a>
+				</nav>
+			</div>
 		</div>
 		<nav id="nav-menu" class="clearfix" >
 		<?php foreach($head_index_nav as $at=>$index): ?>

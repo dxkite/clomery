@@ -21,8 +21,7 @@ class View_Compiler_Pomelo
     {
         $file=preg_replace('/[.|\\\\|\/]+/', DIRECTORY_SEPARATOR, $name);
         $path= APP_VIEW.'/'.$file.self::$extCpl;
-        if (self::$theme==='spider')
-        {
+        if (self::$theme==='spider') {
             $path=$path= APP_VIEW.'/@spider/'.$file.self::$extCpl;
         }
         return $path;
@@ -30,14 +29,16 @@ class View_Compiler_Pomelo
     // 编译单文件
     public function compileFile(string $filename)
     {
-        $file=preg_replace('/^'.preg_quote(APP_TPL.'/'.self::$theme.'/','/').'/','',$filename);
+        $file=preg_replace('/^'.preg_quote(APP_TPL.'/'.self::$theme.'/', '/').'/', '', $filename);
         if (Storage::exist($filename)) {
             $content= self::compileText(Storage::get($filename));
             $spider=self::$theme==='spider'?'/@spider/':'/';
-            $output=APP_VIEW.$spider.preg_replace('/'.preg_quote(self::$extRaw).'$/',self::$extCpl,$file);
+            $output=APP_VIEW.$spider.preg_replace('/'.preg_quote(self::$extRaw).'$/', self::$extCpl, $file);
             // debug_print_backtrace();
             // var_dump($output);
-            Storage::mkdirs(dirname($output));
+            if (!Storage::isDir($dir=dirname($output))) {
+                Storage::mkdirs(dirname($output));
+            }
             Storage::put($output, $content);
             return true;
         }
@@ -81,8 +82,7 @@ class View_Compiler_Pomelo
     }
     public function tplRoot()
     {
-        if (self::$theme==='spider')
-        {
+        if (self::$theme==='spider') {
             return APP_TPL.'/spider';
         }
         return APP_TPL.'/'.self::$theme;
@@ -93,8 +93,7 @@ class View_Compiler_Pomelo
             // var_dump($match);
             if (method_exists($this, $method = 'parse'.ucfirst($match[1]))) {
                 $match[0] = $this->$method(isset($match[3])?$match[3]:null);
-            }
-            else{
+            } else {
                 $match[0] ='<?php  Env::'.ucfirst($match[1]).$match[3].' ?>';
             }
             return isset($match[3]) ? $match[0] : $match[0].$match[2];
@@ -122,12 +121,12 @@ class View_Compiler_Pomelo
     }
     protected function parseInsertAt($exp)
     {
-         preg_match('/\((.+)\)/',$exp,$v);
-         return '<?php Page::insertCallback('.$v[1].',function () { ?>';
+        preg_match('/\((.+)\)/', $exp, $v);
+        return '<?php Page::insertCallback('.$v[1].',function () { ?>';
     }
     protected function parseInsertEnd()
     {
-         return '<?php });?>';
+        return '<?php });?>';
     }
     protected function parseInsert($exp)
     {
@@ -139,7 +138,7 @@ class View_Compiler_Pomelo
     }
     protected function parseResource($exp)
     {
-        preg_match('/\((.+)\)/',$exp,$v);
+        preg_match('/\((.+)\)/', $exp, $v);
         return "<?php echo Page::url('resource',['path'=>{$v[1]}]) ?>";
     }
     // IF 语句

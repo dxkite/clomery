@@ -26,16 +26,18 @@
     View::loadCompile(); 
     // 载入页面URL配置规则
     require_once APP_ROOT.'/'.APP_VISIT;
+
     // Debug 模式 实时生成模板
     if (conf('DEBUG',0)==1) {
         // View::theme('spider');
         View::compileAll();
+        
     } 
     // 开启Session
     Session::start();
     Site\Options::init();
     View::theme(Site\Options::getTheme());
-    // 渲染页面
+    // 显示页面
     Page::display();
     // 写入Cookie
     Cookie::write();

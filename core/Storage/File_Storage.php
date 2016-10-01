@@ -16,22 +16,19 @@ class Storage implements Storage_Driver
         return true;
     }
 
-    public static function readDirFiles(string $dirs, string $preg='/^.+$/', bool $repeat=false, bool $preroot=true)
+    public static function readDirFiles(string $dirs,  bool $repeat=false, string $preg='/^.+$/')
     {
         $file_totu=[];
         if (self::isDir($dirs)) {
             $hd=opendir($dirs);
             while ($file=readdir($hd)) {
                 if (strcmp($file, '.') !== 0 && strcmp($file, '..') !==0) {
-                    if (self::exist($filereal=$dirs.'/'.$file) && preg_match($preg, $file)) {
-                        if ($preroot) {
-                            $file_totu[]=$filereal;
-                        } else {
-                            $file_totu[]=$file;
-                        }
-                    } elseif ($repeat) {
-                        foreach (self::readDirFiles($dirs.'/'.$file, $preg, $repeat, $preroot) as $read_file) {
-                            $file_totu[]=$file.'/'.$read_file;
+                    $path=$dirs.'/'.$file;
+                    if (self::exist($path) && preg_match($preg, $file)) {
+                        $file_totu[]=$path;
+                    } elseif ($repeat && self::isDir($path)) {
+                        foreach (self::readDirFiles($path, $repeat, $preg) as $files) {
+                            $file_totu[]=$files;
                         }
                     }
                 }
@@ -77,7 +74,10 @@ class Storage implements Storage_Driver
     }
     public static function put(string $name, $content)
     {
-        return file_put_contents($name, $content);
+        if (self::isDir(dirname($name))) {
+            return file_put_contents($name, $content);
+        }
+        return false;
     }
 
     public static function get(string $name)

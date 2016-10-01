@@ -37,6 +37,8 @@ Page::visit('/resource/{path}',function ($path_raw) {
     }
 })->with('path','/^(.+)$/')->id('resource')->override();
 
+
+Page::auto('/user', '/user')->id('user');
 // 管理界面导向
 Page::auto('/@_@', '/admin')->id('admin');
 
