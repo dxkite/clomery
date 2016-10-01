@@ -1,5 +1,6 @@
 <?php
 use \Core\PageController  as Page_Controller;
+use \Core\Caller;
 
 /**
  * Class Page
@@ -18,6 +19,21 @@ class Page
     private static $content='';
     private static $values=[];
     private static $use=null;
+    private static $insert=[];
+
+    public static function insert(string $name, array $args=[])
+    {
+        if (isset($insert[$name])) {
+            foreach ($insert[$name] as $caller) {
+                $caller->call($args);
+            }
+        }
+    }
+    public static function insertCallback(string $name, $caller)
+    {
+        $caller=new Caller($caller);
+        self::$insert[$name][]=$caller;
+    }
     public static function use(string $page)
     {
         self::$use=$page;

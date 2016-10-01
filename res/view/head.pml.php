@@ -9,7 +9,7 @@
 	<header>
 		<div id="header-top" class="clearfix">
 			<div id="site-logo">
-				<a href="http://<?php Env::echo(isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : "") ?>"><img src="<?php echo Page::url('resource',['path'=>'img/mccn.gif']) ?>" alt="logo" title="<?php Env::echo(Env::Options()->getSitename()) ?>"></img></a>
+				<a href="http://<?php Env::echo(isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : "") ?>"><img src="<?php echo Page::url('resource',['path'=>'img/mccn.gif']) ?>" alt="site-logo" title="<?php Env::echo(Env::Options()->getSitename()) ?>"></img></a>
 			</div>
 			<div id="user-info">
 

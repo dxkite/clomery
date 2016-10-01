@@ -112,7 +112,10 @@ class View_Compiler_Pomelo
         );
     }
 
-
+    protected function parseInsert($exp)
+    {
+        return "<?php echo Page::insert{$exp} ?>";
+    }
     protected function parseUrl($exp)
     {
         return "<?php echo Page::url{$exp} ?>";
