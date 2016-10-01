@@ -142,7 +142,10 @@ class Page
                     $app ->main();
                 }
             } else {
-                Page::controller()->status(404)->use(404);
+                // TODO : 合并404页面（页面重定向）
+                import('Site.functions');
+                Site\page_common_set();
+                Page::getController()->status(404)->use(404);
                 Page::set('title', '页面找不到了哦！');
                 Page::set('url', $names);
             }

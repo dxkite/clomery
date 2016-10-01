@@ -1,4 +1,5 @@
 <?php
-
-Page::getController()->raw();
-echo 'register';
+    import('Site.functions');
+    Site\page_common_set();
+    Page::getController();
+    Page::use('user/register');

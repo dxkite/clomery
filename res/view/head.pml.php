@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-	<title><?php Env::echo($__Op->site_title) ?></title>
+	<title><?php Env::echo($site_title) ?></title>
 	<?php echo Page::insert('head_htmlhead') ?>
 	<?php Env::include("page_meta") -> render(); ?>
 	<link rel="stylesheet" href="<?php echo Page::url('resource',['path'=>'css/main.css']) ?>">
@@ -19,7 +19,7 @@
 			<div id="user-info">
 				<nav>
 					<a href="<?php echo Page::url('user',['path'=>'Register']) ?>">注册</a>
-					<a href="#">登陆</a>
+					<a href="<?php echo Page::url('user',['path'=>'Login']) ?>">登陆</a>
 				</nav>
 			</div>
 		</div>

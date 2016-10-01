@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-	<title>{{ $__Op->site_title }}</title>
+	<title>{{ $site_title }}</title>
 	@insert('head_htmlhead')
 	@include("page_meta")
 	<link rel="stylesheet" href="@resource('css/main.css')">
@@ -11,7 +11,7 @@
 		<div id="header-top" class="clearfix">
 			<div id="site-logo">
 			@if ($__Op->site_logo)
-				<a href="http://{{ $_SERVER['SERVER_NAME'] }}"><img src="{{$__Op->site_logo}}" alt="site-logo" title="{{ $__Op->site_title}}"></img></a>
+				<a href="http://{{ $_SERVER['SERVER_NAME'] }}"><img src="{{$__Op->site_logo}}" alt="site-logo" title="{{ $__Op->site_title }}"></img></a>
 			@else
 				<div class="site-title">{{ $__Op->site_title }}</div>
 			@endif
@@ -19,7 +19,7 @@
 			<div id="user-info">
 				<nav>
 					<a href="@url('user',['path'=>'Register'])">注册</a>
-					<a href="#">登陆</a>
+					<a href="@url('user',['path'=>'Login'])">登陆</a>
 				</nav>
 			</div>
 		</div>

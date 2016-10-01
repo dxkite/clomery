@@ -83,4 +83,8 @@ class Options
         // __set 方法PHP无法获取返回值
         /*return*/self::$options[$name] = $value;
     }
+    public function __isset(string $name):bool
+    {
+        return isset(self::$options[$name]);
+    }
 }
