@@ -3,7 +3,7 @@ class Storage implements Storage_Driver
 {
     public static $charset=['GBK','GB2312','BIG5'];
     // 递归创建文件夹
-    public static function mkdirs(string $dir, int $mode=0777)
+    public static function mkdirs(string $dir, int $mode=0777):bool
     {
         if (!self::isDir($dir)) {
             if (!self::mkdirs(dirname($dir), $mode)) {
@@ -16,7 +16,7 @@ class Storage implements Storage_Driver
         return true;
     }
 
-    public static function readDirFiles(string $dirs,  bool $repeat=false, string $preg='/^.+$/')
+    public static function readDirFiles(string $dirs,  bool $repeat=false, string $preg='/^.+$/'):array
     {
         $file_totu=[];
         if (self::isDir($dirs)) {
@@ -63,16 +63,16 @@ class Storage implements Storage_Driver
         return false;
     }
     // 创建文件夹
-    public static function mkdir(string $dirname, int $mode=0777)
+    public static function mkdir(string $dirname, int $mode=0777):bool
     {
         return mkdir($path, $mode);
     }
     // 删除文件夹
-    public static function rmdir(string $dirname)
+    public static function rmdir(string $dirname):bool
     {
         return rmdir($path);
     }
-    public static function put(string $name, $content)
+    public static function put(string $name, $content):bool
     {
         if (self::isDir(dirname($name))) {
             return file_put_contents($name, $content);
@@ -80,7 +80,7 @@ class Storage implements Storage_Driver
         return false;
     }
 
-    public static function get(string $name)
+    public static function get(string $name):string
     {
         return file_get_contents($name);
     }
@@ -93,27 +93,27 @@ class Storage implements Storage_Driver
     {
         return unlink($name);
     }
-    public static function isFile(string $name)
+    public static function isFile(string $name):bool
     {
         return is_file($name);
     }
-    public static function isDir(string $name)
+    public static function isDir(string $name):bool
     {
         return is_dir($name);
     }
-    public static function isReadable(string $name)
+    public static function isReadable(string $name):bool
     {
         return is_readable($name);
     }
-    public static function size(string $name)
+    public static function size(string $name):int
     {
         return filesize($name);
     }
-    public static function type(string $name)
+    public static function type(string $name):int
     {
         return filetype($name);
     }
-    public static function exist(string $name, array $charset=[])
+    public static function exist(string $name, array $charset=[]):bool
     {
         // UTF-8 格式文件路径
         if (self::exist_case($name)) {
@@ -132,7 +132,7 @@ class Storage implements Storage_Driver
     }
 
     // 判断文件存在
-    private function exist_case($name)
+    private function exist_case($name):bool
     {
         if (file_exists($name) && is_file($name) && $real=realpath($name)) {
             if (basename($real) === basename($name)) {

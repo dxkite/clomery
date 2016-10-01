@@ -36,7 +36,7 @@
     // 开启Session
     Session::start();
     Site\Options::init();
-    View::theme(Site\Options::getTheme());
+    View::theme(Site\Options::$theme);
     // 显示页面
     Page::display();
     // 写入Cookie

@@ -44,7 +44,10 @@ class Options
     {
         return self::$options;
     }
-
+    public static function getTheme()
+    {
+        return self::$options['theme'];
+    }
     /**
      * 更新设置
      * @return bool
@@ -77,6 +80,7 @@ class Options
      */
     public function __set(string $name, $value)
     {
-        return self::$options[$name] = $value;
+        // 无法获取返回值
+        /*return */self::$options[$name] = $value;
     }
 }
