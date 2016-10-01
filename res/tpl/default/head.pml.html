@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-	<title>{{isset($site_title)?$site_title:Env::Options()->getSitename()}}</title>
+	<title>@options()</title>
 	@insert('head_htmlhead')
 	@include("page_meta")
 	<link rel="stylesheet" href="@resource('css/main.css')">

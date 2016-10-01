@@ -94,9 +94,12 @@ class View_Compiler_Pomelo
             if (method_exists($this, $method = 'parse'.ucfirst($match[1]))) {
                 $match[0] = $this->$method(isset($match[3])?$match[3]:null);
             }
+            else{
+                $match[0] ='<?php  Env::'.ucfirst($match[1]).$match[3].' ?>';
+            }
             return isset($match[3]) ? $match[0] : $match[0].$match[2];
         };
-        return preg_replace_callback('/\B@(\w+)(\s*)(\( ( (?>[^()]+) | (?3) )* \) ( (?>[^()]+) | (?3) )*)? /x', $callback, $str);
+        return preg_replace_callback('/\B@(\w+)(\s*)(\( ( (?>[^()]+) | (?3) )* \) )? /x', $callback, $str);
     }
 
     private function compileCommand(string $str)
