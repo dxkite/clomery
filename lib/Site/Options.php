@@ -45,4 +45,8 @@ class Options
         Cache::set('SiteOption', self::$options, 0);
         return $q->erron()===0;
     }
+    public function  __get(string $name)
+    {
+        return self::$options[$name];
+    }
 }

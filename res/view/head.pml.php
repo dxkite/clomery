@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-	<title><?php Env::echo(isset($site_title)?$site_title:Env::Options()->getSitename()) ?></title>
+	<title><?php Env::echo(isset($site_title)?$site_title:Env::Options()->site_name) ?></title>
 	<?php echo Page::insert('head_htmlhead') ?>
 	<?php Env::include("page_meta") -> render(); ?>
 	<link rel="stylesheet" href="<?php echo Page::url('resource',['path'=>'css/main.css']) ?>">
