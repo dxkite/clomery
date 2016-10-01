@@ -4,6 +4,6 @@ class Notes
 {
     function main()
     {
-        View::set('title','留言板');
+        Page::set('title','留言板');
     }
 }

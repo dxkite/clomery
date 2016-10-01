@@ -169,11 +169,11 @@ class PageController extends Caller
                 case 'json':
                     echo json_encode($value);
                 default:
-                View::type($this->type);
+                Page::type($this->type);
                 echo Page::getContent();
             }
         } else {
-            View::render($this->tpl, $value);
+            Page::render($this->tpl, $value);
             if ($this->allowOutput)
             {
                 echo Page::getContent();

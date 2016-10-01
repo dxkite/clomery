@@ -29,8 +29,8 @@ Page::visit('/resource/{path}',function ($path_raw) {
     }
     else
     {
-        View::set('title', '找不到相关资源！');
-        View::set('url', $path_raw);
+        Page::set('title', '找不到相关资源！');
+        Page::set('url', $path_raw);
         Page::controller()->use(404)->status(404);
     }
 })->with('path','/^(.+)$/')->id('resource')->override();
@@ -40,6 +40,6 @@ Page::auto('/@_@', '/admin')->id('admin');
 
 // 找不到页面时
 Page::default(function ($path) {
-    View::set('title', '页面找不到了哦！');
-    View::set('url', $path);
+    Page::set('title', '页面找不到了哦！');
+    Page::set('url', $path);
 })->use(404)->status(404);
