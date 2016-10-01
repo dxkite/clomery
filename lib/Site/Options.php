@@ -63,7 +63,7 @@ class Options
 
 
     /**
-     * 获取设置
+     * 魔术方法获取设置
      * @param string $name
      * @return string|null|mixed
      */
@@ -73,14 +73,14 @@ class Options
     }
 
     /**
-     * 设置值
+     * 魔术方法设置值
      * @param string $name
      * @param $value
-     * @return mixed
+     * @return null
      */
     public function __set(string $name, $value)
     {
-        // 无法获取返回值
-        /*return */self::$options[$name] = $value;
+        // __set 方法PHP无法获取返回值
+        /*return*/self::$options[$name] = $value;
     }
 }
