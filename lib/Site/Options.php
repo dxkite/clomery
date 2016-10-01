@@ -19,6 +19,8 @@ class Options
         foreach ($options as $option) {
             self::$options[$option['name']]=$option['value'];
         }
+        self::$options['powered']='ATD3-SiteBuild';
+        self::$options['poweredUrl']='http://atd3.cn/SiteBuild';
         return true;
     }
 
@@ -45,12 +47,14 @@ class Options
         Cache::set('SiteOption', self::$options, 0);
         return $q->erron()===0;
     }
+
     public function  __get(string $name)
     {
-        return self::$options[$name];
+        return isset(self::$options[$name])?self::$options[$name]:NULL;
     }
+
     public function __set(string $name,$value)
     {
-        return self::$option[$name]=$value;
+        return self::$options[$name]=$value;
     }
 }

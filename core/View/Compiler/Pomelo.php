@@ -104,15 +104,21 @@ class View_Compiler_Pomelo
 
     private function compileCommand(string $str)
     {
-        $echoConst=sprintf('/%s\s*?(.+?)\s*?%s/', self::$echoTag[0], self::$echoTag[1]);
-        $echo=sprintf('/%s\s*?(?=\$)(.+?)\s*?%s/', self::$echoTag[0], self::$echoTag[1]);
+        $echo=sprintf('/%s\s*(.+?)\s*?%s/', self::$echoTag[0], self::$echoTag[1]);
         $comment=sprintf('/%s(.+)%s/', self::$commentTag[0], self::$commentTag[1]);
-        // var_dump($orecho);
         return preg_replace(
-            [$echo,$echoConst, $comment],
-            ['<?php Env::echo(isset($1) ? $1 : "") ?>','<?php Env::echo($1) ?>', '<?php /* $1 */ ?>'],
+            [$echo, $comment],
+            ['<?php Env::echo($1) ?>', '<?php /* $1 */ ?>'],
             $str
         );
+    }
+    protected function parseEcho($exp)
+    {
+        return "<?php Env::echo{$exp} ?>";
+    }
+    protected function parseVar($exp)
+    {
+        return "<?php return Env::var{$exp} ?>";
     }
     protected function parseInsertAt($exp)
     {

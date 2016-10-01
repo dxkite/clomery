@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-	<title>@options()</title>
+	<title>{{ $__Op->site_title }}</title>
 	@insert('head_htmlhead')
 	@include("page_meta")
 	<link rel="stylesheet" href="@resource('css/main.css')">
@@ -10,10 +10,11 @@
 	<header>
 		<div id="header-top" class="clearfix">
 			<div id="site-logo">
-				<a href="http://{{ $_SERVER['SERVER_NAME'] }}"><img src="@resource('img/mccn.gif')" alt="site-logo" title="{{Env::Options()->getSitename()}}"></img></a>
-			</div>
-			<div id="user-info">
-
+			@if ($__Op->site_logo)
+				<a href="http://{{ $_SERVER['SERVER_NAME'] }}"><img src="{{$__Op->site_logo}}" alt="site-logo" title="{{ $__Op->site_title}}"></img></a>
+			@else
+				<div class="site-title">{{ $__Op->site_title }}</div>
+			@endif
 			</div>
 		</div>
 		<nav id="nav-menu" class="clearfix" >
