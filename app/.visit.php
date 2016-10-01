@@ -13,8 +13,7 @@ Page::visit('/{pagename}',['Develop','main'])
 // 查看文章
 //Page::visit('/article/{id}?',['Main','article'])->with('id','int')->use('index')->id('main_article');
 
-// 404 页面 访问的url为 /QAQ ,无回调函数，使用404的页面，返回状态404，设置名称为 404_page
-Page::visit('/QAQ',null)->use(404)->status(404)->id('404_page');
+
 
 // 留言板 
 //Page::visit('/notes',['Notes','main'])->id('notes_page');
@@ -31,7 +30,7 @@ Page::visit('/resource/{path}',function ($path_raw) {
     {
         import('Site.functions');
         Site\page_common_set();
-        Page::set('title', '找不到相关资源！');
+        Page::set('site_title', '找不到相关资源！');
         Page::set('url', $path_raw);
         Page::getController()->use(404)->status(404);
     }
@@ -41,11 +40,22 @@ Page::visit('/resource/{path}',function ($path_raw) {
 Page::auto('/user', '/user')->id('user');
 // 管理界面导向
 Page::auto('/@_@', '/admin')->id('admin');
-
+// 验证码
+Page::visit('/QvQ',function(){
+    (new Image())->verifyImage();
+})->raw()
+->type('png')
+->id('verify_code');
 // 找不到页面时
 Page::default(function ($path) {
     import('Site.functions');
     Site\page_common_set();
-    Page::set('title', '页面找不到了哦！');
+    Page::set('site_title', '页面找不到了哦！');
     Page::set('url', $path);
 })->use(404)->status(404);
+// 404 页面 访问的url为 /QAQ ,无回调函数，使用404的页面，返回状态404，设置名称为 404_page
+Page::visit('/QAQ',function(){
+    import('Site.functions');
+    Site\page_common_set();
+    Page::set('site_title', '页面找不到了哦！');
+})->use(404)->status(404)->id('404_page');

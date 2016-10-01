@@ -98,15 +98,16 @@ class Page
      */
     public static function url(string $id, array $args=[]) : string
     {
+        $host="//{$_SERVER['SERVER_NAME']}";
         if (isset(self::$ids[$id])) {
             $url=self::$ids[$id];
             foreach ($args as $name =>$value) {
                 $url=preg_replace("/\{{$name}\}[?]?/", $value, $url);
             }
             // 去除未设置参数的
-            return preg_replace('/\{(\S+?)\}([?])/', '', $url);
+            return $host.preg_replace('/\{(\S+?)\}([?])/', '', $url);
         }
-        return '/';
+        return $host;
     }
 
     public static function id(string $id, string $url)
@@ -183,9 +184,9 @@ class Page
             // 获取初步匹配的参数
             // 覆盖后续
             if ($caller->useOverride()) {
-                $regpath=preg_replace(['/\//', '/{(\S+?)}([?])?\/?$/', '/{(\S+?)}/'], ['\\/', '(.+)', '([^\/]+)'], $url);
+                $regpath=preg_replace(['/([\/\.\\\\\+\*\[\^\]\$\(\)\=\!\<\>\|\:\-])/', '/{(\S+?)}([?])?\/?$/', '/{(\S+?)}/'], ['\\\\$1', '(.+)', '([^\/]+)'], $url);
             } else {
-                $regpath=preg_replace(['/\//', '/{(\S+?)}/'], ['\\/', '([^\/]+)'], $url);
+                $regpath=preg_replace(['/([\/\.\\\\\+\*\[\^\]\$\(\)\=\!\<\>\|\:\-])/', '/{(\S+?)}/'], ['\\\\$1', '([^\/]+)'], $url);
             }
             // 检查是否有要匹配的动态变量
             // 检查变量是否存在URL中
