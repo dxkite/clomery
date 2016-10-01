@@ -60,7 +60,10 @@ class Storage implements Storage_Driver
     }
     public static function copy(string $source, string $dest):bool
     {
-        return copy($source, $dest);
+        if (self::exist($source)) {
+            return copy($source, $dest);
+        }
+        return false;
     }
     // 创建文件夹
     public static function mkdir(string $dirname, int $mode=0777)
