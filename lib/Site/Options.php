@@ -16,6 +16,7 @@ class Options
     public static $options;
 
     /**
+     * 初始化设置
      * @return bool
      */
     public static function init()
@@ -36,6 +37,7 @@ class Options
     }
 
     /**
+     * 获取全部设置
      * @return mixed
      */
     public static function getOptions()
@@ -44,25 +46,10 @@ class Options
     }
 
     /**
-     * @return mixed
-     */
-    public static function getTheme()
-    {
-        return self::$options['theme'];
-    }
-
-    /**
-     * @return mixed
-     */
-    public static function getSitename()
-    {
-        return self::$options['site_name'];
-    }
-
-    /**
+     * 更新设置
      * @return bool
      */
-    public static function refresh()
+    public static function refresh():bool
     {
         $sql = 'SELECT * FROM `#{site_options}`';
         $q = new Query($sql);
@@ -71,9 +58,11 @@ class Options
         return $q->erron() === 0;
     }
 
+
     /**
+     * 获取设置
      * @param string $name
-     * @return null
+     * @return string|null|mixed
      */
     public function __get(string $name)
     {
@@ -81,6 +70,7 @@ class Options
     }
 
     /**
+     * 设置值
      * @param string $name
      * @param $value
      * @return mixed
