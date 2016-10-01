@@ -1,9 +1,9 @@
 <?php
 
-    defined('DOC_ROOT') or define('DOC_ROOT', __DIR__);
+    defined('DOC_ROOT') or define('DOC_ROOT', __DIR__.'/..');
     defined('WEB_ROOT') or define('WEB_ROOT', DOC_ROOT.'/public');
     
-    defined('CORE_PATH') or define('CORE_PATH', __DIR__.'/core');
+    defined('CORE_PATH') or define('CORE_PATH', __DIR__);
     // APP 相关数据
     defined('APP_ROOT') or define('APP_ROOT', DOC_ROOT.'/app');
     defined('APP_LIB') or define('APP_LIB', DOC_ROOT.'/lib');

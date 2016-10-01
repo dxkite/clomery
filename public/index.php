@@ -1,3 +1,3 @@
 <?php
     define('WEB_ROOT',__DIR__);
-    require_once '../loader.php';
+    require_once '../core/loader.php';
