@@ -33,7 +33,7 @@ Page::visit('/resource/{path}',function ($path_raw) {
         Site\page_common_set();
         Page::set('title', '找不到相关资源！');
         Page::set('url', $path_raw);
-        Page::controller()->use(404)->status(404);
+        Page::getController()->use(404)->status(404);
     }
 })->with('path','/^(.+)$/')->id('resource')->override();
 

@@ -49,4 +49,8 @@ class Options
     {
         return self::$options[$name];
     }
+    public function __set(string $name,$value)
+    {
+        return self::$option[$name]=$value;
+    }
 }

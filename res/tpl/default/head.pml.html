@@ -18,7 +18,7 @@
 		</div>
 		<nav id="nav-menu" class="clearfix" >
 		@foreach ($head_index_nav as $at=>$index)
-			<a title="{{$index['title']}}" href="{{$index['url']}}"><div class="nav-menu-item @if($head_index_nav_select==$at) current @endif"> {{$index['text']}}</div> </a>
+			<a title="{{$index['title']}}" href="{{$index['url']}}"><div class="nav-menu-item @if( isset($head_index_nav_select) && $head_index_nav_select==$at) current @endif"> {{$index['text']}}</div> </a>
 		@endforeach
 		</nav>
 	</header>
