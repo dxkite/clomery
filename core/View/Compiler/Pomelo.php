@@ -111,7 +111,15 @@ class View_Compiler_Pomelo
             $str
         );
     }
-
+    protected function parseInsertAt($exp)
+    {
+         preg_match('/\((.+)\)/',$exp,$v);
+         return '<?php Page::insertCallback('.$v[1].',function () { ?>';
+    }
+    protected function parseInsertEnd()
+    {
+         return '<?php });?>';
+    }
     protected function parseInsert($exp)
     {
         return "<?php echo Page::insert{$exp} ?>";

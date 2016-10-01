@@ -23,8 +23,8 @@ class Page
 
     public static function insert(string $name, array $args=[])
     {
-        if (isset($insert[$name])) {
-            foreach ($insert[$name] as $caller) {
+        if (isset(self::$insert[$name])) {
+            foreach (self::$insert[$name] as $caller) {
                 $caller->call($args);
             }
         }
@@ -33,6 +33,13 @@ class Page
     {
         $caller=new Caller($caller);
         self::$insert[$name][]=$caller;
+    }
+    public static function insertCallbackArray(array $callers)
+    {
+        foreach ($callers as $name => $caller)
+        {
+            self::insertCallback($name,$caller);
+        }
     }
     public static function use(string $page)
     {

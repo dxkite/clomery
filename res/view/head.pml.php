@@ -2,6 +2,7 @@
 <html>
 <head>
 	<title><?php Env::echo(Env::Options()->getSitename()) ?></title>
+	<?php echo Page::insert('head_htmlhead') ?>
 	<?php Env::include("page_meta") -> render(); ?>
 	<link rel="stylesheet" href="<?php echo Page::url('resource',['path'=>'main.css']) ?>">
 </head>

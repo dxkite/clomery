@@ -2,6 +2,7 @@
 <html>
 <head>
 	<title>{{Env::Options()->getSitename()}}</title>
+	@insert('head_htmlhead')
 	@include("page_meta")
 	<link rel="stylesheet" href="@resource('main.css')">
 </head>
