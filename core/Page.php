@@ -20,6 +20,7 @@ class Page
     private static $values=[];
     private static $use=null;
     private static $insert=[];
+    private static $globals=[];
 
     public static function insert(string $name, array $args=[])
     {
@@ -68,8 +69,9 @@ class Page
         $file=View::viewPath($page);
         // var_dump($file);
         if (Storage::exist($file)) {
+            self::$globals['_Page']=new \Core\Value(self::$values);
             // 分解变量
-            extract(self::$values, EXTR_OVERWRITE);
+            extract(self::$globals, EXTR_OVERWRITE);
             require_once $file;
         } else {
             trigger_error($page.' TPL no Find!');
@@ -79,7 +81,14 @@ class Page
     {
         self::$values=array_merge(self::$values, $values);
     }
-    
+    public static function global(string $name,$values)
+    {
+        self::$globals[$name]=$values;
+    }
+    public static function assignGlobal(array $values)
+    {
+        self::$globals=array_merge(self::$globals, $values);
+    }
     public static function set(string $name, $value)
     {
         self::$values=Arr::set(self::$values,$name,$value);
