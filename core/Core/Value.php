@@ -20,4 +20,12 @@ class Value
     {
         return isset(self::$var[$name]);
     }
+    public function __call(string $name,$args)
+    {
+        if (isset(self::$var[$name]))
+        {
+            return self::$var[$name];
+        }
+        return $args[0];
+    }
 }

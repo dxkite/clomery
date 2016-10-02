@@ -123,7 +123,7 @@ class Page
         self::getController()->status($code);
         header('Location:'.$url);
     }
-    public static function error404($path)
+    public static function error404($path=null)
     {
         import('Site.functions');
         Site\page_common_set();
