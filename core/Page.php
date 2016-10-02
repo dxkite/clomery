@@ -123,6 +123,14 @@ class Page
         self::getController()->status($code);
         header('Location:'.$url);
     }
+    public static function error404($path)
+    {
+        import('Site.functions');
+        Site\page_common_set();
+        Page::set('path',$path);
+        Page::set('site_title', '页面找不到了哦！');
+        Page::getController()->use(404)->status(404);
+    }
     public static function id(string $id, string $url)
     {
         self::$ids[$id]=$url;
@@ -155,7 +163,7 @@ class Page
                     $app ->main();
                 }
             } else {
-                self::redirect(self::url('404_page').'?url='.urlencode($path));
+                self::error404(self::url('404_page').'?url='.urlencode($path));
             }
         };
         return self::visit(rtrim($name_path).'/{path}?', $auto)
