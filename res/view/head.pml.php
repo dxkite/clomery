@@ -18,8 +18,8 @@
 			</div>
 			<div id="user-info">
 				<nav>
-					<a href="<?php echo Page::url('user',['path'=>'Register']) ?>">注册</a>
-					<a href="<?php echo Page::url('user',['path'=>'Login']) ?>">登陆</a>
+					<a href="<?php echo Page::url('user',['path'=>'SignUp']) ?>">注册</a>
+					<a href="<?php echo Page::url('user',['path'=>'SignIn']) ?>">登陆</a>
 				</nav>
 			</div>
 		</div>

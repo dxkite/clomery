@@ -28,12 +28,7 @@ Page::visit('/resource/{path}',function ($path_raw) {
     }
     else
     {
-        // TODO : 合并404页面（页面重定向）
-        import('Site.functions');
-        Site\page_common_set();
-        Page::set('site_title', '找不到相关资源！');
-        Page::set('url', $path_raw);
-        Page::getController()->use(404)->status(404);
+       Page::redirect(Page::url('404_page').'?url='.urlencode($path));
     }
 })->with('path','/^(.+)$/')->id('resource')->override();
 
@@ -49,16 +44,12 @@ Page::visit('/QvQ',function(){
 ->id('verify_code');
 // 找不到页面时
 Page::default(function ($path) {
-    // TODO : 合并404页面（页面重定向）
-    import('Site.functions');
-    Site\page_common_set();
-    Page::set('site_title', '页面找不到了哦！');
-    Page::set('url', $path);
+    Page::redirect(Page::url('404_page').'?url='.urlencode($path));
 })->use(404)->status(404);
 // 404 页面 访问的url为 /QAQ ,无回调函数，使用404的页面，返回状态404，设置名称为 404_page
 Page::visit('/QAQ',function(){
-    // TODO : 合并404页面（页面重定向）
     import('Site.functions');
     Site\page_common_set();
+    Page::set('url',urldecode($_GET['url']));
     Page::set('site_title', '页面找不到了哦！');
 })->use(404)->status(404)->id('404_page');

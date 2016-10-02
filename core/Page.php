@@ -98,7 +98,7 @@ class Page
      */
     public static function url(string $id, array $args=[]) : string
     {
-        $host="//{$_SERVER['SERVER_NAME']}";
+        $host="http://{$_SERVER['SERVER_NAME']}";
         if (isset(self::$ids[$id])) {
             $url=self::$ids[$id];
             foreach ($args as $name =>$value) {
@@ -109,7 +109,11 @@ class Page
         }
         return $host;
     }
-
+    public static function redirect(string $url,int $code=302)
+    {
+        self::getController()->status($code);
+        header('Location:'.$url);
+    }
     public static function id(string $id, string $url)
     {
         self::$ids[$id]=$url;
@@ -128,9 +132,9 @@ class Page
      */
     public static function auto(string $name_path, string $pathroot)
     {
-        $auto=function ($path='Main') use ($name_path, $pathroot) {
+        $auto=function ($path='Index') use ($name_path, $pathroot) {
             if (!$path) {
-                $path='Main';
+                $path='Index';
             }
             $names=trim($pathroot.'/'.$path, '/');
             $file=APP_ROOT.'/'.$names.'.php';
@@ -142,12 +146,7 @@ class Page
                     $app ->main();
                 }
             } else {
-                // TODO : 合并404页面（页面重定向）
-                import('Site.functions');
-                Site\page_common_set();
-                Page::getController()->status(404)->use(404);
-                Page::set('title', '页面找不到了哦！');
-                Page::set('url', $names);
+                self::redirect(self::url('404_page').'?url='.urlencode($path));
             }
         };
         return self::visit(rtrim($name_path).'/{path}?', $auto)

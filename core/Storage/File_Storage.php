@@ -39,7 +39,7 @@ class Storage implements Storage_Driver
     // 递归删除文件夹
     public static function rmdirs(string $dir, bool $keep=false)
     {
-        if ($handle=opendir($dir)) {
+        if (self::isDir($dir) && $handle=opendir($dir)) {
             while (false!== ($item=readdir($handle))) {
                 if ($item!="."&&$item!="..") {
                     if (self::isDir("$dir/$item")) {
