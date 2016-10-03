@@ -34,4 +34,8 @@ class Caller
         }
         return false;
     }
+    public function args($vargs)
+    {
+        return self::call(func_get_args());
+    }
 }
