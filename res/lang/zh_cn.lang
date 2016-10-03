@@ -1,6 +1,7 @@
-main_title=马哥中国 %s
+main_title= 芒刺中国
 signin=
 user_signin= 
 user_name= 
 user_password= 
 forgot_password=
+printfstr= 你好,%s :%s
