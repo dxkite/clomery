@@ -28,5 +28,5 @@
 			<a title="<?php Env::echo($index['title']) ?>" href="<?php Env::echo($index['url']) ?>"><div class="nav-menu-item <?php if( isset($_Page->head_index_nav_select) && $_Page->head_index_nav_select==$at): ?> current <?php endif; ?>"> <?php Env::echo($index['text']) ?></div> </a>
 		<?php endforeach; ?>
 		</nav>
-		<?php Env::echo($_L->printfstr('hello %s,%s','DXkite','Wsss')) ?>
+		<?php Env::echo($_L->_('printfstr','hello %s,%s','DXkite','Wsss')) ?>
 	</header>

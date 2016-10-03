@@ -12,14 +12,12 @@ class Language extends \Core\Value
         }
         parent::__construct($langs);
     }
-    // TODO: 添加正常调用
-    // public function _(string $name, string $default=null)
-    // {
-    //     if (is_null($default)) {
-    //         $default = $this->$name;
-    //     }
-    //     return $this->$name($default,array_slice(func_get_args(),1));
-    // }
+
+    public function _(string $name, string $default=null)
+    {
+        // var_dump(func_get_args(),array_slice(func_get_args(),2));
+        return call_user_func_array([$this,$name],array_slice(func_get_args(),1));
+    }
     public function __isset(string $name)
     {
         return (isset($this->var[$name]) && $this->var[$name]);
