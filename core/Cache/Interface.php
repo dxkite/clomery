@@ -10,9 +10,9 @@ interface Cache_Interface
      * @param string $name
      * @param $value
      * @param int $expire
-     * @return mixed
+     * @return bool
      */
-    public static function set(string $name, $value, int $expire=0):int;
+    public static function set(string $name, $value, int $expire=0):bool;
     /**
      * 获取
      * @param string $name

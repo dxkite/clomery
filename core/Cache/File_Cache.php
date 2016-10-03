@@ -1,6 +1,7 @@
 <?php
 /**
  * Class Cache
+ * 文件缓存
  */
 class Cache implements Cache_Interface
 {
@@ -10,15 +11,15 @@ class Cache implements Cache_Interface
      * @param string $name 名
      * @param $value 值
      * @param int $expire 过期时间
-     * @return int
+     * @return bool
      */
-    public static function set(string $name, $value, int $expire=0):int
+    public static function set(string $name, $value, int $expire=0):bool
     {
         $path=APP_RES.'/cache/'.self::nam($name);
         self::$cache[$name]=$value;
         Storage::mkdirs(dirname($path));
         $value=serialize($value);
-        return file_put_contents($path, $expire.'|'.$value);
+        return file_put_contents($path, $expire.'|'.$value)!==false;
     }
 
     /**
