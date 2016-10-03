@@ -15,7 +15,6 @@ class Language extends \Core\Value
 
     public function _(string $name, string $default=null)
     {
-        // var_dump(func_get_args(),array_slice(func_get_args(),2));
         return call_user_func_array([$this,$name],array_slice(func_get_args(),1));
     }
     public function __isset(string $name)
