@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-	<title><?php Env::echo($_L->main_title('ATD部落 - ATD3CN')) ?></title>
+	<title><?php Env::echo($_Page->title('芒刺中国')) ?></title>
 	<?php echo Page::insert('head_htmlhead') ?>
 	<?php Env::include("page_meta") -> render(); ?>
 	<link rel="stylesheet" href="<?php echo Page::url('resource',['path'=>'css/main.css']) ?>">

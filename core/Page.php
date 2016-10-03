@@ -71,6 +71,8 @@ class Page
         self::assign($values);
         // 内部可设置界面
         $page=is_null(self::$use)?$page:self::$use;
+        // 重置页面使用
+        self::$use=null;
         // 获取界面路径
         $file=View::viewPath($page);
         // var_dump($file);
