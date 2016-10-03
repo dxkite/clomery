@@ -25,8 +25,8 @@ class Value
         $fmt=isset(self::$var[$name])?self::$var[$name]:$args[0];
         if (count($args)>1)
         {
-            $args=array_slice($args,1);
-            return sprintf($fmt,$args);
+            $args[0]=$fmt;
+            return call_user_func_array('sprintf',$args);
         }
         return $fmt;
     }
