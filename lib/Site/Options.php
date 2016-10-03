@@ -31,8 +31,8 @@ class Options
         foreach ($options as $option) {
             self::$options[$option['name']] = $option['value'];
         }
-        self::$options['powered'] = 'ATD3-SiteBuild';
-        self::$options['poweredUrl'] = 'http://atd3.cn/SiteBuild';
+        self::$options['powered'] = 'ATD3-Site';
+        self::$options['poweredUrl'] = 'http://atd3.cn';
         return true;
     }
 
