@@ -37,8 +37,10 @@
     } 
     // 开启Session
     Session::start();
+    // 获取网站设置
     Site\Options::init();
-    Page::language(Cookie::get('use_lang','zh_cn'));
+    // 语言支持
+    Page::language(Cookie::get('lang','zh_cn'));
     View::theme(Site\Options::getTheme());
     // 显示页面
     Page::display();
