@@ -12,10 +12,22 @@ class Language extends \Core\Value
         }
         parent::__construct($langs);
     }
+    // TODO: 添加正常调用
+    // public function _(string $name, string $default=null)
+    // {
+    //     if (is_null($default)) {
+    //         $default = $this->$name;
+    //     }
+    //     return $this->$name($default,array_slice(func_get_args(),1));
+    // }
+    public function __isset(string $name)
+    {
+        return (isset($this->var[$name]) && $this->var[$name]);
+    }
     public function __call(string $name, $args)
     {
         // 不需要空字符串
-        $fmt=( isset($this->var[$name]) && $this->var[$name] )?$this->var[$name]:(isset($args[0])?$args[0]:'U:['.$name.']');
+        $fmt=(isset($this->var[$name]) && $this->var[$name])?$this->var[$name]:(isset($args[0])?$args[0]:'U:['.$name.']');
         if (count($args)>1) {
             $args[0]=$fmt;
             return call_user_func_array('sprintf', $args);
