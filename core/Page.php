@@ -75,7 +75,9 @@ class Page
         $file=View::viewPath($page);
         // var_dump($file);
         if (Storage::exist($file)) {
+            // 类型简化调用
             self::$globals['_Page']=new \Core\Value(self::$values);
+            // 多语言支持
             if (!isset(self::$globals['_L'])) {
                 self::$globals['_L']=new language(self::$lang);
             }
