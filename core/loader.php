@@ -38,6 +38,7 @@
     // 开启Session
     Session::start();
     Site\Options::init();
+    Page::language(Cookie::get('use_lang','zh_cn'));
     View::theme(Site\Options::getTheme());
     // 显示页面
     Page::display();

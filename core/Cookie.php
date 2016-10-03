@@ -25,9 +25,9 @@ class Cookie
      * @param string $name
      * @return string cookie的值
      */
-    public static function get(string $name) : string
+    public static function get(string $name,$default=null) : string
     {
-        return isset(self::$values[$name])?self::$values[$name]->get():isset($_COOKIE[$name])?$_COOKIE[$name]:null;
+        return isset(self::$values[$name])?self::$values[$name]->get():(isset($_COOKIE[$name])?$_COOKIE[$name]:$default);
     }
 
     /**

@@ -23,9 +23,9 @@ class Session
         $_SESSION[$name]=$value;
         return isset($_SESSION[$name]);
     }
-    public static function get(string $name)
+    public static function get(string $name,$default=null)
     {
-        return $_SESSION[$name];
+        return isset($_SESSION[$name])?$_SESSION[$name]:$default;
     }
     public static function __callStatic(string $name, array $params)
     {

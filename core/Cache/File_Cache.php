@@ -26,23 +26,28 @@ class Cache implements Cache_Interface
      * @param string $name 名
      * @return mixed|null
      */
-    public static function get(string $name)
+    public static function get(string $name,$defalut=null)
     {
+        // 有值就获取值
         if (isset(self::$cache[$name])) {
             $value=self::$cache[$name];
             return $value;
         }
+        // 没值就在cache文件中查找
         $path=APP_RES.'/cache/'.self::nam($name);
         if (Storage::exist($path)) {
             $value=Storage::get($path);
             $time=explode('|', $value, 2);
             if (time()<intval($time[0]) || intval($time[0])===0) {
+                // 未过期则返回 
                 return unserialize($time[1]);
             } else {
+                // 过期则删除
                 self::delete($path);
             }
         }
-        return null;
+        // 返回默认值
+        return $defalut;
     }
 
     /**
