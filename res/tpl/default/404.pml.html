@@ -1,0 +1,22 @@
+@insertAt('head_htmlhead')
+    <style>
+        #text {
+            font-size: 18em;
+            text-align: center;
+            width: 100%;
+        }
+        
+        #url {
+            font-size: 2em;
+            text-align: center;
+        }
+    </style>
+@insertEnd
+@include ('head')
+    <div id="text">404</div>
+    @if (isset($_Page->path))
+    <div id="url"> URL: {{ $_Page->path }} 找不到相关元素。</div>
+    @else
+    <div id="url">（*/∇＼*）页面找不到了啦！</div>
+    @endif
+@include('footer')
