@@ -9,6 +9,8 @@
     defined('APP_LIB') or define('APP_LIB', DOC_ROOT.'/lib');
     // APP资源目录
     defined('APP_RES')or define('APP_RES', DOC_ROOT.'/res');
+    // 语言文件夹
+    defined('APP_LANG')or define('APP_LANG',APP_RES.'/lang');
     // 视图控制
     defined('APP_VIEW')or define('APP_VIEW', APP_RES.'/view');
     defined('APP_TPL')or define('APP_TPL', APP_RES.'/tpl');

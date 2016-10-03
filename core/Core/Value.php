@@ -2,27 +2,27 @@
 namespace Core;
 class Value
 {
-    protected static $var;
+    protected  $var;
     public function __construct($var)
     {
-        self::$var=$var;
+        $this->var=$var;
     }
     public function __get(string $name)
     {
-        return isset(self::$var[$name])?self::$var[$name]:NULL;
+        return isset($this->var[$name])?$this->var[$name]:'undefined:'.$name;
     }
 
     public function __set(string $name, $value)
     {
-        return self::$var[$name]=$value;
+        return $this->var[$name]=$value;
     }
     public function __isset(string $name)
     {
-        return isset(self::$var[$name]);
+        return isset($this->var[$name]);
     }
     public function __call(string $name,$args)
     {
-        $fmt=isset(self::$var[$name])?self::$var[$name]:$args[0];
+        $fmt=isset($this->var[$name])?$this->var[$name]:isset($args[0])?$args[0]:'undefined:'.$name;
         if (count($args)>1)
         {
             $args[0]=$fmt;

@@ -2,6 +2,7 @@
 use \Core\PageController  as Page_Controller;
 use \Core\Caller;
 use \Core\Arr;
+
 /**
  * Class Page
  * 简单页面控制
@@ -21,7 +22,8 @@ class Page
     private static $use=null;
     private static $insert=[];
     private static $globals=[];
-
+    private static $lang='zh_cn';
+    
     public static function insert(string $name, array $args=[])
     {
         if (isset(self::$insert[$name])) {
@@ -30,6 +32,10 @@ class Page
             }
         }
     }
+    public static function language(string $lang=null)
+    {
+        return is_null($lang)?self::$lang:self::$lang=$lang;
+    }
     public static function insertCallback(string $name, $caller)
     {
         $caller=new Caller($caller);
@@ -37,9 +43,8 @@ class Page
     }
     public static function insertCallbackArray(array $callers)
     {
-        foreach ($callers as $name => $caller)
-        {
-            self::insertCallback($name,$caller);
+        foreach ($callers as $name => $caller) {
+            self::insertCallback($name, $caller);
         }
     }
     public static function use(string $page)
@@ -61,6 +66,7 @@ class Page
     }
     public static function render(string $page, array $values=[])
     {
+        
         // 合并数据
         self::assign($values);
         // 内部可设置界面
@@ -70,6 +76,9 @@ class Page
         // var_dump($file);
         if (Storage::exist($file)) {
             self::$globals['_Page']=new \Core\Value(self::$values);
+            if (!isset(self::$globals['_L'])) {
+                self::$globals['_L']=new language(self::$lang);
+            }
             // 分解变量
             extract(self::$globals, EXTR_OVERWRITE);
             require_once $file;
@@ -81,7 +90,7 @@ class Page
     {
         self::$values=array_merge(self::$values, $values);
     }
-    public static function global(string $name,$values)
+    public static function global(string $name, $values)
     {
         self::$globals[$name]=$values;
     }
@@ -91,7 +100,7 @@ class Page
     }
     public static function set(string $name, $value)
     {
-        self::$values=Arr::set(self::$values,$name,$value);
+        self::$values=Arr::set(self::$values, $name, $value);
     }
     public static function default($caller)
     {
@@ -118,7 +127,7 @@ class Page
         }
         return $host;
     }
-    public static function redirect(string $url,int $code=302)
+    public static function redirect(string $url, int $code=302)
     {
         self::getController()->status($code);
         header('Location:'.$url);
@@ -127,7 +136,7 @@ class Page
     {
         import('Site.functions');
         Site\page_common_set();
-        Page::set('path',$path);
+        Page::set('path', $path);
         Page::set('site_title', '页面找不到了哦！');
         Page::getController()->use(404)->status(404);
     }
