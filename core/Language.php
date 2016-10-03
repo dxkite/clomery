@@ -2,9 +2,13 @@
 
 class Language extends \Core\Value
 {
-    function __construct(string $lang)
+    public function __construct(string $lang)
     {
-        $langs=parse_ini_file(APP_LANG.'/'.$lang.'.lang');
+        if (Storage::exsit($path=APP_LANG.'/'.$lang.'.lang')) {
+            $langs=parse_ini_file($path);
+        } else {
+            $langs=parse_ini_file(APP_LANG.'/zh_cn.lang');
+        }
         parent::__construct($langs);
     }
 }
