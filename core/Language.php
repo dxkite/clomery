@@ -14,7 +14,8 @@ class Language extends \Core\Value
     }
     public function __call(string $name, $args)
     {
-        $fmt=isset($this->var[$name])?$this->var[$name]:(isset($args[0])?$args[0]:'U:['.$name.']');
+        // 不需要空字符串
+        $fmt=( isset($this->var[$name]) && $this->var[$name] )?$this->var[$name]:(isset($args[0])?$args[0]:'U:['.$name.']');
         if (count($args)>1) {
             $args[0]=$fmt;
             return call_user_func_array('sprintf', $args);

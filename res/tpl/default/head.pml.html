@@ -11,7 +11,7 @@
 		<div id="header-top" class="clearfix">
 			<div id="site-logo">
 			@if ($_Op->site_logo)
-				<a href="http://{{ $_SERVER['SERVER_NAME'] }}"><img src="{{$_Op->site_logo}}" alt="site-logo" title="{{ $_Op->site_title }}"></img></a>
+				<a href="http://{{ $_SERVER['SERVER_NAME'] }}"><img src="{{$_Op->site_logo}}" alt="site-logo" title="{{ $_Op->site_name}}"></img></a>
 			@else
 				<div class="site-title">{{ $_Op->site_title }}</div>
 			@endif

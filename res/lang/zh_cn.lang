@@ -1,6 +1,6 @@
 main_title=芒刺中国
-signin=登陆
-user_signin= 用户注册
-user_name= 用户名
+signin=
+user_signin= 
+user_name= 
 user_password= 
-forgot_password= 忘记密码 ？
+forgot_password=

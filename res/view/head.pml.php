@@ -11,7 +11,7 @@
 		<div id="header-top" class="clearfix">
 			<div id="site-logo">
 			<?php if($_Op->site_logo): ?>
-				<a href="http://<?php Env::echo($_SERVER['SERVER_NAME']) ?>"><img src="<?php Env::echo($_Op->site_logo) ?>" alt="site-logo" title="<?php Env::echo($_Op->site_title) ?>"></img></a>
+				<a href="http://<?php Env::echo($_SERVER['SERVER_NAME']) ?>"><img src="<?php Env::echo($_Op->site_logo) ?>" alt="site-logo" title="<?php Env::echo($_Op->site_name) ?>"></img></a>
 			<?php else: ?>
 				<div class="site-title"><?php Env::echo($_Op->site_title) ?></div>
 			<?php endif; ?>
