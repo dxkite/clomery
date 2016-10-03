@@ -66,7 +66,8 @@ class Page
     }
     public static function render(string $page, array $values=[])
     {
-        
+        // 语言设置
+        self::set('lang',self::$lang);
         // 合并数据
         self::assign($values);
         // 内部可设置界面

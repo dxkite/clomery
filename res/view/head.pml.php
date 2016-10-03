@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="<?php Env::echo($_Page->lang('zh')) ?>">
 <head>
 	<title><?php Env::echo($_Page->title('芒刺中国')) ?></title>
 	<?php echo Page::insert('head_htmlhead') ?>
