@@ -4,4 +4,3 @@ user_signin=
 user_name= 
 user_password= 
 forgot_password=
-printfstr= 你好,%s :%s
