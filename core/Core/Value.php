@@ -22,10 +22,12 @@ class Value
     }
     public function __call(string $name,$args)
     {
-        if (isset(self::$var[$name]))
+        $fmt=isset(self::$var[$name])?self::$var[$name]:$args[0];
+        if (count($args)>1)
         {
-            return self::$var[$name];
+            $args=array_slice($args,1);
+            return sprintf($fmt,$args);
         }
-        return $args[0];
+        return $fmt;
     }
 }
