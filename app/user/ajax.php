@@ -5,7 +5,6 @@ class ajax{
     function main()
     {
         Page::getController()->json();
-        echo 'hello';
         return ['name'=>'hello'];
     }
 }

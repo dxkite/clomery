@@ -1,6 +1,6 @@
 /* AJAX Use Test */
 "use strict",
-console.log('---Use AJAX---');
+console.log('---Use Simpile AJAX---');
 function ajax()
 {
     var ajax=new XMLHttpRequest();
@@ -10,31 +10,33 @@ function ajax()
         ajax.open('GET',url);
         return this;
     }
+    function post(url)
+    {
+        ajax.open('POST',url);
+        return this;
+    }
     function values(values)
     {
-        console.log(values);
         vars=values;
         return this;
     }
     function ready(callback)
     {
-        console.log(typeof callback);
-        ajax.addEventListener('readystatechange',function(){
-
-        });
+        if (typeof callback==='function')
+        {
+            ajax.addEventListener('readystatechange',function(){
+                if (ajax.readyState===4&&ajax.status===200){
+                    callback(JSON.parse(ajax.responseText));
+                }
+            });
+        }
+        ajax.setRequestHeader('Content-Type','application/json ; charset=UTF-8');
         ajax.send(JSON.stringify(vars));
-        return callback();
     }
     return {
         get:get,
+        post:post,
         values:values,
         ready:ready,
     };
 }
-send=new ajax();
-
-send.get('/user/ajax').values({user:'DXkite'}).ready(
-    function(answer){
-        console.log('hello'+answer);
-    }
-);
