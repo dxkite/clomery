@@ -11,13 +11,13 @@
     </div>
     <h4>{{$_L->user_signin('用户登陆')}}</h4>
     <div class="form-group">
-        <input type="text" name="user_name" required class="form-control">
-        <label class="form-label">{{ $_L->user_name('用户名') }}</label>
+        <input type="text" name="user_name" id="user_name" required class="form-control">
+        <label class="form-label" for="user_name" >{{ $_L->user_name('用户名') }}</label>
     </div>
 
     <div class="form-group">
-        <input type="password" name="password" required autocomplete="off" class="form-control">
-        <label class="form-label">{{ $_L->user_password('密　码') }}</label>
+        <input type="password"  id="password" name="password" required autocomplete="off" class="form-control">
+        <label class="form-label" for="password">{{ $_L->user_password('密　码') }}</label>
     </div>
     <a href="#">{{ $_L->forgot_password('忘记密码 ?') }}</a>
     <a href="@auto('user','SignUp')">{{ $_L->no_account('没有账号 ?') }}</a>

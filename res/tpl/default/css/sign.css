@@ -35,13 +35,24 @@
 .form-group + .form-group {
   margin-top: 2em;
 }
-.form-group .form-label {
+.form-group {
   position: absolute;
   z-index: 1;
   left: 0;
   top: 5px;
   -webkit-transition: 0.3s;
   transition: 0.3s;
+}
+.form-label
+{
+	z-index:4;
+  position: absolute;
+  left: 0;
+  top: 5px;
+  -webkit-transition: 0.3s;
+  transition: 0.3s;
+	background-color:#fff;
+	width:100%;
 }
 .form-group {
   width: 100%;
@@ -139,4 +150,8 @@
 }
 .bggreen::before{
 	border: 2px solid green;
+}
+.error
+{
+  color:#f00;
 }
