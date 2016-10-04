@@ -26,6 +26,11 @@ class Page
     
     public static function insert(string $name, array $args=[])
     {
+        // 显示插入点
+        if (conf('Debug.showPageHook'))
+        {
+            echo 'H:['.$name.']';
+        }
         if (isset(self::$insert[$name])) {
             foreach (self::$insert[$name] as $caller) {
                 $caller->call($args);
