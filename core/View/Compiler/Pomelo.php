@@ -141,6 +141,11 @@ class View_Compiler_Pomelo
         preg_match('/\((.+)\)/', $exp, $v);
         return "<?php echo Page::url('resource',['path'=>{$v[1]}]) ?>";
     }
+    protected function parseAuto($exp)
+    {
+        preg_match('/\((.+?),(.+?)\)/', $exp, $v);
+        return "<?php echo Page::url({$v[1]},['path'=>{$v[2]}]) ?>";
+    }
     // IF 语句
     protected function parseIf($exp)
     {
