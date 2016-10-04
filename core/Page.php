@@ -222,7 +222,7 @@ class Page
             // 获取初步匹配的参数
             // 覆盖后续
             if ($caller->useOverride()) {
-                $regpath=preg_replace(['/([\/\.\\\\\+\*\[\^\]\$\(\)\=\!\<\>\|\:\-])/', '/{(\S+?)}([?])?\/?$/', '/{(\S+?)}/'], ['\\\\$1', '(.+)', '([^\/]+)'], $url);
+                $regpath=preg_replace(['/([\/\.\\\\\+\*\[\^\]\$\(\)\=\!\<\>\|\:\-])/', '/{(\S+?)}([?])?\/?$/', '/{(\S+?)}/'], ['\\\\$1', '(.+)$2', '([^\/]+)'], $url);
             } else {
                 $regpath=preg_replace(['/([\/\.\\\\\+\*\[\^\]\$\(\)\=\!\<\>\|\:\-])/', '/{(\S+?)}/'], ['\\\\$1', '([^\/]+)'], $url);
             }
@@ -240,7 +240,6 @@ class Page
                         array_pop($args[1]);
                     }
                 }
-                
                 $keymap=array_combine($args[1], $values);
                 foreach ($regs as $name => $preg) {
                     // 载入内置类型
@@ -252,9 +251,11 @@ class Page
                         $success=false;
                     }
                 }
+
                 if ($success) {
                     self::call($caller, $values);
                 }
+                
             } elseif (preg_match('/^'.preg_quote($url, '/').'$/', $path)) {
                 $success=true;
                 self::call($caller, [$path]);
