@@ -28,7 +28,7 @@
     View::loadCompile(); 
     // 载入页面URL配置规则
     require_once APP_ROOT.'/'.APP_VISIT;
-
+    Event::shift('System_Boot',true)->call();
     // Debug 模式 实时生成模板
     if (conf('DEBUG',0)==1) {
         // View::theme('spider');
