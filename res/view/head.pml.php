@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html lang="<?php Env::echo($_Page->lang('zh')) ?>">
 <head>
-	<title><?php Env::echo($_Page->title('芒刺中国')) ?></title>
+	<title><?php Env::echo($_Page->title($_L->main_title('芒刺中国'))) ?></title>
 	<?php echo Page::insert('head_htmlhead') ?>
 	<?php Env::include("page_meta") -> render(); ?>
 	<link rel="stylesheet" href="<?php echo Page::url('resource',['path'=>'css/main.css']) ?>">
@@ -18,14 +18,16 @@
 			</div>
 			<div id="user-info">
 				<nav>
+					<?php if( $_Op->allowSignUp == 1): ?>
 					<a href="<?php echo Page::url('user',['path'=>'SignUp']) ?>">注册</a>
+					<?php endif; ?>
 					<a href="<?php echo Page::url('user',['path'=>'SignIn']) ?>">登陆</a>
 				</nav>
 			</div>
 		</div>
 		<nav id="nav-menu" class="clearfix" >
 		<?php foreach($_Page->head_index_nav as $at=>$index): ?>
-			<a title="<?php Env::echo($index['title']) ?>" href="<?php Env::echo($index['url']) ?>"><div class="nav-menu-item <?php if( isset($_Page->head_index_nav_select) && $_Page->head_index_nav_select==$at): ?> current <?php endif; ?>"> <?php Env::echo($index['text']) ?></div> </a>
+			<a title="<?php Env::echo($index['title']) ?>" href="<?php Env::echo($index['url']) ?>"><div class="nav-menu-item <?php if( isset($_Page->head_index_nav_select) && $_Page->head_index_nav_select==$at): ?> current <?php endif; ?>"> <?php Env::echo($_L->_($index['text'])) ?></div> </a>
 		<?php endforeach; ?>
 		</nav>
 	</header>
