@@ -1,7 +1,25 @@
-<html>
-    <head>
-        <title>用户注册</title>
-        <link rel="stylesheet" href="@resource('css/sign.css')">
-    </head>
-    <img src="@url('verify_code')" alt="verify-img">
-</html>
+<!DOCTYPE HTML>
+<html lang="{{ $_Page->lang('zh') }}">
+<head>
+	<title>{{ $_L->user_signup('用户注册') }}</title>
+    <link rel="stylesheet" href="@resource('css/main.css')">
+    <link rel="stylesheet" href="@resource('css/sign.css')">
+</head>
+<div class="form-panel">
+    <h4>{{$_L->user_signup('用户注册')}}</h4>
+    <div class="form-group">
+        <input type="text" name="user_name" required class="form-control">
+        <label class="form-label">{{ $_L->user_name('用户名') }}</label>
+    </div>
+     <div class="form-group">
+        <input type="text" name="email" required autocomplete="off" class="form-control">
+        <label class="form-label">{{ $_L->user_password('邮 箱') }}</label>
+    </div>
+    <div class="form-group">
+        <input type="password" name="password" required autocomplete="off" class="form-control">
+        <label class="form-label">{{ $_L->user_password('密 码') }}</label>
+    </div>
+    <a href="@url('user',['path'=>'SignIn'])">{{ $_L->has_account('已有账号 ?') }}</a>
+    <button class="form-button bggreen">{{ $_L->signup('注 册') }}</button>
+</div>
+@include('footer')

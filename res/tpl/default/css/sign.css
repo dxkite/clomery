@@ -33,7 +33,7 @@
   color: #666;
 }
 .form-group + .form-group {
-  margin-top: 30px;
+  margin-top: 2em;
 }
 .form-group .form-label {
   position: absolute;
@@ -77,15 +77,15 @@
 }
 
 .form-button {
-    border-radius: 5px;
+  border-radius: 5px;
 	display: block;
-    width: 100%;
-	margin-top: 1em;
+  width: 100%;
+	margin-top: 2em;
 	padding: 1em 2em;
 	border: none;
 	position: relative;
 	z-index: 1;
-    background: #37474f;
+  background: #37474f;
 	color: #fff;
 	-webkit-transition: background-color 0.3s, color 0.3s;
 	transition: background-color 0.3s, color 0.3s;
@@ -96,7 +96,7 @@
 .form-button::before {
 	content: '';
 	position: absolute;
-    border-radius: inherit;
+  border-radius: inherit;
 	top: 0;
 	left: 0;
 	width: 100%;
@@ -127,4 +127,16 @@
   -webkit-transition: 0.3s;
   transition: 0.3s;
   border-bottom: 1px solid #777;
+}
+/* SigUp */
+.bggreen
+{
+  background: green;
+}
+.bggreen:hover
+{
+  	color: green;
+}
+.bggreen::before{
+	border: 2px solid green;
 }
