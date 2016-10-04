@@ -5,7 +5,9 @@ class EventCaller
 {
     const EVENT_POP=1;
     const EVENT_SHIFT=1<<1;
-    const EVENT_BREAK=1<<2;
+    const EVENT_ONLY=1<<2;
+    const EVENT_BREAK=1<<3;
+   
 
     public $callers=[];
     public $type=self::EVENT_POP;
@@ -22,6 +24,9 @@ class EventCaller
     public function call(array $args=[])
     {
         $break=false;
+        if (self::EVENT_ONLY&$this->type) {
+            return array_pop($this->callers)->call($args);
+        }
         if (self::EVENT_BREAK&$this->type) {
             $break=true;
         }

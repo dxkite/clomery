@@ -32,4 +32,8 @@ class Event
         }
         return isset(self::$events[$name])?self::$events[$name]->type($type):new EventCaller;
     }
+    public static function only(string $name)
+    {
+        return isset(self::$events[$name])?self::$events[$name]->type(EventCaller::EVENT_ONLY):new EventCaller;
+    }
 }
