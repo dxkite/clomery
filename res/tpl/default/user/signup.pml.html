@@ -16,7 +16,7 @@
         <label class="form-label" for="email" >{{ $_L->user_password('邮 箱') }}</label>
     </div>
     <div class="form-group">
-        <input type="password" id="password" name="password" required autocomplete="off" class="form-control">
+        <input type="password" name="password" required autocomplete="off" class="form-control">
         <label class="form-label" for="password">{{ $_L->user_password('密 码') }}</label>
     </div>
     <a href="@auto('user','SignIn')">{{ $_L->has_account('已有账号 ?') }}</a>
