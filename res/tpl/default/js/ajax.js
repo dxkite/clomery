@@ -18,6 +18,10 @@ function ajax()
     }
     function ready(callback)
     {
+        console.log(typeof callback);
+        ajax.addEventListener('readystatechange',function(){
+
+        });
         ajax.send(JSON.stringify(vars));
         return callback();
     }
@@ -29,7 +33,7 @@ function ajax()
 }
 send=new ajax();
 
-send.get('ajax').values({user:'DXkite'}).ready(
+send.get('/user/ajax').values({user:'DXkite'}).ready(
     function(answer){
         console.log('hello'+answer);
     }

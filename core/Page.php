@@ -181,7 +181,7 @@ class Page
                 $class= preg_replace('/(\\\\+|\/+)/', '\\', $names);
                 if (class_exists($class, false)) {
                     $app = new $class();
-                    $app ->main();
+                    return $app ->main();
                 }
             } else {
                 self::error404(self::url('404_page').'?url='.urlencode($path));
