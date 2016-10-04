@@ -126,7 +126,9 @@ class Page
      */
     public static function url(string $id, array $args=[]) : string
     {
-        $host="http://{$_SERVER['SERVER_NAME']}";
+        //$host="http://{$_SERVER['SERVER_NAME']}";
+        // NOTICE 不记得为什么要加这个了，先去除
+        $host='';
         if (isset(self::$ids[$id])) {
             $url=self::$ids[$id];
             foreach ($args as $name =>$value) {
