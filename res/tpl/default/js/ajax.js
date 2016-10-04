@@ -40,10 +40,4 @@ function ajax()
         ready:ready,
     };
 }
-send=new ajax();
-
-send.post('/user/ajax').values({user:'DXkite'}).ready(
-    function(answer){
-        console.log(answer);
-    }
-);
+window.ajax=ajax;
