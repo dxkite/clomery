@@ -19,9 +19,9 @@
 			<div id="user-info">
 				<nav>
 					@if ( $_Op->allowSignUp == 1)
-					<a href="@auto('user','SignUp')">注册</a>
+					<a href="@auto('user','SignUp')">{{ $_L->signup('注册') }}</a>
 					@endif
-					<a href="@auto('user','SignIn')">登陆</a>
+					<a href="@auto('user','SignIn')">{{ $_L->signin('登陆') }}</a>
 				</nav>
 			</div>
 		</div>

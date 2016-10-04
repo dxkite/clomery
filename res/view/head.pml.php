@@ -19,9 +19,9 @@
 			<div id="user-info">
 				<nav>
 					<?php if( $_Op->allowSignUp == 1): ?>
-					<a href="<?php echo Page::url('user',['path'=>'SignUp']) ?>">注册</a>
+					<a href="<?php echo Page::url('user',['path'=>'SignUp']) ?>"><?php Env::echo($_L->signup('注册')) ?></a>
 					<?php endif; ?>
-					<a href="<?php echo Page::url('user',['path'=>'SignIn']) ?>">登陆</a>
+					<a href="<?php echo Page::url('user',['path'=>'SignIn']) ?>"><?php Env::echo($_L->signin('登陆')) ?></a>
 				</nav>
 			</div>
 		</div>
