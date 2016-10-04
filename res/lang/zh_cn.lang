@@ -1,7 +1,9 @@
 main_title= 芒刺中国
-signin=
-user_signin= 
+signin= 登 陆 
+signup= 注 册
+user_signin= 用户登陆
 user_name= 
+user_signup= 新用户注册
 user_password= 
 forgot_password=
 index=首页
@@ -11,3 +13,4 @@ question=文章
 test=测试
 notes=留言板
 about=关于
+no_account= 没有账号？
