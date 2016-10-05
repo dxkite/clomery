@@ -43,7 +43,7 @@ window.addEventListener('load', function () {
         );
     });
     function verfy_username(name) {
-        return /^[^\^\~\\`\!\@\#\$\%\&\*\(\)\-\+\=\.\/\<\>\{\}\[\]\\\|\"\':]+$/.test(name);
+        return /^[^\^\~\\`\!\@\#\$\%\&\*\(\)\-\+\=\.\/\<\>\{\}\[\]\\\|\"\':\s]+$/.test(name);
     }
     username.addEventListener('blur', function () {
         if (this.value.length > 3) {

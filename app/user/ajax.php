@@ -47,7 +47,7 @@ class ajax
     {
         if (strtoupper(Session::get('verify_code'))!==strtoupper($code)) {
             $message='invaild verify code';
-        } elseif (preg_match('/^[\^\~\\`\!\@\#\$\%\&\*\(\)\-\+\=\.\/\<\>\{\}\[\]\\\|\"\':]+$/', $user)) {
+        } elseif (preg_match('/^[\^\~\\`\!\@\#\$\%\&\*\(\)\-\+\=\.\/\<\>\{\}\[\]\\\|\"\':\s]+$/', $user)) {
             $message='invaild username';
         } elseif (!preg_match('/^\S+?[@](\w+?\.)+\w+$/', $email)) {
             $message='invaild email';
