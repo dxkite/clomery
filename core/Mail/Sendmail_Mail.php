@@ -8,3 +8,8 @@
 //                 $this->header,
 //                 $this->parameters);
 //             restore_error_handler();
+class Mail
+{
+
+
+}
