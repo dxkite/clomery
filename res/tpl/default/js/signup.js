@@ -22,13 +22,12 @@ window.addEventListener('load', function () {
                 ask = new ajax();
                 ask.post('/user/ajax').values({ type: 'checkuser', user: this.value }).ready(
                     function (get) {
-                        if (get.return == false) {
+                        if (get.return === false) {
                             u_notice.innerHTML = '<span style="color:green">该用户名可用~</span>';
                             uname = true;
                         }
                         else {
                             u_notice.innerHTML = '<span style="color:red">该用户名已存在！</span>';
-                            verify_ok = false;
                             username.focus();
                         }
                     }
@@ -36,23 +35,30 @@ window.addEventListener('load', function () {
             }
             else {
                 u_notice.innerHTML = '<span style="color:red">用户名不能包含特殊字符！</span>';
-                verify_ok = false;
                 username.focus();
             }
         }
         else if (this.value.length < 4) {
             u_notice.innerHTML = '<span style="color:red">用户名不能少于4个字符！</span>';
-            verify_ok = false;
             username.focus();
         }
     });
     uemail.addEventListener('blur', function () {
         if (/^\S+?[@](\w+?\.)+\w+$/.test(this.value)) {
-            e_notice.innerHTML = '<span style="color:green">该邮箱可用~</span>';
-            email = true;
+            ask = new ajax();
+            ask.post('/user/ajax').values({ type: 'checkemail', email: this.value }).ready(
+                function (asw) {
+                    if (asw.return === false) {
+                        e_notice.innerHTML = '<span style="color:green">该邮箱可用~</span>';
+                        email = true;
+                    }
+                    else {
+                        e_notice.innerHTML = '<span style="color:red">该邮箱已被注册</span>';
+                    }
+                }
+            );
         } else {
             e_notice.innerHTML = '<span style="color:red">该邮箱非法</span>';
-            verify_ok = false;
             this.focus();
         }
     });
@@ -71,7 +77,6 @@ window.addEventListener('load', function () {
     rpass.addEventListener('blur', function () {
         if (this.value !== pass.value) {
             n_rpassword.innerHTML = '<span style="color:green">密码与之前输入的密码不一致</span>';
-            verify_ok = false;
             upass = false;
             this.focus();
         }
@@ -94,7 +99,7 @@ window.addEventListener('load', function () {
                             var json = JSON.parse(signup.responseText);
                             if (json['return'] === true) {
                                 submit.innerHTML = "注册成功！";
-                                location.href = document.referrer;
+                                location.href = json.jump || document.referrer || '/';
                             }
                             else {
                                 submit.innerHTML = "注册失败，请重试！";
@@ -105,10 +110,11 @@ window.addEventListener('load', function () {
                         submit.innerHTML = "请求出错，请重试！";
                 }
             });
+            signup.setRequestHeader('Content-Type','application/json ; charset=UTF-8');
             signup.send(JSON.stringify({
                 type: 'signup',
                 user: username.value,
-                pass: pass.value,
+                passwd: pass.value,
                 email: uemail.value,
             }));
         }
