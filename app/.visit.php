@@ -37,7 +37,7 @@ Page::auto('/user', '/user')->id('user');
 // 管理界面导向
 Page::auto('/@_@', '/admin')->id('admin');
 // 验证码
-Page::visit('/QvQ',function(){
+Page::visit('/verify_code',function(){
     (new Image())->verifyImage();
 })->raw()
 ->type('png')

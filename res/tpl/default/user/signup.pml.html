@@ -26,6 +26,11 @@
         <input type="password" id="rpassword" required autocomplete="off" class="form-control">
         <label id="n-rpassword" class="form-label" for="rpassword">{{ $_L->user_password_check('确认密码') }}</label>
     </div>
+    <div class="form-group">
+        <input type="text" id="verify" required autocomplete="off" class="form-control">
+        <label id="n-verify" class="form-label" for="verify">{{ $_L->please_enter_verify_code('请输入验证码') }}</label>
+        <img  src="@url('verify_code')" alt="verify_code" id="verify_code">
+    </div>
     <a href="@auto('user','SignIn')">{{ $_L->has_account('已有账号 ?') }}</a>
     <button id="signup" class="form-button bggreen">{{ $_L->signup('注 册') }}</button>
 </div>

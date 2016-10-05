@@ -151,7 +151,11 @@
 .bggreen::before{
 	border: 2px solid green;
 }
-.error
+
+#verify_code
 {
-  color:#f00;
+	position: absolute;
+  right: 0;
+  top: 5px;
+  z-index:5;
 }

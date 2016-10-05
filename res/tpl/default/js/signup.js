@@ -1,7 +1,10 @@
+"use strick"
 window.addEventListener('load', function () {
     var uname = false;
     var upass = false;
     var email = false;
+    var verify = false;
+
     var username = document.getElementById('username');
     var u_notice = document.getElementById('n-username');
     var uemail = document.getElementById('email');
@@ -13,13 +16,39 @@ window.addEventListener('load', function () {
 
     var n_password = document.getElementById('n-password');
     var n_rpassword = document.getElementById('n-rpassword');
+
+    var d_verify = document.getElementById('verify');
+    var n_verify = document.getElementById('n-verify');
+    var img = document.getElementById('verify_code');
+    var img_url = img.src;
+    img.addEventListener('click', function () {
+        this.src = img_url + '?t=' + (new Date()).getTime();
+    });
+    d_verify.addEventListener('blur', function () {
+        var ver = new ajax();
+        ver.post('/user/ajax').values({ type: 'verify', code: this.value }).ready(
+            function (asw) {
+                if (asw.return == true) {
+                    n_verify.innerHTML = '<span style="color:green">验证成功~</span>';
+                    verify = true;
+                    d_verify.parentNode.style.display = 'none';
+                }
+                else {
+                    n_verify.innerHTML = '<span style="color:red">验证码错误！</span>';
+                    d_verify.value = '';
+                    img.click();
+                    d_verify.focus();
+                }
+            }
+        );
+    });
     function verfy_username(name) {
         return /^[^\^\~\\`\!\@\#\$\%\&\*\(\)\-\+\=\.\/\<\>\{\}\[\]\\\|\"\':]+$/.test(name);
     }
     username.addEventListener('blur', function () {
         if (this.value.length > 3) {
             if (verfy_username(this.value)) {
-                ask = new ajax();
+                var ask = new ajax();
                 ask.post('/user/ajax').values({ type: 'checkuser', user: this.value }).ready(
                     function (get) {
                         if (get.return === false) {
@@ -86,7 +115,7 @@ window.addEventListener('load', function () {
         }
     });
     submit.addEventListener('click', function () {
-        if (uname && upass && email) {
+        if (uname && upass && email && verify) {
             signup = new XMLHttpRequest;
             signup.open('POST', '/user/ajax');
             signup.addEventListener('readystatechange', function () {
@@ -110,12 +139,13 @@ window.addEventListener('load', function () {
                         submit.innerHTML = "请求出错，请重试！";
                 }
             });
-            signup.setRequestHeader('Content-Type','application/json ; charset=UTF-8');
+            signup.setRequestHeader('Content-Type', 'application/json ; charset=UTF-8');
             signup.send(JSON.stringify({
                 type: 'signup',
                 user: username.value,
                 passwd: pass.value,
                 email: uemail.value,
+                code: d_verify.value,
             }));
         }
     });
