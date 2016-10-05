@@ -10,7 +10,7 @@ function import(string $name)
         return $imported[$name];
     }
     $paths=[APP_LIB, CORE_PATH, APP_ROOT]; // 搜索目录
-    $name=preg_replace('/[\\_\/.]/', DIRECTORY_SEPARATOR, $name);
+    $name=preg_replace('/[\\\\_\/.]/', DIRECTORY_SEPARATOR, $name);
     foreach ($paths as $root) {
         // 优先查找文件
         if (file_exists($require=$root.'/'.$name.'.php')) {

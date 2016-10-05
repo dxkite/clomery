@@ -87,7 +87,7 @@ class Page
             self::$globals['_Page']=new \Core\Value(self::$values);
             // 多语言支持
             if (!isset(self::$globals['_L'])) {
-                self::$globals['_L']=new language(self::$lang);
+                self::$globals['_L']=new Language(self::$lang);
             }
             // 分解变量
             extract(self::$globals, EXTR_OVERWRITE);
