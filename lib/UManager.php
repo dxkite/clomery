@@ -71,4 +71,14 @@ class UManager
             return 1; // no user
         }
     }
+    public function has_signin()
+    {
+        return Session::get('signin', false);
+    }
+    public function signout()
+    {
+        // 设置登陆状态
+        Session::set('signin', false);
+        Session::destroy();
+    }
 }

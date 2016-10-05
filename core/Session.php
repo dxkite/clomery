@@ -23,7 +23,7 @@ class Session
         $_SESSION[$name]=$value;
         return isset($_SESSION[$name]);
     }
-    public static function get(string $name,$default=null)
+    public static function get(string $name, $default=null)
     {
         return isset($_SESSION[$name])?$_SESSION[$name]:$default;
     }
@@ -32,5 +32,9 @@ class Session
         if (array_key_exists($name, self::$fname)) {
             return call_user_func_array('session_'.self::$fname[$name], $params);
         }
+    }
+    public static function destroy()
+    {
+        session_unset();
     }
 }

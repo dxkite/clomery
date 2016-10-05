@@ -17,12 +17,16 @@
 			<?php endif; ?>
 			</div>
 			<div id="user-info">
+				<?php if($_Page->has_signin): ?>
+					<div><?php Env::echo($_Page->signin_user) ?>，你好！</div>
+				<?php else: ?>
 				<nav>
 					<?php if( $_Op->allowSignUp == 1): ?>
 					<a href="<?php echo Page::url('user',['path'=>'SignUp']) ?>"><?php Env::echo($_L->signup('注册')) ?></a>
 					<?php endif; ?>
 					<a href="<?php echo Page::url('user',['path'=>'SignIn']) ?>"><?php Env::echo($_L->signin('登陆')) ?></a>
 				</nav>
+				<?php endif; ?>
 			</div>
 		</div>
 		<nav id="nav-menu" class="clearfix" >

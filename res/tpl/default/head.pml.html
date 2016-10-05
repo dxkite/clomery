@@ -17,12 +17,16 @@
 			@endif
 			</div>
 			<div id="user-info">
+				@if ($_Page->has_signin)
+					<div>{{ $_Page->signin_user }}，你好！</div>
+				@else
 				<nav>
 					@if ( $_Op->allowSignUp == 1)
 					<a href="@auto('user','SignUp')">{{ $_L->signup('注册') }}</a>
 					@endif
 					<a href="@auto('user','SignIn')">{{ $_L->signin('登陆') }}</a>
 				</nav>
+				@endif
 			</div>
 		</div>
 		<nav id="nav-menu" class="clearfix" >
