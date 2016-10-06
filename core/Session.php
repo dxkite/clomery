@@ -16,6 +16,10 @@ class Session
         session_name(conf('Session.name', 'atd_sid'));
         session_cache_limiter(conf('Session.limiter', 'private'));
         session_cache_expire(conf('Session.expire', '60'));
+        /**
+        * ERROR:
+        * session_start(): The session id is too long or contains illegal characters, valid characters are a-z, A-Z, 0-9 and '-,' in <b>/srv/hosts/mc/core/Session.php</b> on line <b>19</b><br />
+        */
         session_start();
     }
     public static function set(string $name, $value)
