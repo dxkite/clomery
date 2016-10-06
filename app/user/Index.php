@@ -1,3 +1,16 @@
 <?php
-    require __DIR__.'/SignIn.php';
-    (new user\SignIn())->main();
+namespace user;
+use UManager;
+
+class Index
+{
+    public function main()
+    {
+        if (UManager::has_signin()){
+            echo '用户中心';
+        }
+        else{
+            (new SignIn())->main();
+        }
+    }
+}
