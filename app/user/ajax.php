@@ -15,7 +15,8 @@ class ajax
         $json=Request::json();
         if (isset($json['type'])) {
             switch ($json['type']) {
-                case 'verify': if (isset($json['code'])) {
+                case 'verify':
+                if (isset($json['code'])) {
                     $r=(strtoupper(Session::get('human_varify'))===strtoupper($json['code']));
                     if ($r===true) {
                         Session::set('verify_code', $json['code']);
@@ -44,7 +45,8 @@ class ajax
     }
 
     public function signup(string $user, string $passwd, string  $email, string $code)
-    {
+    {   
+        // var_dump(Session::get('verify_code'),$code);
         if (strtoupper(Session::get('verify_code'))!==strtoupper($code)) {
             $message='invaild verify code';
         } elseif (!preg_match('/^[^\^\~\\`\!\@\#\$\%\&\*\(\)\-\+\=\.\/\<\>\{\}\[\]\\\|\"\':\s\x3f]+$/', $user)) {

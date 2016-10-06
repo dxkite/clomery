@@ -115,7 +115,12 @@ window.addEventListener('load', function () {
         }
     });
     submit.addEventListener('click', function () {
-        if (uname && upass && email && verify) {
+        if (trpass.value !== pass.value) {
+            n_rpassword.innerHTML = '<span style="color:green">密码与之前输入的密码不一致</span>';
+            upass = false;
+            rpass.focus();
+        }
+        else if (uname && upass && email && verify) {
             signup = new XMLHttpRequest;
             signup.open('POST', '/user/ajax');
             signup.addEventListener('readystatechange', function () {
