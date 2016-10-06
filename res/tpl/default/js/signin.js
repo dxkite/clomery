@@ -7,7 +7,7 @@ window.addEventListener('load', function () {
     var n_password = document.getElementById('n-password');
     var submit = document.getElementById('signin');
     function verfy_username(name) {
-        return /^[^\^\~\\`\!\@\#\$\%\&\*\(\)\-\+\=\.\/\<\>\{\}\[\]\\\|\"\':]+$/.test(name);
+        return /^[\^\~\\`\!\@\#\$\%\&\*\(\)\-\+\=\.\/\<\>\{\}\[\]\\\|\"\':\s\x3f]+$/.test(name);
     }
     username.addEventListener('blur', function () {
         if (this.value.length > 3) {

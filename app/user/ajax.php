@@ -47,7 +47,7 @@ class ajax
     {
         if (strtoupper(Session::get('verify_code'))!==strtoupper($code)) {
             $message='invaild verify code';
-        } elseif (preg_match('/^[\^\~\\`\!\@\#\$\%\&\*\(\)\-\+\=\.\/\<\>\{\}\[\]\\\|\"\':\s]+$/', $user)) {
+        } elseif (preg_match('/^[\^\~\\`\!\@\#\$\%\&\*\(\)\-\+\=\.\/\<\>\{\}\[\]\\\|\"\':\s\x3f]+$/', $user)) {
             $message='invaild username';
         } elseif (!preg_match('/^\S+?[@](\w+?\.)+\w+$/', $email)) {
             $message='invaild email';
@@ -62,7 +62,7 @@ class ajax
 
     public function signin(string $name, string $passwd)
     {
-        if (preg_match('/^[\^\~\\`\!\@\#\$\%\&\*\(\)\-\+\=\.\/\<\>\{\}\[\]\\\|\"\':]+$/', $name)) {
+        if (preg_match('/^[\^\~\\`\!\@\#\$\%\&\*\(\)\-\+\=\.\/\<\>\{\}\[\]\\\|\"\':\s\x3f]+$/', $name)) {
             $message='invaild username';
         } else {
             if (($rt=UManager::signin($name, $passwd))===0) {
