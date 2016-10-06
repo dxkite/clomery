@@ -11,7 +11,7 @@ use \Cache;  // 缓存
 class Options
 {
     /**
-     * @var
+     * @options
      */
     public static $options;
 
@@ -69,7 +69,7 @@ class Options
      */
     public function __get(string $name)
     {
-        return isset(self::$options[$name]) ? self::$options[$name] : NULL;
+        return isset(self::$options[$name]) ? self::$options[$name] : null;
     }
 
     /**
@@ -86,5 +86,14 @@ class Options
     public function __isset(string $name):bool
     {
         return isset(self::$options[$name]);
+    }
+    public function __call(string $name, $args)
+    {
+        $fmt=isset(self::$options[$name])?self::$options[$name]:(isset($args[0])?$args[0]:'U:['.$name.']');
+        if (count($args)>1) {
+            $args[0]=$fmt;
+            return call_user_func_array('sprintf', $args);
+        }
+        return $fmt;
     }
 }
