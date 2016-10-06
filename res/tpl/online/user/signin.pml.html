@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html lang="{{ $_Page->lang('zh') }}">
+
+<head>
+    <title>{{ $_L->user_signin('用户登陆') }}</title>
+    <link rel="stylesheet" href="@resource('css/main.css')">
+    <link rel="stylesheet" href="@resource('css/sign.css')">
+    <script src="@resource('js/ajax.js')?t={{time()}}"></script>
+    <script src="@resource('js/signin.js')?t={{time()}}"></script>
+</head>
+<div class="form-panel">
+    <div class="form_avatar">
+        <img src="../static/img/user_anonymous.svg" alt="user_avatar" class="user_avatar">
+    </div>
+    <h4>{{$_L->user_signin('用户登陆')}}</h4>
+    <div class="form-group">
+        <input type="text" id="username" required class="form-control">
+        <label id="n-username" class="form-label" for="username">{{ $_L->user_name('用户名') }}</label>
+    </div>
+
+    <div class="form-group">
+        <input type="password" id="password" required autocomplete="off" class="form-control">
+        <label id="n-password" class="form-label" for="password">{{ $_L->user_password('密　码') }}</label>
+    </div>
+    <a href="#">{{ $_L->forgot_password('忘记密码 ?') }}</a> @if ( $_Op->allowSignUp == 1)
+    <a href="@auto('user','SignUp')">{{ $_L->no_account('没有账号 ?') }}</a> @endif
+    <button id="signin" class="form-button">{{ $_L->signin('登 陆') }}</button>
+</div>
+@include('footer')
