@@ -1,0 +1,51 @@
+# debug mod
+
+# 调试模式
+DEBUG       = 1
+# 缓存
+NoCache     = 0
+# 使用的时区
+timezone    = PRC
+# 运行限制
+timelimit   = 0
+
+# DEBUG的设置
+[Debug]
+showPageHook=0
+
+
+# 启用的驱动
+[Driver]
+# 用文件储存
+Storage     = File
+# 邮件发送 NULL 默认为 sendmail
+Mail        = SendMail
+# 模板编译器 默认 pomelo
+View        = Pomelo
+# 数据库查询 使用PDO驱动
+Query      = PdoMySQL
+# Markdown 解析器
+Markdown    = HyperDown
+# Cache缓存
+Cache       = File
+# Image 图形库
+Image       = GD
+
+# Database Set
+[Database]
+host        = 127.0.0.1
+dbname      = three
+user        = root
+passwd      = root
+charset     = utf8
+prefix      = atd_
+
+# Session 可配置属性
+[Session]
+name        = atd_sid
+# res 目录下的
+save_path   = session
+# 过期事件 单位 分钟
+cache_limiter=10
+# 限制器
+cache_expire= private
