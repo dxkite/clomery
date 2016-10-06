@@ -31,6 +31,13 @@ class UManager
             'token'=>md5(Request::ip().time()),
         ])->exec()) {
             $uid=$q->lastInsertId();
+            // 登陆日志记录
+            (new Query('INSERT INTO `#{signin_historys}` (`uid`,`ip`,`time`) VALUES (:uid,:ip,:time)'))->values([
+                 'uid'=>$uid,
+                'ip'=>Request::ip(),
+                'time'=>time(),
+            ])->exec();
+            Session::regenerate(true);
             // 设置登陆状态
             Session::set('signin', true);
             // 登陆信息
@@ -56,6 +63,13 @@ class UManager
                     'lastip'=>Request::ip(),
                     'token'=>md5(Request::ip().time()),
                 ])->exec()) {
+                    // 登陆日志记录
+                    (new Query('INSERT INTO `#{signin_historys}` (`uid`,`ip`,`time`) VALUES (:uid,:ip,:time)'))->values([
+                        'uid'=>$get['uid'],
+                        'ip'=>Request::ip(),
+                        'time'=>time(),
+                    ])->exec();
+                    Session::regenerate(true);
                     // 设置登陆状态
                     Session::set('signin', true);
                     // 登陆信息

@@ -41,4 +41,7 @@ class Session
     {
         session_unset();
     }
+    public static function regenerate(bool $delete=false) :bool {
+        return session_regenerate_id($delete);
+    }
 }
