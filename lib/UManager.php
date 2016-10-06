@@ -2,7 +2,7 @@
 
 class UManager
 {
-    public function userExist(string $user):bool
+    public static function userExist(string $user):bool
     {
         $q=new Query('SELECT uid FROM #{users} where LOWER(uname) = LOWER(:uname) LIMIT 1;');
         $q->values(['uname'=>$user]);
@@ -11,7 +11,7 @@ class UManager
         }
         return false;
     }
-    public function emailExist(string $email):bool
+    public static function emailExist(string $email):bool
     {
         $q=new Query('SELECT uid FROM #{users} where LOWER(email) = LOWER(:email) LIMIT 1;');
         $q->values(['email'=>$email]);
@@ -20,7 +20,7 @@ class UManager
         }
         return false;
     }
-    public function signUp(string $user, string $passwd, string $email):int
+    public static function signUp(string $user, string $passwd, string $email):int
     {
         if (($q=new Query('INSERT INTO #{users} (`uname`,`upass`,`email`,`signup`,`lastip`,`token`) VALUES ( :uname, :passwd, :email, :signup ,:lastip , :token );'))->values([
             'uname'=>$user,
@@ -43,7 +43,7 @@ class UManager
         }
         return 0;
     }
-    public function signIn(string $name, string $passwd):int
+    public static function signIn(string $name, string $passwd):int
     {
         if ($get=(new Query('SELECT `upass`,`uid` FROM #{users} WHERE LOWER(uname)=LOWER(:uname)LIMIT 1;'))->values(['uname'=>$name])->fetch()) {
             //信息缓存
@@ -71,14 +71,22 @@ class UManager
             return 1; // no user
         }
     }
-    public function has_signin()
+    public static function has_signin()
     {
         return Session::get('signin', false);
     }
-    public function signout()
+    public static function signout()
     {
         // 设置登陆状态
         Session::set('signin', false);
         Session::destroy();
+    }
+    public static function numbers():int
+    {
+        $q='SELECT `TABLE_ROWS` as `size` FROM `information_schema`.`TABLES` WHERE  `TABLE_SCHEMA`="'.conf('Database.dbname').'" AND `TABLE_NAME` ="#{users}" LIMIT 1;';
+        if ($a=($d=new Query($q))->fetch()) {
+            return $a['size'];
+        }
+        return 0;
     }
 }
