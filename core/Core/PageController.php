@@ -23,7 +23,7 @@ class PageController extends Caller
     /**
     * $tpl当前页面模板
     */
-    private $tpl=null;
+    private $tpl='';
     /**
     * $type 当前页面会被呈现的Content-type
     */
@@ -173,8 +173,7 @@ class PageController extends Caller
                 echo Page::getContent();
             }
         } else {
-            if ($this->tpl)
-                Page::render($this->tpl, $value);
+            Page::render($this->tpl, $value);
             if ($this->allowOutput)
             {
                 echo Page::getContent();

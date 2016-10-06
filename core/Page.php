@@ -92,7 +92,7 @@ class Page
             // 分解变量
             extract(self::$globals, EXTR_OVERWRITE);
             require_once $file;
-        } else {
+        } else if ($page!=='') {
             trigger_error($page.' TPL no Find!');
         }
     }
@@ -139,9 +139,8 @@ class Page
         }
         return $host;
     }
-    public static function redirect(string $url, int $code=302)
+    public static function redirect(string $url)
     {
-        self::getController()->status($code);
         header('Location:'.$url);
     }
     public static function error404($path=null)

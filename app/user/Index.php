@@ -1,6 +1,7 @@
 <?php
 namespace user;
 use UManager;
+use Page;
 
 class Index
 {
@@ -10,7 +11,8 @@ class Index
             echo '用户中心';
         }
         else{
-            (new SignIn())->main();
+            // (new SignIn())->main();
+            Page::redirect('/user/SignIn');
         }
     }
 }
