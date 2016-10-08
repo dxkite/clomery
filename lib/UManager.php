@@ -22,13 +22,14 @@ class UManager
     }
     public static function signUp(string $user, string $passwd, string $email):int
     {
+        $token=md5(Request::ip().time());
         if (($q=new Query('INSERT INTO #{users} (`uname`,`upass`,`email`,`signup`,`lastip`,`token`) VALUES ( :uname, :passwd, :email, :signup ,:lastip , :token );'))->values([
             'uname'=>$user,
             'passwd'=>password_hash($passwd, PASSWORD_DEFAULT),
             'email'=>$email,
             'signup'=>time(),
             'lastip'=>Request::ip(),
-            'token'=>md5(Request::ip().time()),
+            'token'=>$token,
         ])->exec()) {
             $uid=$q->lastInsertId();
             // 登陆日志记录
@@ -42,6 +43,7 @@ class UManager
             Session::set('signin', true);
             // 登陆信息
             Session::set('user_id', $uid);
+            Cookie::set('ukey',$token.$uid,60*60*24*30)->httpOnly();
             Session::set('user_name', $user);
             //信息缓存
             Cache::set('user:'.$uid, $user);
@@ -52,6 +54,7 @@ class UManager
     }
     public static function signIn(string $name, string $passwd):int
     {
+        $token=md5(Request::ip().time());
         if ($get=(new Query('SELECT `upass`,`uid` FROM #{users} WHERE LOWER(uname)=LOWER(:uname)LIMIT 1;'))->values(['uname'=>$name])->fetch()) {
             //信息缓存
             Cache::set('user:'.$get['uid'], $name);
@@ -61,7 +64,7 @@ class UManager
                     'uid'=>$get['uid'],
                     'signin'=>time(),
                     'lastip'=>Request::ip(),
-                    'token'=>md5(Request::ip().time()),
+                    'token'=>$token,
                 ])->exec()) {
                     // 登陆日志记录
                     (new Query('INSERT INTO `#{signin_historys}` (`uid`,`ip`,`time`) VALUES (:uid,:ip,:time)'))->values([
@@ -74,6 +77,7 @@ class UManager
                     Session::set('signin', true);
                     // 登陆信息
                     Session::set('user_id', $get['uid']);
+                    Cookie::set('ukey',$token.$get['uid'],60*60*24*30)->httpOnly();
                     Session::set('user_name', $name);
                     return 0;
                 }

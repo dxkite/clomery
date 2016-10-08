@@ -9,6 +9,13 @@ use Session;
 
 class ajax
 {
+
+    const REG_EMAIL='/^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/';
+    // 密码随意
+    // const REG_PASSWD='/^([0-9a-zA-Z\_`!~@#$%^*+=,.?;\'":)(}{/\\\|<>&\[\-]|\])+$/';
+    const REG_UNAME='/^[\w\x{4e00}-\x{9aff}]{4,12}$/u';
+
+
     public function main()
     {
         Page::getController()->json();
@@ -49,9 +56,9 @@ class ajax
         // var_dump(Session::get('verify_code'),$code);
         if (strtoupper(Session::get('verify_code'))!==strtoupper($code)) {
             $message='invaild verify code';
-        } elseif (!preg_match('/^[^\^\~\\`\!\@\#\$\%\&\*\(\)\-\+\=\.\/\<\>\{\}\[\]\\\|\"\':\s\x3f]+$/', $user)) {
+        } elseif (!preg_match(self::REG_UNAME, $user)) {
             $message='invaild username';
-        } elseif (!preg_match('/^\S+?[@](\w+?\.)+\w+$/', $email)) {
+        } elseif (!preg_match(self::REG_EMAIL, $email)) {
             $message='invaild email';
         } else {
             if ($id=UManager::signup($user, $passwd, $email)) {
@@ -64,7 +71,7 @@ class ajax
 
     public function signin(string $name, string $passwd)
     {
-        if (!preg_match('/^[^\^\~\\`\!\@\#\$\%\&\*\(\)\-\+\=\.\/\<\>\{\}\[\]\\\|\"\':\s\x3f]+$/', $name)) {
+        if (!preg_match(self::REG_UNAME, $name)) {
             $message='invaild username';
         } else {
             if (($rt=UManager::signin($name, $passwd))===0) {

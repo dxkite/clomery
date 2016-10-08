@@ -42,8 +42,8 @@ window.addEventListener('load', function () {
             }
         );
     });
-    function verfy_username(name) {
-        return /^[^\^\~\\`\!\@\#\$\%\&\*\(\)\-\+\=\.\/\<\>\{\}\[\]\\\|\"\':\s\x3f]+$/.test(name);
+       function verfy_username(name) {
+        return /^[\w\u4e00-\u9aff]+$/.test(name);
     }
     username.addEventListener('blur', function () {
         if (this.value.length > 3) {
@@ -73,7 +73,7 @@ window.addEventListener('load', function () {
         }
     });
     uemail.addEventListener('blur', function () {
-        if (/^\S+?[@](\w+?\.)+\w+$/.test(this.value)) {
+        if (/^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/.test(this.value)) {
             ask = new ajax();
             ask.post('/user/ajax').values({ type: 'checkemail', email: this.value }).ready(
                 function (asw) {
@@ -115,7 +115,7 @@ window.addEventListener('load', function () {
         }
     });
     submit.addEventListener('click', function () {
-        if (trpass.value !== pass.value) {
+        if (rpass.value !== pass.value) {
             n_rpassword.innerHTML = '<span style="color:green">密码与之前输入的密码不一致</span>';
             upass = false;
             rpass.focus();
