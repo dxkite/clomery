@@ -44,7 +44,7 @@ class UManager
             // 登陆信息
             Session::set('user_id', $uid);
             // 登陆状态保留 
-            Cookie::set('token',$token.$uid,60*60*24*30)->httpOnly();
+            Cookie::set('token',$token.$uid,2592000)->httpOnly();
             Session::set('user_name', $user);
             //信息缓存
             Cache::set('user:'.$uid, $user);
@@ -79,7 +79,7 @@ class UManager
                     // 登陆信息
                     Session::set('user_id', $get['uid']);
                     // 登陆状态保留 
-                    Cookie::set('token',$token.$get['uid'],60*60*24*30)->httpOnly();
+                    Cookie::set('token',$token.$get['uid'],2592000)->httpOnly();
                     Session::set('user_name', $name);
                     return 0;
                 }
