@@ -43,8 +43,8 @@ class UManager
             Session::set('signin', true);
             // 登陆信息
             Session::set('user_id', $uid);
-            // 登陆状态保留 
-            Cookie::set('token',$token.$uid,2592000)->httpOnly();
+            // 登陆状态保留
+            Cookie::set('token', $token.$uid, 2592000)->httpOnly();
             Session::set('user_name', $user);
             //信息缓存
             Cache::set('user:'.$uid, $user);
@@ -78,8 +78,8 @@ class UManager
                     Session::set('signin', true);
                     // 登陆信息
                     Session::set('user_id', $get['uid']);
-                    // 登陆状态保留 
-                    Cookie::set('token',$token.$get['uid'],2592000)->httpOnly();
+                    // 登陆状态保留
+                    Cookie::set('token', $token.$get['uid'], 2592000)->httpOnly();
                     Session::set('user_name', $name);
                     return 0;
                 }
@@ -91,22 +91,31 @@ class UManager
             return 1; // no user
         }
     }
-    public static function has_signin()
+    public static function getSigninLogs(int $uid) :array
     {
-       preg_match('/^([a-zA-z0-9]{0,32})(\d+)$/',Cookie::get('token'),$match);
-       if (count($match)>0 && $last=(new Query('SELECT `lastip` FROM `#{users}` WHERE uid=:uid AND token=:token LIMIT 1;'))
-           ->values
-           ([
+        if ($history = (new Query('SELECT `ip`,`time`  FROM `atd_signin_historys` WHERE `uid` = :uid LIMIT 20; '))
+        -> values(
+            ['uid'=>$uid]
+        )->fetchAll()) {
+            return $history;
+        }
+        return [];
+    }
+    public static function hasSignin()
+    {
+        preg_match('/^([a-zA-z0-9]{0,32})(\d+)$/', Cookie::get('token'), $match);
+        if (count($match)>0 && $last=(new Query('SELECT `uid`,`lastip`,`uname` as `name`,`signup` FROM `#{users}` WHERE uid=:uid AND token=:token LIMIT 1;'))
+           ->values([
                    'token'=>$match[1],
                    'uid'=>$match[2]
-            ])->fetch()){
-               Cache::set('uid-'.$match[2].'-lastip',$last['lastip']);
+            ])->fetch()) {
+            Cache::set('uid-'.$match[2].'-lastip', $last['lastip']);
                // 设置登陆状态
                Session::set('signin', true);
                // 登陆信息
-               Session::set('user_id',$match[2]);
-               return true;
-       }
+               Session::set('user_id', $match[2]);
+            return $last;
+        }
         return false;
     }
     public static function signout()

@@ -7,8 +7,10 @@ class Index
 {
     public function main()
     {
-        if (UManager::has_signin()){
-            echo '用户中心';
+        if ($info=UManager::hasSignin()){
+            Page::use('user/index');
+            Page::set('user_name',$info['name']);
+            Page::set('signin_list',UManager::getSigninLogs($info['uid']));
         }
         else{
             // (new SignIn())->main();

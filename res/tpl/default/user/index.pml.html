@@ -1,0 +1,14 @@
+<html>
+    <head>
+        <title>{{ $_L->user_center("用户中心") }}</title>
+    </head>
+    <body>
+        <h1>用户 {{ $_Page->user_name }} 你好。</h1>
+        <h2>登陆历史</h2>
+        <ol>
+            @foreach($_Page->signin_list as $signin_item)
+            <li> {{ $signin_item['ip'] }} -- {{ date('Y-m-d H:m:s',$signin_item['time']) }}  </li>
+            @endforeach
+        </ol>
+    </body>
+</html>
