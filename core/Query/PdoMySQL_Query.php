@@ -34,9 +34,12 @@ class Query implements Query_Interface
         return false;
     }
     
-    public function exec():bool
+    public function exec():int
     {
-        return self::lazyQuery($this->query, $this->values);
+        if (self::lazyQuery($this->query, $this->values)) {
+            return $this->stmt->rowCount();
+        }
+        return 0;
     }
 
     public function values(array $values)

@@ -43,7 +43,8 @@ class UManager
             Session::set('signin', true);
             // 登陆信息
             Session::set('user_id', $uid);
-            Cookie::set('ukey',$token.$uid,60*60*24*30)->httpOnly();
+            // 登陆状态保留 
+            Cookie::set('token',$token.$uid,60*60*24*30)->httpOnly();
             Session::set('user_name', $user);
             //信息缓存
             Cache::set('user:'.$uid, $user);
@@ -77,7 +78,8 @@ class UManager
                     Session::set('signin', true);
                     // 登陆信息
                     Session::set('user_id', $get['uid']);
-                    Cookie::set('ukey',$token.$get['uid'],60*60*24*30)->httpOnly();
+                    // 登陆状态保留 
+                    Cookie::set('token',$token.$get['uid'],60*60*24*30)->httpOnly();
                     Session::set('user_name', $name);
                     return 0;
                 }
@@ -91,7 +93,21 @@ class UManager
     }
     public static function has_signin()
     {
-        return Session::get('signin', false);
+       preg_match('/^([a-zA-z0-9]{0,32})(\d+)$/',Cookie::get('token'),$match);
+       if (count($match)>0 && $last=(new Query('SELECT `lastip` FROM `#{users}` WHERE uid=:uid AND token=:token LIMIT 1;'))
+           ->values
+           ([
+                   'token'=>$match[1],
+                   'uid'=>$match[2]
+            ])->fetch()){
+               Cache::set('uid-'.$match[2].'-lastip',$last['lastip']);
+               // 设置登陆状态
+               Session::set('signin', true);
+               // 登陆信息
+               Session::set('user_id',$match[2]);
+               return true;
+       }
+        return false;
     }
     public static function signout()
     {
