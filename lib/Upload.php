@@ -25,8 +25,9 @@ class Upload
      * @param string $name 表单名
      * @param int $uid 上传用户
      * @param int $public 是否公开
+     * @return bool
      */
-    public static function uploadFile(string  $name, int $uid, int $public=1)
+    public static function uploadFile(string  $name, int $uid, int $public=1):bool
     {
 
     }
@@ -36,8 +37,9 @@ class Upload
      * @param string $path 文件路径
      * @param int $uid 上传用户
      * @param int $public 是否公开 0否 1是
+     * @return bool
      */
-    public static function register(string $path, int $uid, int $public=1)
+    public static function register(string $path, int $uid, int $public=1):bool
     {
 
     }
@@ -45,8 +47,9 @@ class Upload
     /**
      * 根据ID获取公开文件路径
      * @param int $id
+     * @return string
      */
-    public static function getPathIfPublic(int $id)
+    public static function getPathIfPublic(int $id):string
     {
 
     }
@@ -54,8 +57,9 @@ class Upload
     /**
      * 根据ID获取文件路径
      * @param int $id
+     * @return string
      */
-    public static function getPath(int $id)
+    public static function getPath(int $id):string
     {
 
     }
