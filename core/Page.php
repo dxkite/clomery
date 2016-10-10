@@ -19,7 +19,6 @@ class Page
     private static $controller;
     private static $content='';
     private static $values=[];
-    private static $use=null;
     private static $insert=[];
     private static $globals=[];
     private static $lang='zh_cn';
@@ -54,7 +53,7 @@ class Page
     }
     public static function use(string $page)
     {
-        self::$use=$page;
+        self::$controller->use($page);
     }
     public static function resource($path)
     {
@@ -75,10 +74,10 @@ class Page
         self::set('lang',self::$lang);
         // 合并数据
         self::assign($values);
-        // 内部可设置界面
-        $page=is_null(self::$use)?$page:self::$use;
-        // 重置页面使用
-        self::$use=null;
+        // // 内部可设置界面
+        // $page=$page;
+        // // 重置页面使用
+        // self::$use=null;
         // 获取界面路径
         $file=View::viewPath($page);
         // var_dump($file);
@@ -141,7 +140,16 @@ class Page
     }
     public static function redirect(string $url)
     {
-        header('Location:'.$url);
+        self::use('redirect');
+        self::set('url',$url);
+        self::getController()->noCache();
+    }
+    public static function jump($url,$message,$time=1){
+        self::use('jump');
+        self::set('time',$time);
+        self::set('url',$url);
+        self::set('message',$message);
+        self::getController()->noCache();
     }
     public static function error404($path=null)
     {

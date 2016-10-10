@@ -1,6 +1,6 @@
 <?php
 if (UManager::hasSignin()) {
-    Page::redirect('/user');
+     Page::redirect('/user');
 } else {
     import('Site.functions');
     Site\page_common_set();

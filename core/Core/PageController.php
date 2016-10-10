@@ -138,6 +138,7 @@ class PageController extends Caller
     public function use(string $name=null)
     {
         if ($name) {
+            $this->raw=false;
             $this->tpl=$name;
             return $this; // 链式调用
         }

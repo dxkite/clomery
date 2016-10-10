@@ -15,7 +15,7 @@ class Index
         }
         else{
             // (new SignIn())->main();
-            Page::redirect('/user/SignIn');
+             Page::redirect('/user/SignIn');
         }
     }
 }
