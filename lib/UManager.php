@@ -104,12 +104,12 @@ class UManager
     public static function hasSignin()
     {
         preg_match('/^([a-zA-z0-9]{0,32})(\d+)$/', Cookie::get('token'), $match);
-        if (count($match)>0 && $last=(new Query('SELECT `uid`,`lastip`,`uname` as `name`,`signup` FROM `#{users}` WHERE uid=:uid AND token=:token LIMIT 1;'))
+        if (count($match)>0 && $last=(new Query('SELECT `uid`,`lastip`,`uname` as `name`,`signup`,`token` FROM `#{users}` WHERE uid=:uid AND token=:token LIMIT 1;'))
            ->values([
                    'token'=>$match[1],
                    'uid'=>$match[2]
             ])->fetch()) {
-            Cache::set('uid-'.$match[2].'-lastip', $last['lastip']);
+               Cache::set('uid-'.$match[2].'-lastip', $last['lastip']);
                // 设置登陆状态
                Session::set('signin', true);
                // 登陆信息
@@ -118,12 +118,16 @@ class UManager
         }
         return false;
     }
-    public static function signout()
+    
+    public static function signOut()
     {
+        $uid=Session::get('user_id');
+        (new Query('UPDATE `#{users}` SET `token` = \'\' WHERE `atd_users`.`uid` = :uid ;'))->values(['uid'=>$uid])->exec();
         // 设置登陆状态
         Session::set('signin', false);
         Session::destroy();
     }
+
     public static function numbers():int
     {
         $q='SELECT `TABLE_ROWS` as `size` FROM `information_schema`.`TABLES` WHERE  `TABLE_SCHEMA`="'.conf('Database.dbname').'" AND `TABLE_NAME` ="#{users}" LIMIT 1;';

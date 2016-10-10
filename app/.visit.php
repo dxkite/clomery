@@ -5,7 +5,7 @@ if (is_spider())
     View::theme('spider');
 }
 // 主页
-Page::visit('/',['Main','main'])->use('index')->id('main_page');
+Page::visit('/',['Main','main'])->use('index')->id('main_page')->noCache();
 // 待开发的页面
 Page::visit('/{pagename}',['Develop','main'])
 ->with('pagename','/^(notes|question|test|books|article|about)$/')

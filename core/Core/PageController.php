@@ -47,6 +47,7 @@ class PageController extends Caller
      */
     private $status=NULL;
     private $allowOutput=true;
+    private $noCache=false;
     /**
      * PageController constructor.
      * @param mixed $caller 可调用对象
@@ -56,6 +57,9 @@ class PageController extends Caller
     {
         // 设置父类
         parent::__construct($caller, $params);
+    }
+    public function noCache(bool $nocache=true){
+        $this->noCache=$nocache;
     }
     /**
     * 最后参数覆盖
@@ -163,6 +167,9 @@ class PageController extends Caller
         if (!is_null($this->status))
         {
              send_http_status($this->status);
+        }
+        if ($this->noCache){
+            header('Cache-Control:no-cache');
         }
         if ($this->raw) {
             switch ($this->type) {

@@ -1,4 +1,4 @@
 <?php
-Page::getController()->raw();
+Page::getController()->raw()->noCache();
 UManager::signout();
 echo '退出登陆';
