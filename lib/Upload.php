@@ -2,6 +2,7 @@
 
 /**
  * Class Upload
+ * 文件上传管理
  */
 class Upload
 {

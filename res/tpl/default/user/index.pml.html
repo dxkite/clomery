@@ -6,12 +6,13 @@
         <h1>用户 {{ $_Page->user_info->name }} 你好。</h1>
         <a href="@auto('user','SignOut')">{{ $_L->signout('退出登陆') }}</a>
         <h2>你于 {{ date('Y-m-d H:m:s',$_Page->user_info->signup) }} 在本站注册成功</h2>
-        
         @if ($_Page->user_info->email_verify =='N')
-        <h3>你的邮箱尚未验证成功</h3>
-        <div>请于：{{ date('Y-m-d H:m:s',$_Page->user_info->signup+24*60*60*7) }} 之前完成邮箱验证，否则将删除你的账号。 </div>
+        <h3>你的邮箱  {{ $_Page->user_info->email }}尚未验证成功</h3>
+        <div>请于 {{ date('Y-m-d',$_Page->user_info->signup+24*60*60*7) }} 之前完成邮箱验证，否则将删除你的账号。 </div>
+        @else
+        <h3>邮箱 : {{ $_Page->user_info->email }}</h3>
         @endif
-        <h2>登陆历史#20</h2>
+        <h2>登陆历史#5</h2>
         <ol>
             @foreach($_Page->signin_list as $signin_item)
             <li> {{ $signin_item['ip'] }} - {{ date('Y-m-d H:m:s',$signin_item['time']) }}  </li>

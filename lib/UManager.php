@@ -93,7 +93,7 @@ class UManager
     }
     public static function getSigninLogs(int $uid) :array
     {
-        if ($history = (new Query('SELECT `ip`,`time`  FROM `atd_signin_historys` WHERE `uid` = :uid LIMIT 20; '))
+        if ($history = (new Query('SELECT `ip`,`time`  FROM `atd_signin_historys` WHERE `uid` = :uid LIMIT 5; '))
         -> values(
             ['uid'=>$uid]
         )->fetchAll()) {
@@ -104,7 +104,7 @@ class UManager
     public static function hasSignin()
     {
         preg_match('/^([a-zA-z0-9]{0,32})(\d+)$/', Cookie::get('token'), $match);
-        if (count($match)>0 && $last=(new Query('SELECT `uid`,`lastip`,`uname` as `name`,`signup`,`email_verify` FROM `#{users}` WHERE uid=:uid AND token=:token LIMIT 1;'))
+        if (count($match)>0 && $last=(new Query('SELECT `uid`,`lastip`,`uname` as `name`,`signup`,`email`,`email_verify` FROM `#{users}` WHERE uid=:uid AND token=:token LIMIT 1;'))
            ->values([
                    'token'=>$match[1],
                    'uid'=>$match[2]
