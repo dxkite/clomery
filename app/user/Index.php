@@ -2,6 +2,7 @@
 namespace user;
 use UManager;
 use Page;
+use Core\Value;
 
 class Index
 {
@@ -10,7 +11,7 @@ class Index
         if ($info=UManager::hasSignin()){
             Page::getController()->noCache();
             Page::use('user/index');
-            Page::set('user_name',$info['name']);
+            Page::set('user_info',new Value($info));
             Page::set('signin_list',UManager::getSigninLogs($info['uid']));
         }
         else{
