@@ -4,3 +4,4 @@
     // var_dump(preg_match('/^[\w\x{4e00}-\x{9aff}]{4,12}$/u', $str,$match));
     // var_dump($match);
     var_dump(Request::ipAddress('175.0.47.236'));
+    var_dump(json_decode('"\x00\x00\x00\x00\x27\xf4\x8a\x9d"'));
