@@ -32,7 +32,7 @@ class Upload
     {
         if ($_FILES[$name]['error']===0) {
             $type=$type?$type:pathinfo($_FILES[$name]['name'], PATHINFO_EXTENSION);
-            return self::register($_FILES[$name]['tmp_name'], $type, $uid, $public);
+            return self::register($_FILES[$name]['name'], $_FILES[$name]['tmp_name'], $type, $uid, $public);
         }
         return 0;
     }
@@ -44,13 +44,38 @@ class Upload
      * @param int $public 是否公开 0否 1是
      * @return int
      */
-    public static function register(string $file, string $type, int $uid, int $public=1):int
+    public static function register(string $name, string $file, string $type, int $uid, int $public=1):int
     {
         if (Storage::exist($file)) {
             $md5=md5_file($file);
             Storage::mkdirs(self::$root);
-            if (Storage::move($file, self::$root.'/'.$md5) && ($q=new Query('INSERT INTO `#{uploads}` ( `owner`, `type`, `public`, `hash`) VALUES (:owner,:type,:public,:hash);'))->values(['owner'=>$uid, 'type'=>$type, 'public'=>$public, 'hash'=>$md5])->exec()) {
-                return $q->lastInsertId();
+            if (Storage::move($file, $file=self::$root.'/'.$md5)) {
+                $id=0;
+                try {
+                    // 插入文件所有总表
+                    $q=new Query('INSERT INTO `#{upload_resource}` ( `type`,`hash`, `reference`) VALUES (:type,:hash,1);');
+                    $resource=0;
+                    if ($q->beginTransaction()->values(['type'=>$type, 'hash'=>$md5])->exec()) {
+                        $resource=$q->lastInsertId();
+                    } else {
+                        $resource=$q->query('SELECT `rid` FROM `#{upload_resource}` WHERE `hash` = :hash', ['hash'=>$md5])->fetch()['rid'];
+                        $q->query('UPDATE `#{upload_resource}` SET `reference`=  `reference` +1 WHERE `rid`=:rid', ['rid'=>$resource])->exec();
+                    }
+                    // 确保文件为一个
+                    if ($qid=$q->query('SELECT `rid` FROM `#{uploads}` WHERE `resource`=:resource LIMIT 1;', ['resource'=>$resource])->fetch()) {
+                        $id=$qid['rid'];
+                    } else {
+                        $q->query('INSERT INTO `#{uploads}` ( `owner`,`name`,`time`, `resource`,`public`) VALUES (:owner,:name,:time,:resource,:public);');
+                        $q->values(['owner'=>$uid, 'name'=>$name, 'time'=>time(), 'resource'=>$resource, 'public'=>$public])->exec();
+                        $id=$q->lastInsertId();
+                    }
+                    $q->commit();
+                } catch (\Exception $e) {
+                    $q->rollBack();
+                    Storage::remove($file);
+                    return -2;
+                }
+                return $id;
             }
         }
         return -1;
@@ -63,7 +88,7 @@ class Upload
      */
     public static function getFileIfPublic(int $id):array
     {
-        if ($get=(new Query('SELECT `type`,`owner`,`hash` as `md5`,`public` FROM `#{uploads}` WHERE `rid` = :rid AND `public`=1 LIMIT 1;'))->values(['rid'=>$id])->fetch()) {
+        if ($get=(new Query('SELECT `name`,`time`,`hash` as `md5`,`owner`,`type` FROM `#{uploads}` JOIN  `#{upload_resource}` ON `#{upload_resource}`.`rid`=`resource` WHERE `#{uploads}`.`rid` =:rid AND `public`=1 LIMIT 1;'))->values(['rid'=>$id])->fetch()) {
             $get['path']=self::$root.'/'.$get['md5'];
             return $get;
         }
@@ -77,15 +102,23 @@ class Upload
      */
     public static function getFile(int $id):array
     {
-        if ($get=(new Query('SELECT `type`,`owner`,`hash` as `md5`,`public` FROM `#{uploads}` WHERE `rid` = :rid LIMIT 1;'))->values(['rid'=>$id])->fetch()) {
+        if ($get=(new Query('SELECT `name`,`time`,`hash` as `md5`,`owner`,`type` FROM `#{uploads}` JOIN  `#{upload_resource}` ON `#{upload_resource}`.`rid`=`resource` WHERE `#{uploads}`.`rid` =:rid LIMIT 1;'))->values(['rid'=>$id])->fetch()) {
             $get['path']=self::$root.'/'.$get['md5'];
             return $get;
         }
         return [];
     }
-    public static function outputPublic(int $id){
+    public static function outputPublic(int $id, bool $download=false)
+    {
         $file=self::getFileIfPublic($id);
-        Page::getController()->raw()->type($file['type']);
-        echo Storage::get($file['path']);
+        if (count($file)) {
+            Page::getController()->raw()->type($file['type']);
+            if ($download) {
+                header('Content-Disposition:attachment;filename='.$file['name']);
+            }
+            echo Storage::get($file['path']);
+        } else {
+            echo 'No Resource';
+        }
     }
 }

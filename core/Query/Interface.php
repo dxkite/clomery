@@ -14,4 +14,8 @@ interface Query_Interface
     public function query(string $query, array $array=[]);
     public function error();
     public function erron():int;
+    // 事务系列
+    public function beginTransaction();
+    public function commit();
+    public function rollBack();
 }

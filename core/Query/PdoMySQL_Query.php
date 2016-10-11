@@ -98,4 +98,22 @@ class Query implements Query_Interface
             self::$pdo = new PDO($pdo, conf('Database.user'), conf('Database.passwd'));
         }
     }
+    // 事务系列
+    public function beginTransaction()
+    {
+        self::$pdo->beginTransaction();
+        return $this;
+    }
+    
+    public function commit()
+    {
+        self::$pdo->commit();
+        return $this;
+    }
+
+    public function rollBack()
+    {
+        self::$pdo->rollBack();
+        return $this;
+    }
 }
