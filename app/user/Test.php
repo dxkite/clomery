@@ -1,11 +1,8 @@
-<?php
-if (isset($_GET['img'])) {
-     header("Content-type: image/png");
-     $im=imagecreatefrompng($_GET['img']);
-     $text_color = imagecolorallocate($im, 255, 0, 0);
-     imagestring($im, 16, imagesx($im)-16*13, imagesy($im)-16,  "from atd3.cn", $text_color);
-     imagepng($im);
-     imagedestroy($im);
- } else {
-    echo 'No Image';
-}
+<?php  if (!isset($_FILES['userfile'])): ?>
+<form enctype="multipart/form-data" action="/user/Test" method="POST">
+    Send this file: <input name="userfile" type="file" />
+    <input type="submit" value="Send File" />
+</form>
+<?else:
+var_dump(Upload::uploadFile('userfile',43,1));
+endif ?>

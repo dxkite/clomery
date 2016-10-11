@@ -62,6 +62,12 @@ class Storage implements Storage_Driver
         }
         return false;
     }
+    public static function move(string $src,string $dest):bool{
+        if (self::exist($src)){
+            return rename($src,$dest);
+        }
+        return false;
+    }
     // 创建文件夹
     public static function mkdir(string $dirname, int $mode=0777):bool
     {

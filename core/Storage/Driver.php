@@ -132,5 +132,5 @@ interface Storage_Driver
      * @return bool
      */
     public static function copy(string $source, string $dest):bool;
-
+    public static function move(string $src, string $dest):bool;
 }

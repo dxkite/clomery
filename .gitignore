@@ -1,3 +1,7 @@
 .idea/*
+# 编译后的模板
 res/view/*
+# 文件上传的目录
+res/uploads/*
+# 非公共的配置文件
 .conf
