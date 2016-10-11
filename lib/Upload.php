@@ -53,7 +53,7 @@ class Upload
                 return $q->lastInsertId();
             }
         }
-        return 0;
+        return -1;
     }
 
     /**
@@ -82,5 +82,10 @@ class Upload
             return $get;
         }
         return [];
+    }
+    public static function outputPublic(int $id){
+        $file=self::getFileIfPublic($id);
+        Page::getController()->raw()->type($file['type']);
+        echo Storage::get($file['path']);
     }
 }

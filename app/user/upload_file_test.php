@@ -9,6 +9,7 @@
 </form>
 <?php else:
 if ($info=UManager::hasSignIn()){
+    var_dump($_FILES['upload']);
     var_dump(Upload::uploadFile('upload',$info['uid'],isset($_POST['public'])?$_POST['public']:1));
 }
 else{
