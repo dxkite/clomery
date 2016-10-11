@@ -1,7 +1,11 @@
 <?php
-    // $str=json_decode('"ux这\u202eわかぃまぃだDD"');
-    // var_dump($str);
-    // var_dump(preg_match('/^[\w\x{4e00}-\x{9aff}]{4,12}$/u', $str,$match));
-    // var_dump($match);
-    var_dump(Request::ipAddress('175.0.47.236'));
-    var_dump(json_decode('"\x00\x00\x00\x00\x27\xf4\x8a\x9d"'));
+if (isset($_GET['img'])) {
+     header("Content-type: image/png");
+     $im=imagecreatefrompng($_GET['img']);
+     $text_color = imagecolorallocate($im, 255, 0, 0);
+     imagestring($im, 16, imagesx($im)-16*13, imagesy($im)-16,  "from atd3.cn", $text_color);
+     imagepng($im);
+     imagedestroy($im);
+ } else {
+    echo 'No Image';
+}
