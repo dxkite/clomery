@@ -32,7 +32,7 @@ Page::visit('/resource/{path}',function ($path_raw) {
     }
 })->with('path','/^(.+)$/')->id('resource')->override();
 
-Page::visit('/resource@{id}/{name}?',['Resource','main'])->with('id','int')->with('name','string')->id('resource')->override();
+Page::visit('/[{id}]/{name}?',['Resource','main'])->with('id','int')->with('name','string')->id('upload_file')->override();
 Page::auto('/user', '/user')->id('user');
 // 管理界面导向
 Page::auto('/@_@', '/admin')->id('admin');
