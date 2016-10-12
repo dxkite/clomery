@@ -93,7 +93,7 @@ class UManager
     }
     public static function getSigninLogs(int $uid) :array
     {
-        if ($history = (new Query('SELECT `ip`,`time`  FROM `atd_signin_historys` WHERE `uid` = :uid LIMIT 5; '))
+        if ($history = (new Query('SELECT `ip`,`time`  FROM `#{signin_historys}` WHERE `uid` = :uid  ORDER BY `time` DESC LIMIT 5; '))
         -> values(
             ['uid'=>$uid]
         )->fetchAll()) {
@@ -109,7 +109,7 @@ class UManager
                    'token'=>$match[1],
                    'uid'=>$match[2]
             ])->fetch()) {
-               Cache::set('uid-'.$match[2].'-lastip', $last['lastip']);
+            Cache::set('uid-'.$match[2].'-lastip', $last['lastip']);
                // 设置登陆状态
                Session::set('signin', true);
                // 登陆信息
@@ -122,7 +122,7 @@ class UManager
     public static function signOut()
     {
         $uid=Session::get('user_id');
-        (new Query('UPDATE `#{users}` SET `token` = \'\' WHERE `atd_users`.`uid` = :uid ;'))->values(['uid'=>$uid])->exec();
+        (new Query('UPDATE `#{users}` SET `token` = \'\' WHERE `#{users}`.`uid` = :uid ;'))->values(['uid'=>$uid])->exec();
         // 设置登陆状态
         Session::set('signin', false);
         Session::destroy();
@@ -135,5 +135,20 @@ class UManager
             return $a['size'];
         }
         return 0;
+    }
+    
+    public static function setAvatar(int $uid, int $avatar)
+    {
+        $q='UPDATE `#{user_info}` SET `avatar` = :avatar WHERE `#{user_info}`.`uid` = :uid;';
+        return (new Query($q, ['uid'=>$uid, 'avatar'=>$avatar]))->exec();
+    }
+    public static function getInfo(int $uid){
+        $q='SELECT * FROM `#{user_info}` WHERE `uid` = :uid LIMIT 1;';
+        return (new Query($q, ['uid'=>$uid]))->fetch();
+    }
+    public static function setDefaulInfo(int $uid, int $avatar, string $discription):bool
+    {
+        $q='INSERT INTO `#{user_info}` (`uid`, `avatar`,`discription`) VALUES (:uid,:avatar,:discription);';
+        return (new Query($q, ['uid'=>$uid, 'avatar'=>$avatar, 'discription'=>$discription]))->exec();
     }
 }

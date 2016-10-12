@@ -18,7 +18,7 @@ Page::visit('/{pagename}',['Develop','main'])
 // 留言板 
 //Page::visit('/notes',['Notes','main'])->id('notes_page');
 
-Page::visit('/resource/{path}',function ($path_raw) {
+Page::visit('/!{path}',function ($path_raw) {
     $type=pathinfo($path_raw,PATHINFO_EXTENSION);
     $path_raw=rtrim($path_raw,'/');
     if (Storage::exist(APP_VIEW.'/'.$path_raw))
@@ -32,7 +32,11 @@ Page::visit('/resource/{path}',function ($path_raw) {
     }
 })->with('path','/^(.+)$/')->id('resource')->override();
 
-Page::visit('/[{id}]/{name}?',['Resource','main'])->with('id','int')->with('name','string')->id('upload_file')->override();
+Page::visit('/${id}/{name}?',['Resource','main'])
+->with('id','int')
+->with('name','string')
+->id('upload_file')->override();
+
 Page::auto('/user', '/user')->id('user');
 // 管理界面导向
 Page::auto('/@_@', '/admin')->id('admin');
