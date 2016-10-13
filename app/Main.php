@@ -15,9 +15,4 @@ class Main
         Page::set('title',Options::getOptions()['site_name']);
         Page::set('head_index_nav_select', 0 );
     }
-    public function article(int $id=0)
-    {
-        //  var_dump($id);
-        Page::set('title', '文章- '.$id.' - 三人行，必有我师焉。');
-    }
 }

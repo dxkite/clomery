@@ -18,7 +18,7 @@
 			</div>
 			<div id="user-info">
 				@if ($_Page->has_signin)
-			 		<div><a href="@url('user')">{{ $_Page->signin_user }}</a>，你好！</div>
+			 		<div><a href="@url('user')">{{ $_Page->user_info->name }}</a>，你好！</div>
 				@else
 				<nav>
 					@if ( $_Op->allowSignUp == 1)

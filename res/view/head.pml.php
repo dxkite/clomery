@@ -18,7 +18,7 @@
 			</div>
 			<div id="user-info">
 				<?php if($_Page->has_signin): ?>
-			 		<div><a href="<?php echo Page::url('user') ?>"><?php Env::echo($_Page->signin_user) ?></a>，你好！</div>
+			 		<div><a href="<?php echo Page::url('user') ?>"><?php Env::echo($_Page->user_info->name) ?></a>，你好！</div>
 				<?php else: ?>
 				<nav>
 					<?php if( $_Op->allowSignUp == 1): ?>

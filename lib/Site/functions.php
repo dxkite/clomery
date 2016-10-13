@@ -5,6 +5,7 @@ use Page;
 use Env;
 use UManager;
 use Session;
+use Core\Value;
 
 function page_common_set()
 {
@@ -12,7 +13,12 @@ function page_common_set()
     Page::global('_Env', new Env);
     NavOp::init();
     $nav=NavOp::getNavs();
-    Page::set('has_signin', Session::get('signin', false));
-    Page::set('signin_user', Session::get('user_name', 'No User'));
+    $user=UManager::hasSignin();
+
+    if ($user){
+        Page::set('has_signin', true);
+        Page::set('user_info', new Value($user) );
+    }
+    
     Page::set('head_index_nav', $nav);
 }
