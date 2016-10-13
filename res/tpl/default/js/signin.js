@@ -5,6 +5,7 @@ window.addEventListener('load', function () {
     var u_notice = document.getElementById('n-username');
     var pass = document.getElementById('password');
     var n_password = document.getElementById('n-password');
+    var keep=document.getElementById("checkbox");
     var submit = document.getElementById('signin');
     function verfy_username(name) {
         return /^[\w\u4e00-\u9aff]+$/.test(name);
@@ -47,7 +48,7 @@ window.addEventListener('load', function () {
         }
     });
     submit.addEventListener('click', function () {
-        console.log('signin', uname, upass);
+        console.log('signin', uname, upass,keep.checked);
         if (uname && upass) {
             signin = new XMLHttpRequest;
             signin.open('POST', '/user/ajax');
@@ -89,6 +90,7 @@ window.addEventListener('load', function () {
                 type: 'signin',
                 user: username.value,
                 passwd: pass.value,
+                keep:keep.checked
             }));
         }
     });

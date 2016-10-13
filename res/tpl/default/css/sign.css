@@ -159,3 +159,17 @@
   top: 5px;
   z-index:5;
 }
+#signin_tag
+{
+	position: absolute;
+  right: 0;
+  top: -1.5em;
+  z-index:5;
+}
+.keep {
+  display: inline-block;
+  margin-top: 25px;
+  text-decoration: none;
+  color: #2f3238;
+  font-size: 14px;
+}

@@ -19,6 +19,9 @@ function page_common_set()
         Page::set('has_signin', true);
         Page::set('user_info', new Value($user) );
     }
+    else{
+        Page::set('has_signin', false);
+    }
     
     Page::set('head_index_nav', $nav);
 }

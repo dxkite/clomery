@@ -31,6 +31,10 @@ class Session
     {
         return isset($_SESSION[$name])?$_SESSION[$name]:$default;
     }
+    public static function has(string $name)
+    {
+        return isset($_SESSION[$name]);
+    }
     public static function __callStatic(string $name, array $params)
     {
         if (array_key_exists($name, self::$fname)) {
@@ -41,7 +45,8 @@ class Session
     {
         session_unset();
     }
-    public static function regenerate(bool $delete=false) :bool {
+    public static function regenerate(bool $delete=false) :bool
+    {
         return session_regenerate_id($delete);
     }
 }

@@ -14,18 +14,21 @@ class Cookie
      * @param int $expire  到期时间
      * @return CookieSetter 设置对象
      */
-    public static function set(string $name, string $value,int $expire=0) : Setter
+    public static function set(string $name, string $value, int $expire=0) : Setter
     {
-        self::$values[$name]=new Setter($name, $value,$expire);
+        self::$values[$name]=new Setter($name, $value, $expire);
         return self::$values[$name];
     }
-
+    public static function has(string $name)
+    {
+        return isset(self::$values[$name]) || isset($_COOKIE[$name]);
+    }
     /**
      * 获取Cookie的值
      * @param string $name
      * @return string cookie的值
      */
-    public static function get(string $name,$default='') : string
+    public static function get(string $name, $default='') : string
     {
         return isset(self::$values[$name])?self::$values[$name]->get():(isset($_COOKIE[$name])?$_COOKIE[$name]:$default);
     }

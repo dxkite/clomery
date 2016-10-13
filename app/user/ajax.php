@@ -43,8 +43,8 @@ class ajax
                     return self::signup($json['user'], $json['passwd'], $json['email'],$json['code']);
                 }break;
                 case 'signin':
-                if (isset($json['user']) && isset($json['passwd'])) {
-                    return self::signin($json['user'], $json['passwd']);
+                if (isset($json['user']) && isset($json['passwd']) && isset($json['keep'])) {
+                    return self::signin($json['user'], $json['passwd'],$json['keep']);
                 }break;
             }
         }
@@ -69,12 +69,12 @@ class ajax
         return ['return'=>false,'message'=>$message];
     }
 
-    public function signin(string $name, string $passwd)
+    public function signin(string $name, string $passwd,string $keep)
     {
         if (!preg_match(self::REG_UNAME, $name)) {
             $message='invaild username';
         } else {
-            if (($rt=UManager::signin($name, $passwd))===0) {
+            if (($rt=UManager::signin($name, $passwd,$keep))===0) {
                 return ['return'=>true];
             }
             return ['return'=>false,'erron'=>$rt];

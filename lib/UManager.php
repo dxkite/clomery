@@ -43,9 +43,8 @@ class UManager
             Session::set('signin', true);
             // 登陆信息
             Session::set('user_id', $uid);
-            // 登陆状态保留
-            Cookie::set('token', $token.$uid, 2592000)->httpOnly();
-            Session::set('user_name', $user);
+            // 登陆状态保留（只能临时用~~)
+            Session::set('token', $token.$uid, 2592000)->httpOnly();
             //信息缓存
             Cache::set('user:'.$uid, $user);
             Cache::set('uid:'.$user, $uid);
@@ -53,7 +52,7 @@ class UManager
         }
         return 0;
     }
-    public static function signIn(string $name, string $passwd):int
+    public static function signIn(string $name, string $passwd, string $keep):int
     {
         $token=md5(Request::ip().time());
         if ($get=(new Query('SELECT `upass`,`uid` FROM #{users} WHERE LOWER(uname)=LOWER(:uname)LIMIT 1;'))->values(['uname'=>$name])->fetch()) {
@@ -78,9 +77,11 @@ class UManager
                     Session::set('signin', true);
                     // 登陆信息
                     Session::set('user_id', $get['uid']);
-                    // 登陆状态保留
-                    Cookie::set('token', $token.$get['uid'], 2592000)->httpOnly();
-                    Session::set('user_name', $name);
+                    Session::set('token', $token.$get['uid']);
+                    if ($keep) {
+                        // 登陆状态保留
+                        Cookie::set('token', $token.$get['uid'], 2592000)->httpOnly();
+                    }
                     return 0;
                 }
                 return 3;// system error
@@ -103,17 +104,18 @@ class UManager
     }
     public static function hasSignin()
     {
-        preg_match('/^([a-zA-z0-9]{0,32})(\d+)$/', Cookie::get('token'), $match);
+        $token=Cookie::has('token')?Cookie::get('token'):(Session::has('token')?Session::get('token'):'');
+        preg_match('/^([a-zA-z0-9]{0,32})(\d+)$/', $token, $match);
         if (count($match)>0 && $last=(new Query('SELECT `uid`,`lastip`,`uname` as `name`,`signup`,`email`,`email_verify` FROM `#{users}` WHERE uid=:uid AND token=:token LIMIT 1;'))
-           ->values([
-                   'token'=>$match[1],
-                   'uid'=>$match[2]
-            ])->fetch()) {
-            Cache::set('uid-'.$match[2].'-lastip', $last['lastip']);
-               // 设置登陆状态
-               Session::set('signin', true);
-               // 登陆信息
-               Session::set('user_id', $match[2]);
+            ->values([
+                    'token'=>$match[1],
+                    'uid'=>$match[2]
+                ])->fetch()) {
+                Cache::set('uid-'.$match[2].'-lastip', $last['lastip']);
+                // 设置登陆状态
+                Session::set('signin', true);
+                // 登陆信息
+                Session::set('user_id', $match[2]);
             return $last;
         }
         return false;
@@ -142,7 +144,8 @@ class UManager
         $q='UPDATE `#{user_info}` SET `avatar` = :avatar WHERE `#{user_info}`.`uid` = :uid;';
         return (new Query($q, ['uid'=>$uid, 'avatar'=>$avatar]))->exec();
     }
-    public static function getInfo(int $uid){
+    public static function getInfo(int $uid)
+    {
         $q='SELECT * FROM `#{user_info}` WHERE `uid` = :uid LIMIT 1;';
         return (new Query($q, ['uid'=>$uid]))->fetch();
     }
