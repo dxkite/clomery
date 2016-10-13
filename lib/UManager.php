@@ -44,7 +44,7 @@ class UManager
             // 登陆信息
             Session::set('user_id', $uid);
             // 登陆状态保留（只能临时用~~)
-            Session::set('token', $token.$uid, 2592000)->httpOnly();
+            Session::set('token', $token.$uid);
             //信息缓存
             Cache::set('user:'.$uid, $user);
             Cache::set('uid:'.$user, $uid);
