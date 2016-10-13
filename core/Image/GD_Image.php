@@ -53,4 +53,7 @@ class Image
     {
         return Session::get('human_varify')===strtoupper($randCode);
     }
+    function imgx(string $img,string $code){
+        $cmd='\d+|x\d+(.\d+)?';
+    }
 }
