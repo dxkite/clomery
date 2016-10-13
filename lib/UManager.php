@@ -154,4 +154,8 @@ class UManager
         $q='INSERT INTO `#{user_info}` (`uid`, `avatar`,`discription`) VALUES (:uid,:avatar,:discription);';
         return (new Query($q, ['uid'=>$uid, 'avatar'=>$avatar, 'discription'=>$discription]))->exec();
     }
+    public static function getPermitions(int $uid){
+        $a='SELECT `admin_user` FROM `atd_users` JOIN `atd_user_group_relationship` as `rel` ON `atd_users`.`uid` = `rel`.`uid` JOIN `atd_user_group` ON  `atd_user_group`.`gid` = `rel`.`gid` AND `atd_users`.`uid`=:uid ORDER BY `priority` ASC LIMIT 1;';
+        
+    }
 }
