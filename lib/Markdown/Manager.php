@@ -6,15 +6,24 @@ class Markdown_Manager
     public static $config='config.json';
     public $archive=null;
     public $root='';
+    // 指定保存的URL文件对象
+    public $urlsave=[];
+    public $urloutside=[];
 
     public function __construct()
     {
         self::$parser=new Markdown\Parser();
     }
-    public function parseFile()
+
+    /**
+     * @param array $urlsave
+     */
+    public function setUrlsave(array $urlsave)
     {
+        $this->urlsave = $urlsave;
     }
-    public function readZip(string $filename)
+
+    public function readZipMarkdown(string $filename)
     {
         $zip=new ZipArchive;
         $res = $zip->open($filename);
@@ -25,11 +34,13 @@ class Markdown_Manager
                 $root=dirname($config);
                 $config_file=$zip->getFromName($config);
                 // 去行注释
-                $config_file=preg_replace('/^(\s*?)[\/][\/](.+)$/m', '', $config_file);
+                $config_file=preg_replace('/\/\/(.+)$/m', '', $config_file);
+                // 去多行注释
+                $config_file=preg_replace('/\/\*(.+)\*\/$/m', '', $config_file);
+                // 解析配置
                 $config_set=json_decode($config_file);
                 $this->root=$root;
-                $hello=self::getMarkdown($config_set->article, $config_set);
-                var_dump($hello);
+                self::previewMarkdown($config_set->index, $config_set);
             } else {
                 echo 'un readable zip format';
             }
@@ -38,28 +49,90 @@ class Markdown_Manager
             echo 'failed';
         }
     }
-
-    protected function getMarkdown(string $markdown, stdClass $config)
+    public function uploadZipMarkdown(string $filename)
     {
-        var_dump($this->root.'/'.$markdown);
-        $markdown=$this->archive->getFromName($this->root.'/'.$markdown);
-        $markdown=preg_replace_callback('/\[.+?\]\((.+?)\)/', [$this, 'parseResource'], $markdown);
-        var_dump($markdown);
-        var_dump(self::$parser->makeHTML($markdown));
-    }
-
-    protected function parseResource($matchs)
-    {
-        // 获取压缩包内部文件
-        if ($content=$this->archive->getFromName($path=$this->root.'/'.self::parsePath($matchs[1]))) {
-            $id=Upload::uploadString($content, basename($path), pathinfo($path, PATHINFO_EXTENSION),1);
-            return  preg_replace('/\((.+?)\)$/','('.str_replace('$','\$',Page::url('upload_file',['id'=>$id,'name'=>basename($matchs[1])])).')',$matchs[0]);
+        $zip=new ZipArchive;
+        $res = $zip->open($filename);
+        
+        if ($res === true) {
+            $this->archive=$zip;
+            if ($config=self::getZipConfigFile()) {
+                $root=dirname($config);
+                $config_file=$zip->getFromName($config);
+                // 去行注释
+                $config_file=preg_replace('/\/\/(.+)$/m', '', $config_file);
+                // 去多行注释
+                $config_file=preg_replace('/\/\*(.+)\*\/$/m', '', $config_file);
+                // 解析配置
+                $config_set=json_decode($config_file);
+                $this->root=$root;
+                self::uploadMarkdown($config_set->index, $config_set);
+            } else {
+                echo 'un readable zip format';
+            }
+            $zip->close();
+        } else {
+            echo 'failed';
         }
-        else if (preg_match('//')) {
-
+    }
+    protected function previewMarkdown(string $markdown,  stdClass $config)
+    {
+        $markdown=$this->archive->getFromName(self::parsePath($this->root.'/'.$markdown));
+        // 上传图片文件
+        $markdown=preg_replace_callback('/\!\[(.+?)\]\((.+?)\)/', [$this, 'parseImgResource'], $markdown);
+        $mkhtml=self::$parser->makeHTML($markdown);
+        var_dump($this->urloutside);
+    }
+    
+    protected function uploadMarkdown(string $markdown, stdClass $config)
+    {
+        $markdown=$this->archive->getFromName(self::parsePath($this->root.'/'.$markdown));
+        // 上传链接中使用过的文件
+        $markdown=preg_replace_callback('/\[.+?\]\((.+?)\)/', [$this, 'uploadUsedResource'], $markdown);
+        // 上传图片文件
+        $markdown=preg_replace_callback('/\!\[.+?\]\((.+?)\)/', [$this, 'uploadImgResource'], $markdown);
+        $mkhtml=self::$parser->makeHTML($markdown);
+        // TODO : 上传文件到数据库
+    }
+    
+    protected function parseImgResource($matchs)
+    {
+        // 网络链接文件
+        if (preg_match('/(http|https)/', $matchs[2])) {
+            $this->urloutside[$matchs[1]]=$matchs[2];
         }
         return $matchs[0];
     }
+
+    protected function uploadImgResource($matchs)
+    {
+        $path=self::parsePath($this->root.'/'.self::parsePath($matchs[1]));
+        // 获取压缩包内部文件
+        if ($content=$this->archive->getFromName($path)) {
+            $id=Upload::uploadString($content, basename($path), pathinfo($path, PATHINFO_EXTENSION), 1);
+            return  preg_replace('/\((.+?)\)$/', '('.str_replace('$', '\$', Page::url('upload_file', ['id'=>$id, 'name'=>basename($matchs[1])])).')', $matchs[0]);
+        }
+        // 允许从网络上下载URL需求
+        elseif (in_array($matchs[1], $this->urlsave)) {
+            $tmpname= microtime(true).'.tmp';
+            Storage::download($matchs[1], $tmpname);
+            $id=Upload::register(basename($matchs[1]), $tmpname, pathinfo($matchs[1], PATHINFO_EXTENSION), 1);
+            return  preg_replace('/\((.+?)\)$/', '('.str_replace('$', '\$', Page::url('upload_file', ['id'=>$id, 'name'=>basename($matchs[1])])).')', $matchs[0]);
+        }
+        return $matchs[0];
+    }
+
+    protected function uploadUsedResource($matchs)
+    {
+        $path=self::parsePath($this->root.'/'.self::parsePath($matchs[1]));
+        // 获取压缩包内部文件
+        if ($content=$this->archive->getFromName($path)) {
+            $id=Upload::uploadString($content, basename($path), pathinfo($path, PATHINFO_EXTENSION), 1);
+            return  preg_replace('/\((.+?)\)$/', '('.str_replace('$', '\$', Page::url('upload_file', ['id'=>$id, 'name'=>basename($matchs[1])])).')', $matchs[0]);
+        }
+        return $matchs[0];
+    }
+
     // 获取 配置
     protected function getZipConfigFile()
     {

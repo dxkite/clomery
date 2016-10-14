@@ -1,3 +1,4 @@
 <?php
 $md = new Markdown_Manager;
-$md->readZip(APP_RES.'/tmp/mix-xss.zip');
+$md->setUrlsave(['https://www.baidu.com/img/baidu_jgylogo3.gif']);
+$md->readZipMarkdown(APP_RES.'/tmp/mix-xss.zip');

@@ -133,4 +133,5 @@ interface Storage_Driver
      */
     public static function copy(string $source, string $dest):bool;
     public static function move(string $src, string $dest):bool;
+    public static function download(string $url, string $save):int;
 }

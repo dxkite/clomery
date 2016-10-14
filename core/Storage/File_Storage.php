@@ -89,7 +89,10 @@ class Storage implements Storage_Driver
 
     public static function get(string $name):string
     {
-        return file_get_contents($name);
+        if (self::exist($name)) {
+            return file_get_contents($name);
+        }
+        return '';
     }
 
     /**
@@ -126,7 +129,11 @@ class Storage implements Storage_Driver
         }
         return 0;
     }
-
+    public static function download(string $url, string $save):int
+    {
+        $file=file_get_contents($url);
+        return file_put_contents($save, $file);
+    }
     public static function type(string $name):int
     {
         if (self::exist($name)) {
