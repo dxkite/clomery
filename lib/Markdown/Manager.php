@@ -66,7 +66,7 @@ class Markdown_Manager
                 // 解析配置
                 $config_set=json_decode($config_file);
                 $this->root=$root;
-                self::uploadMarkdown($config_set->index, $config_set);
+                return self::uploadMarkdown($config_set->index, $config_set);
             } else {
                 echo 'un readable zip format';
             }
@@ -91,9 +91,14 @@ class Markdown_Manager
         $markdown=preg_replace_callback('/\[.+?\]\((.+?)\)/', [$this, 'uploadUsedResource'], $markdown);
         // 上传图片文件
         $markdown=preg_replace_callback('/\!\[.+?\]\((.+?)\)/', [$this, 'uploadImgResource'], $markdown);
-        $mkhtml=self::$parser->makeHTML($markdown);
-        var_dump($mkhtml);
-        // TODO : 上传文件到数据库
+        return 
+        ArticleManager::insertNew($config->author_id,
+        $config->title,
+        $config->remark,$markdown,
+        $config->date,
+        $config->keeptop,
+        $config->reply,
+        1,md5($markdown));
     }
     
     protected function parseImgResource($matchs)
