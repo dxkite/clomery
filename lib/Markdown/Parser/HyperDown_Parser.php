@@ -119,7 +119,7 @@ class Parser
      */
     public function makeHolder($str)
     {
-        $key = "|\r" . $this->_uniqid . $this->_id . "\r|";
+        $key = "\r" . $this->_uniqid . $this->_id . "\r";
         $this->_id ++;
         $this->_holders[$key] = $str;
 
@@ -220,7 +220,7 @@ class Parser
     private function releaseHolder($text, $clearHolders = true)
     {
         $deep = 0;
-        while (strpos($text, "|\r") !== false && $deep < 10) {
+        while (strpos($text, "\r") !== false && $deep < 10) {
             $text = str_replace(array_keys($this->_holders), array_values($this->_holders), $text);
             $deep ++;
         }
@@ -245,6 +245,17 @@ class Parser
     {
         $self = $this;
         $text = $this->call('beforeParseInline', $text);
+
+        // escape
+        $text = preg_replace_callback(
+            "/\\\(.)/u",
+            function ($matches) use ($self) {
+                $escaped = htmlspecialchars($matches[1]);
+                $escaped = str_replace('$', '&dollar;', $escaped);
+                return  $self->makeHolder($escaped);
+            },
+            $text
+        );
 
         // code
         $text = preg_replace_callback(
@@ -361,18 +372,7 @@ class Parser
                 return $self->makeHolder($result);
             },
             $text
-        );
-
-        // escape
-        $text = preg_replace_callback(
-            "/\\\(x80-xff|.)/",
-            function ($matches) use ($self) {
-                $escaped = htmlspecialchars($matches[1]);
-                $escaped = str_replace('$', '&dollar;', $escaped);
-                return  $self->makeHolder($escaped);
-            },
-            $text
-        );
+        ); 
 
         // strong and em and some fuck
         $text = $this->parseInlineCallback($text);
@@ -998,8 +998,8 @@ class Parser
 
             if ($line[0] == '|') {
                 $line = substr($line, 1);
-				$len=strlen($line);
-                if ($len && $line[ $len - 1] == '|') {
+                $len=strlen($line);
+                if ($len && $line[$len - 1] == '|') {
                     $line = substr($line, 0, -1);
                 }
             }
@@ -1151,9 +1151,10 @@ class Parser
      */
     public function cleanUrl($url)
     {
-        if (preg_match("/^\s*((http|https|ftp|mailto):[x80-xff_a-z0-9-\.\/%#@\?\+=~\|\,&\(\)]+)/i", $url, $matches)) {
+        // 不明白为什么不支持$在url中
+        if (preg_match("/^\s*((http|https|ftp|mailto):[x80-xff_a-z0-9-\.\/%#$@\?\+=~\|\,&\(\)]+)/i", $url, $matches)) {
             return $matches[1];
-        } else if (preg_match("/^\s*([x80-xff_a-z0-9-\.\/%#@\?\+=~\|\,&]+)/i", $url, $matches)) {
+        } else if (preg_match("/^\s*([x80-xff_a-z0-9-\.\/%#$@\?\+=~\|\,&]+)/i", $url, $matches)) {
             return $matches[1];
         } else {
             return '#';

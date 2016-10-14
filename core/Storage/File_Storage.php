@@ -62,9 +62,10 @@ class Storage implements Storage_Driver
         }
         return false;
     }
-    public static function move(string $src,string $dest):bool{
-        if (self::exist($src)){
-            return rename($src,$dest);
+    public static function move(string $src, string $dest):bool
+    {
+        if (self::exist($src)) {
+            return rename($src, $dest);
         }
         return false;
     }
@@ -97,28 +98,43 @@ class Storage implements Storage_Driver
      */
     public static function remove(string $name) : bool
     {
-        return unlink($name);
+        if (self::exist($name)) {
+            return unlink($name);
+        }
+        return true;
     }
+    
     public static function isFile(string $name):bool
     {
         return is_file($name);
     }
+
     public static function isDir(string $name):bool
     {
         return is_dir($name);
     }
+
     public static function isReadable(string $name):bool
     {
         return is_readable($name);
     }
+
     public static function size(string $name):int
     {
-        return filesize($name);
+        if (self::exist($name)) {
+            return filesize($name);
+        }
+        return 0;
     }
+
     public static function type(string $name):int
     {
-        return filetype($name);
+        if (self::exist($name)) {
+            return filetype($name);
+        }
+        return 0;
     }
+
     public static function exist(string $name, array $charset=[]):bool
     {
         // UTF-8 格式文件路径

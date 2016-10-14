@@ -104,6 +104,22 @@ class UManager
     }
     public static function hasSignin()
     {
+        if ($get=self::getLastUserInfo()) {
+            // 设置登陆状态
+            Session::set('signin', true);
+            // 登陆信息
+            Session::set('user_id', $get['uid']);
+            return $get;
+        }
+        return false;
+    }
+
+    public static function getLastUserInfo()
+    {
+        static $info=null;
+        if ($info) {
+            return $info;
+        }
         $token=Cookie::has('token')?Cookie::get('token'):(Session::has('token')?Session::get('token'):'');
         preg_match('/^([a-zA-z0-9]{0,32})(\d+)$/', $token, $match);
         if (count($match)>0 && $last=(new Query('SELECT `uid`,`lastip`,`uname` as `name`,`signup`,`email`,`email_verify` FROM `#{users}` WHERE uid=:uid AND token=:token LIMIT 1;'))
@@ -111,16 +127,12 @@ class UManager
                     'token'=>$match[1],
                     'uid'=>$match[2]
                 ])->fetch()) {
-                Cache::set('uid-'.$match[2].'-lastip', $last['lastip']);
-                // 设置登陆状态
-                Session::set('signin', true);
-                // 登陆信息
-                Session::set('user_id', $match[2]);
+            $info=$last;
             return $last;
         }
         return false;
     }
-    
+
     public static function signOut()
     {
         $uid=Session::get('user_id');
@@ -154,8 +166,8 @@ class UManager
         $q='INSERT INTO `#{user_info}` (`uid`, `avatar`,`discription`) VALUES (:uid,:avatar,:discription);';
         return (new Query($q, ['uid'=>$uid, 'avatar'=>$avatar, 'discription'=>$discription]))->exec();
     }
-    public static function getPermitions(int $uid){
+    public static function getPermitions(int $uid)
+    {
         $a='SELECT `admin_user` FROM `atd_users` JOIN `atd_user_group_relationship` as `rel` ON `atd_users`.`uid` = `rel`.`uid` JOIN `atd_user_group` ON  `atd_user_group`.`gid` = `rel`.`gid` AND `atd_users`.`uid`=:uid ORDER BY `priority` ASC LIMIT 1;';
-        
     }
 }

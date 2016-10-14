@@ -20,7 +20,7 @@ class Upload
      * @var string
      */
     public static $root=APP_RES.'/uploads';
-
+    public static $uid=0;
     /**
      * 从表单上传中创建文件
      * @param string $name 表单名
@@ -28,15 +28,27 @@ class Upload
      * @param int $public 是否公开
      * @return bool
      */
-    public static function uploadFile(string  $name, int $uid, int $public=1, string $type=null):int
+    
+    public static function uploadFile(string  $name, int $public=1, string $type=null):int
     {
         if ($_FILES[$name]['error']===0) {
             $type=$type?$type:pathinfo($_FILES[$name]['name'], PATHINFO_EXTENSION);
-            return self::register($_FILES[$name]['name'], $_FILES[$name]['tmp_name'], $type, $uid, $public);
+            return self::register($_FILES[$name]['name'], $_FILES[$name]['tmp_name'], $type,$public);
         }
         return 0;
     }
 
+
+    
+    public static function uploadString(string $content, string $name, string $type, int $public=1)
+    {
+        $file=APP_TMP.'/upload_'.base64_encode(time().$name).'.tmp';
+        if (Storage::put($file, $content)) {
+            $id=self::register($name,$file,$type,$public);
+            Storage::remove($file);
+            return $id;
+        }
+    }
     /**
      * 注册一个文件到上传文件目录
      * @param string $path 文件路径
@@ -44,7 +56,7 @@ class Upload
      * @param int $public 是否公开 0否 1是
      * @return int
      */
-    public static function register(string $name, string $file, string $type, int $uid, int $public=1):int
+    public static function register(string $name, string $file, string $type,int $public=1):int
     {
         if (Storage::exist($file)) {
             $md5=md5_file($file);
@@ -66,7 +78,7 @@ class Upload
                         $id=$qid['rid'];
                     } else {
                         $q->query('INSERT INTO `#{uploads}` ( `owner`,`name`,`time`, `resource`,`public`) VALUES (:owner,:name,:time,:resource,:public);');
-                        $q->values(['owner'=>$uid, 'name'=>$name, 'time'=>time(), 'resource'=>$resource, 'public'=>$public])->exec();
+                        $q->values(['owner'=>self::$uid, 'name'=>$name, 'time'=>time(), 'resource'=>$resource, 'public'=>$public])->exec();
                         $id=$q->lastInsertId();
                     }
                     $q->commit();
@@ -120,5 +132,21 @@ class Upload
         } else {
             echo 'No Resource';
         }
+    }
+
+    /**
+     * @return int
+     */
+    public static function getUid(): int
+    {
+        return self::$uid;
+    }
+
+    /**
+     * @param int $uid
+     */
+    public static function setUid(int $uid)
+    {
+        self::$uid = $uid;
     }
 }

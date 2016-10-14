@@ -131,26 +131,21 @@ class Page
         if (isset(self::$ids[$id])) {
             $url=self::$ids[$id];
             foreach ($args as $name =>$value) {
-                $url=preg_replace("/\{{$name}\}[?]?/", $value, $url);
+                $url=preg_replace('/\{'.$name.'}\??/', $value, $url);
             }
             // 去除未设置参数的
-            return $host.preg_replace('/\{(\S+?)\}([?])/', '', $url);
+            return $host.preg_replace('/\{(\S+?)\}\??/', '', $url);
         }
         return $host;
     }
+
     public static function redirect(string $url)
     {
         self::use('redirect');
         self::set('url',$url);
         self::getController()->noCache();
     }
-    public static function jump($url,$message,$time=1){
-        self::use('jump');
-        self::set('time',$time);
-        self::set('url',$url);
-        self::set('message',$message);
-        self::getController()->noCache();
-    }
+
     public static function error404($path=null)
     {
         import('Site.functions');

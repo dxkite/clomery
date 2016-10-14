@@ -39,7 +39,7 @@ Page::visit('/${id}/{name}?',['Resource','main'])
 
 Page::auto('/user', '/user')->id('user');
 // 管理界面导向
-Page::auto('/@_@', '/admin')->id('admin');
+Page::auto('/0.0', '/admin')->id('admin');
 // 验证码
 Page::visit('/verify_code',function(){
     (new Image())->verifyImage();

@@ -14,6 +14,8 @@
     // 视图控制
     defined('APP_VIEW')or define('APP_VIEW', APP_RES.'/view');
     defined('APP_TPL')or define('APP_TPL', APP_RES.'/tpl');
+    // 临时文件
+    defined('APP_TMP')or define('APP_TMP',  APP_RES.'/tmp');
     // 配置文件名
     defined('APP_CONF') or define('APP_CONF', '.conf');
     defined('WEB_MIME') or define('WEB_MIME', '.mime');
