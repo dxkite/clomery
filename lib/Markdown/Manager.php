@@ -92,6 +92,7 @@ class Markdown_Manager
         // 上传图片文件
         $markdown=preg_replace_callback('/\!\[.+?\]\((.+?)\)/', [$this, 'uploadImgResource'], $markdown);
         $mkhtml=self::$parser->makeHTML($markdown);
+        var_dump($mkhtml);
         // TODO : 上传文件到数据库
     }
     
