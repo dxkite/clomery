@@ -91,14 +91,24 @@ class Markdown_Manager
         $markdown=preg_replace_callback('/\[.+?\]\((.+?)\)/', [$this, 'uploadUsedResource'], $markdown);
         // 上传图片文件
         $markdown=preg_replace_callback('/\!\[.+?\]\((.+?)\)/', [$this, 'uploadImgResource'], $markdown);
-        return 
-        ArticleManager::insertNew($config->author_id,
+        $uid=UManager::user2Id($config->author);
+        if ($uid<=0) {
+            $uid=UManager::hasSignin()['uid'];
+        }
+        $aid =ArticleManager::insertNew($uid,
         $config->title,
-        $config->remark,$markdown,
+        $config->remark, $markdown,
         $config->date,
         $config->keeptop,
         $config->reply,
-        1,md5($markdown));
+        1, md5($markdown));
+        if ($aid>0) {
+            $tags=preg_split('/\s*;\s*/', $config->tags);
+            TagManager::addTagsToArticle($aid,0,$tags);
+            return $aid;
+        } else {
+            return 0;
+        }
     }
     
     protected function parseImgResource($matchs)

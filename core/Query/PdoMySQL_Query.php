@@ -63,7 +63,7 @@ class Query implements Query_Interface
     {
         return $this->stmt->errorCode();
     }
-    public function lastInsertId()
+    public static function lastInsertId()
     {
         return self::$pdo->lastInsertId();
     }
@@ -99,21 +99,21 @@ class Query implements Query_Interface
         }
     }
     // 事务系列
-    public function beginTransaction()
+    public static function beginTransaction()
     {
-        self::$pdo->beginTransaction();
-        return $this;
+        self::connectPdo();
+        return self::$pdo->beginTransaction();
     }
     
-    public function commit()
+    public  static function commit()
     {
-        self::$pdo->commit();
-        return $this;
+        self::connectPdo();
+        return  self::$pdo->commit();
     }
 
-    public function rollBack()
+    public static function rollBack()
     {
-        self::$pdo->rollBack();
-        return $this;
+        self::connectPdo();
+        return  self::$pdo->rollBack();
     }
 }

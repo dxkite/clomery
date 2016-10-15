@@ -15,7 +15,8 @@ interface Query_Interface
     public function error();
     public function erron():int;
     // 事务系列
-    public function beginTransaction();
-    public function commit();
-    public function rollBack();
+    public static function beginTransaction();
+    public static function commit();
+    public static function rollBack();
+    public static function lastInsertId();
 }

@@ -64,10 +64,11 @@ class Upload
             if (Storage::move($file, $file=self::$root.'/'.$md5)) {
                 $id=0;
                 try {
+                    Query::beginTransaction();
                     // 插入文件所有总表
                     $q=new Query('INSERT INTO `#{upload_resource}` ( `type`,`hash`, `reference`) VALUES (:type,:hash,1);');
                     $resource=0;
-                    if ($q->beginTransaction()->values(['type'=>$type, 'hash'=>$md5])->exec()) {
+                    if ($q->values(['type'=>$type, 'hash'=>$md5])->exec()) {
                         $resource=$q->lastInsertId();
                     } else {
                         $resource=$q->query('SELECT `rid` FROM `#{upload_resource}` WHERE `hash` = :hash', ['hash'=>$md5])->fetch()['rid'];
@@ -81,9 +82,9 @@ class Upload
                         $q->values(['owner'=>self::$uid, 'name'=>$name, 'time'=>time(), 'resource'=>$resource, 'public'=>$public])->exec();
                         $id=$q->lastInsertId();
                     }
-                    $q->commit();
+                    Query::commit();
                 } catch (\Exception $e) {
-                    $q->rollBack();
+                    Query::rollBack();
                     Storage::remove($file);
                     return -2;
                 }

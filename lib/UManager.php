@@ -4,12 +4,16 @@ class UManager
 {
     public static function userExist(string $user):bool
     {
+        return user2Id($user)===0;
+    }
+    public static function user2Id(string $user):int
+    {
         $q=new Query('SELECT uid FROM #{users} where LOWER(uname) = LOWER(:uname) LIMIT 1;');
         $q->values(['uname'=>$user]);
         if ($get=$q->fetch()) {
-            return true;
+            return $get['uid'];
         }
-        return false;
+        return 0;
     }
     public static function emailExist(string $email):bool
     {
