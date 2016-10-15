@@ -122,9 +122,9 @@ interface Storage_Driver
 
     /**
      * @param string $file
-     * @return bool
+     * @return bool|string
      */
-    public static function exist(string $file) :bool;
+    public static function exist(string $file) ;
 
     /**
      * @param string $source

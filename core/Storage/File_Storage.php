@@ -89,7 +89,10 @@ class Storage implements Storage_Driver
 
     public static function get(string $name):string
     {
-        if (self::exist($name)) {
+        if ($file=self::exist($name)) {
+            if (is_string($file)) {
+                $name=$file;
+            }
             return file_get_contents($name);
         }
         return '';
@@ -101,7 +104,10 @@ class Storage implements Storage_Driver
      */
     public static function remove(string $name) : bool
     {
-        if (self::exist($name)) {
+        if ($file=self::exist($name)) {
+            if (is_string($file)) {
+                $name=$file;
+            }
             return unlink($name);
         }
         return true;
@@ -124,7 +130,10 @@ class Storage implements Storage_Driver
 
     public static function size(string $name):int
     {
-        if (self::exist($name)) {
+        if ($file=self::exist($name)) {
+            if (is_string($file)) {
+                $name=$file;
+            }
             return filesize($name);
         }
         return 0;
@@ -136,13 +145,16 @@ class Storage implements Storage_Driver
     }
     public static function type(string $name):int
     {
-        if (self::exist($name)) {
+        if ($file=self::exist($name)) {
+            if (is_string($file)) {
+                $name=$file;
+            }
             return filetype($name);
         }
         return 0;
     }
 
-    public static function exist(string $name, array $charset=[]):bool
+    public static function exist(string $name, array $charset=[])
     {
         // UTF-8 格式文件路径
         if (self::exist_case($name)) {

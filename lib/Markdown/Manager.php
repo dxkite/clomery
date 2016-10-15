@@ -104,7 +104,7 @@ class Markdown_Manager
         1, md5($markdown));
         if ($aid>0) {
             $tags=preg_split('/\s*;\s*/', $config->tags);
-            TagManager::addTagsToArticle($aid,0,$tags);
+            TagManager::addTagsToArticle($aid, 0, $tags);
             return $aid;
         } else {
             return 0;
