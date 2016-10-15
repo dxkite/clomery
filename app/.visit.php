@@ -8,8 +8,14 @@ if (is_spider())
 Page::visit('/',['Main','main'])->use('index')->id('main_page')->noCache();
 // 待开发的页面
 Page::visit('/{pagename}',['Develop','main'])
-->with('pagename','/^(notes|question|test|books|article|about)$/')
+->with('pagename','/^(notes|question|test|books|about)$/')
 ->use('developing')->id('develop_page')->noCache();
+// 待开发的页面
+Page::visit('/article/{page}?',['article\View','list'])
+->with('page','int')->id('article_list')->noCache();
+// 待开发的页面
+Page::visit('/article-{aid}/{name}?',['article\View','article'])
+->with('aid','int')->with('name','string')->id('article_view')->override()->noCache();
 // 查看文章
 //Page::visit('/article/{id}?',['Main','article'])->with('id','int')->use('index')->id('main_article');
 

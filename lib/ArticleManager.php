@@ -23,11 +23,27 @@ class ArticleManager
     }
     public static function getArticlesList(int $topic=0, int $count=10, int $offset=0)
     {
-        $q='SELECT * FROM `atd_articles` WHERE `topic`=:topic ORDER BY `atd_articles`.`modified` ASC LIMIT  :offset,:count;';
+        $q='SELECT `aid`,`title`,`author` as `uid`,`atd_users`.`uname` as `author` ,`remark`,`views`,`modified`,`atd_category`.`cid`,`atd_category`.`name` FROM `atd_articles` LEFT JOIN  `atd_category` ON `atd_category`.`cid`=`topic` LEFT JOIN `atd_users` ON `atd_users`.`uid`=`atd_articles`.`author` WHERE `topic`=:topic ORDER BY `atd_articles`.`modified` ASC LIMIT  :offset,:count;';
         $db=($qs=new Query($q, ['topic'=>$topic, 'count'=>$count, 'offset'=>$offset]))->fetchAll();
         return $db;
     }
-    
+    public static function getArticleInfo(int $aid)
+    {
+        $q='SELECT `aid`,`title`,`author` as `uid`,`atd_users`.`uname` as `author` ,`remark`,`views`,`modified`,`atd_category`.`cid`,`atd_category`.`name` FROM `atd_articles` LEFT JOIN  `atd_category` ON `atd_category`.`cid`=`topic` LEFT JOIN `atd_users` ON `atd_users`.`uid`=`atd_articles`.`author` WHERE `aid`=:aid LIMIT 1;';
+        return ($qs=new Query($q, ['aid'=>$aid]))->fetch();
+    }
+
+    public static function getArticleContent(int $aid)
+    {
+        $q='SELECT `contents` FROM `#{articles}` WHERE `aid`=:aid LIMIT 1;';
+        $c='UPDATE `#{articles}` SET `view` = `view` +1 WHERE `aid` = :aid LIMIT 1;';
+        if ($content=(new Query($q, ['aid'=>$aid]))->fetch()) {
+            // 添加Views
+            (new Query($c, ['aid'=>$aid]))->exec();
+            return $content['contents'];
+        }
+        return '';
+    }
     public static function numbers():int
     {
         $q='SELECT `TABLE_ROWS` as `size` FROM `information_schema`.`TABLES` WHERE  `TABLE_SCHEMA`="'.conf('Database.dbname').'" AND `TABLE_NAME` ="#{articles}" LIMIT 1;';
@@ -35,5 +51,17 @@ class ArticleManager
             return $a['size'];
         }
         return 0;
+    }
+    
+    public static function setCategory($aid, $categoryid)
+    {
+        $q='UPDATE `atd_articles` SET `category` = :cid WHERE `atd_articles`.`aid` = :aid;';
+        return (new Query($q, ['aid'=>$aid, 'cid'=>$categoryid]))->exec();
+    }
+
+    public static function setTopic($aid, $topic)
+    {
+        $q='UPDATE `atd_articles` SET `topic` = :topic WHERE `atd_articles`.`aid` = :aid;';
+        return (new Query($q, ['aid'=>$aid, 'topic'=>$topic]))->exec();
     }
 }

@@ -1,0 +1,23 @@
+<html>
+
+<head>
+	<title>{{ $_Page->title('文章') }}</title>
+</head>
+<h2>文章总数： {{ $_Page->article_numbers }}</h2>
+<ol>
+	@foreach ( $_Page->article_list as $article)
+	<li> <a href="{{ PageUrl::article($article['aid'],$article['title']) }}">  {{$article['title']}}</a></li>
+	@endforeach
+</ol>
+
+@if ($_Page->use_page_nav)
+<nav>
+	@foreach ( $_Page->page_nav as $num=>$page) @if (isset($page['current']) && $page['current']==true)
+	<span>  {{$num }}</span> @else
+	<a href="{{ PageUrl::articlePage($page['offset']) }}">  {{$num }}</a> @endif @endforeach
+</nav>
+@else
+<a href="{{ PageUrl::articlePage() }}">NO Nav</a>
+@endif
+
+</html>
