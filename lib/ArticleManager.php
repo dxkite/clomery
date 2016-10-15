@@ -36,7 +36,7 @@ class ArticleManager
     public static function getArticleContent(int $aid)
     {
         $q='SELECT `contents` FROM `#{articles}` WHERE `aid`=:aid LIMIT 1;';
-        $c='UPDATE `#{articles}` SET `view` = `view` +1 WHERE `aid` = :aid LIMIT 1;';
+        $c='UPDATE `#{articles}` SET `views` = `views` +1 WHERE `aid` = :aid LIMIT 1;';
         if ($content=(new Query($q, ['aid'=>$aid]))->fetch()) {
             // 添加Views
             (new Query($c, ['aid'=>$aid]))->exec();
