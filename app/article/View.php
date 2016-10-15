@@ -9,8 +9,7 @@ class View
 {
     public static function list($offset=0)
     {
-        $page_content=5;
-
+        $page_content=2;
         $page= (int) ($offset/$page_content+1);
         $title= $page?'- 第'.$page .'页':'';
         Page::set('title', '文章'.$title);

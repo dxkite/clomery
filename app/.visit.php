@@ -10,10 +10,13 @@ Page::visit('/',['Main','main'])->use('index')->id('main_page')->noCache();
 Page::visit('/{pagename}',['Develop','main'])
 ->with('pagename','/^(notes|question|test|books|about)$/')
 ->use('developing')->id('develop_page')->noCache();
-// 待开发的页面
+
 Page::visit('/article/{page}?',['article\View','list'])
 ->with('page','int')->id('article_list')->noCache();
-// 待开发的页面
+
+Page::visit('/u/{userid}/{username}?',['UserView','main'])
+->with('userid','int')->with('username','string')->id('user_view')->override()->noCache();
+
 Page::visit('/article-{aid}/{name}?',['article\View','article'])
 ->with('aid','int')->with('name','string')->id('article_view')->override()->noCache();
 // 查看文章

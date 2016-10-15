@@ -160,6 +160,16 @@ class UManager
         $q='UPDATE `#{user_info}` SET `avatar` = :avatar WHERE `#{user_info}`.`uid` = :uid;';
         return (new Query($q, ['uid'=>$uid, 'avatar'=>$avatar]))->exec();
     }
+    public static function getPublicInfo(int $uid)
+    {
+        static $info=null;
+        if ($info) {
+            return $info;
+        } elseif ($info=(new Query('SELECT `#{users}`.`uid`,`uname` as `name`,`avatar`,`signup`,`discription` FROM `#{users}`  JOIN `#{user_info}` ON  `#{user_info}`.`uid` = `#{users}`.`uid` WHERE `#{users}`.`uid`=:uid  LIMIT 1;', ['uid'=>$uid]))->fetch()) {
+            return $info;
+        }
+        return $info;
+    }
     public static function getInfo(int $uid)
     {
         $q='SELECT * FROM `#{user_info}` WHERE `uid` = :uid LIMIT 1;';

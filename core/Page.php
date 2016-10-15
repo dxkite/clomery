@@ -207,6 +207,7 @@ class Page
         $success=false;
         // 保证URL后面都含有 /
         $path=rtrim($match[2], '/').'/';
+        define('__CURRENT_URL__',$path);
         // 开始匹配
         foreach (self::$maps as $url=>$caller) {
             // 满足前提条件

@@ -6,7 +6,13 @@
 <h2>文章总数： {{ $_Page->article_numbers }}</h2>
 <ol>
 	@foreach ( $_Page->article_list as $article)
-	<li> <a href="{{ PageUrl::article($article['aid'],$article['title']) }}">  {{$article['title']}}</a></li>
+	<li>
+		<a href="{{ PageUrl::article($article['aid'],$article['title']) }}">  {{$article['title']}}</a> {{ date('Y-m-d H:m:s',$article['modified'])
+		}}
+		<a href="{{PageUrl::UserHome($article['uid'])}}">{{ $article['author'] }}</a> 阅读：{{ $article['views']}} @if ($article['cid'])
+		{{$article['name'] }} @else 未分类 @endif
+		<p>{{$article['remark']}}</p>
+	</li>
 	@endforeach
 </ol>
 
@@ -17,7 +23,6 @@
 	<a href="{{ PageUrl::articlePage($page['offset']) }}">  {{$num }}</a> @endif @endforeach
 </nav>
 @else
-<a href="{{ PageUrl::articlePage() }}">NO Nav</a>
-@endif
+<a href="{{ PageUrl::articlePage() }}">NO Nav</a> @endif
 
 </html>
