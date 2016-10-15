@@ -4,7 +4,7 @@ class UManager
 {
     public static function userExist(string $user):bool
     {
-        return self::user2Id($user)===0;
+        return self::user2Id($user)!==0;
     }
     public static function user2Id(string $user):int
     {
