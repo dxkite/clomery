@@ -5,6 +5,7 @@ use ArticleManager;
 use Markdown\Parser as Markdown_Parser;
 use Page;
 use Core\Value as CoreValue;
+use TagManager;
 
 class View
 {
@@ -33,17 +34,18 @@ class View
             Page::set('use_page_nav', false);
         }
     }
-    public static function article($page)
+    public static function article($aid)
     {
         import('Site.functions');
         \Site\page_common_set();
         Page::set('head_index_nav_select', 1);
-        $info=ArticleManager::getArticleInfo((int)$page);
+        $info=ArticleManager::getArticleInfo((int)$aid);
         Page::set('title', $info['title']);
+        $info['tags']=TagManager::getTags((int)$aid);
         Page::set('article', new CoreValue($info));
         Page::use('article/read');
         $p=new Markdown_Parser;
-        $c=ArticleManager::getArticleContent((int)$page);
+        $c=ArticleManager::getArticleContent((int)$aid);
         Page::set('article_html', $p->makeHTML($c));
     }
 }

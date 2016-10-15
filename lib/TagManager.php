@@ -28,7 +28,7 @@ class TagManager
         // 修正Tag
         if ($c=self::checkTag($tag)) {
             $tagid=$c;
-        } elseif ($i=self::insertTag( $topic,$tag)) {
+        } elseif ($i=self::insertTag($topic, $tag)) {
             $tagid=$i;
         } else {
             return false;
@@ -40,5 +40,10 @@ class TagManager
         foreach ($tag as $tagname) {
             self::addTagToArticle($aid, $topic, $tagname);
         }
+    }
+    public static function getTags(int $aid, int $topic=0)
+    {
+        $q='SELECT `atd_tags`.`tid`, `name` FROM `atd_article_tag` JOIN `atd_tags` ON `atd_tags`.`tid`=`atd_article_tag`.`tid` AND `atd_tags`.`topic`=:topic WHERE `atd_article_tag`.`aid` = :aid ';
+        return (new Query($q, ['topic'=>$topic, 'aid'=>$aid]))->fetchAll();
     }
 }

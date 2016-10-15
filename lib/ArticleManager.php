@@ -29,7 +29,7 @@ class ArticleManager
     }
     public static function getArticleInfo(int $aid)
     {
-        $q='SELECT `aid`,`title`,`author` as `uid`,`atd_users`.`uname` as `author` ,`remark`,`views`,`modified`,`atd_category`.`cid`,`atd_category`.`name` FROM `atd_articles` LEFT JOIN  `atd_category` ON `atd_category`.`cid`=`topic` LEFT JOIN `atd_users` ON `atd_users`.`uid`=`atd_articles`.`author` WHERE `aid`=:aid LIMIT 1;';
+        $q='SELECT `aid`,`title`,`author` as `uid`,`atd_users`.`uname` as `author` ,`remark`,`views`,`modified`,`replys`,`atd_category`.`cid`,`atd_category`.`name` as `category`,`atd_category`.`icon` FROM `atd_articles` LEFT JOIN  `atd_category` ON `atd_category`.`cid`=`topic` LEFT JOIN `atd_users` ON `atd_users`.`uid`=`atd_articles`.`author` WHERE `aid`=:aid LIMIT 1;';
         return ($qs=new Query($q, ['aid'=>$aid]))->fetch();
     }
 
@@ -63,5 +63,9 @@ class ArticleManager
     {
         $q='UPDATE `atd_articles` SET `topic` = :topic WHERE `atd_articles`.`aid` = :aid;';
         return (new Query($q, ['aid'=>$aid, 'topic'=>$topic]))->exec();
+    }
+    // 数据不对时分析
+    public static function analyzeArticle(string $table){
+        return (new Query('ANALYZE TABLE `#{articles}`'))->exec();    
     }
 }

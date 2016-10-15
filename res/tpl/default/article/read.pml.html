@@ -1,5 +1,22 @@
-@include ('head')
-<article>
-    {{! $_Page->article_html }}
-</article>
+@insertAt('head_htmlhead')<link rel="stylesheet" href="@resource('css/article.css')"> @insertEnd @include ('head')
+<div class="clearfix">
+	<div class="article-box">
+		<div class="article-head">
+			<div class="article-title">{{ $_Page->article->title }} </div>
+			<div class="article-tags">
+				@foreach ($_Page->article->tags as $tag) <a herf="#" alt="tag"> {{ $tag['name'] }} </a> @endforeach
+			</div>
+		</div>
+		<div class="article-info">
+             <span> <a href="{{PageUrl::UserHome($_Page->article->uid(0))}}"> {{ $_Page->article->author('匿名') }} </a> 发表于 {{ date('Y-m-d H:m:s',$_Page->article->modified ) }}  </span>
+             <span> {{ $_Page->article->category('未分类') }}</span> 
+             <span> 阅读（{{ $_Page->article->views(0) }}）</span>
+             <span> 回复（{{ $_Page->article->replys(0) }}）</span>
+		</div>
+		<article class="article-body">
+			{{! $_Page->article_html }}
+		</article>
+	</div>
+</div>
+
 @include("footer")
