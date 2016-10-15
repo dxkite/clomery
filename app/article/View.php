@@ -4,6 +4,7 @@ namespace article;
 use ArticleManager;
 use Markdown\Parser as Markdown_Parser;
 use Page;
+use Core\Value as CoreValue;
 
 class View
 {
@@ -11,7 +12,7 @@ class View
     {
         import('Site.functions');
         \Site\page_common_set();
-        Page::set('head_index_nav_select',1);
+        Page::set('head_index_nav_select', 1);
         $page_content=2;
         $page= (int) ($offset/$page_content+1);
         $title= $page?'- 第'.$page .'页':'';
@@ -34,11 +35,15 @@ class View
     }
     public static function article($page)
     {
-        
-        var_dump(ArticleManager::getArticleInfo((int)$page));
+        import('Site.functions');
+        \Site\page_common_set();
+        Page::set('head_index_nav_select', 1);
+        $info=ArticleManager::getArticleInfo((int)$page);
+        Page::set('title', $info['title']);
+        Page::set('article', new CoreValue($info));
+        Page::use('article/read');
         $p=new Markdown_Parser;
         $c=ArticleManager::getArticleContent((int)$page);
-        var_dump($p->makeHTML($c));
-        var_dump($c);
+        Page::set('article_html', $p->makeHTML($c));
     }
 }

@@ -11,6 +11,7 @@ class View_Compiler_Pomelo
     ];
     protected static $error='';
     protected static $erron=0;
+    protected static $rawTag=['{{!','}}'];
     protected static $echoTag=['{{','}}'];
     protected static $commentTag=['{--','--}'];
    
@@ -104,10 +105,11 @@ class View_Compiler_Pomelo
     private function compileCommand(string $str)
     {
         $echo=sprintf('/%s\s*(.+?)\s*?%s/', self::$echoTag[0], self::$echoTag[1]);
+        $rawecho=sprintf('/%s\s*(.+?)\s*?%s/', self::$rawTag[0], self::$rawTag[1]);
         $comment=sprintf('/%s(.+)%s/', self::$commentTag[0], self::$commentTag[1]);
         return preg_replace(
-            [$echo, $comment],
-            ['<?php Env::echo($1) ?>', '<?php /* $1 */ ?>'],
+            [$rawecho,$echo, $comment],
+            ['<?php echo($1) ?>','<?php Env::echo($1) ?>', '<?php /* $1 */ ?>'],
             $str
         );
     }
