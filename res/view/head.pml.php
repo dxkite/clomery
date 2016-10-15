@@ -1,6 +1,7 @@
 <!DOCTYPE HTML>
 <html lang="<?php Env::echo($_Page->lang('zh')) ?>">
 <head>
+	<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 	<title><?php Env::echo($_Page->title($_L->main_title('芒刺中国'))) ?></title>
 	<?php echo Page::insert('head_htmlhead') ?>
 	<?php Env::include("page_meta") -> render(); ?>
