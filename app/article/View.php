@@ -9,6 +9,9 @@ class View
 {
     public static function list($offset=0)
     {
+        import('Site.functions');
+        \Site\page_common_set();
+        Page::set('head_index_nav_select',1);
         $page_content=2;
         $page= (int) ($offset/$page_content+1);
         $title= $page?'- 第'.$page .'页':'';
@@ -31,6 +34,7 @@ class View
     }
     public static function article($page)
     {
+        
         var_dump(ArticleManager::getArticleInfo((int)$page));
         $p=new Markdown_Parser;
         $c=ArticleManager::getArticleContent((int)$page);

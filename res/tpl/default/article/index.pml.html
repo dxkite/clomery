@@ -1,8 +1,4 @@
-<html>
-
-<head>
-	<title>{{ $_Page->title('文章') }}</title>
-</head>
+@include ('head')
 <h2>文章总数： {{ $_Page->article_numbers }}</h2>
 <ol>
 	@foreach ( $_Page->article_list as $article)
@@ -24,5 +20,4 @@
 </nav>
 @else
 <a href="{{ PageUrl::articlePage() }}">NO Nav</a> @endif
-
-</html>
+@include("footer")
