@@ -19,6 +19,7 @@
     // 配置文件名
     defined('APP_CONF') or define('APP_CONF', '.conf');
     defined('WEB_MIME') or define('WEB_MIME', '.mime');
+    defined('INSTALL_LOCK') or define('INSTALL_LOCK', 'install.lock');
     defined('APP_VISIT') or define('APP_VISIT', '.visit.php');
     // 载入内置函数 PS:就是个自动加载，和配置加载
     require_once CORE_PATH.'/Core.php';

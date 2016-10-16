@@ -9,7 +9,7 @@ use \Core\Arr;
  */
 class Page
 {
-    private static $maps;
+    private static $maps=[];
     private static $default;
     private static $type=[
         'int'=>'/\d+/',
