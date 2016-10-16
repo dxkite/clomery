@@ -109,7 +109,7 @@ class Upload
     }
 
     /**
-     * 根据ID获取文件路径
+     * 根据ID获取文件
      * @param int $id
      * @return array
      */
@@ -120,6 +120,12 @@ class Upload
             return $get;
         }
         return [];
+    }
+    public static function getFilePath($fid):string {
+         if ($get=(new Query('SELECT `hash` FROM `#{uploads}` JOIN  `#{upload_resource}` ON `#{upload_resource}`.`rid`=`resource` WHERE `#{uploads}`.`rid` =:rid LIMIT 1;'))->values(['rid'=>$fid])->fetch()) {
+            return self::$root.'/'.$get['hash'];
+        }
+        return '';
     }
     public static function outputPublic(int $id, bool $download=false)
     {

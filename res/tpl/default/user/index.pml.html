@@ -23,12 +23,17 @@
     <h3>签名：{{ $_Page->user_info->discription }}</h3>
     <h3>QQ：{{ $_Page->user_info->qq('未记录QQ号') }}</h3>
     <h3>Phone：{{ $_Page->user_info->phone('未记录手机号') }}</h3>
+	<form enctype="multipart/form-data" action="/user/upload_article" method="POST">
+		<input name="upload" type="file" />
+		<input type="submit" value="上传文章" />
+	</form>
 	<h2>登陆历史#5</h2>
 	<ol>
 		@foreach($_Page->signin_list as $signin_item)
 		<li> {{ $signin_item['ip'] }} - {{ date('Y-m-d H:m:s',$signin_item['time']) }} </li>
 		@endforeach
 	</ol>
+
 </body>
 
 </html>

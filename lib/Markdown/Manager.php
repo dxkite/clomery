@@ -9,7 +9,8 @@ class Markdown_Manager
     // 指定保存的URL文件对象
     public $urlsave=[];
     public $urloutside=[];
-
+    public $error='';
+    
     public function __construct()
     {
         self::$parser=new Markdown\Parser();
@@ -40,23 +41,29 @@ class Markdown_Manager
                 // 解析配置
                 $config_set=json_decode($config_file);
                 $this->root=$root;
-                self::previewMarkdown($config_set->index, $config_set);
+                return self::previewMarkdown($config_set->index, $config_set);
             } else {
-                echo 'un readable zip format';
+                $this->error='un readable zip article format';
+                return -2;
             }
             $zip->close();
         } else {
-            echo 'failed';
+            $this->error='read zip field!';
+            return -1;
         }
     }
-    public function uploadZipMarkdown(string $filename)
+    public function uploadInfo()
+    {
+        return ['error'=>$this->error];
+    }
+    public function uploadZipMarkdown(string $filename,string $name='')
     {
         $zip=new ZipArchive;
         $res = $zip->open($filename);
         
         if ($res === true) {
             $this->archive=$zip;
-            if ($config=self::getZipConfigFile()) {
+            if ($config=self::getZipConfigFile($name)) {
                 $root=dirname($config);
                 $config_file=$zip->getFromName($config);
                 // 去行注释
@@ -68,16 +75,17 @@ class Markdown_Manager
                 $this->root=$root;
                 return self::uploadMarkdown($config_set->index, $config_set);
             } else {
-                echo 'un readable zip format';
+                $this->error='un readable zip article format';
+                return -2;
             }
             $zip->close();
         } else {
-            echo 'failed';
+            $this->error='read zip failed!';
+            return -1;
         }
     }
     protected function parserSetting()
     {
-        
     }
     protected function previewMarkdown(string $markdown,  stdClass $config)
     {
@@ -154,9 +162,10 @@ class Markdown_Manager
     }
 
     // 获取 配置
-    protected function getZipConfigFile()
+    protected function getZipConfigFile(string $name='')
     {
-        $root_dir = pathinfo(basename($this->archive->filename), PATHINFO_FILENAME);
+        if (!$name) $name=pathinfo(basename($this->archive->filename), PATHINFO_FILENAME);
+        $root_dir = $name;
         if ($statconfig=$this->archive->statName(self::$config)) {
             if ($statconfig['comp_method']===8) {
                 return self::$config;

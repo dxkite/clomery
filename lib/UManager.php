@@ -163,10 +163,10 @@ class UManager
     public static function getPublicInfo(int $uid)
     {
         static $info=null;
-        if ($info) {
-            return $info;
-        } elseif ($info=(new Query('SELECT `#{users}`.`uid`,`uname` as `name`,`avatar`,`signup`,`discription` FROM `#{users}`  JOIN `#{user_info}` ON  `#{user_info}`.`uid` = `#{users}`.`uid` WHERE `#{users}`.`uid`=:uid  LIMIT 1;', ['uid'=>$uid]))->fetch()) {
-            return $info;
+        if (isset($info[$uid])) {
+            return $info[$uid];
+        } elseif ($info[$uid]=(new Query('SELECT `#{users}`.`uid`,`uname` as `name`,`avatar`,`signup`,`discription` FROM `#{users}`  JOIN `#{user_info}` ON  `#{user_info}`.`uid` = `#{users}`.`uid` WHERE `#{users}`.`uid`=:uid  LIMIT 1;', ['uid'=>$uid]))->fetch()) {
+            return $info[$uid];
         }
         return $info;
     }
