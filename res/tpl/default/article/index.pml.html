@@ -1,13 +1,29 @@
+@insertAt('head_htmlhead')<link rel="stylesheet" href="@resource('css/article_index.css')"> @insertEnd @include ('head')
 @include ('head')
 <ol>
 	@foreach ( $_Page->article_list as $article)
-	<li>
-		<a href="{{ PageUrl::article($article['aid'],$article['title']) }}">  {{$article['title']}}</a> {{ date('Y-m-d H:m:s',$article['modified'])
-		}}
-		<a href="{{PageUrl::UserHome($article['uid'])}}">{{ $article['author'] }}</a> 阅读：{{ $article['views']}} @if ($article['cid'])
-		{{$article['name'] }} @else 未分类 @endif
-		<p>{{$article['remark']}}</p>
-	</li>
+	<session>
+		<p></p>
+		<div class="basebord">
+			<div class="basebord-title container">
+				<div class="user-bord">
+					<a href="{{PageUrl::UserHome($article['uid'])}}"><img alt="icon-bdimg" src="{{PageUrl::Avatar($article['uid'])}}"></img></a>
+					<div class="p-info">
+						<div class="p-name"><a href="{{PageUrl::UserHome($article['uid'])}}">{{ $article['author'] }}</a> </div>
+						<div class="p-time">{{ date('Y-m-d H:m:s',$article['modified'])}}</div>
+					</div>
+				</div>
+				<div class="p-option">
+					<div class="p-zan">{{ $article['views']}}</div>
+					<div class="p-reply">{{ $article['replys']}}</div>
+				</div>
+			</div>
+			<a href="{{ PageUrl::article($article['aid'],$article['title']) }}"><div class="p-title">{{$article['title']}}</div></a>
+			<div class="p-shorttext">{{$article['remark']}}</div>
+			<div class="p-img p-num1">
+			</div>
+		</div>
+	</session>
 	@endforeach
 </ol>
 

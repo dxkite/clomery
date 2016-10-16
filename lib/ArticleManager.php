@@ -23,7 +23,7 @@ class ArticleManager
     }
     public static function getArticlesList(int $topic=0, int $count=10, int $offset=0)
     {
-        $q='SELECT `aid`,`title`,`author` as `uid`,`atd_users`.`uname` as `author` ,`remark`,`views`,`modified`,`atd_category`.`cid`,`atd_category`.`name` FROM `atd_articles` LEFT JOIN  `atd_category` ON `atd_category`.`cid`=`topic` LEFT JOIN `atd_users` ON `atd_users`.`uid`=`atd_articles`.`author` WHERE `topic`=:topic ORDER BY `atd_articles`.`modified` DESC LIMIT  :offset,:count;';
+        $q='SELECT `aid`,`title`,`author` as `uid`,`atd_users`.`uname` as `author` ,`remark`,`views`,`modified`,`replys`,`atd_category`.`cid`,`atd_category`.`name` as `category`,`atd_category`.`icon`  FROM `atd_articles` LEFT JOIN  `atd_category` ON `atd_category`.`cid`=`topic` LEFT JOIN `atd_users` ON `atd_users`.`uid`=`atd_articles`.`author` WHERE `topic`=:topic ORDER BY `atd_articles`.`modified` DESC LIMIT  :offset,:count;';
         $db=($qs=new Query($q, ['topic'=>$topic, 'count'=>$count, 'offset'=>$offset]))->fetchAll();
         return $db;
     }

@@ -1,0 +1,113 @@
+.basebord
+{
+	background-color:white;
+	border-radius:0.3em;
+	box-shadow:0 0 3px 1px #ccc;
+	margin:0.6em;
+	padding:0.4em;
+	transition:0.3s;
+}
+.basebord:hover
+{
+	box-shadow:0 0 0.2em 0.2em #C99BFF ;
+}
+.container{}
+.container:before,
+.container:after {
+  display: table;
+  content: "";
+  line-height: 0;
+}
+.container:after {
+  clear: both;
+}
+/* post */
+.user-bord
+{
+	position:relative;
+	float:left;	
+	height:3.6em;
+	overflow:hidden;
+}
+.p-info
+{
+	padding:0.3em;
+	position:relative;
+	float:right;
+}
+.p-title
+{
+	padding:0.5em;
+}
+.p-shorttext
+{
+	padding:0.5em;	
+}
+.p-option
+{
+	position:relative;
+	float:right;		
+}
+.p-img
+{
+	max-height:10em;
+	overflow:hidden;
+}
+.p-img img,
+.p-img1 img
+{
+	max-width:100%;
+}
+.p-num4 img
+{
+	width:25%;
+	float:left;
+}
+.p-num2 img
+{
+	width:50%;
+	float:left;
+}
+.p-zan,.p-reply
+{
+	padding:0.2em;
+}
+.p-zan:before
+{
+	position:relative;
+	float:left;
+	content:"";
+	background-image:url(../../images/css/zan.svg);
+	width:1em;
+	height:1em;
+}
+.p-reply:before
+{
+	position:relative;
+	float:left;
+	content:"";
+	background-image:url(../../images/css/reply.svg);
+	width:1em;
+	height:1em;
+}
+.p-name
+{
+	padding:0.2em;
+	width:12em;
+	text-overflow:ellipsis;
+}
+.p-time
+{
+	padding:0.3em;
+	text-overflow:ellipsis;
+}
+img[alt="icon-bdimg"]
+{
+	width:3em;
+	height:3em;
+	margin:0.3em;
+	position:relative;
+	float:left;	
+	border-radius:50%;
+	box-shadow:0 0 3px 1px #ccc;
+}
