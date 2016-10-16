@@ -40,11 +40,11 @@
     }
     // 语言支持
     Page::language(Cookie::get('lang', 'zh_cn'));
-    View::theme(Site\Options::getTheme());
+    View::theme(Site_Options::getTheme());
 
     // 获取网站设置
-    Site\Options::init();
-    $op=new Site\Options;
+    Site_Options::init();
+    $op=new Site_Options;
     if ($op->site_close==0) {
         // 载入页面URL配置规则
         require_once APP_ROOT.'/'.APP_VISIT;

@@ -1,14 +1,10 @@
 <?php
-namespace Site;
-
-use \Query;  // 数据库查询
-use \Cache;  // 缓存
 
 /**
- * Class Options
+ * Class Site_Options
  * @package Site
  */
-class Options
+class Site_Options
 {
     /**
      * @options

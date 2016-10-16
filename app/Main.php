@@ -1,6 +1,4 @@
 <?php
-
-use Site\Options;
 import('Site.functions');
 
 class Main
@@ -12,7 +10,7 @@ class Main
     public function main()
     {
         Site\page_common_set();
-        Page::set('title',Options::getOptions()['site_name']);
+        Page::set('title',Site_Options::getOptions()['site_name']);
         Page::set('head_index_nav_select', 0 );
     }
 }

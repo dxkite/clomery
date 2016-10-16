@@ -6,10 +6,11 @@ use Common_Navigation;
 use Common_User;
 use Session;
 use Core\Value;
+use Site_Options;
 
 function page_common_set()
 {
-    Page::global('_Op', new Options);
+    Page::global('_Op', new Site_Options);
     // Page::global('_Env', new Env);
     Common_Navigation::init();
     $nav=Common_Navigation::getNavs();
