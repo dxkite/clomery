@@ -8,7 +8,7 @@
 			</div>
 		</div>
 		<div class="article-info">
-             <span> <a href="{{PageUrl::UserHome($_Page->article->uid(0))}}"> {{ $_Page->article->author('匿名') }} </a> 发表于 {{ date('Y-m-d H:m:s',$_Page->article->modified ) }}  </span>
+             <span> <a href="{{PageUrl::UserHome($_Page->article->uid(0))}}"> {{ $_Page->article->author('匿名') }} </a> 发表于 {{ date('Y-m-d H:i:s',$_Page->article->modified ) }}  </span>
              <span> {{ $_Page->article->category('未分类') }}</span> 
              <span> 阅读（{{ $_Page->article->views(0) }}）</span>
              <span> 回复（{{ $_Page->article->replys(0) }}）</span>

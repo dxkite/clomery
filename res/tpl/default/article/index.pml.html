@@ -10,7 +10,7 @@
 					<a href="{{PageUrl::UserHome($article['uid'])}}"><img alt="icon-bdimg" src="{{PageUrl::Avatar($article['uid'])}}"></img></a>
 					<div class="p-info">
 						<div class="p-name"><a href="{{PageUrl::UserHome($article['uid'])}}">{{ $article['author'] }}</a> </div>
-						<div class="p-time">{{ date('Y-m-d H:m:s',$article['modified'])}}</div>
+						<div class="p-time">{{ date('Y-m-d H:i:s',$article['modified'])}}</div>
 					</div>
 				</div>
 				<div class="p-option">
