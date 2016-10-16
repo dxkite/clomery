@@ -103,6 +103,7 @@ class Markdown_Manager
         $markdown=preg_replace_callback('/\[.+?\]\((.+?)\)/', [$this, 'uploadUsedResource'], $markdown);
         // 上传图片文件
         $markdown=preg_replace_callback('/\!\[.+?\]\((.+?)\)/', [$this, 'uploadImgResource'], $markdown);
+        // TODO: 可忽略的作者
         $uid=UManager::user2Id($config->author);
         if ($uid<=0) {
             $uid=UManager::hasSignin()['uid'];
