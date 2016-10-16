@@ -4,7 +4,7 @@ use \View;
 /**
  * 
  */
-class Includer  implements \Env_Method
+class Includer
 {
     var $args=[];
     function setParams(array $arguments)

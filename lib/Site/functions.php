@@ -2,7 +2,7 @@
 namespace Site;
 
 use Page;
-use Env;
+// use Env;
 use DB_User;
 use Session;
 use Core\Value;
@@ -10,7 +10,7 @@ use Core\Value;
 function page_common_set()
 {
     Page::global('_Op', new Options);
-    Page::global('_Env', new Env);
+    // Page::global('_Env', new Env);
     NavOp::init();
     $nav=NavOp::getNavs();
     $user=DB_User::hasSignin();

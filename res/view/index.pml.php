@@ -1,3 +1,3 @@
-<?php Env::include("head") -> render(); ?>
-<?php Env::include("main") -> render(); ?>
-<?php Env::include("footer") -> render(); ?>
+<?php View_Compiler_Pomelo::include("head") -> render(); ?>
+<?php View_Compiler_Pomelo::include("main") -> render(); ?>
+<?php View_Compiler_Pomelo::include("footer") -> render(); ?>

@@ -88,15 +88,19 @@ class View_Compiler_Pomelo
         }
         return APP_TPL.'/'.self::$theme;
     }
+
+
+
     private function compileString(string $str)
     {
         $callback=function ($match) {
             // var_dump($match);
             if (method_exists($this, $method = 'parse'.ucfirst($match[1]))) {
                 $match[0] = $this->$method(isset($match[3])?$match[3]:null);
-            } else {
-                $match[0] ='<?php  Env::'.ucfirst($match[1]).$match[3].' ?>';
-            }
+            } 
+            /*else {
+                $match[0] ='<?php  Pomelo::'.ucfirst($match[1]).$match[3].' ?>';
+            }*/
             return isset($match[3]) ? $match[0] : $match[0].$match[2];
         };
         return preg_replace_callback('/\B@(\w+)(\s*)(\( ( (?>[^()]+) | (?3) )* \) )? /x', $callback, $str);
@@ -108,18 +112,23 @@ class View_Compiler_Pomelo
         $rawecho=sprintf('/%s\s*(.+?)\s*?%s/', self::$rawTag[0], self::$rawTag[1]);
         $comment=sprintf('/%s(.+)%s/', self::$commentTag[0], self::$commentTag[1]);
         return preg_replace(
-            [$rawecho,$echo, $comment],
-            ['<?php echo($1) ?>','<?php Env::echo($1) ?>', '<?php /* $1 */ ?>'],
+            [$rawecho, $echo, $comment],
+            ['<?php echo($1) ?>', '<?php View_Compiler_Pomelo::echo($1) ?>', '<?php /* $1 */ ?>'],
             $str
         );
     }
     protected function parseEcho($exp)
     {
-        return "<?php Env::echo{$exp} ?>";
+        return "<?php View_Compiler_Pomelo::echo{$exp} ?>";
     }
-    protected function parseVar($exp)
+    /*  protected function parseVar($exp)
     {
-        return "<?php return Env::var{$exp} ?>";
+        return "<?php return Pomelo::var{$exp} ?>";
+    }
+    */    
+    public static function url(string $name, array $args=[])
+    {
+        echo Page::url($name, $args);
     }
     protected function parseInsertAt($exp)
     {
@@ -199,11 +208,33 @@ class View_Compiler_Pomelo
         foreach ($includes as $path) {
             $compile=self::compileFile($path.'/'.$match[2]);
         }
-        return "<?php Env::include{$exp} -> render(); ?>";
+        return "<?php View_Compiler_Pomelo::include{$exp} -> render(); ?>";
+    }
+            // View Includer
+    public static function include()
+    {
+        $include= new View\Includer();
+        $include->setParams(func_get_args());
+        return $include;
+    }
+    public static function markdown($text)
+    {
+        static $parser=null;
+        if (is_null($parser)) {
+            $parser=new \Markdown\Parser();
+        }
+        echo $parser->makeHTML($text);
+    }
+    // View echo
+    public static function echo($something)
+    {
+        foreach (func_get_args() as $arg) {
+            echo htmlspecialchars($arg);
+        }
     }
     protected function parseMarkdown($exp)
     {
-        return "<?php Env::markdown{$exp} ?>";
+        return "<?php View_Compiler_Pomelo::markdown{$exp} ?>";
     }
 
     // 错误报错
