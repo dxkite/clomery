@@ -1,5 +1,5 @@
 <?php
-class ArticleManager
+class DB_Article
 {
     public static function InsertNew(int $author, string $title, string $remark, string $contents, int $time, int $keeptop=0, int $allowreply=1, int $public=1, string $hash='0')
     {

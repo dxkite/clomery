@@ -1,6 +1,6 @@
 <?php
 
-class UserManager
+class DB_User
 {
     public static function userExist(string $user):bool
     {

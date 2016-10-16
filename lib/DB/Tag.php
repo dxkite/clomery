@@ -1,6 +1,6 @@
 <?php
 
-class TagManager
+class DB_Tag
 {
     public static function checkTag(string $tagname)
     {
