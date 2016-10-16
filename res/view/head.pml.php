@@ -4,7 +4,7 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 	<title><?php View_Compiler_Pomelo::echo($_Page->title($_L->main_title('芒刺中国'))) ?></title>
 	<?php echo Page::insert('head_htmlhead') ?>
-	<?php View_Compiler_Pomelo::include("page_meta") -> render(); ?>
+	<?php Page::render("page_meta") ?>
 	<link rel="stylesheet" href="<?php echo Page::url('resource',['path'=>'css/main.css']) ?>">
 </head>
 <body>

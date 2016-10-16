@@ -208,7 +208,7 @@ class View_Compiler_Pomelo
         foreach ($includes as $path) {
             $compile=self::compileFile($path.'/'.$match[2]);
         }
-        return "<?php View_Compiler_Pomelo::include{$exp} -> render(); ?>";
+        return "<?php Page::render{$exp} ?>";
     }
             // View Includer
     public static function include()
