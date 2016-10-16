@@ -15,7 +15,7 @@ class PageUrl
     }
     public static function Avatar(int $uid)
     {
-        $info=UManager::getPublicInfo($uid);
+        $info=UserManager::getPublicInfo($uid);
         return Page::url('upload_file', ['id'=> $info['avatar'], 'name'=> $info['name']]);
     }
     public static function UserHome(int $uid)

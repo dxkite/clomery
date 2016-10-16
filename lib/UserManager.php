@@ -1,6 +1,6 @@
 <?php
 
-class UManager
+class UserManager
 {
     public static function userExist(string $user):bool
     {

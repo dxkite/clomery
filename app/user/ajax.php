@@ -4,7 +4,7 @@ namespace user;
 use Page;
 use Request;
 use Query;
-use UManager;
+use UserManager;
 use Session;
 
 class ajax
@@ -32,11 +32,11 @@ class ajax
                 }
                 case 'checkuser':
                 if (isset($json['user'])) {
-                    return ['return'=>UManager::userExist($json['user'])];
+                    return ['return'=>UserManager::userExist($json['user'])];
                 }break;
                  case 'checkemail':
                 if (isset($json['email'])) {
-                    return ['return'=>UManager::emailExist($json['email'])];
+                    return ['return'=>UserManager::emailExist($json['email'])];
                 }break;
                 case 'signup':
                 if (isset($json['user']) && isset($json['passwd']) && isset($json['email']) && isset($json['code'])) {
@@ -61,7 +61,7 @@ class ajax
         } elseif (!preg_match(self::REG_EMAIL, $email)) {
             $message='invaild email';
         } else {
-            if ($id=UManager::signup($user, $passwd, $email)) {
+            if ($id=UserManager::signup($user, $passwd, $email)) {
                 return ['return'=>true,'message'=>'signup success','uid'=>$id];
             }
             $message='signup error('.$id.')';
@@ -74,7 +74,7 @@ class ajax
         if (!preg_match(self::REG_UNAME, $name)) {
             $message='invaild username';
         } else {
-            if (($rt=UManager::signin($name, $passwd,$keep))===0) {
+            if (($rt=UserManager::signin($name, $passwd,$keep))===0) {
                 return ['return'=>true];
             }
             return ['return'=>false,'erron'=>$rt];

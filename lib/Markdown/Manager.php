@@ -99,9 +99,9 @@ class Markdown_Manager
     protected function uploadMarkdown(string $markdown, stdClass $config)
     {
         // TODO: 可忽略的作者
-        $uid=UManager::user2Id($config->author);
+        $uid=UserManager::user2Id($config->author);
         if ($uid<=0) {
-            $uid=UManager::hasSignin()['uid'];
+            $uid=UserManager::hasSignin()['uid'];
         }
         Upload::setUid($uid);
         $markdown=$this->archive->getFromName(self::parsePath($this->root.'/'.$markdown));

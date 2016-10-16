@@ -3,7 +3,7 @@ namespace Site;
 
 use Page;
 use Env;
-use UManager;
+use UserManager;
 use Session;
 use Core\Value;
 
@@ -13,7 +13,7 @@ function page_common_set()
     Page::global('_Env', new Env);
     NavOp::init();
     $nav=NavOp::getNavs();
-    $user=UManager::hasSignin();
+    $user=UserManager::hasSignin();
 
     if ($user){
         Page::set('has_signin', true);

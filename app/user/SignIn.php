@@ -1,5 +1,5 @@
 <?php
-if (UManager::hasSignin()) {
+if (UserManager::hasSignin()) {
     Page::redirect('/user');
 } else {
     import('Site.functions');
