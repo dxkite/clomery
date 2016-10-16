@@ -56,7 +56,7 @@ class Markdown_Manager
     {
         return ['error'=>$this->error];
     }
-    public function uploadZipMarkdown(string $filename,string $name='')
+    public function uploadZipMarkdown(string $filename, string $name='')
     {
         $zip=new ZipArchive;
         $res = $zip->open($filename);
@@ -98,16 +98,17 @@ class Markdown_Manager
     
     protected function uploadMarkdown(string $markdown, stdClass $config)
     {
-        $markdown=$this->archive->getFromName(self::parsePath($this->root.'/'.$markdown));
-        // 上传链接中使用过的文件
-        $markdown=preg_replace_callback('/\[.+?\]\((.+?)\)/', [$this, 'uploadUsedResource'], $markdown);
-        // 上传图片文件
-        $markdown=preg_replace_callback('/\!\[.+?\]\((.+?)\)/', [$this, 'uploadImgResource'], $markdown);
         // TODO: 可忽略的作者
         $uid=UManager::user2Id($config->author);
         if ($uid<=0) {
             $uid=UManager::hasSignin()['uid'];
         }
+        Upload::setUid($uid);
+        $markdown=$this->archive->getFromName(self::parsePath($this->root.'/'.$markdown));
+        // 上传链接中使用过的文件
+        $markdown=preg_replace_callback('/\[.+?\]\((.+?)\)/', [$this, 'uploadUsedResource'], $markdown);
+        // 上传图片文件
+        $markdown=preg_replace_callback('/\!\[.+?\]\((.+?)\)/', [$this, 'uploadImgResource'], $markdown);
         $aid =ArticleManager::insertNew($uid,
         $config->title,
         $config->remark, $markdown,
@@ -165,7 +166,9 @@ class Markdown_Manager
     // 获取 配置
     protected function getZipConfigFile(string $name='')
     {
-        if (!$name) $name=pathinfo(basename($this->archive->filename), PATHINFO_FILENAME);
+        if (!$name) {
+            $name=pathinfo(basename($this->archive->filename), PATHINFO_FILENAME);
+        }
         $root_dir = $name;
         if ($statconfig=$this->archive->statName(self::$config)) {
             if ($statconfig['comp_method']===8) {

@@ -2,6 +2,7 @@
 if ($info=UManager::hasSignIn()) {
     var_dump($_FILES['upload']);
     var_dump($zipfile=Upload::uploadFile('upload', 0));
+    Upload::setUid($info['uid']);
     if ($zipfile) {
         // 添加本地的zip文章到数据库
          $md = new Markdown_Manager;
