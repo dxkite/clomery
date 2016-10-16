@@ -1,4 +1,4 @@
 <?php
 Page::getController()->raw()->noCache();
-DB_User::signout();
+Common_User::signout();
 Page::redirect('/');

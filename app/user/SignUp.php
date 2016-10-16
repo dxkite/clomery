@@ -1,5 +1,5 @@
 <?php
-if (DB_User::hasSignin()) {
+if (Common_User::hasSignin()) {
      Page::redirect('/user');
 } else {
     import('Site.functions');

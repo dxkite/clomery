@@ -1,6 +1,6 @@
 <?php
 
-class DB_Tag
+class Blog_Tag
 {
     public static function checkTag(string $tagname)
     {

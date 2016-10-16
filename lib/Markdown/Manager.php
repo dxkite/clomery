@@ -99,9 +99,9 @@ class Markdown_Manager
     protected function uploadMarkdown(string $markdown, stdClass $config)
     {
         // TODO: 可忽略的作者
-        $uid=DB_User::user2Id($config->author);
+        $uid=Common_User::user2Id($config->author);
         if ($uid<=0) {
-            $uid=DB_User::hasSignin()['uid'];
+            $uid=Common_User::hasSignin()['uid'];
         }
         Upload::setUid($uid);
         $markdown=$this->archive->getFromName(self::parsePath($this->root.'/'.$markdown));
@@ -109,7 +109,7 @@ class Markdown_Manager
         $markdown=preg_replace_callback('/\[.+?\]\((.+?)\)/', [$this, 'uploadUsedResource'], $markdown);
         // 上传图片文件
         $markdown=preg_replace_callback('/\!\[.+?\]\((.+?)\)/', [$this, 'uploadImgResource'], $markdown);
-        $aid =DB_Article::insertNew($uid,
+        $aid =Blog_Article::insertNew($uid,
         $config->title,
         $config->remark, $markdown,
         $config->date,
@@ -118,7 +118,7 @@ class Markdown_Manager
         1, md5($this->archive->filename));
         if ($aid>0) {
             $tags=preg_split('/\s*;\s*/', $config->tags);
-            DB_Tag::addTagsToArticle($aid, 0, $tags);
+            Blog_Tag::addTagsToArticle($aid, 0, $tags);
             return $aid;
         } else {
             return 0;

@@ -1,11 +1,11 @@
 <?php
 namespace article;
 
-use DB_Article;
+use Blog_Article;
 use Markdown\Parser as Markdown_Parser;
 use Page;
 use Core\Value as CoreValue;
-use DB_Tag;
+use Blog_Tag;
 
 class View
 {
@@ -20,7 +20,7 @@ class View
         Page::set('title', '文章'.$title);
         Page::use('article/index');
 
-        $article_list=DB_Article::getArticlesList(0, $page_content, (int)$offset);
+        $article_list=Blog_Article::getArticlesList(0, $page_content, (int)$offset);
         $article_list_obj=[];
 
         foreach ($article_list as $article){
@@ -29,7 +29,7 @@ class View
 
         Page::set('article_list', $article_list_obj);
 
-        Page::set('article_numbers', $page_number=DB_Article::numbers());
+        Page::set('article_numbers', $page_number=Blog_Article::numbers());
 
         if ($page_content<$page_number) {
             for ($i=0, $j=1;$i<$page_number;$j++, $i+=$page_content) {
@@ -51,13 +51,13 @@ class View
         import('Site.functions');
         \Site\page_common_set();
         Page::set('head_index_nav_select', 1);
-        $info=DB_Article::getArticleInfo((int)$aid);
+        $info=Blog_Article::getArticleInfo((int)$aid);
         Page::set('title', $info['title']);
-        $info['tags']=DB_Tag::getTags((int)$aid);
+        $info['tags']=Blog_Tag::getTags((int)$aid);
         Page::set('article', new CoreValue($info));
         Page::use('article/read');
         $p=new Markdown_Parser;
-        $c=DB_Article::getArticleContent((int)$aid);
+        $c=Blog_Article::getArticleContent((int)$aid);
         Page::set('article_html', $p->makeHTML($c));
     }
 }

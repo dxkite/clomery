@@ -1,6 +1,6 @@
 <?php
 
-class DB_User
+class Common_User
 {
     public static function userExist(string $user):bool
     {

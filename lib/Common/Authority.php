@@ -1,6 +1,6 @@
 <?php
 
-class DB_Authority
+class Common_Authority
 {
     public $uid=0;
     public function setUid(int $uid)

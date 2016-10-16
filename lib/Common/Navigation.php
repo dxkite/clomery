@@ -1,6 +1,6 @@
 <?php
 
-class DB_Navigation
+class Common_Navigation
 {
     public static $navs;
     public static function init():bool

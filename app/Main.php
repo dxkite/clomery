@@ -7,7 +7,7 @@ class Main
 {
     public function __construct()
     {
-        DB_Navigation::init();
+        Common_Navigation::init();
     }
     public function main()
     {

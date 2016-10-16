@@ -8,7 +8,7 @@
     <label for="public_0">私有</label>
 </form>
 <?php else:
-if ($info=DB_User::hasSignIn()){
+if ($info=Common_User::hasSignIn()){
     var_dump($_FILES['upload']);
     var_dump(Upload::uploadFile('upload',$info['uid'],isset($_POST['public'])?$_POST['public']:1));
 }

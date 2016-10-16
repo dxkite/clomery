@@ -1,5 +1,5 @@
 <?php
-if ($info=DB_User::hasSignIn()) {
+if ($info=Common_User::hasSignIn()) {
     var_dump($_FILES['upload']);
     var_dump($zipfile=Upload::uploadFile('upload', 0));
     Upload::setUid($info['uid']);
