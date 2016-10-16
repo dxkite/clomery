@@ -78,8 +78,8 @@ class Upload
                     if ($qid=$q->query('SELECT `rid` FROM `#{uploads}` WHERE `resource`=:resource LIMIT 1;', ['resource'=>$resource])->fetch()) {
                         $id=$qid['rid'];
                     } else {
-                        $q->query('INSERT INTO `#{uploads}` ( `owner`,`name`,`time`, `resource`,`public`) VALUES (:owner,:name,:time,:resource,:public);');
-                        $q->values(['owner'=>self::$uid, 'name'=>$name, 'time'=>time(), 'resource'=>$resource, 'public'=>$public])->exec();
+                        $q->query('INSERT INTO `#{uploads}` ( `owner`,`name`,`extension`,`time`, `resource`,`public`) VALUES (:owner,:name,:extention,:time,:resource,:public);');
+                        $q->values(['owner'=>self::$uid, 'name'=>pathinfo($name,PATHINFO_FILENAME), 'extention'=>$type,'time'=>time(), 'resource'=>$resource, 'public'=>$public])->exec();
                         $id=$q->lastInsertId();
                     }
                     Query::commit();

@@ -1,10 +1,5 @@
 <?php
-// 添加本地的zip文章到数据库
-// $md = new Markdown_Manager;
-// $md->setUrlsave(['https://www.baidu.com/img/baidu_jgylogo3.gif']);
-// var_dump($md->uploadZipMarkdown(APP_RES.'/tmp/mix-xss.zip'));
-// var_dump(ArticleManager::numbers());
-// var_dump(ArticleManager::getArticlesList(0,1));
+
 
 var_dump(Storage::exist('D:\参考源码\乌云知识库\[XSS神器]XssEncode chrome插件 - 0x_Jin.html'));
 $file =Storage::get('D:\参考源码\乌云知识库\[XSS神器]XssEncode chrome插件 - 0x_Jin.html');

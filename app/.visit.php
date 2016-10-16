@@ -49,6 +49,7 @@ Page::visit('/${id}/{name}?',['Resource','main'])
 Page::auto('/user', '/user')->id('user');
 // 管理界面导向
 Page::auto('/0.0', '/admin')->id('admin');
+Page::auto('/test', '/test')->id('test');
 // 验证码
 Page::visit('/verify_code',function(){
     (new Image())->verifyImage();

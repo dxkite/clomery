@@ -75,6 +75,10 @@ class Markdown_Manager
             echo 'failed';
         }
     }
+    protected function parserSetting()
+    {
+        
+    }
     protected function previewMarkdown(string $markdown,  stdClass $config)
     {
         $markdown=$this->archive->getFromName(self::parsePath($this->root.'/'.$markdown));
