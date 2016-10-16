@@ -31,6 +31,6 @@
     - [x] 文章功能 - 上传zip文章 
 
 ## 使用说明
-.conf.semple 为配置文件模板，配置好后改名为 .conf 即可
-res 目录要保证服务器可读写
-mongci.sql为数据库导出文件
+.conf.semple 为配置文件模板，配置好后改名为 .conf 即可   
+res 目录要保证服务器可读写     
+mongci.sql为数据库导出文件  
