@@ -115,7 +115,7 @@ class Markdown_Manager
         $config->date,
         $config->keeptop,
         $config->reply,
-        1, md5($markdown));
+        1, md5($this->archive->filename));
         if ($aid>0) {
             $tags=preg_split('/\s*;\s*/', $config->tags);
             TagManager::addTagsToArticle($aid, 0, $tags);
