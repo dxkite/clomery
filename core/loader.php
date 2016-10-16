@@ -35,7 +35,6 @@
     Session::start();
      // Debug 模式 实时生成模板
     if (conf('DEBUG', 0)==1) {
-        // View::theme('spider');
         View::compileAll();
     }
     // 语言支持

@@ -2,5 +2,7 @@
 
 class System
 {
-    
+    static function checkInstallStatus(){
+        
+    }
 }

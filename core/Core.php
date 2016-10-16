@@ -39,7 +39,15 @@ function conf(string $name, $default=null)
 {
     static $conf=null;
     if (is_null($conf)) {
-        $conf=parse_ini_file(DOC_ROOT.'/'.APP_CONF, true);
+        if (file_exists($path=DOC_ROOT.'/'.APP_CONF)) {
+            $conf=parse_ini_file($path, true);
+        } elseif (file_exists($path=DOC_ROOT.'/.conf.simple')) {
+            $conf=parse_ini_file($path, true);
+            $conf['Uninstall']=true;
+            $conf['Install_Lock']=file_exists($path=DOC_ROOT.'/install.lock');
+        } else {
+            die('<h1>Missing The configure file (DOC_ROOT/'.APP_CONF.'), Please ensure the integrity of the program.</h1> <a href="https://github.com/DXkite/MongCix" title="CLONE ME ON THE GITHUB" >CLONE ME ON THE GITHUB</a>');
+        }
     }
     return Arr::get($conf, $name, $default);
 }
@@ -53,7 +61,11 @@ function mime(string $name=null, $default=null)
 {
     static $mime=null;
     if (is_null($mime)) {
-        $mime=parse_ini_file(DOC_ROOT.'/'.WEB_MIME);
+        if (file_exists($path=DOC_ROOT.'/'.WEB_MIME)) {
+            $mime=parse_ini_file($path);
+        } else {
+            die('<h1>Missing the mine file ( DOC_ROOT/'.WEB_MIME.'), Please ensure the integrity of the program.</h1> <a href="https://github.com/DXkite/MongCix" title="CLONE ME ON THE GITHUB" >CLONE ME ON THE GITHUB</a>');
+        }
     }
     if (is_null($name)) {
         return $mime;

@@ -9,3 +9,5 @@ res/tmp/*
 .conf
 # 安装锁
 install.lock
+# 调试用
+.conf.ignore
