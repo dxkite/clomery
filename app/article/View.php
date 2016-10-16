@@ -19,8 +19,18 @@ class View
         $title= $page?'- 第'.$page .'页':'';
         Page::set('title', '文章'.$title);
         Page::use('article/index');
-        Page::set('article_list', ArticleManager::getArticlesList(0, $page_content, (int)$offset));
+
+        $article_list=ArticleManager::getArticlesList(0, $page_content, (int)$offset);
+        $article_list_obj=[];
+
+        foreach ($article_list as $article){
+            $article_list_obj[]= new CoreValue($article);
+        }
+
+        Page::set('article_list', $article_list_obj);
+
         Page::set('article_numbers', $page_number=ArticleManager::numbers());
+        
         if ($page_content<$page_number) {
             for ($i=0, $j=1;$i<$page_number;$j++, $i+=$page_content) {
                 $pages[$j]['offset']=$i;
@@ -34,6 +44,8 @@ class View
             Page::set('use_page_nav', false);
         }
     }
+
+
     public static function article($aid)
     {
         import('Site.functions');
