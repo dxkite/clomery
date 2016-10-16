@@ -1,10 +1,6 @@
 <?php
-namespace Site;
 
-use \Query;  // 数据库查询
-use \Cache;  // 缓存
-
-class NavOp
+class DB_Navigation
 {
     public static $navs;
     public static function init():bool

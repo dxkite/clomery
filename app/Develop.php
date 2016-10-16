@@ -1,5 +1,5 @@
 <?php
-use Site\NavOp;
+use Site\DB_Navigation;
 use Site\Options;
 import('Site.functions');
 class Develop

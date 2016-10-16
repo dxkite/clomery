@@ -1,5 +1,5 @@
 <?php
-use Site\NavOp;
+use Site\DB_Navigation;
 use Site\Options;
 import('Site.functions');
 
@@ -7,7 +7,7 @@ class Main
 {
     public function __construct()
     {
-        NavOp::init();
+        DB_Navigation::init();
     }
     public function main()
     {
