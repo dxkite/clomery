@@ -226,6 +226,6 @@ class PageController extends Caller
 
     public function close()
     {
-        self::$close=true;
+        $this->close=true;
     }
 }
