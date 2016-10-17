@@ -1,10 +1,12 @@
 <?php
 namespace Core;
+
 use \Page;
 use \View;
+
 /**
 * 页面控制器，控制页面的加载
-* 
+*
 */
 class PageController extends Caller
 {
@@ -45,9 +47,10 @@ class PageController extends Caller
      * 网页状态
      * @var null
      */
-    private $status=NULL;
+    private $status=null;
     private $allowOutput=true;
     private $noCache=false;
+    private $close=false;
     /**
      * PageController constructor.
      * @param mixed $caller 可调用对象
@@ -58,13 +61,14 @@ class PageController extends Caller
         // 设置父类
         parent::__construct($caller, $params);
     }
-    public function noCache(bool $nocache=true){
+    public function noCache(bool $nocache=true)
+    {
         $this->noCache=$nocache;
     }
     /**
     * 最后参数覆盖
     * 判断是否覆盖后续页面
-    * @return bool 
+    * @return bool
     */
     public function useOverride()
     {
@@ -165,12 +169,14 @@ class PageController extends Caller
     }
     public function render(array $value=[])
     {
-        if (!is_null($this->status))
-        {
-             send_http_status($this->status);
+        if (!is_null($this->status)) {
+            send_http_status($this->status);
         }
-        if ($this->noCache){
+        if ($this->noCache) {
             header('Cache-Control:no-cache');
+        }
+        if ($this->close){
+            header('Connection:close');
         }
         if ($this->raw) {
             switch ($this->type) {
@@ -182,8 +188,7 @@ class PageController extends Caller
             }
         } else {
             Page::render($this->tpl, $value);
-            if ($this->allowOutput)
-            {
+            if ($this->allowOutput) {
                 echo Page::getContent();
             }
         }
@@ -217,5 +222,10 @@ class PageController extends Caller
     {
         $this->preRule=($_SERVER['REQUEST_METHOD'] === 'GET');
         return $this;
+    }
+
+    public function close()
+    {
+        self::$close=true;
     }
 }

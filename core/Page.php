@@ -26,8 +26,7 @@ class Page
     public static function insert(string $name, array $args=[])
     {
         // 显示插入点
-        if (conf('Debug.showPageHook'))
-        {
+        if (conf('Debug.showPageHook')) {
             echo 'H:['.$name.']';
         }
         if (isset(self::$insert[$name])) {
@@ -71,7 +70,7 @@ class Page
     public static function render(string $page, array $values=[])
     {
         // 语言设置
-        self::set('lang',self::$lang);
+        self::set('lang', self::$lang);
         // 合并数据
         self::assign($values);
         // // 内部可设置界面
@@ -91,7 +90,7 @@ class Page
             // 分解变量
             extract(self::$globals, EXTR_OVERWRITE);
             require_once $file;
-        } else if ($page!=='') {
+        } elseif ($page!=='') {
             trigger_error($page.' TPL no Find!');
         }
     }
@@ -142,7 +141,7 @@ class Page
     public static function redirect(string $url)
     {
         self::use('redirect');
-        self::set('url',$url);
+        self::set('url', $url);
         self::getController()->noCache();
     }
 
@@ -207,7 +206,7 @@ class Page
         $success=false;
         // 保证URL后面都含有 /
         $path=rtrim($match[2], '/').'/';
-        define('__CURRENT_URL__',$path);
+        define('__CURRENT_URL__', $path);
         // 开始匹配
         foreach (self::$maps as $url=>$caller) {
             // 满足前提条件
@@ -260,7 +259,6 @@ class Page
                 if ($success) {
                     self::call($caller, $values);
                 }
-                
             } elseif (preg_match('/^'.preg_quote($url, '/').'$/', $path)) {
                 $success=true;
                 self::call($caller, [$path]);
@@ -271,7 +269,6 @@ class Page
             self::call(self::$default, [$path]);
         }
     }
-
     /**
      * @return mixed
      */
