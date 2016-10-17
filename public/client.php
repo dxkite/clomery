@@ -71,7 +71,7 @@
     </head>
     <body>
         <div class="container">
-            <div class="title">简易聊天demo</div>
+            <div class="title">简易聊天 <?php  date_default_timezone_set('PRC'); echo date('Y-m-d H:i:s'); ?></div>
             <div class="content">
                 <div class="show-area"></div>
                 <div class="write-area">

@@ -18,6 +18,8 @@
 - [x] Session 辅助
 - [x] Cookie 辅助
 - [x] Cache 缓存引擎
+- [x] WebSocket 辅助
+- [x] Socket 辅助
 - [ ] Mail 邮件引擎
 - [ ] Debug工具
 - [ ] Cmd命令工具

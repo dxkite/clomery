@@ -9,25 +9,31 @@ class WebSocket
     public static $socket;
     public static $version='1.x-dev';
     public static $callers=[];
-
+    public static $errno=0;
+    public static $error=[
+        2=>'unable to write to socket',
+    ];
     public static function listen(int $port=0)
     {
         //创建tcp socket
         self::$socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-        // socket_set_option(self::$socket, SOL_SOCKET, SO_REUSEADDR,true);
-        socket_bind(self::$socket,self::$host, self::$port);
+        socket_set_option(self::$socket, SOL_SOCKET, SO_REUSEADDR,true);
+        socket_bind(self::$socket, 0 , self::$port);
         //监听端口
         socket_listen(self::$socket);
+
         //连接的client socket 列表
         self::$clients[]=self::$socket;
         $null=null;
         //设置一个死循环,用来监听连接 ,状态
         while (true) {
-            $changed = self::$clients;
-            socket_select($changed, $null, $null, 0, 10);
-    
+            $readable = self::$clients;
+           
+            socket_select($readable, $null, $null, 0, 10);
+            
             //如果有新的连接
-            if (in_array(self::$socket, $changed)) {
+            if (in_array(self::$socket, $readable)) {
+
                 //接受并加入新的socket连接
                 $socket_new = socket_accept(self::$socket);
                 self::$clients[] = $socket_new;
@@ -37,35 +43,37 @@ class WebSocket
                 self::perform_handshaking($header, $socket_new, self::$host, $port);
                 //获取client ip 编码json数据,并发送通知
                 socket_getpeername($socket_new, $ip);
+                printf("A New Connection:%s",$ip);
                 self::pushMessage(json_encode(array('type'=>'system', 'message'=>$ip.' connected')));
-                $found_socket = array_search(self::$socket, $changed);
-                unset($changed[$found_socket]);
+                $found_socket = array_search(self::$socket, $readable);
+                unset($readable[$found_socket]);
             }
             
             //轮询 每个client socket 连接
-            foreach ($changed as $id => $changed_socket) {
+            foreach ($readable as $id => $client_readable) {
                 
                 //如果有client数据发送过来
-                while (socket_recv($changed_socket, $buf, 1024, 0) >= 1) {
+                while (socket_recv($client_readable, $buf, 1024, 0) >= 1) {
                     //解码发送过来的数据
-                    self::pullMessage($id,self::unmaskBody($buf));
+                    self::pullMessage($id, self::unmaskBody($buf));
                     break 2;
                 }
                 
                 //检查offline的client
-                $buf = @socket_read($changed_socket, 1024, PHP_NORMAL_READ);
+                $buf = @socket_read($client_readable, 1024, PHP_NORMAL_READ);
                 if ($buf === false) {
-                    $found_socket = array_search($changed_socket, self::$clients);
-                    socket_getpeername($changed_socket, $ip);
+                    $found_socket = array_search($client_readable, self::$clients);
+                    socket_getpeername($client_readable, $ip);
                     unset(self::$clients[$found_socket]);
                     self::pushMessage(json_encode(array('type'=>'system', 'message'=>$ip.' disconnected')));
                 }
             }
         }
     }
-    public static function pullMessage(int $id,string $message){
-        foreach (self::$callers as $caller){
-            $caller->args($id,$message);
+    public static function pullMessage(int $id, string $message)
+    {
+        foreach (self::$callers as $caller) {
+            $caller->args($id, $message);
         }
     }
     // 监听用户推送的消息
@@ -80,10 +88,11 @@ class WebSocket
         if ($client_id<0) {
             foreach (self::$clients as $client) {
                 var_dump($client);
-                socket_write($client, $msg, strlen($msg));
+                var_dump($client instanceof Resource);
+                @socket_write($client, $msg, strlen($msg));
             }
         } else {
-            socket_write($clients[$client_id], $msg, strlen($msg));
+            @socket_write($clients[$client_id], $msg, strlen($msg));
         }
     }
 
@@ -129,7 +138,7 @@ class WebSocket
         socket_close(self::$socket);
     }
     //握手的逻辑
-public static function perform_handshaking($receved_header, $client_conn, $host, $port)
+    public static function perform_handshaking($receved_header, $client_conn, $host, $port)
     {
         $headers = array();
         $lines = preg_split("/\r\n/", $receved_header);
@@ -143,11 +152,22 @@ public static function perform_handshaking($receved_header, $client_conn, $host,
         $secKey = $headers['Sec-WebSocket-Key'];
         $secAccept = base64_encode(pack('H*', sha1($secKey . '258EAFA5-E914-47DA-95CA-C5AB0DC85B11')));
         $upgrade  = "HTTP/1.1 101 Web Socket Protocol Handshake\r\n" .
-    "Upgrade: websocket\r\n" .
-    "Connection: Upgrade\r\n" .
-    "WebSocket-Origin: $host\r\n" .
-    "WebSocket-Location: ws://$host:$port/demo/shout.php\r\n".
-    "Sec-WebSocket-Accept:$secAccept\r\n\r\n";
+                    "Upgrade: websocket\r\n" .
+                    "Connection: Upgrade\r\n" .
+                    "WebSocket-Origin: $host\r\n" .
+                    "WebSocket-Location: ws://$host:$port/demo/shout.php\r\n".
+                    "Sec-WebSocket-Accept:$secAccept\r\n\r\n";
         socket_write($client_conn, $upgrade, strlen($upgrade));
+    }
+    public static function write($socket,string $string,int $length){
+        set_error_handler(['WebSocket','errorHander']);
+        $return=socket_write($socket,$string, $length);
+        restore_error_handler();
+        return $return;
+    }
+
+    public function errorHander(int $errno, string $errstr, string $errfile, int $errline, array $errcontext)
+    {
+        // TODO ....
     }
 }
