@@ -8,7 +8,7 @@ class WebSocket
     public static $host='127.0.0.1';
     public static $socket;
     public static $version='1.x-dev';
-    
+
     public static function listen(int $port=0)
     {
         //创建tcp socket
@@ -69,6 +69,7 @@ class WebSocket
     // 监听用户推送的消息
     public static function pullMessage($callback)
     {
+        
     }
     // 发送消息到用户
     public static function pushMessage(string $message, int $client_id=-1)
@@ -76,7 +77,7 @@ class WebSocket
         $msg=self::maskBody($message);
         if ($client_id<0) {
             foreach (self::$clients as $client) {
-                @socket_write($client, $msg, strlen($msg));
+                socket_write($client, $msg, strlen($msg));
             }
         } else {
             socket_write($clients[$client_id], $msg, strlen($msg));
