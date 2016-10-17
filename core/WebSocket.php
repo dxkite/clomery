@@ -8,13 +8,14 @@ class WebSocket
     public static $host='127.0.0.1';
     public static $socket;
     public static $version='1.x-dev';
+    public static $callers=[];
 
     public static function listen(int $port=0)
     {
         //创建tcp socket
         self::$socket = socket_create(AF_INET, SOCK_STREAM, SOL_TCP);
-        socket_set_option(self::$socket, SOL_SOCKET, SO_REUSEADDR, 1);
-        socket_bind(self::$socket, 0, self::$port);
+        // socket_set_option(self::$socket, SOL_SOCKET, SO_REUSEADDR,true);
+        socket_bind(self::$socket,self::$host, self::$port);
         //监听端口
         socket_listen(self::$socket);
         //连接的client socket 列表
@@ -42,16 +43,12 @@ class WebSocket
             }
             
             //轮询 每个client socket 连接
-            foreach ($changed as $changed_socket) {
+            foreach ($changed as $id => $changed_socket) {
                 
                 //如果有client数据发送过来
                 while (socket_recv($changed_socket, $buf, 1024, 0) >= 1) {
                     //解码发送过来的数据
-                    $received_text = self::unmaskBody($buf);
-                    $tst_msg = json_decode($received_text);
-                    $user_name = $tst_msg->name;
-                    $user_message = $tst_msg->message;
-                    self::pushMessage(json_encode(array('type'=>'usermsg', 'name'=>$user_name, 'message'=>$user_message)));
+                    self::pullMessage($id,self::unmaskBody($buf));
                     break 2;
                 }
                 
@@ -66,10 +63,15 @@ class WebSocket
             }
         }
     }
+    public static function pullMessage(int $id,string $message){
+        foreach (self::$callers as $caller){
+            $caller->args($id,$message);
+        }
+    }
     // 监听用户推送的消息
-    public static function pullMessage($callback)
+    public static function onMessage($callback)
     {
-        
+        self::$callers[]=new Core\Caller($callback);
     }
     // 发送消息到用户
     public static function pushMessage(string $message, int $client_id=-1)
@@ -77,6 +79,7 @@ class WebSocket
         $msg=self::maskBody($message);
         if ($client_id<0) {
             foreach (self::$clients as $client) {
+                var_dump($client);
                 socket_write($client, $msg, strlen($msg));
             }
         } else {

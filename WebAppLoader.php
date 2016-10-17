@@ -1,12 +1,8 @@
 <?php
-    // 核心版本
-    defined('CORE_VERSION') or define('CORE_VERSION', '1.x-dev');
-    defined('DOC_ROOT') or define('DOC_ROOT', __DIR__.'/..');
-    defined('WEB_ROOT') or define('WEB_ROOT', DOC_ROOT.'/public');
-    defined('CORE_PATH') or define('CORE_PATH', __DIR__);
+    require_once __DIR__.'/core/XCore.php';
+
     // APP 相关数据
-    defined('APP_ROOT') or define('APP_ROOT', DOC_ROOT.'/app');
-    defined('APP_LIB') or define('APP_LIB', DOC_ROOT.'/lib');
+    defined('WEB_ROOT') or define('WEB_ROOT', DOC_ROOT.'/public');
     // APP资源目录
     defined('APP_RES')or define('APP_RES', DOC_ROOT.'/res');
     // 语言文件夹
@@ -16,20 +12,10 @@
     defined('APP_TPL')or define('APP_TPL', APP_RES.'/tpl');
     // 临时文件
     defined('APP_TMP')or define('APP_TMP',  APP_RES.'/tmp');
-    // 配置文件名
-    defined('APP_CONF') or define('APP_CONF', '.conf');
-    defined('WEB_MIME') or define('WEB_MIME', '.mime');
+
     defined('INSTALL_LOCK') or define('INSTALL_LOCK', 'install.lock');
     defined('APP_VISIT') or define('APP_VISIT', '.visit.php');
-    if (version_compare(PHP_VERSION,'7.0.0','<')){
-        die('I Only Support PHP 7.0+ !');
-    }
-    // 载入内置函数 PS:就是个自动加载，和配置加载
-    require_once CORE_PATH.'/Core.php';
-    // 设置PHP属性
-    set_time_limit(conf('timelimit', 0));
-    // 设置时区
-    date_default_timezone_set(conf('timezone', 'PRC'));
+
     // 系统开始
     Event::shift('System_Boot', true)->call();
 
