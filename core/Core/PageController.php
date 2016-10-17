@@ -169,6 +169,7 @@ class PageController extends Caller
     }
     public function render(array $value=[])
     {
+        header('Powered-By: DXCore/'.CORE_VERSION);
         if (!is_null($this->status)) {
             send_http_status($this->status);
         }

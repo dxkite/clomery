@@ -1,8 +1,8 @@
 <?php
-
+    // 核心版本
+    defined('CORE_VERSION') or define('CORE_VERSION', '1.x-dev');
     defined('DOC_ROOT') or define('DOC_ROOT', __DIR__.'/..');
     defined('WEB_ROOT') or define('WEB_ROOT', DOC_ROOT.'/public');
-    
     defined('CORE_PATH') or define('CORE_PATH', __DIR__);
     // APP 相关数据
     defined('APP_ROOT') or define('APP_ROOT', DOC_ROOT.'/app');
@@ -21,6 +21,9 @@
     defined('WEB_MIME') or define('WEB_MIME', '.mime');
     defined('INSTALL_LOCK') or define('INSTALL_LOCK', 'install.lock');
     defined('APP_VISIT') or define('APP_VISIT', '.visit.php');
+    if (version_compare(PHP_VERSION,'7.0.0','<')){
+        die('I Only Support PHP 7.0+ !');
+    }
     // 载入内置函数 PS:就是个自动加载，和配置加载
     require_once CORE_PATH.'/Core.php';
     // 设置PHP属性
