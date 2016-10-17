@@ -29,15 +29,6 @@ class Request extends Core\Value
     {
         $url="http://ip.taobao.com/service/getIpInfo.php?ip=".$ip;
         $ip=json_decode(@file_get_contents($url),true);
-        /*
-        $ch=curl_init($url);
-        curl_setopt($ch, CURLOPT_HEADER, false);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $get=curl_exec($ch);
-        $ip=json_decode($get, true);
-        var_dump(curl_getinfo($ch,CURLINFO_HTTP_CODE));
-        curl_close($ch);
-        */
         return $ip;
     }
 }
