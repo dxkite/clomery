@@ -1,0 +1,591 @@
+Server Open 0.0.0.0:2015
+GET / HTTP/1.1
+Upgrade: websocket
+Connection: Upgrade
+Host: 113.247.80.124:2015
+Origin: http://113.247.80.124
+Pragma: no-cache
+Cache-Control: no-cache
+Sec-WebSocket-Key: ec/cHy+splh90zS1i8O/nw==
+Sec-WebSocket-Version: 13
+Sec-WebSocket-Extensions: x-webkit-deflate-frame
+User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 9_3_2 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13F69 QQ/6.5.7.408 V1_IPH_SQ_6.5.7_1_APP_A Pixel/750 Core/UIWebView NetType/WIFI Mem/119
+
+Client 175.12.111.0 Connected
+pushMessage To 0:{"type":"system","message":"175.12.111.0 connected"}
+pushMessage To 1:{"type":"system","message":"175.12.111.0 connected"}
+GET / HTTP/1.1
+Host: 113.247.80.124:2015
+Connection: Upgrade
+Pragma: no-cache
+Cache-Control: no-cache
+Upgrade: websocket
+Origin: http://113.247.80.124
+Sec-WebSocket-Version: 13
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36
+Accept-Encoding: gzip, deflate, sdch
+Accept-Language: zh-CN,zh;q=0.8
+Cookie: atd_sid=c2rr4f0553l953ur9i1durgcq0
+Sec-WebSocket-Key: DYrhGViUSsnSteTZRp6AHQ==
+Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+
+Client 113.247.80.124 Connected
+pushMessage To 0:{"type":"system","message":"113.247.80.124 connected"}
+pushMessage To 1:{"type":"system","message":"113.247.80.124 connected"}
+pushMessage To 2:{"type":"system","message":"113.247.80.124 connected"}
+object(stdClass)#4 (2) {
+  ["message"]=>
+  string(15) "重启了服务"
+  ["name"]=>
+  string(15) "重启了服务"
+}
+pushMessage To 0:{"type":"usermsg","name":"\u91cd\u542f\u4e86\u670d\u52a1","message":"\u91cd\u542f\u4e86\u670d\u52a1"}
+pushMessage To 1:{"type":"usermsg","name":"\u91cd\u542f\u4e86\u670d\u52a1","message":"\u91cd\u542f\u4e86\u670d\u52a1"}
+pushMessage To 2:{"type":"usermsg","name":"\u91cd\u542f\u4e86\u670d\u52a1","message":"\u91cd\u542f\u4e86\u670d\u52a1"}
+object(stdClass)#4 (2) {
+  ["message"]=>
+  string(9) "你是？"
+  ["name"]=>
+  string(6) "培哥"
+}
+pushMessage To 0:{"type":"usermsg","name":"\u57f9\u54e5","message":"\u4f60\u662f\uff1f"}
+pushMessage To 1:{"type":"usermsg","name":"\u57f9\u54e5","message":"\u4f60\u662f\uff1f"}
+pushMessage To 2:{"type":"usermsg","name":"\u57f9\u54e5","message":"\u4f60\u662f\uff1f"}
+object(stdClass)#4 (2) {
+  ["message"]=>
+  string(9) "说话啊"
+  ["name"]=>
+  string(6) "培哥"
+}
+pushMessage To 0:{"type":"usermsg","name":"\u57f9\u54e5","message":"\u8bf4\u8bdd\u554a"}
+pushMessage To 1:{"type":"usermsg","name":"\u57f9\u54e5","message":"\u8bf4\u8bdd\u554a"}
+pushMessage To 2:{"type":"usermsg","name":"\u57f9\u54e5","message":"\u8bf4\u8bdd\u554a"}
+object(stdClass)#4 (2) {
+  ["message"]=>
+  string(6) "DXkite"
+  ["name"]=>
+  string(6) "DXkite"
+}
+pushMessage To 0:{"type":"usermsg","name":"DXkite","message":"DXkite"}
+pushMessage To 1:{"type":"usermsg","name":"DXkite","message":"DXkite"}
+pushMessage To 2:{"type":"usermsg","name":"DXkite","message":"DXkite"}
+object(stdClass)#4 (2) {
+  ["message"]=>
+  string(15) "你有什么用"
+  ["name"]=>
+  string(6) "培哥"
+}
+pushMessage To 0:{"type":"usermsg","name":"\u57f9\u54e5","message":"\u4f60\u6709\u4ec0\u4e48\u7528"}
+pushMessage To 1:{"type":"usermsg","name":"\u57f9\u54e5","message":"\u4f60\u6709\u4ec0\u4e48\u7528"}
+pushMessage To 2:{"type":"usermsg","name":"\u57f9\u54e5","message":"\u4f60\u6709\u4ec0\u4e48\u7528"}
+object(stdClass)#4 (2) {
+  ["message"]=>
+  string(13) "ddddddddddddd"
+  ["name"]=>
+  string(6) "DXkite"
+}
+pushMessage To 0:{"type":"usermsg","name":"DXkite","message":"ddddddddddddd"}
+pushMessage To 1:{"type":"usermsg","name":"DXkite","message":"ddddddddddddd"}
+pushMessage To 2:{"type":"usermsg","name":"DXkite","message":"ddddddddddddd"}
+pushMessage To 0:{"type":"system","message":"175.12.111.0 disconnected"}
+pushMessage To 2:{"type":"system","message":"175.12.111.0 disconnected"}
+GET / HTTP/1.1
+Host: 113.247.80.124:2015
+Connection: Upgrade
+Pragma: no-cache
+Cache-Control: no-cache
+Upgrade: websocket
+Origin: http://113.247.80.124
+Sec-WebSocket-Version: 13
+DNT: 1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.22 Safari/537.36 SE 2.X MetaSr 1.0
+Accept-Encoding: gzip, deflate, sdch
+Accept-Language: zh-CN,zh;q=0.8
+Sec-WebSocket-Key: ryxeHIvhpERINg/R7xhykA==
+Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+
+Client 112.234.114.210 Connected
+pushMessage To 0:{"type":"system","message":"112.234.114.210 connected"}
+pushMessage To 2:{"type":"system","message":"112.234.114.210 connected"}
+pushMessage To 3:{"type":"system","message":"112.234.114.210 connected"}
+GET / HTTP/1.1
+Upgrade: websocket
+Connection: Upgrade
+Host: 113.247.80.124:2015
+Origin: http://113.247.80.124
+Pragma: no-cache
+Cache-Control: no-cache
+Sec-WebSocket-Key: zLWjHU4CFX4laQIuK8St/A==
+Sec-WebSocket-Version: 13
+Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits, x-webkit-deflate-frame
+User-Agent: Mozilla/5.0 (Linux; U; Android 5.0.2; zh-cn; Redmi Note 3 Build/LRX22G) AppleWebKit/537.36 (KHTML, like Gecko)Version/4.0 Chrome/37.0.0.0 MQQBrowser/7.0 Mobile Safari/537.36
+Cookie: atd_sid=bq1rsas06mfkgvm3l9ugfm5562
+
+Client 113.247.80.124 Connected
+pushMessage To 0:{"type":"system","message":"113.247.80.124 connected"}
+pushMessage To 2:{"type":"system","message":"113.247.80.124 connected"}
+pushMessage To 3:{"type":"system","message":"113.247.80.124 connected"}
+pushMessage To 4:{"type":"system","message":"113.247.80.124 connected"}
+object(stdClass)#4 (2) {
+  ["message"]=>
+  string(8) "fuck you"
+  ["name"]=>
+  string(6) "rookit"
+}
+pushMessage To 0:{"type":"usermsg","name":"rookit","message":"fuck you"}
+pushMessage To 2:{"type":"usermsg","name":"rookit","message":"fuck you"}
+pushMessage To 3:{"type":"usermsg","name":"rookit","message":"fuck you"}
+pushMessage To 4:{"type":"usermsg","name":"rookit","message":"fuck you"}
+GET / HTTP/1.1
+Upgrade: websocket
+Connection: Upgrade
+Host: 113.247.80.124:2015
+Origin: http://113.247.80.124
+Pragma: no-cache
+Cache-Control: no-cache
+Sec-WebSocket-Key: PG8a6RS05a9lvZH/BqKRzg==
+Sec-WebSocket-Version: 13
+Sec-WebSocket-Extensions: x-webkit-deflate-frame
+User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 9_3_2 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13F69 QQ/6.5.7.408 V1_IPH_SQ_6.5.7_1_APP_A Pixel/1080 Core/UIWebView NetType/WIFI Mem/149
+
+Client 175.0.46.223 Connected
+pushMessage To 0:{"type":"system","message":"175.0.46.223 connected"}
+pushMessage To 2:{"type":"system","message":"175.0.46.223 connected"}
+pushMessage To 3:{"type":"system","message":"175.0.46.223 connected"}
+pushMessage To 4:{"type":"system","message":"175.0.46.223 connected"}
+pushMessage To 5:{"type":"system","message":"175.0.46.223 connected"}
+object(stdClass)#4 (2) {
+  ["message"]=>
+  string(6) "……"
+  ["name"]=>
+  string(6) "……"
+}
+pushMessage To 0:{"type":"usermsg","name":"\u2026\u2026","message":"\u2026\u2026"}
+pushMessage To 2:{"type":"usermsg","name":"\u2026\u2026","message":"\u2026\u2026"}
+pushMessage To 3:{"type":"usermsg","name":"\u2026\u2026","message":"\u2026\u2026"}
+pushMessage To 4:{"type":"usermsg","name":"\u2026\u2026","message":"\u2026\u2026"}
+pushMessage To 5:{"type":"usermsg","name":"\u2026\u2026","message":"\u2026\u2026"}
+object(stdClass)#4 (2) {
+  ["message"]=>
+  string(12) "不能测线"
+  ["name"]=>
+  string(6) "……"
+}
+pushMessage To 0:{"type":"usermsg","name":"\u2026\u2026","message":"\u4e0d\u80fd\u6d4b\u7ebf"}
+pushMessage To 2:{"type":"usermsg","name":"\u2026\u2026","message":"\u4e0d\u80fd\u6d4b\u7ebf"}
+pushMessage To 3:{"type":"usermsg","name":"\u2026\u2026","message":"\u4e0d\u80fd\u6d4b\u7ebf"}
+pushMessage To 4:{"type":"usermsg","name":"\u2026\u2026","message":"\u4e0d\u80fd\u6d4b\u7ebf"}
+pushMessage To 5:{"type":"usermsg","name":"\u2026\u2026","message":"\u4e0d\u80fd\u6d4b\u7ebf"}
+pushMessage To 0:{"type":"system","message":"175.0.46.223 disconnected"}
+pushMessage To 2:{"type":"system","message":"175.0.46.223 disconnected"}
+pushMessage To 3:{"type":"system","message":"175.0.46.223 disconnected"}
+pushMessage To 4:{"type":"system","message":"175.0.46.223 disconnected"}
+object(stdClass)#4 (2) {
+  ["message"]=>
+  string(5) "hello"
+  ["name"]=>
+  string(6) "rookit"
+}
+pushMessage To 0:{"type":"usermsg","name":"rookit","message":"hello"}
+pushMessage To 2:{"type":"usermsg","name":"rookit","message":"hello"}
+pushMessage To 3:{"type":"usermsg","name":"rookit","message":"hello"}
+pushMessage To 4:{"type":"usermsg","name":"rookit","message":"hello"}
+
+Notice: Undefined variable: user_name in D:\Server\three\WSServer.php on line 12
+
+Notice: Undefined variable: user_message in D:\Server\three\WSServer.php on line 12
+pushMessage To 0:{"type":"usermsg","name":null,"message":null}
+pushMessage To 2:{"type":"usermsg","name":null,"message":null}
+pushMessage To 3:{"type":"usermsg","name":null,"message":null}
+pushMessage To 4:{"type":"usermsg","name":null,"message":null}
+pushMessage To 0:{"type":"system","message":"113.247.80.124 disconnected"}
+pushMessage To 2:{"type":"system","message":"113.247.80.124 disconnected"}
+pushMessage To 3:{"type":"system","message":"113.247.80.124 disconnected"}
+object(stdClass)#4 (2) {
+  ["message"]=>
+  string(13) "want fuck you"
+  ["name"]=>
+  string(6) "rookit"
+}
+pushMessage To 0:{"type":"usermsg","name":"rookit","message":"want fuck you"}
+pushMessage To 2:{"type":"usermsg","name":"rookit","message":"want fuck you"}
+pushMessage To 3:{"type":"usermsg","name":"rookit","message":"want fuck you"}
+object(stdClass)#4 (2) {
+  ["message"]=>
+  string(2) "oh"
+  ["name"]=>
+  string(6) "rookit"
+}
+pushMessage To 0:{"type":"usermsg","name":"rookit","message":"oh"}
+pushMessage To 2:{"type":"usermsg","name":"rookit","message":"oh"}
+pushMessage To 3:{"type":"usermsg","name":"rookit","message":"oh"}
+Server Open 0.0.0.0:2015
+GET / HTTP/1.1
+Host: three.atd3.org:2015
+Connection: Upgrade
+Pragma: no-cache
+Cache-Control: no-cache
+Upgrade: websocket
+Origin: http://three.atd3.org
+Sec-WebSocket-Version: 13
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36
+Accept-Encoding: gzip, deflate, sdch
+Accept-Language: zh-CN,zh;q=0.8
+Cookie: token=09860b929e324c8f0801d88f357db1c846; atd_sid=rrspvmn828goqm19o25dvjb381
+Sec-WebSocket-Key: e/Urctbsv2p4mOaRdLNahw==
+Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+
+Client 127.0.0.1 Connected
+pushMessage To 0:{"type":"system","message":"127.0.0.1 connected"}
+pushMessage To 1:{"type":"system","message":"127.0.0.1 connected"}
+object(stdClass)#4 (2) {
+  ["message"]=>
+  string(4) "dddd"
+  ["name"]=>
+  string(2) "Dd"
+}
+pushMessage To 0:{"type":"usermsg","name":"Dd","message":"dddd"}
+pushMessage To 1:{"type":"usermsg","name":"Dd","message":"dddd"}
+
+Notice: Undefined variable: user_name in D:\Server\three\WSServer.php on line 12
+
+Notice: Undefined variable: user_message in D:\Server\three\WSServer.php on line 12
+pushMessage To 0:{"type":"usermsg","name":null,"message":null}
+pushMessage To 1:{"type":"usermsg","name":null,"message":null}
+
+Warning: socket_recv(): unable to read from socket [10053]: ��������е�������ֹ��һ���ѽ��������ӡ�
+ in D:\Server\three\core\WebSocket\Server.php on line 59
+pushMessage To 0:{"type":"system","message":"127.0.0.1 disconnected"}
+GET / HTTP/1.1
+Host: 113.247.80.124:2015
+Connection: Upgrade
+Pragma: no-cache
+Cache-Control: no-cache
+Upgrade: websocket
+Origin: http://113.247.80.124
+Sec-WebSocket-Version: 13
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36
+Accept-Encoding: gzip, deflate, sdch
+Accept-Language: zh-CN,zh;q=0.8
+Cookie: atd_sid=c2rr4f0553l953ur9i1durgcq0
+Sec-WebSocket-Key: bNJOhwQhnjNy99Jl0wqSYg==
+Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+
+Client 113.247.80.124 Connected
+pushMessage To 0:{"type":"system","message":"113.247.80.124 connected"}
+pushMessage To 2:{"type":"system","message":"113.247.80.124 connected"}
+object(stdClass)#4 (2) {
+  ["message"]=>
+  string(5) "hello"
+  ["name"]=>
+  string(3) "www"
+}
+pushMessage To 0:{"type":"usermsg","name":"www","message":"hello"}
+pushMessage To 2:{"type":"usermsg","name":"www","message":"hello"}
+
+Notice: Undefined variable: user_name in D:\Server\three\WSServer.php on line 12
+
+Notice: Undefined variable: user_message in D:\Server\three\WSServer.php on line 12
+pushMessage To 0:{"type":"usermsg","name":null,"message":null}
+pushMessage To 2:{"type":"usermsg","name":null,"message":null}
+pushMessage To 0:{"type":"system","message":"113.247.80.124 disconnected"}
+GET / HTTP/1.1
+Upgrade: websocket
+Connection: Upgrade
+Host: 113.247.80.124:2015
+Origin: http://113.247.80.124
+Pragma: no-cache
+Cache-Control: no-cache
+Sec-WebSocket-Key: fSF+7BHw0Sw+zGJ+xsdeEw==
+Sec-WebSocket-Version: 13
+Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits, x-webkit-deflate-frame
+User-Agent: Mozilla/5.0 (Linux; Android 4.4.2; M016 Build/KOT49H) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/37.0.0.0 Mobile MQQBrowser/6.8 TBS/036865 Safari/537.36 V1_AND_SQ_6.5.5_410_YYB_D QQ/6.5.5.2880 NetType/WIFI WebP/0.3.0 Pixel/480
+
+Client 175.0.46.166 Connected
+pushMessage To 0:{"type":"system","message":"175.0.46.166 connected"}
+pushMessage To 3:{"type":"system","message":"175.0.46.166 connected"}
+pushMessage To 0:{"type":"system","message":"175.0.46.166 disconnected"}
+Server Open 0.0.0.0:2015
+GET / HTTP/1.1
+Origin: http://113.247.80.124
+Sec-WebSocket-Key: PwwKsUQ+8hysopp8tIel9g==
+Connection: Upgrade
+Upgrade: websocket
+Sec-WebSocket-Version: 13
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.79 Safari/537.36 Edge/14.14393
+Host: 113.247.80.124:2015
+Cache-Control: no-cache
+
+Client 113.247.80.124 Connected
+pushMessage To 0:{"type":"system","message":"113.247.80.124 connected"}
+pushMessage To 1:{"type":"system","message":"113.247.80.124 connected"}
+GET / HTTP/1.1
+Upgrade: websocket
+Connection: Upgrade
+Host: 113.247.80.124:2015
+Origin: http://113.247.80.124
+Pragma: no-cache
+Cache-Control: no-cache
+Sec-WebSocket-Key: Cs1rIqTSM7vT+VJ+w13o3w==
+Sec-WebSocket-Version: 13
+Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits, x-webkit-deflate-frame
+User-Agent: Mozilla/5.0 (Linux; Android 6.0; PRO 6 Build/MRA58K) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/37.0.0.0 Mobile MQQBrowser/6.8 TBS/036857 Safari/537.36 V1_AND_SQ_6.5.5_410_YYB_D QQ/6.5.5.2880 NetType/2G WebP/0.3.0 Pixel/1080
+
+Client 123.147.244.75 Connected
+pushMessage To 0:{"type":"system","message":"123.147.244.75 connected"}
+pushMessage To 1:{"type":"system","message":"123.147.244.75 connected"}
+pushMessage To 2:{"type":"system","message":"123.147.244.75 connected"}
+GET / HTTP/1.1
+Upgrade: websocket
+Connection: Upgrade
+Host: 113.247.80.124:2015
+Origin: http://113.247.80.124
+Pragma: no-cache
+Cache-Control: no-cache
+Sec-WebSocket-Key: ge2kAQ1fCpof2z68Hj3Dhw==
+Sec-WebSocket-Version: 13
+Sec-WebSocket-Extensions: x-webkit-deflate-frame
+User-Agent: Mozilla/5.0 (iPad; CPU OS 9_3_4 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13G35 IPadQQ/6.0.0.244 QQ/6.0.0.244
+
+Client 27.26.219.58 Connected
+pushMessage To 0:{"type":"system","message":"27.26.219.58 connected"}
+pushMessage To 1:{"type":"system","message":"27.26.219.58 connected"}
+pushMessage To 2:{"type":"system","message":"27.26.219.58 connected"}
+pushMessage To 3:{"type":"system","message":"27.26.219.58 connected"}
+object(stdClass)#4 (2) {
+  ["message"]=>
+  string(9) "哈哈哈"
+  ["name"]=>
+  string(6) "DXkite"
+}
+pushMessage To 0:{"type":"usermsg","name":"DXkite","message":"\u54c8\u54c8\u54c8"}
+pushMessage To 1:{"type":"usermsg","name":"DXkite","message":"\u54c8\u54c8\u54c8"}
+pushMessage To 2:{"type":"usermsg","name":"DXkite","message":"\u54c8\u54c8\u54c8"}
+pushMessage To 3:{"type":"usermsg","name":"DXkite","message":"\u54c8\u54c8\u54c8"}
+object(stdClass)#4 (2) {
+  ["message"]=>
+  string(4) "😌"
+  ["name"]=>
+  string(4) "then"
+}
+pushMessage To 0:{"type":"usermsg","name":"then","message":"\ud83d\ude0c"}
+pushMessage To 1:{"type":"usermsg","name":"then","message":"\ud83d\ude0c"}
+pushMessage To 2:{"type":"usermsg","name":"then","message":"\ud83d\ude0c"}
+pushMessage To 3:{"type":"usermsg","name":"then","message":"\ud83d\ude0c"}
+object(stdClass)#4 (2) {
+  ["message"]=>
+  string(4) "3个"
+  ["name"]=>
+  string(6) "DXkite"
+}
+pushMessage To 0:{"type":"usermsg","name":"DXkite","message":"3\u4e2a"}
+pushMessage To 1:{"type":"usermsg","name":"DXkite","message":"3\u4e2a"}
+pushMessage To 2:{"type":"usermsg","name":"DXkite","message":"3\u4e2a"}
+pushMessage To 3:{"type":"usermsg","name":"DXkite","message":"3\u4e2a"}
+object(stdClass)#4 (2) {
+  ["message"]=>
+  string(18) "这个还能用啊"
+  ["name"]=>
+  string(6) "DXkite"
+}
+pushMessage To 0:{"type":"usermsg","name":"DXkite","message":"\u8fd9\u4e2a\u8fd8\u80fd\u7528\u554a"}
+pushMessage To 1:{"type":"usermsg","name":"DXkite","message":"\u8fd9\u4e2a\u8fd8\u80fd\u7528\u554a"}
+pushMessage To 2:{"type":"usermsg","name":"DXkite","message":"\u8fd9\u4e2a\u8fd8\u80fd\u7528\u554a"}
+pushMessage To 3:{"type":"usermsg","name":"DXkite","message":"\u8fd9\u4e2a\u8fd8\u80fd\u7528\u554a"}
+object(stdClass)#4 (2) {
+  ["message"]=>
+  string(6) "反正"
+  ["name"]=>
+  string(6) "DXkite"
+}
+pushMessage To 0:{"type":"usermsg","name":"DXkite","message":"\u53cd\u6b63"}
+pushMessage To 1:{"type":"usermsg","name":"DXkite","message":"\u53cd\u6b63"}
+pushMessage To 2:{"type":"usermsg","name":"DXkite","message":"\u53cd\u6b63"}
+pushMessage To 3:{"type":"usermsg","name":"DXkite","message":"\u53cd\u6b63"}
+object(stdClass)#4 (2) {
+  ["message"]=>
+  string(3) "？"
+  ["name"]=>
+  string(4) "then"
+}
+pushMessage To 0:{"type":"usermsg","name":"then","message":"\uff1f"}
+pushMessage To 1:{"type":"usermsg","name":"then","message":"\uff1f"}
+pushMessage To 2:{"type":"usermsg","name":"then","message":"\uff1f"}
+pushMessage To 3:{"type":"usermsg","name":"then","message":"\uff1f"}
+object(stdClass)#4 (2) {
+  ["message"]=>
+  string(1) "9"
+  ["name"]=>
+  string(9) "孤星乐"
+}
+pushMessage To 0:{"type":"usermsg","name":"\u5b64\u661f\u4e50","message":"9"}
+pushMessage To 1:{"type":"usermsg","name":"\u5b64\u661f\u4e50","message":"9"}
+pushMessage To 2:{"type":"usermsg","name":"\u5b64\u661f\u4e50","message":"9"}
+pushMessage To 3:{"type":"usermsg","name":"\u5b64\u661f\u4e50","message":"9"}
+object(stdClass)#4 (2) {
+  ["message"]=>
+  string(10) "then是？"
+  ["name"]=>
+  string(6) "DXkite"
+}
+pushMessage To 0:{"type":"usermsg","name":"DXkite","message":"then\u662f\uff1f"}
+pushMessage To 1:{"type":"usermsg","name":"DXkite","message":"then\u662f\uff1f"}
+pushMessage To 2:{"type":"usermsg","name":"DXkite","message":"then\u662f\uff1f"}
+pushMessage To 3:{"type":"usermsg","name":"DXkite","message":"then\u662f\uff1f"}
+
+Notice: Undefined variable: user_name in D:\Server\three\WSServer.php on line 12
+
+Notice: Undefined variable: user_message in D:\Server\three\WSServer.php on line 12
+pushMessage To 0:{"type":"usermsg","name":null,"message":null}
+pushMessage To 1:{"type":"usermsg","name":null,"message":null}
+pushMessage To 2:{"type":"usermsg","name":null,"message":null}
+pushMessage To 3:{"type":"usermsg","name":null,"message":null}
+pushMessage To 0:{"type":"system","message":"123.147.244.75 disconnected"}
+pushMessage To 1:{"type":"system","message":"123.147.244.75 disconnected"}
+pushMessage To 3:{"type":"system","message":"123.147.244.75 disconnected"}
+GET / HTTP/1.1
+Upgrade: websocket
+Connection: Upgrade
+Host: 113.247.80.124:2015
+Origin: http://113.247.80.124
+Pragma: no-cache
+Cache-Control: no-cache
+Sec-WebSocket-Key: B7zbiCAGE1GYEmPbmXTCqA==
+Sec-WebSocket-Version: 13
+Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits, x-webkit-deflate-frame
+User-Agent: Mozilla/5.0 (Linux; Android 6.0; PRO 6 Build/MRA58K) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/37.0.0.0 Mobile MQQBrowser/6.8 TBS/036857 Safari/537.36 V1_AND_SQ_6.5.5_410_YYB_D QQ/6.5.5.2880 NetType/4G WebP/0.3.0 Pixel/1080
+
+Client 123.147.244.75 Connected
+pushMessage To 0:{"type":"system","message":"123.147.244.75 connected"}
+pushMessage To 1:{"type":"system","message":"123.147.244.75 connected"}
+pushMessage To 3:{"type":"system","message":"123.147.244.75 connected"}
+pushMessage To 4:{"type":"system","message":"123.147.244.75 connected"}
+pushMessage To 0:{"type":"system","message":"27.26.219.58 disconnected"}
+pushMessage To 1:{"type":"system","message":"27.26.219.58 disconnected"}
+pushMessage To 4:{"type":"system","message":"27.26.219.58 disconnected"}
+object(stdClass)#4 (2) {
+  ["message"]=>
+  string(15) "不能发表情"
+  ["name"]=>
+  string(4) "then"
+}
+pushMessage To 0:{"type":"usermsg","name":"then","message":"\u4e0d\u80fd\u53d1\u8868\u60c5"}
+pushMessage To 1:{"type":"usermsg","name":"then","message":"\u4e0d\u80fd\u53d1\u8868\u60c5"}
+pushMessage To 4:{"type":"usermsg","name":"then","message":"\u4e0d\u80fd\u53d1\u8868\u60c5"}
+object(stdClass)#4 (2) {
+  ["message"]=>
+  string(4) "haha"
+  ["name"]=>
+  string(4) "then"
+}
+pushMessage To 0:{"type":"usermsg","name":"then","message":"haha"}
+pushMessage To 1:{"type":"usermsg","name":"then","message":"haha"}
+pushMessage To 4:{"type":"usermsg","name":"then","message":"haha"}
+object(stdClass)#4 (2) {
+  ["message"]=>
+  string(12) "你想多了"
+  ["name"]=>
+  string(6) "DXkite"
+}
+pushMessage To 0:{"type":"usermsg","name":"DXkite","message":"\u4f60\u60f3\u591a\u4e86"}
+pushMessage To 1:{"type":"usermsg","name":"DXkite","message":"\u4f60\u60f3\u591a\u4e86"}
+pushMessage To 4:{"type":"usermsg","name":"DXkite","message":"\u4f60\u60f3\u591a\u4e86"}
+object(stdClass)#4 (2) {
+  ["message"]=>
+  string(12) "测试程序"
+  ["name"]=>
+  string(6) "DXkite"
+}
+pushMessage To 0:{"type":"usermsg","name":"DXkite","message":"\u6d4b\u8bd5\u7a0b\u5e8f"}
+pushMessage To 1:{"type":"usermsg","name":"DXkite","message":"\u6d4b\u8bd5\u7a0b\u5e8f"}
+pushMessage To 4:{"type":"usermsg","name":"DXkite","message":"\u6d4b\u8bd5\u7a0b\u5e8f"}
+object(stdClass)#4 (2) {
+  ["message"]=>
+  string(18) "能聊天就好了"
+  ["name"]=>
+  string(6) "DXkite"
+}
+pushMessage To 0:{"type":"usermsg","name":"DXkite","message":"\u80fd\u804a\u5929\u5c31\u597d\u4e86"}
+pushMessage To 1:{"type":"usermsg","name":"DXkite","message":"\u80fd\u804a\u5929\u5c31\u597d\u4e86"}
+pushMessage To 4:{"type":"usermsg","name":"DXkite","message":"\u80fd\u804a\u5929\u5c31\u597d\u4e86"}
+object(stdClass)#4 (2) {
+  ["message"]=>
+  string(3) "☞"
+  ["name"]=>
+  string(4) "then"
+}
+pushMessage To 0:{"type":"usermsg","name":"then","message":"\u261e"}
+pushMessage To 1:{"type":"usermsg","name":"then","message":"\u261e"}
+pushMessage To 4:{"type":"usermsg","name":"then","message":"\u261e"}
+GET / HTTP/1.1
+Upgrade: websocket
+Connection: Upgrade
+Host: 113.247.80.124:2015
+Origin: http://113.247.80.124
+Pragma: no-cache
+Cache-Control: no-cache
+Sec-WebSocket-Key: GBjE0lRGhna8UM+zMhFQQQ==
+Sec-WebSocket-Version: 13
+Sec-WebSocket-Extensions: x-webkit-deflate-frame
+User-Agent: Mozilla/5.0 (iPad; CPU OS 9_3_4 like Mac OS X) AppleWebKit/601.1.46 (KHTML, like Gecko) Mobile/13G35 IPadQQ/6.0.0.244 QQ/6.0.0.244
+
+Client 27.26.219.58 Connected
+pushMessage To 0:{"type":"system","message":"27.26.219.58 connected"}
+pushMessage To 1:{"type":"system","message":"27.26.219.58 connected"}
+pushMessage To 4:{"type":"system","message":"27.26.219.58 connected"}
+pushMessage To 5:{"type":"system","message":"27.26.219.58 connected"}
+object(stdClass)#4 (2) {
+  ["message"]=>
+  string(4) "1223"
+  ["name"]=>
+  string(9) "孤星乐"
+}
+pushMessage To 0:{"type":"usermsg","name":"\u5b64\u661f\u4e50","message":"1223"}
+pushMessage To 1:{"type":"usermsg","name":"\u5b64\u661f\u4e50","message":"1223"}
+pushMessage To 4:{"type":"usermsg","name":"\u5b64\u661f\u4e50","message":"1223"}
+pushMessage To 5:{"type":"usermsg","name":"\u5b64\u661f\u4e50","message":"1223"}
+GET / HTTP/1.1
+Host: 113.247.80.124:2015
+Connection: Upgrade
+Pragma: no-cache
+Cache-Control: no-cache
+Upgrade: websocket
+Origin: http://113.247.80.124
+Sec-WebSocket-Version: 13
+User-Agent: Mozilla/5.0 (Linux; Android 6.0; PRO 6 Build/MRA58K) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/45.0.2454.94 Mobile Safari/537.36
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,en-US;q=0.8
+X-Requested-With: com.android.browser
+Sec-WebSocket-Key: HoBmVU8RV9oC8Npw0niHLQ==
+Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
+
+Client 123.147.244.75 Connected
+pushMessage To 0:{"type":"system","message":"123.147.244.75 connected"}
+pushMessage To 1:{"type":"system","message":"123.147.244.75 connected"}
+pushMessage To 4:{"type":"system","message":"123.147.244.75 connected"}
+pushMessage To 5:{"type":"system","message":"123.147.244.75 connected"}
+pushMessage To 6:{"type":"system","message":"123.147.244.75 connected"}
+object(stdClass)#4 (2) {
+  ["message"]=>
+  string(1) "~"
+  ["name"]=>
+  string(4) "then"
+}
+pushMessage To 0:{"type":"usermsg","name":"then","message":"~"}
+pushMessage To 1:{"type":"usermsg","name":"then","message":"~"}
+pushMessage To 4:{"type":"usermsg","name":"then","message":"~"}
+pushMessage To 5:{"type":"usermsg","name":"then","message":"~"}
+pushMessage To 6:{"type":"usermsg","name":"then","message":"~"}
+
+Notice: Undefined variable: user_name in D:\Server\three\WSServer.php on line 12
+
+Notice: Undefined variable: user_message in D:\Server\three\WSServer.php on line 12
+pushMessage To 0:{"type":"usermsg","name":null,"message":null}
+pushMessage To 1:{"type":"usermsg","name":null,"message":null}
+pushMessage To 4:{"type":"usermsg","name":null,"message":null}
+pushMessage To 5:{"type":"usermsg","name":null,"message":null}
+pushMessage To 6:{"type":"usermsg","name":null,"message":null}
+pushMessage To 0:{"type":"system","message":"123.147.244.75 disconnected"}
+pushMessage To 1:{"type":"system","message":"123.147.244.75 disconnected"}
+pushMessage To 5:{"type":"system","message":"123.147.244.75 disconnected"}
+pushMessage To 6:{"type":"system","message":"123.147.244.75 disconnected"}

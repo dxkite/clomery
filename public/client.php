@@ -88,7 +88,7 @@
         <script src="https://cdn.bootcss.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
         <script>
         $(function(){
-            var wsurl = 'ws://127.0.0.1:9505/websocket/server.php';
+            var wsurl = 'ws://'+window.location.hostname+':2015';
             var websocket;
             var i = 0;
             if(window.WebSocket){
