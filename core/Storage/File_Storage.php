@@ -79,10 +79,10 @@ class Storage implements Storage_Driver
     {
         return rmdir($path);
     }
-    public static function put(string $name, $content,int $flags = 0):bool
+    public static function put(string $name, $content, int $flags = 0):bool
     {
         if (self::isDir(dirname($name))) {
-            return file_put_contents($name, $content,$flags);
+            return file_put_contents($name, $content, $flags);
         }
         return false;
     }
@@ -127,7 +127,11 @@ class Storage implements Storage_Driver
     {
         return is_readable($name);
     }
-
+    public static function isWritable(string $name):bool
+    {
+        return is_writable($name);
+    }
+    
     public static function size(string $name):int
     {
         if ($file=self::exist($name)) {

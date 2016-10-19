@@ -9,6 +9,8 @@
     defined('DOC_ROOT') or define('DOC_ROOT', __DIR__.'/..');
     defined('APP_LIB') or define('APP_LIB', DOC_ROOT.'/lib');
     defined('APP_ROOT') or define('APP_ROOT', DOC_ROOT.'/app');
+    // APP资源目录
+    defined('APP_RES')or define('APP_RES', DOC_ROOT.'/res');
     // 配置文件名
     defined('APP_CONF') or define('APP_CONF', '.conf');
     defined('WEB_MIME') or define('WEB_MIME', '.mime');

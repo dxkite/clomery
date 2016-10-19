@@ -14,7 +14,7 @@ class Database
     {
         $version=CORE_VERSION;
         $date=date('Y-m-d H:i:s');
-        $host=$_SERVER['SERVER_NAME'];
+        $host=isset($_SERVER['SERVER_NAME'])?$_SERVER['SERVER_NAME']:'localhost';
         $datebase=conf('Database.dbname');
         $tables=($q=new Query("show tables;"))->fetchAll();
         $tables_count=count($tables);
@@ -63,7 +63,7 @@ End;
     {
         $version=CORE_VERSION;
         $date=date('Y-m-d H:i:s');
-        $host=$_SERVER['SERVER_NAME'];
+        $host=isset($_SERVER['SERVER_NAME'])?$_SERVER['SERVER_NAME']:'localhost';
         $datebase=conf('Database.dbname');
         $server_version=(new Query('select version() as version;'))->fetch()['version'];
         $head=<<< Table
@@ -77,6 +77,9 @@ End;
 
 
 Table;
+        Storage::put($output,$head);
+        return self::saveSQLTables($output);
+
     }
 
     public static function querySQLTableStruct(string $table)

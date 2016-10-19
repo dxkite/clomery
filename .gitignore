@@ -6,8 +6,8 @@ res/uploads/*
 # 临时文件
 res/tmp/*
 # 独立项配置文件
-.conf
+res/.conf
 # 安装锁
-install.lock
+res/install.lock
 # 调试用
-.conf.ignore
+res/.conf.ignore

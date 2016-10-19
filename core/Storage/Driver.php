@@ -107,6 +107,7 @@ interface Storage_Driver
      * @return bool
      */
     public static function isReadable(string $name):bool;
+    public static function isWritable(string $name):bool;
 
     /**
      * @param string $name

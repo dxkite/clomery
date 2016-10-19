@@ -3,8 +3,6 @@
 
     // APP 相关数据
     defined('WEB_ROOT') or define('WEB_ROOT', DOC_ROOT.'/public');
-    // APP资源目录
-    defined('APP_RES')or define('APP_RES', DOC_ROOT.'/res');
     // 语言文件夹
     defined('APP_LANG')or define('APP_LANG', APP_RES.'/lang');
     // 视图控制
