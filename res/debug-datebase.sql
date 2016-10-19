@@ -1,6 +1,6 @@
 -- ----------------------------------------------------------
 -- PHP Simple Library XCore 1.x-dev Database Backup File
--- Create On 2016-10-19 17:35:17
+-- Create On 2016-10-19 17:46:56
 -- Host: localhost   Database: hello
 -- Server version	10.1.10-MariaDB
 -- ------------------------------------------------------
@@ -724,7 +724,7 @@ cookie不完整，，经过测试，，我发现特么只需要一个cookie就�
 
 >:notice: 注意标签
 >>:warning: 警告
->>:info: 信息','49','10','1476596149','1476596149','0','0','1','1','0','c918a49489d6f14ae8416520ca9c68cb');
+>>:info: 信息','48','10','1476596149','1476596149','0','0','1','1','0','c918a49489d6f14ae8416520ca9c68cb');
 
 
 --
@@ -976,6 +976,6 @@ CREATE TABLE `atd_users` (
 
 
 
-INSERT INTO `atd_users` VALUES ('47','dddd','$2y$10$wBPNnCrRl9272PSeMZyjOOo5x81XAB/RmOk9neWb7V1xd7Pz/bfBu','2','1475723206','1476354661','dddd@q.c','N','127.0.0.1','','0'),('46','ddddd','$2y$10$GvYQQAlFjC175csViVoS9eGkZ9JdxTTrDdnTZ6DzPQkxQB8K5.RR6','3','1475722991','1476609643','d@d.c','N','127.0.0.1','09860b929e324c8f0801d88f357db1c8','0'),('44','admin','$2y$10$e0R6lH7pS2Og6DhRqpcaZ.ex.5WWZM0yGieCg/Y9CJT4pJMNCRAcW','3','1475669954','0','admin@atd3.cn','N','127.0.0.1','4f992374c5dc8e7ec07e514539f47ea3','0'),('48','dxkite','$2y$10$YWbzIa.kyMGGHjLW5M1RAulf3dp8g3QVIVS.F8MS9rylHyBeaBgkq','1','1475722991','1476595810','dxkite@atd3.cn','N','127.0.0.1','','0'),('43','hello','$2y$10$Ld4pc3sUM3lT4fr1UPwQt.VlTcQkBA0kB/1eHdH.1ReDiFwjwO9bu','2','1475652025','1476598122','helloworld@atd3.cn','Y','113.246.217.148','7c5c229075ffa9dd26ee6b0e80069ddb','0'),('49','Xinyonghu','$2y$10$EK0VfXbl5SSFndOpfY2iu.9lhWC1rSCx.n24hyCzIfmRJKgpmjleK','3','1476584435','0','Xinyonghu@163.com','N','27.17.206.130','e83b575b5d4561f2edad5da88f21fb6c','0'),('50','heidan','$2y$10$fyyCZTiQPl.I3uxMD.gi0OFq.qFiE3Mue5xPA4wVxrGSRsRP19ktK','3','1476587388','0','2877617866@qq.com','N','220.202.153.35','2d04c210def33023f465119ab017cf9c','0');
+INSERT INTO `atd_users` VALUES ('47','dddd','$2y$10$wBPNnCrRl9272PSeMZyjOOo5x81XAB/RmOk9neWb7V1xd7Pz/bfBu','2','1475723206','1476354661','dddd@q.c','N','127.0.0.1','','0'),('46','ddddd','$2y$10$GvYQQAlFjC175csViVoS9eGkZ9JdxTTrDdnTZ6DzPQkxQB8K5.RR6','3','1475722991','1476609643','d@d.c','N','127.0.0.1','09860b929e324c8f0801d88f357db1c8','0'),('44','admin','$2y$10$e0R6lH7pS2Og6DhRqpcaZ.ex.5WWZM0yGieCg/Y9CJT4pJMNCRAcW','3','1475669954','0','admin@atd3.cn','N','127.0.0.1','4f992374c5dc8e7ec07e514539f47ea3','0'),('48','dxkite','$2y$10$YWbzIa.kyMGGHjLW5M1RAulf3dp8g3QVIVS.F8MS9rylHyBeaBgkq','1','1475722991','1476595810','dxkite@atd3.cn','N','127.0.0.1','','0'),('43','hello','$2y$10$Ld4pc3sUM3lT4fr1UPwQt.VlTcQkBA0kB/1eHdH.1ReDiFwjwO9bu','2','1475652025','1476598122','helloworld@atd3.cn','Y','113.246.217.148','7c5c229075ffa9dd26ee6b0e80069ddb','0');
 
 
