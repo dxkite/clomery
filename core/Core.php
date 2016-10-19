@@ -20,8 +20,8 @@ function import(string $name)
         }
         // 其次查找目录配驱动
         elseif (is_dir($dir=$root.'/'.$name)) {
-            $option=strpos($name, '\\')?substr($name, 0, strpos($name, '\\')):$name;
-            $name=strpos($name, '\\')?substr($name, strpos($name, '\\')+1):$name;
+            $option=strpos($name, DIRECTORY_SEPARATOR)?substr($name, 0, strpos($name, DIRECTORY_SEPARATOR)):$name;
+            $name=strpos($name, DIRECTORY_SEPARATOR)?substr($name, strpos($name, DIRECTORY_SEPARATOR)+1):$name;
             // 配置存在
             if (conf('Driver.'. $option) && file_exists($require=$dir.'/'.conf('Driver.'. $option)."_{$name}.php")) {
                 require_once $require;
