@@ -109,6 +109,7 @@ class Markdown_Manager
         $markdown=preg_replace_callback('/\[.+?\]\((.+?)\)/', [$this, 'uploadUsedResource'], $markdown);
         // 上传图片文件
         $markdown=preg_replace_callback('/\!\[.+?\]\((.+?)\)/', [$this, 'uploadImgResource'], $markdown);
+        $aid=0;
         // 上传文章  就算上传重复也更新了图片
         if (Blog_Article::updateExistHash(md5($this->archive->filename),$markdown) ==0){
             $aid =Blog_Article::insertNew($uid,
@@ -119,7 +120,6 @@ class Markdown_Manager
             $config->reply,
             1, md5($this->archive->filename));
         }
-        $aid=0;
         if ($aid>0) {
             $tags=preg_split('/\s*;\s*/', $config->tags);
             Blog_Tag::addTagsToArticle($aid, 0, $tags);

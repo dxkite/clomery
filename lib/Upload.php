@@ -62,7 +62,7 @@ class Upload
         if (Storage::exist($file)) {
             $md5=md5_file($file);
             Storage::mkdirs(self::$root);
-        
+            
             if (Storage::move($file, $file=self::$root.'/'.$md5)) {
                 $id=0;
                 try {
