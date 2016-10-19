@@ -2,7 +2,7 @@
 // 数据库查询方案
 class Query implements Query_Interface
 {
-   /* protected */ static $pdo=null;
+    protected static $pdo=null;
     protected static $prefix=null;
     protected $stmt=null;
     // 查询语句
@@ -10,9 +10,14 @@ class Query implements Query_Interface
     // 模板值
     protected $values=null;
     protected $scroll=false;
+    // 使用的数据库
+    protected $database=null;
+    protected $dbchange=false;
+    protected $good=true;
+
     // TODO :  支持超大查询 max_allowed_packet
 
-    public function __construct(string $query, array $binds=[],bool $scroll=false)
+    public function __construct(string $query, array $binds=[], bool $scroll=false)
     {
         self::connectPdo();
         $this->query=$query;
@@ -60,6 +65,12 @@ class Query implements Query_Interface
         $this->values=$array;
         return $this;
     }
+    public function use(string $name=null)
+    {
+        $this->database=$name;
+        $this->dbchange=true;
+        return $this;
+    }
     // 获取错误
     public function error()
     {
@@ -86,9 +97,17 @@ class Query implements Query_Interface
     protected function lazyQuery(string $query, array $array=[])
     {
         $query=self::auto_prefix($query);
+        // 调整数据表
+        if ($this->database && $this->dbchange) {
+            self::$pdo->query('USE '.$this->database);
+            $this->dbchange=false;
+        } elseif (!$this->database) {
+            self::$pdo->query('USE '.conf('Database.dbname'));
+            $this->database=conf('Database.dbname');
+        }
 
         if ($this->scroll) {
-            $stmt=self::$pdo->prepare($query,[PDO::ATTR_CURSOR=>PDO::CURSOR_SCROLL]);
+            $stmt=self::$pdo->prepare($query, [PDO::ATTR_CURSOR=>PDO::CURSOR_SCROLL]);
         } else {
             $stmt=self::$pdo->prepare($query);
         }
@@ -105,17 +124,24 @@ class Query implements Query_Interface
         }
         $return=$stmt->execute();
         // TODO: To Log This
-        // var_dump($return,$stmt,$stmt->errorInfo()); 
+        // var_dump($return,$stmt,$stmt->errorInfo());
         $this->stmt=$stmt;
         return $return;
     }
     protected function connectPdo()
     {
         if (!self::$pdo) {
-            $pdo='mysql:dbname='.conf('Database.dbname').';host='.conf('Database.host', 'localhost').';charset='.conf('Database.charset', 'utf8');
+            $pdo='mysql:host='.conf('Database.host', 'localhost').';charset='.conf('Database.charset', 'utf8');
             self::$prefix=conf('Database.prefix', '', '');
-            self::$pdo = new PDO($pdo, conf('Database.user'), conf('Database.passwd'));
+            try{
+                self::$pdo = new PDO($pdo, conf('Database.user'), conf('Database.passwd'));
+            } catch( Exception $e){
+                $this->good=false;
+            }
         }
+    }
+    public function good() :bool {
+        return $this->good;
     }
     // 事务系列
     public static function beginTransaction()

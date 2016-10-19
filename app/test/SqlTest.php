@@ -15,5 +15,5 @@
 //     print $e->getMessage();
 //   }
 // }
-//var_dump(Database::export(APP_TMP.'/export.php'));
-var_dump(include APP_TMP.'/export.php');
+var_dump(Database::export(APP_TMP.'/export.php'));
+// var_dump(include APP_TMP.'/export.php');

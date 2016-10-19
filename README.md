@@ -20,7 +20,7 @@
 - [x] Cache 缓存引擎
 - [x] WebSocket 辅助
 - [ ] Socket 辅助
-- [ ] Database 辅助
+- [x] Database 辅助
 - [ ] Mail 邮件引擎
 - [ ] Debug工具
 - [ ] Cmd命令工具

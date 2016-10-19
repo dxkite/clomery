@@ -5,10 +5,11 @@ class Database
     public static function import(string $import)
     {
         if (Storage::exsit($import)) {
-            return include $import;
+            return require $import;
         }
         return false;
     }
+    
     public static function export(string $export)
     {
         $version=CORE_VERSION;
@@ -17,13 +18,14 @@ class Database
         $datebase=conf('Database.dbname');
         $tables=($q=new Query("show tables;"))->fetchAll();
         $tables_count=count($tables);
-        
+        $server_version=(new Query('select version() as version;'))->fetch()['version'];
         $head=<<< Table
 <?php
 /* ------------------------------------------------------ *\
    ------------------------------------------------------
    PHP Simple Library XCore $version Database Backup File
-        Create On $date
+        Create On: $date
+        SQL Server version: $server_version
         Host: $host   
         Database: $datebase
         Tables: $tables_count
@@ -55,7 +57,7 @@ catch (Exception $e)
 }
 End;
         $export_str.=$end;
-        Storage::put($export, $export_str);
+        return Storage::put($export, $export_str);
     }
     public static function exportSQL(string $output)
     {
@@ -63,12 +65,13 @@ End;
         $date=date('Y-m-d H:i:s');
         $host=$_SERVER['SERVER_NAME'];
         $datebase=conf('Database.dbname');
-        //-- Server version	$server_version
+        $server_version=(new Query('select version() as version;'))->fetch()['version'];
         $head=<<< Table
 -- ----------------------------------------------------------
 -- PHP Simple Library XCore $version Database Backup File
 -- Create On $date
 -- Host: $host   Database: $datebase
+-- Server version	$server_version
 -- ------------------------------------------------------
 /*!40101 SET NAMES utf8 */;
 
