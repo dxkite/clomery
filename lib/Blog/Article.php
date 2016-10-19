@@ -21,6 +21,11 @@ class Blog_Article
         }
         return -$qy->erron();
     }
+    public static function updateExistHash(string $hash,string $content)
+    {
+        $q='UPDATE `#{articles}`  SET `contents` = :content ,  `modified`=:modified WHERE `hash` = :hash LIMIT 1;';
+        return (new Query($q, ['hash'=>$hash,'content'=>$content,'modified'=>time()]))->exec();
+    }
     public static function getArticlesList(int $topic=0, int $count=10, int $offset=0)
     {
         $q='SELECT `aid`,`title`,`author` as `uid`,`atd_users`.`uname` as `author` ,`remark`,`views`,`modified`,`replys`,`atd_category`.`cid`,`atd_category`.`name` as `category`,`atd_category`.`icon`  FROM `atd_articles` LEFT JOIN  `atd_category` ON `atd_category`.`cid`=`category` LEFT JOIN `atd_users` ON `atd_users`.`uid`=`atd_articles`.`author` WHERE `topic`=:topic ORDER BY `atd_articles`.`modified` DESC LIMIT  :offset,:count;';
@@ -65,7 +70,8 @@ class Blog_Article
         return (new Query($q, ['aid'=>$aid, 'topic'=>$topic]))->exec();
     }
     // 数据不对时分析
-    public static function analyzeArticle(string $table){
-        return (new Query('ANALYZE TABLE `#{articles}`'))->exec();    
+    public static function analyzeArticle(string $table)
+    {
+        return (new Query('ANALYZE TABLE `#{articles}`'))->exec();
     }
 }
