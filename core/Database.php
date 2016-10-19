@@ -10,7 +10,7 @@ class Database
         return false;
     }
     
-    public static function export(string $export)
+    public static function export(string $export, array $saves_table=[])
     {
         $version=CORE_VERSION;
         $date=date('Y-m-d H:i:s');
@@ -40,10 +40,15 @@ Table;
         $export_str=$head;
         foreach ($tables as $table_array) {
             $tablename=current($table_array);
-            $tablename=preg_replace('/^'.conf('Database.prefix').'(.+?)$/', '#{$1}', $tablename);
-            $export_str.=self::querySQLString('DROP TABLE IF EXISTS '.$tablename);
+            preg_match('/^'.conf('Database.prefix').'(.+?)$/', $tablename, $tbinfo);
+            $export_str.=self::querySQLString('DROP TABLE IF EXISTS #{'.$tbinfo[1].'}');
             $export_str.=self::querySQLTableStruct(current($table_array));
-            $export_str.=self::querySQLTableValues(current($table_array));
+            // 0 全部 有则保存指定的
+            if (count($saves_table)===0) {
+                $export_str.=self::querySQLTableValues(current($table_array));
+            } elseif (in_array($tbinfo[1], $saves_table)) {
+                $export_str.=self::querySQLTableValues(current($table_array));
+            }
         }
         $end=<<< 'End'
 /** End Querys **/
@@ -59,7 +64,7 @@ End;
         $export_str.=$end;
         return Storage::put($export, $export_str);
     }
-    public static function exportSQL(string $output)
+    public static function exportSQL(string $output, array $saves_table=[])
     {
         $version=CORE_VERSION;
         $date=date('Y-m-d H:i:s');
@@ -77,9 +82,8 @@ End;
 
 
 Table;
-        Storage::put($output,$head);
-        return self::saveSQLTables($output);
-
+        Storage::put($output, $head);
+        return self::saveSQLTables($output, $saves_table);
     }
 
     public static function querySQLTableStruct(string $table)
@@ -96,7 +100,7 @@ Table;
         return ' (new Query(\''.addslashes($sql).'\'))->exec();'."\r\n\r\n";
     }
     
-    public static function saveSQLTables(string $fileout)
+    public static function saveSQLTables(string $fileout, array $saves_table=[])
     {
         $tables=($q=new Query("show tables;"))->fetchAll();
         foreach ($tables as $table) {
@@ -109,7 +113,14 @@ Table;
             if ($str=self::getTableStruct($table)) {
                 $sql='DROP TABLE IF EXISTS `'.$table.'`;'."\r\n";
                 Storage::put($fileout, $doc."\r\n\r\n".$sql.$str.";\r\n\r\n\r\n", FILE_APPEND);
-                self::saveSQLData($fileout, $table);
+                // var_dump($table, $saves_table);
+                preg_match('/^'.conf('Database.prefix').'(.+?)$/',$table, $tbinfo);
+                // 0 全部 有则保存指定的
+                if (count($saves_table)===0) {
+                    self::saveSQLData($fileout, $table);
+                } elseif (in_array($tbinfo[1], $saves_table)) {
+                    self::saveSQLData($fileout, $table);
+                }
             } else {
                 return false;
             }
@@ -143,6 +154,9 @@ Table;
             }
             Storage::put($file, ";\r\n\n\r\n", FILE_APPEND);
             //Storage::put($file, ";\r\n/*!40000 ALTER TABLE `atd_comment` ENABLE KEYS */;\r\nUNLOCK TABLES;\r\n\r\n", FILE_APPEND);
+        }
+        else{
+            Storage::put($file, "/** Table {$table}  Save Failed **/\r\n\n\r\n", FILE_APPEND);
         }
     }
     
