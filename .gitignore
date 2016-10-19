@@ -11,3 +11,5 @@ res/.conf
 res/install.lock
 # 调试用
 res/.conf.ignore
+# 回收站
+res/recycle_bin/*

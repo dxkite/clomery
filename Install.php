@@ -6,6 +6,12 @@ $ok="\033[32m[Ok]\033[0m ";
 $info="\033[33m[Info]\033[0m ";
 $failed="\033[31m[failed]\033[0m ";
 
+Storage::mkdirs(APP_RECYCLE_BIN);
+$time=date('Y_m_d_H_i_s');
+Database::export(APP_RECYCLE_BIN.'/datebase_'.$time.'.php');
+Database::exportSQL(APP_RECYCLE_BIN.'/datebase_'.$time.'.sql');
+
+print $info.'Save Old Database To Recycle Bin >> datebase_'.$time.".*\r\n";
 if (!Storage::exist(APP_RES.'/'.APP_CONF)) {
     print $info.'Please Modify '.DOC_ROOT.'/.conf.simple Configurtion And Save To '.APP_RES.'/'.APP_CONF."\r\n";
     exit(-1);
