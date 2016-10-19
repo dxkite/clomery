@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>chatdemo</title>
+        <title>Chat Demo </title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1, user-scalable=no">
         <link href="https://cdn.bootcss.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">

@@ -2,26 +2,32 @@
 // 数据库查询方案
 class Query implements Query_Interface
 {
-    protected static $pdo=null;
+   /* protected */ static $pdo=null;
     protected static $prefix=null;
     protected $stmt=null;
     // 查询语句
     protected $query=null;
     // 模板值
     protected $values=null;
+    protected $scroll=false;
+    // TODO :  支持超大查询 max_allowed_packet
 
-
-    public function __construct(string $query, array $binds=[])
+    public function __construct(string $query, array $binds=[],bool $scroll=false)
     {
         self::connectPdo();
         $this->query=$query;
         $this->values=$binds;
+        $this->scroll=$scroll;
     }
 
     public function fetch(int $fetch_style = query::FETCH_ASSOC)
     {
-        if (self::lazyQuery($this->query, $this->values)) {
+        if ($this->stmt) {
             return $this->stmt->fetch($fetch_style);
+        } else {
+            if (self::lazyQuery($this->query, $this->values)) {
+                return $this->stmt->fetch($fetch_style);
+            }
         }
         return false;
     }
@@ -57,11 +63,17 @@ class Query implements Query_Interface
     // 获取错误
     public function error()
     {
-        return $this->stmt->errorInfo();
+        if ($this->stmt) {
+            return $this->stmt->errorInfo();
+        }
+        return false;
     }
     public function erron():int
     {
-        return $this->stmt->errorCode();
+        if ($this->stmt) {
+            return $this->stmt->errorCode();
+        }
+        return false;
     }
     public static function lastInsertId()
     {
@@ -74,7 +86,12 @@ class Query implements Query_Interface
     protected function lazyQuery(string $query, array $array=[])
     {
         $query=self::auto_prefix($query);
-        $stmt=self::$pdo->prepare($query);
+
+        if ($this->scroll) {
+            $stmt=self::$pdo->prepare($query,[PDO::ATTR_CURSOR=>PDO::CURSOR_SCROLL]);
+        } else {
+            $stmt=self::$pdo->prepare($query);
+        }
         foreach ($array as $key=> $value) {
             $key=':'.ltrim($key, ':');
             if (is_array($value)) {
@@ -87,6 +104,8 @@ class Query implements Query_Interface
             $stmt->bindValue($key, $value, $type);
         }
         $return=$stmt->execute();
+        // TODO: To Log This
+        // var_dump($return,$stmt,$stmt->errorInfo()); 
         $this->stmt=$stmt;
         return $return;
     }
@@ -105,7 +124,7 @@ class Query implements Query_Interface
         return self::$pdo->beginTransaction();
     }
     
-    public  static function commit()
+    public static function commit()
     {
         self::connectPdo();
         return  self::$pdo->commit();

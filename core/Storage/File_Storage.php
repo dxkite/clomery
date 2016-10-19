@@ -79,10 +79,10 @@ class Storage implements Storage_Driver
     {
         return rmdir($path);
     }
-    public static function put(string $name, $content):bool
+    public static function put(string $name, $content,int $flags = 0):bool
     {
         if (self::isDir(dirname($name))) {
-            return file_put_contents($name, $content);
+            return file_put_contents($name, $content,$flags);
         }
         return false;
     }

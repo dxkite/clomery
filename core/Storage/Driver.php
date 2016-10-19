@@ -68,7 +68,7 @@ interface Storage_Driver
      * @param $content
      * @return bool
      */
-    public static function put(string $name, $content):bool;
+    public static function put(string $name, $content,int $flags = 0):bool;
 
     /**
      * @param string $name
