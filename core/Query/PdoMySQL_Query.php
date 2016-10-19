@@ -63,6 +63,7 @@ class Query implements Query_Interface
     {
         $this->query=$query;
         $this->values=$array;
+        $this->stmt=null;
         return $this;
     }
     public function use(string $name=null)

@@ -61,6 +61,7 @@ class Upload
         if (Storage::exist($file)) {
             $md5=md5_file($file);
             Storage::mkdirs(self::$root);
+        
             if (Storage::move($file, $file=self::$root.'/'.$md5)) {
                 $id=0;
                 try {
@@ -72,22 +73,30 @@ class Upload
                         $resource=$q->lastInsertId();
                     } else {
                         $resource=$q->query('SELECT `rid` FROM `#{upload_resource}` WHERE `hash` = :hash', ['hash'=>$md5])->fetch()['rid'];
+                         var_dump($q->error(),$resource);
                         $q->query('UPDATE `#{upload_resource}` SET `reference`=  `reference` +1 WHERE `rid`=:rid', ['rid'=>$resource])->exec();
                     }
+                    
                     // 确保文件为一个
                     if ($qid=$q->query('SELECT `rid` FROM `#{uploads}` WHERE `resource`=:resource LIMIT 1;', ['resource'=>$resource])->fetch()) {
+                        var_dump($qid);
                         $id=$qid['rid'];
                     } else {
                         $q->query('INSERT INTO `#{uploads}` ( `owner`,`name`,`extension`,`time`, `resource`,`public`) VALUES (:owner,:name,:extention,:time,:resource,:public);');
                         $q->values(['owner'=>self::$uid, 'name'=>pathinfo($name,PATHINFO_FILENAME), 'extention'=>$type,'time'=>time(), 'resource'=>$resource, 'public'=>$public])->exec();
                         $id=$q->lastInsertId();
+                        var_dump($q->error());
+                        var_dump($id);
                     }
+                    
                     Query::commit();
                 } catch (\Exception $e) {
+                    var_dump($e);
                     Query::rollBack();
                     Storage::remove($file);
                     return -2;
                 }
+                
                 return $id;
             }
         }
