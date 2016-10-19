@@ -4,7 +4,7 @@ class Database
 {
     public static function import(string $import)
     {
-        if (Storage::exsit($import)) {
+        if (Storage::exist($import)) {
             return require $import;
         }
         return false;

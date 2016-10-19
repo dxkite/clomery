@@ -1,5 +1,6 @@
 <?php
 /** Debug Install Script **/
+defined('DOC_ROOT') or define('DOC_ROOT', __DIR__);
 require_once 'core/XCore.php';
 $ok="\033[32m[Ok]\033[0m ";
 $info="\033[33m[Info]\033[0m ";
@@ -16,15 +17,15 @@ if (system('chmod a+rw '.APP_RES)) {
     print $info.' Permition Change Faild,Pelase Makesure Apache Can Use '.APP_RES."\r\n";
 }
 
-if (Storage::exist(APP_RES.'/debug-database.php')) {
-    if (Database::import(APP_RES.'/debug-database.php')) {
-        print $ok.' Installed Database';
+if (Storage::exist(APP_RES.'/datebase.php')) {
+    if (Database::import(APP_RES.'/datebase.php')) {
+        print $ok.' Installed Database'."\r\n";
     } else {
-        print $failed. 'Import Database Failed! Please Import Date Use '.APP_RES.'/debug-database.sql'."\r\n";
+        print $failed. 'Import Database Failed! Please Import Date Use '.APP_RES.'/datebase.sql'."\r\n";
         exit(-3);
     }
 } else {
-    print $failed.'Database File Do Not Exist,Please Make sure the Source Code Is Avaliable'."\r\n";
+    print $failed.'Database File('.APP_RES.'/datebase.php) Do Not Exist,Please Make sure the Source Code Is Avaliable'."\r\n";
     exit(-3);
 }
 print $ok.'Install Debug Release Ok, Enjoy It!'."\r\n";
