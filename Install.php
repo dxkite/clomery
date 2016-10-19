@@ -11,7 +11,7 @@ if (!Storage::exist(APP_RES.'/'.APP_CONF)) {
     exit(-1);
 }
 
-if (system('chmod a+rw '.APP_RES)) {
+if (system('chmod -R a+rw '.APP_RES)) {
     print $ok.' Change Permition  To a+rw '."\r\n";
 } else {
     print $info.' Permition Change Faild,Pelase Makesure Apache Can Use '.APP_RES."\r\n";
