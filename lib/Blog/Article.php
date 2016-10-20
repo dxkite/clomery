@@ -40,9 +40,9 @@ class Blog_Article
         `keep_top`=:top ,
         `public`=:public, 
         `allow_reply`=:reply, 
-        `hash`=:hash,
+        `hash`=:hash
         WHERE `aid` = :aid LIMIT 1;';
-        return (new Query($q, [
+        $count=($qq=new Query($q, [
             'aid'=>$aid,
             'author'=>$author,
             'title'=>$title,
@@ -54,6 +54,8 @@ class Blog_Article
             'public'=>$public,
             'hash'=>$hash,
             ]))->exec();
+        var_dump($qq->error());
+        return $count;
     }
 
     public static function getArticlesList(int $topic=0, int $count=10, int $offset=0)

@@ -117,9 +117,11 @@ class Markdown_Manager
         // 上传图片文件
         $markdown=preg_replace_callback('/\!\[.+?\]\((.+?)\)/', [$this, 'uploadImgResource'], $markdown);
         $aid=isset($config->id)?$config->id:0;
-        
+       
         // 如果文章ID存在，更新文章内容
         if (isset($config->id)) {
+            $tags=preg_split('/\s*(;|,|\|)\s*/', $config->tags);
+            Blog_Tag::setTagsToArticle($aid, 0, $tags);
             // 如果存在ID就更新
             if (Blog_Article::updateExistId(
                     $config->id,
@@ -132,13 +134,13 @@ class Markdown_Manager
                     isset($config->public)?$config->public:1,
                     md5($this->archive->filename))
                 ) {
-                $tags=preg_split('/\s*(;|,|\|)\s*/', $config->tags);
-                Blog_Tag::setTagsToArticle($aid, 0, $tags);
                 return $config->id;
+            } else {
+                return -1;
             }
         }
         // 相同Hash更新资源 否则就上传新文章
-        elseif (Blog_Article::updateExistHash(md5($this->archive->filename), $markdown,isset($config->date)?$config->date:time()) ==0) {
+        elseif (Blog_Article::updateExistHash(md5($this->archive->filename), $markdown, isset($config->date)?$config->date:time()) ==0) {
             $aid =Blog_Article::insertNew($uid,
             $config->title,
             $config->remark, $markdown,
@@ -147,7 +149,7 @@ class Markdown_Manager
             $config->reply,
             1, md5($this->archive->filename));
             if ($aid>0) {
-                $tags=preg_split('/\s*;\s*/', $config->tags);
+                $tags=preg_split('/\s*(;|,|\|)\s*/', $config->tags);
                 Blog_Tag::setTagsToArticle($aid, 0, $tags);
                 return $aid;
             } else {
