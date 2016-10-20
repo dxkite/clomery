@@ -43,10 +43,9 @@ class Upload
     public static function uploadString(string $content, string $name, string $type, int $public=1)
     {
         Storage::mkdirs(APP_TMP);
-        $file=APP_TMP.'/upload_'.$name.'_'.md5($content).'.tmp';
+        $file=self::$root.'/'.md5($content);
         if (Storage::put($file, $content)) {
             $id=self::register($name,$file,$type,$public);
-            Storage::remove($file);
             return $id;
         }
     }
