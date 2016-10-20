@@ -5,7 +5,7 @@ if ($info=Common_User::hasSignIn()) {
     var_dump($zipfile=Upload::uploadFile('upload',0));
     if ($zipfile) {
         // 添加本地的zip文章到数据库
-         $md = new Markdown_Manager;
+         $md = new Blog_MdManager;
         var_dump($fileinfo=Upload::getFile($zipfile));
         var_dump($aid=$md->uploadZipMarkdown($fileinfo['path'], $fileinfo['name']));
         var_dump($md->uploadInfo());

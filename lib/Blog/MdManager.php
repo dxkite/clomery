@@ -1,6 +1,6 @@
 <?php
 
-class Markdown_Manager
+class Blog_MdManager
 {
     public static $parser=null;
     public static $config='config.json';
