@@ -41,7 +41,7 @@ Page::visit('/!{path}', function ($path_raw) {
     } else {
         Page::error404($path_raw);
     }
-})->with('path', '/^(.+)$/')->id('resource')->override()->close();
+})->with('path', '/^(.+)$/')->id('resource')->override()->age(10000)->close();
 
     Page::visit('/${id}/{name}?', ['Resource', 'main'])
 ->with('id', 'int')

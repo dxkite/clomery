@@ -50,7 +50,10 @@ class PageController extends Caller
     private $status=null;
     private $allowOutput=true;
     private $noCache=false;
+    private $age=0;
     private $close=false;
+    private $cache=null;
+
     /**
      * PageController constructor.
      * @param mixed $caller 可调用对象
@@ -167,16 +170,38 @@ class PageController extends Caller
         $this->status=$status;
         return $this;
     }
+    public function age(int $maxage=0)
+    {
+        //Cache-control: max-age=5
+        if ($maxage) {
+            $this->age=$maxage;
+            $this->noCache=false;
+        }
+        return $this;
+    }
+    public function cache(string $cache)
+    {
+        $this->cache=$cache;
+        return $this;
+    }
     public function render(array $value=[])
     {
+        if (defined('APP_VERSION')) {
+            header('Core-App-Version: '.APP_VERSION);
+        }
         header('Powered-By: DXCore/'.CORE_VERSION);
         if (!is_null($this->status)) {
             send_http_status($this->status);
         }
-        if ($this->noCache) {
+        // 缓存控制
+        if ($this->cache) {
+            header('Cache-Control:'.$this->cache);
+        } elseif ($this->noCache) {
             header('Cache-Control:no-cache');
+        } else {
+            header('Cache-control: max-age=' .$this->age);
         }
-        if ($this->close){
+        if ($this->close) {
             header('Connection:close');
         }
         if ($this->raw) {
@@ -228,5 +253,6 @@ class PageController extends Caller
     public function close()
     {
         $this->close=true;
+        return $this;
     }
 }

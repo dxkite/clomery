@@ -1,12 +1,12 @@
-# 芒刺网 & atd3 统一网站程序
-网站功能主要分四大功能：
-- [ ] Blog
+# 芒刺网
+网站功能主要分四大功能：    
+- [ ] Blog      
     基本功能：在线Markdown博客
-- [ ] Community
+- [ ] Community     
     基本功能：在线Markdown社区
-- [ ] Online Judge
+- [ ] Online Judge      
     扩展功能：在线测评（后续考虑添加）
-- [ ] Video Online Play
+- [ ] Video Online Play     
     扩展功能：视频在线播放
 
 ## 辅助系统 
