@@ -1,11 +1,13 @@
 <?php
-
-class Common_Authority
+// 统一使用一个权限表
+// TODO : 多组的权限表 ?
+class Common_Auth
 {
     public $uid=0;
     public function setUid(int $uid)
     {
-        sefl::$uid=$uid;
+        $this->uid=$uid;
+        return $this;
     }
     /**
     * 使用别人的名义
