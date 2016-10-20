@@ -126,6 +126,7 @@ class Markdown_Manager
                     $uid,
                     $config->title,
                     $config->remark, $markdown,
+                    isset($config->date)?$config->date:time(),
                     $config->keeptop,
                     $config->reply,
                     isset($config->public)?$config->public:1,
@@ -137,11 +138,11 @@ class Markdown_Manager
             }
         }
         // 相同Hash更新资源 否则就上传新文章
-        elseif (Blog_Article::updateExistHash(md5($this->archive->filename), $markdown) ==0) {
+        elseif (Blog_Article::updateExistHash(md5($this->archive->filename), $markdown,isset($config->date)?$config->date:time()) ==0) {
             $aid =Blog_Article::insertNew($uid,
             $config->title,
             $config->remark, $markdown,
-            $config->date,
+            isset($config->date)?$config->date:time(),
             $config->keeptop,
             $config->reply,
             1, md5($this->archive->filename));

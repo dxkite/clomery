@@ -22,14 +22,14 @@ class Blog_Article
         return -$qy->erron();
     }
     // 存在相同ZIP:某些资源上传失败刷新
-    public static function updateExistHash(string $hash,string $content)
+    public static function updateExistHash(string $hash,string $content,int $time)
     {
         $q='UPDATE `#{articles}`  SET `contents` = :content ,  `modified`=:modified WHERE `hash` = :hash LIMIT 1;';
-        return (new Query($q, ['hash'=>$hash,'content'=>$content,'modified'=>time()]))->exec();
+        return (new Query($q, ['hash'=>$hash,'content'=>$content,'modified'=>$time]))->exec();
     }
 
     // 存在文章更新内容
-    public static function updateExistId(int $aid,int $author, string $title, string $remark, string $contents, int $keeptop=0, int $allowreply=1, int $public=1, string $hash='0')
+    public static function updateExistId(int $aid,int $author, string $title, string $remark, string $contents, int $time,int $keeptop=0, int $allowreply=1, int $public=1, string $hash='0')
     {
         $q='UPDATE `#{articles}`  SET 
         `author`=:author, 
@@ -40,7 +40,7 @@ class Blog_Article
         `keep_top`=:top ,
         `public`=:public, 
         `allow_reply`=:reply, 
-        `hash`=:hash
+        `hash`=:hash,
         WHERE `aid` = :aid LIMIT 1;';
         return (new Query($q, [
             'aid'=>$aid,
@@ -48,7 +48,7 @@ class Blog_Article
             'title'=>$title,
             'remark'=>$remark,
             'contents'=>$contents,
-            'modified'=>time(),
+            'modified'=>$time ,
             'top'=>$keeptop,
             'reply'=>$allowreply,
             'public'=>$public,
