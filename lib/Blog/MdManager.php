@@ -116,9 +116,8 @@ class Blog_MdManager
         // $markdown=preg_replace_callback('/\[.+?\]\((.+?)\)/', [$this, 'uploadUsedResource'], $markdown);
         // 上传图片文件
         $markdown=preg_replace_callback('/\!\[.+?\]\((.+?)\)/', [$this, 'uploadImgResource'], $markdown);
+        // 设置AID
         $aid=isset($config->id)?$config->id:0;
-        $tags=preg_split('/\s*(;|,|\|)\s*/', $config->tags);
-        Blog_Tag::setTagsToArticle($aid, 0, $tags);
         // 如果文章ID存在，更新文章内容
         if (isset($config->id) && Blog_Article::updateExistId(
                     $config->id,
@@ -130,9 +129,8 @@ class Blog_MdManager
                     $config->reply,
                     isset($config->public)?$config->public:1,
                     md5($this->archive->filename))) {
-            return $config->id;
         }
-        // ID不存在 相同文件md5则更新文件资源 
+        // ID不存在 相同文件md5则更新文件资源
         // 否则就作为新文章上传
         elseif (Blog_Article::updateExistHash(md5($this->archive->filename), $markdown, isset($config->date)?$config->date:time()) ==0) {
             $aid =Blog_Article::insertNew($uid,
@@ -142,14 +140,23 @@ class Blog_MdManager
             $config->keeptop,
             $config->reply,
             1, md5($this->archive->filename));
-            if ($aid>0) {
+        }
+        if ($aid>0) {
+            // 设置标签
+            if (isset($config->tags)) {
                 $tags=preg_split('/\s*(;|,|\|)\s*/', $config->tags);
                 Blog_Tag::setTagsToArticle($aid, 0, $tags);
-                return $aid;
-            } else {
-                return 0;
+            }
+            // 设置分类
+            if (isset($config->category_id)) {
+                var_dump('set Category='.Blog_Category::setCategory($aid, $config->category_id));
+            } elseif (isset($config->category)) {
+                $categorys=preg_split('/\s*(-)\s*/', $config->category);
+                var_dump('cid='.Blog_Category::getCategoryId(end($categorys)));
+                var_dump('set Category='.Blog_Category::setCategory($aid, Blog_Category::getCategoryId(end($categorys))));
             }
         }
+        return $aid;
     }
     
     protected function parseImgResource($matchs)

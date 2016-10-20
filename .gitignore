@@ -13,3 +13,5 @@ res/install.lock
 res/.conf.ignore
 # 回收站
 res/recycle_bin/*
+# 日志
+res/logs/*

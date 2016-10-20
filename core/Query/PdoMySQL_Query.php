@@ -126,6 +126,12 @@ class Query implements Query_Interface
         $return=$stmt->execute();
         // TODO: To Log This
         // var_dump($return,$stmt,$stmt->errorInfo());
+        Storage::mkdirs($path=APP_RES.'/logs');
+        if ((int)$stmt->errorCode()) {
+            Storage::put($path.'/query_'.date('Y-m-d').'_error', date('Y-m-d H:i:s ').$stmt->queryString.' '.$stmt->errorInfo()[2]."\r\n", FILE_APPEND);
+        } else {
+            Storage::put($path.'/query_'.date('Y-m-d').'_query', date('Y-m-d H:i:s ').$stmt->queryString.' '.$stmt->errorInfo()[2]."\r\n", FILE_APPEND);
+        }
         $this->stmt=$stmt;
         return $return;
     }
@@ -134,14 +140,15 @@ class Query implements Query_Interface
         if (!self::$pdo) {
             $pdo='mysql:host='.conf('Database.host', 'localhost').';charset='.conf('Database.charset', 'utf8');
             self::$prefix=conf('Database.prefix', '', '');
-            try{
+            try {
                 self::$pdo = new PDO($pdo, conf('Database.user'), conf('Database.passwd'));
-            } catch( Exception $e){
+            } catch (Exception $e) {
                 $this->good=false;
             }
         }
     }
-    public function good() :bool {
+    public function good() :bool
+    {
         return $this->good;
     }
     // 事务系列
