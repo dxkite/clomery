@@ -117,13 +117,10 @@ class Blog_MdManager
         // 上传图片文件
         $markdown=preg_replace_callback('/\!\[.+?\]\((.+?)\)/', [$this, 'uploadImgResource'], $markdown);
         $aid=isset($config->id)?$config->id:0;
-       
+        $tags=preg_split('/\s*(;|,|\|)\s*/', $config->tags);
+        Blog_Tag::setTagsToArticle($aid, 0, $tags);
         // 如果文章ID存在，更新文章内容
-        if (isset($config->id)) {
-            $tags=preg_split('/\s*(;|,|\|)\s*/', $config->tags);
-            Blog_Tag::setTagsToArticle($aid, 0, $tags);
-            // 如果存在ID就更新
-            if (Blog_Article::updateExistId(
+        if (isset($config->id) && Blog_Article::updateExistId(
                     $config->id,
                     $uid,
                     $config->title,
@@ -132,14 +129,11 @@ class Blog_MdManager
                     $config->keeptop,
                     $config->reply,
                     isset($config->public)?$config->public:1,
-                    md5($this->archive->filename))
-                ) {
-                return $config->id;
-            } else {
-                return -1;
-            }
+                    md5($this->archive->filename))) {
+            return $config->id;
         }
-        // 相同Hash更新资源 否则就上传新文章
+        // ID不存在 相同文件md5则更新文件资源 
+        // 否则就作为新文章上传
         elseif (Blog_Article::updateExistHash(md5($this->archive->filename), $markdown, isset($config->date)?$config->date:time()) ==0) {
             $aid =Blog_Article::insertNew($uid,
             $config->title,
