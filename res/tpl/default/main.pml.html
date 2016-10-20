@@ -1,6 +1,10 @@
 <main>
     <div>已注册用户：{{ Common_User::numbers() }} </div>
     <div>文章总数： {{ Blog_Article::numbers() }}</div>
+    <div>文章分类</div>
+    @foreach ($_Page ->article_categorys as $category)
+       <a href="/article/category/{{$category->cid }}/{{$category->alias }}">{{$category->name }}</a> 
+    @endforeach
     <div class="developing">┗|｀O′|┛ 嗷~~</div>
     <div class="developing">我是首页</div>
 </main>

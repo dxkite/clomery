@@ -12,5 +12,11 @@ class Main
         Site\page_common_set();
         Page::set('title',Site_Options::getOptions()['site_name']);
         Page::set('head_index_nav_select', 0 );
+        $categorys=Blog_Category::getCategorysInfo();
+        $cobj=[];
+        foreach ($categorys as $category){
+            $cobj[]=new Core\Value($category);
+        }
+        Page::set('article_categorys',$cobj);
     }
 }

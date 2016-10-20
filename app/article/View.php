@@ -47,6 +47,44 @@ class View
         }
     }
 
+    public static function listCategory($category)
+    {
+        import('Site.functions');
+        \Site\page_common_set();
+        $offset=isset($_GET['page'])?$_GET['page']:0;
+        Page::set('head_index_nav_select', 1);
+        // TODO : 添加博客管理后台 
+        // TODO : 添加文章管理
+        $page_content=10;
+        $page= (int) ($offset/$page_content+1);
+        $title= $page?'- 第'.$page .'页':'';
+        Page::set('title', '文章'.$title);
+        Page::use('article/index');
+        
+        $article_list=Blog_Article::getArticlesListbyCategory(0,(int)$category, $page_content, (int)$offset);
+        $article_list_obj=[];
+
+        foreach ($article_list as $article){
+            $article_list_obj[]= new CoreValue($article);
+        }
+
+        Page::set('article_list', $article_list_obj);
+
+        Page::set('article_numbers', $page_number=Blog_Article::numbers());
+
+        if ($page_content<$page_number) {
+            for ($i=0, $j=1;$i<$page_number;$j++, $i+=$page_content) {
+                $pages[$j]['offset']=$i;
+                if ($i == $offset) {
+                    $pages[$j]['current']=true;
+                }
+            }
+            Page::set('page_nav', $pages);
+            Page::set('use_page_nav', true);
+        } else {
+            Page::set('use_page_nav', false);
+        }
+    }
 
     public static function article($aid)
     {

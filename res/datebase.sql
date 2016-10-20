@@ -1,6 +1,6 @@
 -- ----------------------------------------------------------
--- PHP Simple Library XCore 1.x-dev Database Backup File
--- Create On 2016-10-19 22:38:49
+-- PHP Simple Library XCore 1.x.1-dev Database Backup File
+-- Create On 2016-10-20 22:19:26
 -- Host: localhost   Database: hello_world
 -- Server version	10.1.10-MariaDB
 -- ------------------------------------------------------
@@ -13,7 +13,9 @@
 DROP TABLE IF EXISTS `atd_article_tag`;
 CREATE TABLE `atd_article_tag` (
   `tid` bigint(20) NOT NULL,
-  `aid` bigint(20) NOT NULL
+  `aid` bigint(20) NOT NULL,
+  KEY `tid` (`tid`),
+  KEY `aid` (`aid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -49,7 +51,7 @@ CREATE TABLE `atd_articles` (
   KEY `modified` (`modified`),
   KEY `modified_2` (`modified`),
   KEY `category` (`category`)
-) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8;
 
 
 --
@@ -64,7 +66,7 @@ CREATE TABLE `atd_bugs` (
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `status` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 --
@@ -76,13 +78,20 @@ CREATE TABLE `atd_category` (
   `cid` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '分类',
   `icon` bigint(20) NOT NULL COMMENT '分类图标',
   `name` varchar(80) NOT NULL DEFAULT '无分类',
+  `alias` varchar(12) NOT NULL,
   `discription` tinytext NOT NULL,
   `counts` int(11) NOT NULL DEFAULT '0',
   `parent` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`cid`),
   KEY `cname` (`name`),
-  KEY `parent` (`parent`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  KEY `parent` (`parent`),
+  KEY `alias` (`alias`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+
+
+
+
+INSERT INTO `atd_category` VALUES ('1','0','网站日志','wzrz','网站的相关话题','3','0'),('2','1','网站教程','wzjc','网站内的一些教程','0','0'),('3','0','作者通知','zztz','作者通知','8','0');
 
 
 --
@@ -102,7 +111,12 @@ CREATE TABLE `atd_groups` (
   PRIMARY KEY (`gid`),
   KEY `gname` (`gname`),
   KEY `priority` (`sort`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COMMENT='权限表';
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='权限表';
+
+
+
+
+INSERT INTO `atd_groups` VALUES ('1','0','网站所有者','Y','Y','Y','Y','Y');
 
 
 --
@@ -141,7 +155,7 @@ CREATE TABLE `atd_signin_historys` (
   `time` int(11) NOT NULL,
   PRIMARY KEY (`hid`),
   KEY `uid` (`uid`)
-) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8;
 
 
 --
@@ -177,7 +191,7 @@ CREATE TABLE `atd_tags` (
   PRIMARY KEY (`tid`),
   UNIQUE KEY `name` (`name`),
   KEY `topic` (`topic`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 
 --
@@ -193,7 +207,7 @@ CREATE TABLE `atd_upload_resource` (
   PRIMARY KEY (`rid`),
   UNIQUE KEY `hash` (`hash`),
   KEY `type` (`type`)
-) ENGINE=InnoDB AUTO_INCREMENT=1539 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1670 DEFAULT CHARSET=utf8;
 
 
 --
@@ -214,7 +228,7 @@ CREATE TABLE `atd_uploads` (
   KEY `public` (`public`),
   KEY `resource` (`resource`),
   KEY `extension` (`extension`)
-) ENGINE=InnoDB AUTO_INCREMENT=90 DEFAULT CHARSET=utf8 COMMENT='上传资源表';
+) ENGINE=InnoDB AUTO_INCREMENT=111 DEFAULT CHARSET=utf8 COMMENT='上传资源表';
 
 
 --
@@ -256,6 +270,6 @@ CREATE TABLE `atd_users` (
   KEY `uid_2` (`uid`),
   KEY `uid_3` (`uid`),
   KEY `uid_4` (`uid`)
-) ENGINE=MyISAM AUTO_INCREMENT=52 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=53 DEFAULT CHARSET=utf8;
 
 
