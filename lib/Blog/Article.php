@@ -21,11 +21,41 @@ class Blog_Article
         }
         return -$qy->erron();
     }
+    // 存在相同ZIP:某些资源上传失败刷新
     public static function updateExistHash(string $hash,string $content)
     {
         $q='UPDATE `#{articles}`  SET `contents` = :content ,  `modified`=:modified WHERE `hash` = :hash LIMIT 1;';
         return (new Query($q, ['hash'=>$hash,'content'=>$content,'modified'=>time()]))->exec();
     }
+
+    // 存在文章更新内容
+    public static function updateExistId(int $aid,int $author, string $title, string $remark, string $contents, int $keeptop=0, int $allowreply=1, int $public=1, string $hash='0')
+    {
+        $q='UPDATE `#{articles}`  SET 
+        `author`=:author, 
+        `title`=:title, 
+        `remark`=:remark, 
+        `contents` = :contents,
+        `modified`=:modified, 
+        `keep_top`=:top ,
+        `public`=:public, 
+        `allow_reply`=:reply, 
+        `hash`=:hash
+        WHERE `aid` = :aid LIMIT 1;';
+        return (new Query($q, [
+            'aid'=>$aid,
+            'author'=>$author,
+            'title'=>$title,
+            'remark'=>$remark,
+            'contents'=>$contents,
+            'modified'=>time(),
+            'top'=>$keeptop,
+            'reply'=>$allowreply,
+            'public'=>$public,
+            'hash'=>$hash,
+            ]))->exec();
+    }
+
     public static function getArticlesList(int $topic=0, int $count=10, int $offset=0)
     {
         $q='SELECT `aid`,`title`,`author` as `uid`,`atd_users`.`uname` as `author` ,`remark`,`views`,`modified`,`replys`,`atd_category`.`cid`,`atd_category`.`name` as `category`,`atd_category`.`icon`  FROM `atd_articles` LEFT JOIN  `atd_category` ON `atd_category`.`cid`=`category` LEFT JOIN `atd_users` ON `atd_users`.`uid`=`atd_articles`.`author` WHERE `topic`=:topic ORDER BY `atd_articles`.`modified` DESC LIMIT  :offset,:count;';

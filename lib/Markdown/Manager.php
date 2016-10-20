@@ -98,20 +98,46 @@ class Markdown_Manager
     
     protected function uploadMarkdown(string $markdown, stdClass $config)
     {
+        $uid=-1;
         // TODO: 可忽略的作者
-        $uid=Common_User::user2Id($config->author);
-        if ($uid<=0) {
+        if (isset($config->author)) {
+            $uid=Common_User::user2Id($config->author);
+        }
+        // 未指定作者
+        if ($uid<0) {
             $uid=Common_User::hasSignin()['uid'];
         }
+
         Upload::setUid($uid);
+        
+        // 获取文章内容
         $markdown=$this->archive->getFromName(self::parsePath($this->root.'/'.$markdown));
         // 上传链接中使用过的文件
-        $markdown=preg_replace_callback('/\[.+?\]\((.+?)\)/', [$this, 'uploadUsedResource'], $markdown);
+        // $markdown=preg_replace_callback('/\[.+?\]\((.+?)\)/', [$this, 'uploadUsedResource'], $markdown);
         // 上传图片文件
         $markdown=preg_replace_callback('/\!\[.+?\]\((.+?)\)/', [$this, 'uploadImgResource'], $markdown);
-        $aid=0;
-        // 上传文章  就算上传重复也更新了图片
-        if (Blog_Article::updateExistHash(md5($this->archive->filename),$markdown) ==0){
+        $aid=isset($config->id)?$config->id:0;
+        
+        // 如果文章ID存在，更新文章内容
+        if (isset($config->id)) {
+            // 如果存在ID就更新
+            if (Blog_Article::updateExistId(
+                    $config->id,
+                    $uid,
+                    $config->title,
+                    $config->remark, $markdown,
+                    $config->keeptop,
+                    $config->reply,
+                    isset($config->public)?$config->public:1,
+                    md5($this->archive->filename))
+                ) {
+                $tags=preg_split('/\s*(;|,|\|)\s*/', $config->tags);
+                Blog_Tag::setTagsToArticle($aid, 0, $tags);
+                return $config->id;
+            }
+        }
+        // 相同Hash更新资源 否则就上传新文章
+        elseif (Blog_Article::updateExistHash(md5($this->archive->filename), $markdown) ==0) {
             $aid =Blog_Article::insertNew($uid,
             $config->title,
             $config->remark, $markdown,
@@ -119,13 +145,13 @@ class Markdown_Manager
             $config->keeptop,
             $config->reply,
             1, md5($this->archive->filename));
-        }
-        if ($aid>0) {
-            $tags=preg_split('/\s*;\s*/', $config->tags);
-            Blog_Tag::addTagsToArticle($aid, 0, $tags);
-            return $aid;
-        } else {
-            return 0;
+            if ($aid>0) {
+                $tags=preg_split('/\s*;\s*/', $config->tags);
+                Blog_Tag::setTagsToArticle($aid, 0, $tags);
+                return $aid;
+            } else {
+                return 0;
+            }
         }
     }
     
@@ -155,7 +181,7 @@ class Markdown_Manager
         }
         return $matchs[0];
     }
-
+    /*
     protected function uploadUsedResource($matchs)
     {
         $path=self::parsePath($this->root.'/'.self::parsePath($matchs[1]));
@@ -166,7 +192,7 @@ class Markdown_Manager
         }
         return $matchs[0];
     }
-
+    */
     // 获取 配置
     protected function getZipConfigFile(string $name='')
     {

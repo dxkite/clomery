@@ -35,7 +35,7 @@ class Blog_Tag
         }
         return (new Query($add, ['aid'=>$aid, 'tid'=>$tagid]))->exec() && (new Query($update, ['tid'=>$tagid]))->exec();
     }
-    public static function addTagsToArticle(int $aid, int $topic, array $tag)
+    public static function setTagsToArticle(int $aid, int $topic, array $tag)
     {
         foreach ($tag as $tagname) {
             self::addTagToArticle($aid, $topic, $tagname);
