@@ -1,10 +1,10 @@
 <?php
     /** 可单独使用 Core 核心库 **/
     if (version_compare(PHP_VERSION, '7.0.0', '<')) {
-            die('I Only Support PHP 7.0+ !');
+            die('I Only Support PHP 7.0+ !'."\r\n");
     }
     // 核心依赖
-    defined('CORE_VERSION') or define('CORE_VERSION', '1.x-dev');
+    defined('CORE_VERSION') or define('CORE_VERSION', '1.x.1-dev');
     defined('CORE_PATH') or define('CORE_PATH', __DIR__);
     defined('DOC_ROOT') or define('DOC_ROOT', __DIR__.'/..');
     defined('APP_LIB') or define('APP_LIB', DOC_ROOT.'/lib');

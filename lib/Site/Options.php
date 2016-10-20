@@ -27,8 +27,8 @@ class Site_Options
         foreach ($options as $option) {
             self::$options[$option['name']] = $option['value'];
         }
-        self::$options['powered'] = 'ATD3-Site';
-        self::$options['poweredUrl'] = 'http://atd3.cn';
+        self::$options['powered'] = 'DxSite '.CORE_VERSION;
+        self::$options['poweredUrl'] = 'https://github.com/DXkite/DxSite';
         return true;
     }
 

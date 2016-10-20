@@ -14,7 +14,9 @@ class View
         import('Site.functions');
         \Site\page_common_set();
         Page::set('head_index_nav_select', 1);
-        $page_content=2;
+        // TODO : 添加博客管理后台 
+        // TODO : 添加文章管理
+        $page_content=10;
         $page= (int) ($offset/$page_content+1);
         $title= $page?'- 第'.$page .'页':'';
         Page::set('title', '文章'.$title);
