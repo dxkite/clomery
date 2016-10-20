@@ -9,7 +9,7 @@ class Database
         }
         return false;
     }
-    
+
     public static function export(string $export, array $saves_table=[])
     {
         $version=CORE_VERSION;
