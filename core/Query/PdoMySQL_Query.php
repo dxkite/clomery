@@ -127,10 +127,10 @@ class Query implements Query_Interface
         // TODO: To Log This
         // var_dump($return,$stmt,$stmt->errorInfo());
         Storage::mkdirs($path=APP_RES.'/logs');
-        if ((int)$stmt->errorCode()) {
-            Storage::put($path.'/query_'.date('Y-m-d').'_error', date('Y-m-d H:i:s ').$stmt->queryString.' '.$stmt->errorInfo()[2]."\r\n", FILE_APPEND);
-        } else {
+        if ($return) {
             Storage::put($path.'/query_'.date('Y-m-d').'_query', date('Y-m-d H:i:s ').$stmt->queryString.' '.$stmt->errorInfo()[2]."\r\n", FILE_APPEND);
+        } else {
+            Storage::put($path.'/query_'.date('Y-m-d').'_error', date('Y-m-d H:i:s ').$stmt->queryString.' '.$stmt->errorInfo()[2]."\r\n", FILE_APPEND);
         }
         $this->stmt=$stmt;
         return $return;
