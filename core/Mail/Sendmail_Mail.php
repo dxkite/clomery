@@ -110,5 +110,6 @@ class Mail
             require $file;
             $this->message=ob_get_clean();
         }
+        return $this->message;
     }
 }
