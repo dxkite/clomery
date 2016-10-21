@@ -62,11 +62,14 @@ class Mail
     {
         // 合并属性值
         $this->values=array_merge($this->values, $value_map);
-        $to=self::parseTo();
+        // 测试时变成了2个To
+        $to='';// self::parseTo();
         $message=self::renderBody();
         $header=self::parseHeader();
-        var_dump($to, $this->subject, $message, $header);
-        var_dump(mail($to, $this->subject, $message, $header));
+        set_error_handler(array($this, 'errorHander'));
+        $return=mail($to, $this->subject, $message, $header);
+        restore_error_handler();
+        return $return;
     }
 
     private function parseFrom()
@@ -100,7 +103,10 @@ class Mail
         }
         return rtrim($to, ',');
     }
-
+    public function errorHander(int $errno, string $errstr, string $errfile, int $errline, array $errcontext)
+    {
+        // TODO do something
+    }
     private function renderBody()
     {
         if ($this->use) {
