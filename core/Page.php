@@ -126,7 +126,11 @@ class Page
     {
         //$host="http://{$_SERVER['SERVER_NAME']}";
         // NOTICE 不记得为什么要加这个了，先去除
-        $host='';
+        if (IS_WINDOWS) {
+            $host='/index.php';
+        } else {
+            $host='';
+        }
         if (isset(self::$ids[$id])) {
             $url=self::$ids[$id];
             foreach ($args as $name =>$value) {

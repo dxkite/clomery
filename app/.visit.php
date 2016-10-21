@@ -18,8 +18,8 @@ Page::visit('/{pagename}', ['Develop', 'main'])
 
     Page::visit('/article/{page}?', ['article\View', 'list'])
 ->with('page', 'int')->id('article_list')->noCache();
-    Page::visit('/article/category/{category}/{name}?', ['article\View', 'listCategory'])
-->with('category', 'int')->with('name', 'string')->id('article_category_list')->override()->noCache();
+    Page::visit('/article/category/{name}', ['article\View', 'listCategory'])
+->with('name', 'string')->id('article_category_list')->noCache();
     Page::visit('/u/{userid}/{username}?', ['UserView', 'main'])
 ->with('userid', 'int')->with('username', 'string')->id('user_view')->override()->noCache();
 

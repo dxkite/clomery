@@ -1,7 +1,7 @@
 <?php
     /** 可单独使用 Core 核心库 **/
     if (version_compare(PHP_VERSION, '7.0.0', '<')) {
-            die('I Only Support PHP 7.0+ !'."\r\n");
+        die('I Only Support PHP 7.0+ !'."\r\n");
     }
     // 核心依赖
     defined('CORE_VERSION') or define('CORE_VERSION', '1.x.2-dev');
@@ -14,7 +14,9 @@
     // 配置文件名
     defined('APP_CONF') or define('APP_CONF', '.conf');
     defined('WEB_MIME') or define('WEB_MIME', '.mime');
-    defined('APP_RECYCLE_BIN') or define('APP_RECYCLE_BIN',APP_RES.'/recycle_bin');
+    defined('APP_RECYCLE_BIN') or define('APP_RECYCLE_BIN', APP_RES.'/recycle_bin');
+    // 不支持Rewrite模块的windows平台 > Apache 的bug https://bz.apache.org/bugzilla/show_bug.cgi?id=41441
+    defined('IS_WINDOWS') or define('IS_WINDOWS',DIRECTORY_SEPARATOR === '\\');
     // 载入内置函数 PS:就是个自动加载，和配置加载
     require_once CORE_PATH.'/Core.php';
          // 设置PHP属性

@@ -47,4 +47,9 @@ class Blog_Category
         $q='SELECT * FROM `atd_category` WHERE `cid`=:cid';
         return (new Query($q, ['cid'=>$cid]))->fetch;
     }
+    // 重新统计分类信息
+    public function refreshCategory(){
+        $q='UPDATE `atd_category` SET  `counts`= (SELECT count(*) FROM atd_articles WHERE `category` =`atd_category`.`cid` ) WHERE 1;';
+        return (new Query($q))->exec();
+    }
 }

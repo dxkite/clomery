@@ -6,6 +6,7 @@ use Markdown\Parser as Markdown_Parser;
 use Page;
 use Core\Value as CoreValue;
 use Blog_Tag;
+use Blog_Category;
 
 class View
 {
@@ -32,7 +33,7 @@ class View
         Page::set('article_list', $article_list_obj);
 
         Page::set('article_numbers', $page_number=Blog_Article::numbers());
-
+        
         if ($page_content<$page_number) {
             for ($i=0, $j=1;$i<$page_number;$j++, $i+=$page_content) {
                 $pages[$j]['offset']=$i;
@@ -50,6 +51,7 @@ class View
     public static function listCategory($category)
     {
         import('Site.functions');
+        
         \Site\page_common_set();
         $offset=isset($_GET['page'])?$_GET['page']:0;
         Page::set('head_index_nav_select', 1);
@@ -61,7 +63,9 @@ class View
         Page::set('title', '文章'.$title);
         Page::use('article/index');
         
-        $article_list=Blog_Article::getArticlesListbyCategory(0,(int)$category, $page_content, (int)$offset);
+        $article_list=Blog_Article::getArticlesListbyCategory(0,Blog_Category::getCategoryId($category), $page_content, (int)$offset);
+        
+        // var_dump($article_list,Blog_Category::getCategoryId($category));
         $article_list_obj=[];
 
         foreach ($article_list as $article){

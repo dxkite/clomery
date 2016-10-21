@@ -60,14 +60,15 @@ class Blog_Article
 
     public static function getArticlesList(int $topic=0, int $count=10, int $offset=0)
     {
-        $q='SELECT `aid`,`title`,`author` as `uid`,`atd_users`.`uname` as `author` ,`remark`,`views`,`modified`,`replys`,`atd_category`.`cid`,`atd_category`.`name` as `category`,`atd_category`.`icon`  FROM `atd_articles` LEFT JOIN  `atd_category` ON `atd_category`.`cid`=`category` LEFT JOIN `atd_users` ON `atd_users`.`uid`=`atd_articles`.`author` WHERE `topic`=:topic ORDER BY `atd_articles`.`modified` DESC LIMIT  :offset,:count;';
+        $q='SELECT `aid`,`title`,`author` as `uid`,`atd_users`.`uname` as `author` ,`remark`,`views`,`modified`,`replys`,`atd_category`.`cid`,`atd_category`.`name` as `category`,`atd_category`.`icon`  FROM `atd_articles` LEFT JOIN  `atd_category` ON `atd_category`.`cid`=`category` LEFT JOIN `atd_users` ON `atd_users`.`uid`=`atd_articles`.`author` WHERE `atd_articles`.`topic`=:topic ORDER BY `atd_articles`.`modified` DESC LIMIT  :offset,:count;';
         $db=($qs=new Query($q, ['topic'=>$topic, 'count'=>$count, 'offset'=>$offset]))->fetchAll();
         return $db;
     }
     public static function getArticlesListByCategory(int $topic=0,int $categoryid, int $count=10, int $offset=0)
     {
-        $q='SELECT `aid`,`title`,`author` as `uid`,`atd_users`.`uname` as `author` ,`remark`,`views`,`modified`,`replys`,`atd_category`.`cid`,`atd_category`.`name` as `category`,`atd_category`.`icon`  FROM `atd_articles` LEFT JOIN  `atd_category` ON `atd_category`.`cid`=`category` LEFT JOIN `atd_users` ON `atd_users`.`uid`=`atd_articles`.`author` WHERE `topic`=:topic AND `category`=:category ORDER BY `atd_articles`.`modified` DESC LIMIT  :offset,:count;';
+        $q='SELECT `aid`,`title`,`author` as `uid`,`atd_users`.`uname` as `author` ,`remark`,`views`,`modified`,`replys`,`atd_category`.`cid`,`atd_category`.`name` as `category`,`atd_category`.`icon`  FROM `atd_articles` LEFT JOIN  `atd_category` ON `atd_category`.`cid`=`category` LEFT JOIN `atd_users` ON `atd_users`.`uid`=`atd_articles`.`author` WHERE `atd_articles`.`topic`=:topic AND `category`=:category ORDER BY `atd_articles`.`modified` DESC LIMIT  :offset,:count;';
         $db=($qs=new Query($q, ['topic'=>$topic,'category'=>$categoryid, 'count'=>$count, 'offset'=>$offset]))->fetchAll();
+        // var_dump($qs->error());
         return $db;
     }
     
