@@ -3,19 +3,21 @@
 class Mail
 {
     // 发送至
-    public $to=[];
+    private $to=[];
     // 来至
-    public $from=[];
+    private $from=[];
     // 邮件类型
-    public $type='html';
+    private $type='html';
     // 使用的邮件模板
-    public $use='';
+    private $use='';
     // 直接发txt
-    public $msg='';
+    private $msg='';
     // 模板值
-    public $values=[];
+    private $values=[];
 
-    public $subject='';
+    private $subject='';
+    private $errno=0;
+    private $errstr='';
 
     // Mail To
     public function to(string $email, string $name='')
@@ -103,10 +105,20 @@ class Mail
         }
         return rtrim($to, ',');
     }
-    public function errorHander(int $errno, string $errstr, string $errfile, int $errline, array $errcontext)
+    public function errno()
     {
-        // TODO do something
+        return $this->errno;
     }
+    public function error()
+    {
+        return $this->errstr;
+    }
+    private function errorHander(int $errno, string $errstr, string $errfile, int $errline, array $errcontext)
+    {
+        $this->errno=$errno;
+        $this->errstr=$errstr;
+    }
+
     private function renderBody()
     {
         if ($this->use) {

@@ -22,6 +22,8 @@
 - [ ] Socket 辅助
 - [x] Database 辅助
 - [ ] Mail 邮件引擎
+    - [x] sendmail 辅助引擎
+    - [ ] STMP 邮件辅助引擎
 - [ ] Debug工具
 - [ ] Cmd命令工具
 - [ ] 扩展库
