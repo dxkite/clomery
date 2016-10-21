@@ -6,7 +6,7 @@ class Blog_Category
     public function setCategory(int $aid, int $category)
     {
         $q='UPDATE `atd_articles` SET `category` = :category WHERE `atd_articles`.`aid` = :aid ;';
-        $u='UPDATE `atd_category` SET `counts` = `counts` + 1  WHERE `atd_category`.`cid` = :cid;';
+        $u='UPDATE `atd_category` SET `count` = `count` + 1  WHERE `atd_category`.`cid` = :cid;';
         return (new Query($q, ['aid'=>$aid, 'category'=>$category]))->exec() && (new Query($u, ['cid'=>$category]))->exec();
     }
 
@@ -49,7 +49,7 @@ class Blog_Category
     }
     // 重新统计分类信息
     public function refreshCategory(){
-        $q='UPDATE `atd_category` SET  `counts`= (SELECT count(*) FROM atd_articles WHERE `category` =`atd_category`.`cid` ) WHERE 1;';
+        $q='UPDATE `atd_category` SET  `count`= (SELECT count(*) FROM atd_articles WHERE `category` =`atd_category`.`cid` ) WHERE 1;';
         return (new Query($q))->exec();
     }
 }

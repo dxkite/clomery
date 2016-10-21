@@ -18,5 +18,12 @@ class Main
             $cobj[]=new Core\Value($category);
         }
         Page::set('article_categorys',$cobj);
+
+        $tags=Blog_Tag::getTagsInfo();
+        $tobj=[];
+        foreach ($tags as $tag){
+            $tobj[]=new Core\Value($tag);
+        }
+        Page::set('article_tags',$tobj);
     }
 }

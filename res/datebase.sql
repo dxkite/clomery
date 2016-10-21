@@ -1,6 +1,6 @@
 -- ----------------------------------------------------------
--- PHP Simple Library XCore 1.x.1-dev Database Backup File
--- Create On 2016-10-20 22:19:26
+-- PHP Simple Library XCore 1.x.2-dev Database Backup File
+-- Create On 2016-10-21 16:03:27
 -- Host: localhost   Database: hello_world
 -- Server version	10.1.10-MariaDB
 -- ------------------------------------------------------
@@ -51,22 +51,7 @@ CREATE TABLE `atd_articles` (
   KEY `modified` (`modified`),
   KEY `modified_2` (`modified`),
   KEY `category` (`category`)
-) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8;
-
-
---
--- Create Table atd_bugs
---
-
-DROP TABLE IF EXISTS `atd_bugs`;
-CREATE TABLE `atd_bugs` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user` varchar(80) NOT NULL,
-  `discription` varchar(255) NOT NULL,
-  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `status` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=utf8;
 
 
 --
@@ -77,21 +62,21 @@ DROP TABLE IF EXISTS `atd_category`;
 CREATE TABLE `atd_category` (
   `cid` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '分类',
   `icon` bigint(20) NOT NULL COMMENT '分类图标',
+  `topic` bigint(20) NOT NULL,
   `name` varchar(80) NOT NULL DEFAULT '无分类',
-  `alias` varchar(12) NOT NULL,
   `discription` tinytext NOT NULL,
-  `counts` int(11) NOT NULL DEFAULT '0',
+  `count` int(11) NOT NULL DEFAULT '0',
   `parent` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`cid`),
   KEY `cname` (`name`),
   KEY `parent` (`parent`),
-  KEY `alias` (`alias`)
+  KEY `topic` (`topic`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 
 
 
-INSERT INTO `atd_category` VALUES ('1','0','网站日志','wzrz','网站的相关话题','3','0'),('2','1','网站教程','wzjc','网站内的一些教程','0','0'),('3','0','作者通知','zztz','作者通知','8','0');
+INSERT INTO `atd_category` VALUES ('1','0','0','网站日志','网站的相关话题','3','0'),('2','1','0','网站教程','网站内的一些教程','0','0'),('3','0','0','作者通知','作者通知','1','0');
 
 
 --
@@ -170,12 +155,12 @@ CREATE TABLE `atd_site_options` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `name_2` (`name`),
   KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8 COMMENT='网站设置表';
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8 COMMENT='网站设置表';
 
 
 
 
-INSERT INTO `atd_site_options` VALUES ('1','site_name','芒刺中国 -- 导入'),('2','theme','default'),('19','site_logo','/static/img/mccn.svg'),('20','keywords','芒刺,程序员,文摘'),('21','lang','zh_cn'),('22','HV_SignUp','0'),('23','HV_SignIn','0'),('24','HV_Post','0'),('25','HV_Comment','0'),('26','allowSignUp','1'),('27','copyright','芒刺中国'),('28','site_close','0'),('29','close_info','芒刺中国系统开发中'),('30','default_avatar','39');
+INSERT INTO `atd_site_options` VALUES ('1','site_name','芒刺中国 -- 导入'),('2','theme','default'),('19','site_logo','/static/img/mccn.svg'),('20','keywords','芒刺,程序员,文摘'),('21','lang','zh_cn'),('22','HV_SignUp','0'),('23','HV_SignIn','0'),('24','HV_Post','0'),('25','HV_Comment','0'),('26','allowSignUp','1'),('27','copyright','芒刺中国'),('28','site_close','0'),('29','close_info','芒刺中国系统开发中'),('30','default_avatar','39'),('31','beian','湘ICP备16001199号-1');
 
 
 --
@@ -191,7 +176,7 @@ CREATE TABLE `atd_tags` (
   PRIMARY KEY (`tid`),
   UNIQUE KEY `name` (`name`),
   KEY `topic` (`topic`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 
 
 --
@@ -207,7 +192,7 @@ CREATE TABLE `atd_upload_resource` (
   PRIMARY KEY (`rid`),
   UNIQUE KEY `hash` (`hash`),
   KEY `type` (`type`)
-) ENGINE=InnoDB AUTO_INCREMENT=1670 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1676 DEFAULT CHARSET=utf8;
 
 
 --
@@ -228,7 +213,7 @@ CREATE TABLE `atd_uploads` (
   KEY `public` (`public`),
   KEY `resource` (`resource`),
   KEY `extension` (`extension`)
-) ENGINE=InnoDB AUTO_INCREMENT=111 DEFAULT CHARSET=utf8 COMMENT='上传资源表';
+) ENGINE=InnoDB AUTO_INCREMENT=112 DEFAULT CHARSET=utf8 COMMENT='上传资源表';
 
 
 --
