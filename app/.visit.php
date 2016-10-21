@@ -3,8 +3,7 @@
 if (is_spider()) {
     View::theme('spider');
 }
-    Page::default(function (){echo 'OK!';});
-    /*
+
 if (conf('Uninstall')) {
     // 找不到页面时
     Page::default(['Install','start']);
@@ -69,4 +68,3 @@ Page::visit('/QAQ', function () {
     Page::error404();
 })->use(404)->status(404)->id('404_page');
 }
-*/
