@@ -108,9 +108,9 @@ class View_Compiler_Pomelo
 
     private function compileCommand(string $str)
     {
-        $echo=sprintf('/%s\s*(.+?)\s*?%s/', self::$echoTag[0], self::$echoTag[1]);
-        $rawecho=sprintf('/%s\s*(.+?)\s*?%s/', self::$rawTag[0], self::$rawTag[1]);
-        $comment=sprintf('/%s(.+)%s/', self::$commentTag[0], self::$commentTag[1]);
+        $echo=sprintf('/(?<!!)%s\s*(.+?)\s*?%s/', preg_quote(self::$echoTag[0]), preg_quote(self::$echoTag[1]));
+        $rawecho=sprintf('/(?<!!)%s\s*(.+?)\s*?%s/', preg_quote(self::$rawTag[0]), preg_quote(self::$rawTag[1]));
+        $comment=sprintf('/(?<!!)%s(.+)%s/',preg_quote(self::$commentTag[0]) ,preg_quote(self::$commentTag[1]));
         return preg_replace(
             [$rawecho, $echo, $comment],
             ['<?php echo($1) ?>', '<?php View_Compiler_Pomelo::echo($1) ?>', '<?php /* $1 */ ?>'],
