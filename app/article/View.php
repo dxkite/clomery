@@ -48,23 +48,23 @@ class View
         }
     }
 
-    public static function listCategory($category)
+    public static function listCategory($category,$offset=0)
     {
         import('Site.functions');
         
         \Site\page_common_set();
-        $offset=isset($_GET['page'])?$_GET['page']:0;
+
         Page::set('head_index_nav_select', 1);
         // TODO : 添加博客管理后台 
         // TODO : 添加文章管理
-        $page_content=10;
+        $page_content=2;
         $page= (int) ($offset/$page_content+1);
         $title= $page?'- 第'.$page .'页':'';
-        Page::set('title', '文章'.$title);
-        Page::use('article/index');
+        Page::set('title', $category.$title);
+        Page::use('article/category');
         
         $article_list=Blog_Article::getArticlesListbyCategory(0,Blog_Category::getCategoryId($category), $page_content, (int)$offset);
-        
+         Page::set('category',$category);
         // var_dump($article_list,Blog_Category::getCategoryId($category));
         $article_list_obj=[];
 
@@ -75,7 +75,7 @@ class View
         Page::set('article_list', $article_list_obj);
 
         Page::set('article_numbers', $page_number=Blog_Article::numbers());
-
+        
         if ($page_content<$page_number) {
             for ($i=0, $j=1;$i<$page_number;$j++, $i+=$page_content) {
                 $pages[$j]['offset']=$i;

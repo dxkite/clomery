@@ -23,7 +23,8 @@ class PageUrl
         return Page::url('user_view', ['userid'=> $uid]);
     }
 
-    public static function category(/*int $cid,*/string $name){
-        return Page::url('article_category_list', [/*'category'=> $cid,*/'name'=>$name]);
+    public static function category(/*int $cid,*/string $name,int $page=0){
+        return Page::url('article_category_list', [/*'category'=> $cid,*/'name'=>$name,'page'=>$page]);
     }
+    
 }

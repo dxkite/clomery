@@ -18,22 +18,15 @@ Page::visit('/{pagename}', ['Develop', 'main'])
 
     Page::visit('/article/{page}?', ['article\View', 'list'])
 ->with('page', 'int')->id('article_list')->noCache();
-    Page::visit('/article/category/{name}', ['article\View', 'listCategory'])
-->with('name', 'string')->id('article_category_list')->noCache();
-    Page::visit('/u/{userid}/{username}?', ['UserView', 'main'])
+    Page::visit('/article/category:{name}/{page}?', ['article\View', 'listCategory'])
+->with('name', 'string')->with('page','int')->id('article_category_list')->noCache();
+    Page::visit('/user:{userid}/{username}?', ['UserView', 'main'])
 ->with('userid', 'int')->with('username', 'string')->id('user_view')->override()->noCache();
-
-    Page::visit('/article-{aid}/{name}?', ['article\View', 'article'])
-->with('aid', 'int')->with('name', 'string')->id('article_view')->override()->noCache();
 // 查看文章
-//Page::visit('/article/{id}?',['Main','article'])->with('id','int')->use('index')->id('main_article');
+    Page::visit('/article:{aid}/{name}?', ['article\View', 'article'])
+->with('aid', 'int')->with('name', 'string')->id('article_view')->override()->noCache();
 
-
-
-// 留言板
-//Page::visit('/notes',['Notes','main'])->id('notes_page');
-
-Page::visit('/!{path}', function ($path_raw) {
+Page::visit('/template:{path}', function ($path_raw) {
     $type=pathinfo($path_raw, PATHINFO_EXTENSION);
     $path_raw=rtrim($path_raw, '/');
     if (Storage::exist(APP_VIEW.'/'.$path_raw)) {
@@ -48,7 +41,6 @@ Page::visit('/!{path}', function ($path_raw) {
 ->with('id', 'int')
 ->with('name', 'string')
 ->id('upload_file')->override();
-
     Page::auto('/user', '/user')->id('user');
     // 管理界面导向
     Page::auto('/0.0', '/admin')->id('admin');
