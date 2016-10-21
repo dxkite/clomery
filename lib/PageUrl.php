@@ -24,9 +24,15 @@ class PageUrl
     }
 
     public static function categoryPage(string $name,int $page=0){
-        return Page::url('article_category_list', ['name'=>$name,'page'=>$page]);
+        if ($page){
+            return Page::url('article_category_list', ['name'=>$name,'page'=>$page]);
+        }
+        return Page::url('article_category_list', ['name'=>$name]);
     }
     public static function tagPage(string $name,int $page=0){
-        return Page::url('article_tag_list', ['name'=>$name,'page'=>$page]);
+        if ($page){
+            return Page::url('article_tag_list', ['name'=>$name,'page'=>$page]);
+        }
+        return Page::url('article_tag_list', ['name'=>$name]);
     }
 }
