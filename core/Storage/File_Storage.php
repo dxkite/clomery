@@ -177,7 +177,7 @@ class Storage implements Storage_Driver
     }
 
     // 判断文件存在
-    private function exist_case($name):bool
+    private static function exist_case($name):bool
     {
         if (file_exists($name) && is_file($name) && $real=realpath($name)) {
             if (basename($real) === basename($name)) {

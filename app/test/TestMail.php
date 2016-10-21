@@ -1,5 +1,7 @@
 <?php
-
+set_error_handler(function(int $errno, string $errstr){
+    echo $errno.':'.$errstr.'<br/>'."\r\n";
+});
 $return=($mail=new Mail())
 ->from('mail@atd3.cn','UserCenter')
 ->to('670337693@qq.com','DXkite')
