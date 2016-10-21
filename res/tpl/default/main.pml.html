@@ -7,6 +7,6 @@
     @endforeach
      <div>文章标签</div>
     @foreach ($_Page ->article_tags as $tag)
-       <a href="{{ PageUrl::categoryPage($tag->name) }}">{{$tag->name }}({{$tag->count(0) }})</a> 
+       <a href="{{ PageUrl::tagPage($tag->name) }}">{{$tag->name }}({{$tag->count(0) }})</a> 
     @endforeach
 </main>
