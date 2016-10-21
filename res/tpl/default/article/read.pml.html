@@ -4,12 +4,13 @@
 		<div class="article-head">
 			<div class="article-title">{{ $_Page->article->title }} </div>
 			<div class="article-tags">
-				@foreach ($_Page->article->tags as $tag) <a herf="#" alt="tag"> {{ $tag['name'] }} </a> @endforeach
+				@foreach ($_Page->article->tags as $tag) 
+				<a href="{{ PageUrl::tagPage($tag['name']) }}" alt="tag"> {{ $tag['name'] }} </a> @endforeach
 			</div>
 		</div>
 		<div class="article-info">
              <span> <a href="{{PageUrl::UserHome($_Page->article->uid(0))}}"> {{ $_Page->article->author('匿名') }} </a> 发表于 {{ date('Y-m-d H:i:s',$_Page->article->modified ) }}  </span>
-             <span> {{ $_Page->article->category('未分类') }}</span> 
+             <span>  <a href="{{ PageUrl::categoryPage($_Page->category)  }}"> {{ $_Page->article->category('未分类') }}</a></span> 
              <span> 阅读（{{ $_Page->article->views(0) }}）</span>
              <span> 回复（{{ $_Page->article->replys(0) }}）</span>
 		</div>

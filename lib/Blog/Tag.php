@@ -2,7 +2,7 @@
 
 class Blog_Tag
 {
-    public static function checkTag(string $tagname)
+    public static function getTagId(string $tagname)
     {
         $check='SELECT `tid` FROM `#{tags}` WHERE `name`= :name LIMIT 1;';
         if ($fetch=(new Query($check, ['name'=>$tagname]))->fetch()) {

@@ -20,6 +20,8 @@ Page::visit('/{pagename}', ['Develop', 'main'])
 ->with('page', 'int')->id('article_list')->noCache();
     Page::visit('/article/category:{name}/{page}?', ['article\View', 'listCategory'])
 ->with('name', 'string')->with('page','int')->id('article_category_list')->noCache();
+    Page::visit('/article/tag:{name}/{page}?', ['article\View', 'listTag'])
+->with('name', 'string')->with('page','int')->id('article_tag_list')->noCache();
     Page::visit('/user:{userid}/{username}?', ['UserView', 'main'])
 ->with('userid', 'int')->with('username', 'string')->id('user_view')->override()->noCache();
 // 查看文章

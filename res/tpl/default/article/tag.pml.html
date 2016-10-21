@@ -34,7 +34,7 @@
 <nav>
 	@foreach ( $_Page->page_nav as $num=>$page) @if (isset($page['current']) && $page['current']==true)
 	<span>  {{$num }}</span> @else
-	<a href="{{ PageUrl::categoryPage($_Page->category,$page['offset']) }}">  {{$num }}</a> @endif @endforeach
+	<a href="{{ PageUrl::tagPage($_Page->tag,$page['offset']) }}">  {{$num }}</a> @endif @endforeach
 </nav>
 @else
 <a href="{{ PageUrl::articlePage() }}">NO Nav</a> @endif @include("footer")

@@ -64,14 +64,43 @@ class Blog_Article
         $db=($qs=new Query($q, ['topic'=>$topic, 'count'=>$count, 'offset'=>$offset]))->fetchAll();
         return $db;
     }
-    public static function getArticlesListByCategory(int $topic=0,int $categoryid, int $count=10, int $offset=0)
+
+    public static function getArticlesListByCategory(int $topic,int $categoryid, int $count=10, int $offset=0)
     {
         $q='SELECT `aid`,`title`,`author` as `uid`,`atd_users`.`uname` as `author` ,`remark`,`views`,`modified`,`replys`,`atd_category`.`cid`,`atd_category`.`name` as `category`,`atd_category`.`icon`  FROM `atd_articles` LEFT JOIN  `atd_category` ON `atd_category`.`cid`=`category` LEFT JOIN `atd_users` ON `atd_users`.`uid`=`atd_articles`.`author` WHERE `atd_articles`.`topic`=:topic AND `category`=:category ORDER BY `atd_articles`.`modified` DESC LIMIT  :offset,:count;';
         $db=($qs=new Query($q, ['topic'=>$topic,'category'=>$categoryid, 'count'=>$count, 'offset'=>$offset]))->fetchAll();
         // var_dump($qs->error());
         return $db;
     }
-    
+    public static function getArticlesListByTag(int $topic,int $tid, int $count=10, int $offset=0)
+    {
+        $q='SELECT
+  `atd_articles`.`aid`,
+  `title`,
+  `author` AS `uid`,
+  `atd_users`.`uname` AS `author`,
+  `remark`,
+  `views`,
+  `modified`,
+  `replys`,
+  `atd_category`.`cid`,
+  `atd_category`.`name` AS `category`,
+  `atd_category`.`icon`
+FROM
+  `atd_article_tag`
+JOIN
+  `atd_articles` ON `atd_articles`.`aid` = `atd_article_tag`.`aid` AND `atd_articles`.`topic` = :topic
+LEFT JOIN
+  `atd_category` ON `atd_category`.`cid` = `atd_articles`.`category`
+LEFT JOIN
+  `atd_users` ON `atd_users`.`uid` = `atd_articles`.`author`
+WHERE
+  `atd_article_tag`.`tid` = :tid ORDER BY `atd_articles`.`modified` DESC LIMIT  :offset,:count;';
+
+        $db=($qs=new Query($q, ['topic'=>$topic,'tid'=>$tid, 'count'=>$count, 'offset'=>$offset]))->fetchAll();
+        // var_dump($qs->error());
+        return $db;
+    }
     public static function getArticleInfo(int $aid)
     {
         $q='SELECT `aid`,`title`,`author` as `uid`,`atd_users`.`uname` as `author` ,`remark`,`views`,`modified`,`replys`,`atd_category`.`cid`,`atd_category`.`name` as `category`,`atd_category`.`icon` FROM `atd_articles` LEFT JOIN  `atd_category` ON `atd_category`.`cid`=`category` LEFT JOIN `atd_users` ON `atd_users`.`uid`=`atd_articles`.`author` WHERE `aid`=:aid LIMIT 1;';
