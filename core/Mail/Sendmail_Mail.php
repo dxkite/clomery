@@ -63,11 +63,11 @@ class Mail
         // 合并属性值
         $this->values=array_merge($this->values, $value_map);
         // 测试时变成了2个To
-        $to='';// self::parseTo();
+        // $to=self::parseTo();
         $message=self::renderBody();
         $header=self::parseHeader();
         set_error_handler(array($this, 'errorHander'));
-        $return=mail($to, $this->subject, $message, $header);
+        $return=mail('', $this->subject, $message, $header);
         restore_error_handler();
         return $return;
     }
