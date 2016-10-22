@@ -19,6 +19,7 @@ class Index
                 Common_User::setDefaulInfo($info['uid'],43,'hhahhahh');
                 $exinfo=Common_User::getInfo($info['uid']);
             }
+            
             $info=array_merge($info,$exinfo);
             Page::use('user/index');
             Page::set('user_info',new Value($info));

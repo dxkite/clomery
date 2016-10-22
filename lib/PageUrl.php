@@ -13,10 +13,10 @@ class PageUrl
     {
         return Page::url('article_view', ['aid'=>$aid, 'name'=>$name]);
     }
-    public static function Avatar(int $uid)
+    public static function avatar(int $uid)
     {
         $info=Common_User::getPublicInfo($uid);
-        return Page::url('upload_file', ['id'=> $info['avatar'], 'name'=> $info['name']]);
+        return Page::url('upload', ['id'=> $info['avatar'], 'name'=> $info['name']]);
     }
     public static function UserHome(int $uid)
     {

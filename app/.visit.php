@@ -22,10 +22,10 @@ Page::visit('/{pagename}', ['Develop', 'main'])
 ->with('name', 'string')->with('page','int')->id('article_category_list')->noCache();
     Page::visit('/article/tag:{name}/{page}?', ['article\View', 'listTag'])
 ->with('name', 'string')->with('page','int')->id('article_tag_list')->noCache();
-    Page::visit('/user:{userid}/{username}?', ['UserView', 'main'])
+    Page::visit('/user:{userid}/{username}?', 'user\View#main')
 ->with('userid', 'int')->with('username', 'string')->id('user_view')->override()->noCache();
 // 查看文章
-    Page::visit('/article:{aid}/{name}?', ['article\View', 'article'])
+    Page::visit('/article:{aid}/{name}?', 'article\View#article' )
 ->with('aid', 'int')->with('name', 'string')->id('article_view')->override()->noCache();
 
 Page::visit('/theme/{path}', function ($path_raw) {

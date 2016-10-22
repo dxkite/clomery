@@ -14,7 +14,7 @@ class Blog_Tag
     public static function insertTag(int $topic, string  $tag)
     {
         $insert='INSERT INTO `#{tags}` (`topic`, `name`, `count`) VALUES (:topic ,:tagname, 0);';
-        if ((new Query($insert, ['topic'=>$topic, 'tagname'=>$tag]))->exec()) {
+        if ((new Query($insert, ['topic'=>$topic, 'tagname'=>self::parseTag($tag)]))->exec()) {
             return Query::lastInsertId();
         }
         return 0;
@@ -80,5 +80,8 @@ class Blog_Tag
         // 更新统计
         $update='UPDATE `#{tags}` SET `count` = `count`- 1  WHERE `#{tags}`.`tid` = :tid LIMIT 1;';
         return (new Query($delete, ['aid'=>$aid, 'tid'=>$tid]))->exec() && (new Query($update, ['tid'=>$tid]))->exec();
+    }
+    public static function parseTag(string $tag){
+        return preg_replace('/\s+?/','-',$tag);
     }
 }

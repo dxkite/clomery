@@ -121,7 +121,9 @@ class Blog_MdManager
         $mkhtml=self::$parser->makeHTML($markdown);
         var_dump($this->urloutside);
     }
-    
+    protected function parseString(string $title){
+        return preg_replace('/\s+?/','-',$title);
+    }
     protected function uploadMarkdown(string $markdown, stdClass $config)
     {
         $uid=-1;
@@ -148,7 +150,7 @@ class Blog_MdManager
         if (isset($config->id) && Blog_Article::updateExistId(
                     $config->id,
                     $uid,
-                    $config->title,
+                    self::parseString($config->title),
                     $config->remark, $markdown,
                     isset($config->date)?$config->date:time(),
                     $config->keeptop,
@@ -160,7 +162,7 @@ class Blog_MdManager
         // 否则就作为新文章上传
         elseif (Blog_Article::updateExistHash(md5($this->archive->filename), $markdown, isset($config->date)?$config->date:time()) ==0) {
             $aid =Blog_Article::insertNew($uid,
-            $config->title,
+            self::parseString($config->title),
             $config->remark, $markdown,
             isset($config->date)?$config->date:time(),
             $config->keeptop,
