@@ -202,29 +202,29 @@ class Blog_MdManager
         // 获取压缩包内部文件
         if ($content=$this->archive->getFromName($path)) {
             $id=Upload::uploadString($content, basename($path), pathinfo($path, PATHINFO_EXTENSION), 1);
-            return  preg_replace('/\((.+?)\)$/', '('.str_replace('$', '\$', Page::url('upload', ['id'=>$id, 'name'=>basename($matchs[1])])).')', $matchs[0]);
+            return  preg_replace('/\((.+?)\)$/', '('.str_replace('$', '\$', Upload::url($id,basename($matchs[1]))).')', $matchs[0]);
         }
         // 允许从网络上下载URL需求
         elseif (in_array($matchs[1], $this->urlsave)) {
             $tmpname= microtime(true).'.tmp';
             Storage::download($matchs[1], $tmpname);
             $id=Upload::register(basename($matchs[1]), $tmpname, pathinfo($matchs[1], PATHINFO_EXTENSION), 1);
-            return  preg_replace('/\((.+?)\)$/', '('.str_replace('$', '\$', Page::url('upload_file', ['id'=>$id, 'name'=>basename($matchs[1])])).')', $matchs[0]);
+            return  preg_replace('/\((.+?)\)$/', '('.str_replace('$', '\$', Upload::url($id,basename($matchs[1]))).')', $matchs[0]);
         }
         return $matchs[0];
     }
-    /*
+
     protected function uploadUsedResource($matchs)
     {
         $path=self::parsePath($this->root.'/'.self::parsePath($matchs[1]));
         // 获取压缩包内部文件
         if ($content=$this->archive->getFromName($path)) {
             $id=Upload::uploadString($content, basename($path), pathinfo($path, PATHINFO_EXTENSION), 1);
-            return  preg_replace('/\((.+?)\)$/', '('.str_replace('$', '\$', Page::url('upload_file', ['id'=>$id, 'name'=>basename($matchs[1])])).')', $matchs[0]);
+            return  preg_replace('/\((.+?)\)$/', '('.str_replace('$', '\$', Upload::url($id,basename($matchs[1]))).')', $matchs[0]);
         }
         return $matchs[0];
     }
-    */
+    
     // 获取 配置
     protected function getZipConfigFile(string $name='')
     {
