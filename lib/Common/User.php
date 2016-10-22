@@ -70,7 +70,7 @@ class Common_User
             // 发送验证邮箱
                 $return=($mail=new Mail())
                 ->from('usercenter@atd3.cn', '用户中心')
-                ->to($uid, $user)
+                ->to( $email, $user)
                 ->subject('DxCore 邮箱验证')
                 ->use('mail')
                 ->send([

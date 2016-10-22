@@ -6,7 +6,7 @@ function sendtouser($uid)
         
         $return=($mail=new Mail())
                 ->from('usercenter@atd3.cn', '用户中心')
-                ->to($info['uid'],$info['uname'])
+                ->to($info['email'],$info['uname'])
                 ->subject('DxCore 邮箱验证')
                 ->use('mail')
                 ->send([
@@ -23,4 +23,4 @@ function sendtouser($uid)
     }
 }
 
-sendtouser(53);
+sendtouser(51);
