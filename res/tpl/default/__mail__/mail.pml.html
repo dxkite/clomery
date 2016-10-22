@@ -12,9 +12,14 @@
 			border-bottom: 2px solid #e7e7e7;
 		}
 		
+		#name {
+			max-width: 80%;
+			margin: auto;
+		}
+		
 		#button {
 			background-color: #4CAF50;
-			padding: 16px 32px;
+			padding: 1em 6em;
 			text-align: center;
 			text-decoration: none;
 			display: inline-block;
@@ -45,10 +50,18 @@
 		.right {
 			text-align: right;
 		}
-		.note{
-      padding-top:3em;
-      font-size: 12px;
-    }
+		
+		.note {
+			padding-top: 3em;
+			font-size: 12px;
+		}
+		
+		.bord {
+      padding:1em 3em;
+			max-width: 80%;
+			margin: auto;
+		}
+		
 		html {
 			font-family: sans-serif, "微软雅黑", Arial, Helvetica;
 		}
@@ -56,20 +69,23 @@
 </head>
 
 <body>
-	<div title="DxCore" id="sitename">{{ $_Mail->site_name('DxCore') }}</div>
-	<p>{{ $_Mail->user('DxCore用户') }},你好: </p>
-	<p>{{ $_Mail->message('欢迎注册DxCore账号！') }}</p>
-	<div class="center">
-		<a id="button" href="{{$_Mail->verify('//atd3.cn/user')}}">点我完成注册</a>
+	<div title="DxCore" id="sitename"><div id="name">{{ $_Mail->site_name('DxCore') }}</div></div>
+	<div class="bord">
+		<p>{{ $_Mail->user('DxCore用户') }},你好: </p>
+		<p>{{ $_Mail->message('欢迎注册DxCore账号！') }}</p>
+		<div class="center">
+			<a id="button" href="{{$_Mail->verify('//atd3.cn/user')}}">点我完成注册</a>
+		</div>
+		<div class="center note">
+			<p>如果你并未在<a href="{{$_Mail->hosturl('//atd3.cn') }}">{{$_Mail->hostname('atd3.cn') }}</a>注册账号，请忽略此邮件,或者去看看也行。</p>
+			<p>
+				<div>如果点击无跳转，请点击如下链接或复制到浏览器打开：</div>
+				<div><a href="{{ $_Mail->verify('//atd3.cn/user') }}">{{ $_Mail->verify('//atd3.cn/user') }}</a></div>
+			</p>
+		</div>
+		<div class="right">{{ 'DxCore-'.CORE_VERSION }}</div>
 	</div>
-	<div class="center note" >
-		<p>如果你并未在<a href="{{$_Mail->hosturl('//atd3.cn') }}">{{$_Mail->hostname('atd3.cn') }}</a>注册账号，请忽略此邮件,或者去看看也行。</p>
-		<p>
-			<div>如果点击无跳转，请点击如下链接或复制到浏览器打开：</div>
-			<div><a href="{{ $_Mail->verify('//atd3.cn/user') }}">{{ $_Mail->verify('//atd3.cn/user') }}</a></div>
-		</p>
-	</div>
-	<div class="right">{{ 'DxCore-'.CORE_VERSION }}</div>
+
 </body>
 
 </html>
