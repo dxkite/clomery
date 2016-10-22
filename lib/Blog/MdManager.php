@@ -141,7 +141,7 @@ class Blog_MdManager
         // 获取文章内容
         $markdown=$this->archive->getFromName(self::parsePath($this->root.'/'.$markdown));
         // 上传链接中使用过的文件
-        // $markdown=preg_replace_callback('/\[.+?\]\((.+?)\)/', [$this, 'uploadUsedResource'], $markdown);
+        $markdown=preg_replace_callback('/\[.+?\]\((.+?)\)/', [$this, 'uploadUsedResource'], $markdown);
         // 上传图片文件
         $markdown=preg_replace_callback('/\!\[.+?\]\((.+?)\)/', [$this, 'uploadImgResource'], $markdown);
         // 设置AID
