@@ -4,6 +4,9 @@
 class Common_Auth
 {
     public $uid=0;
+    public function __construct(int $uid=0){
+        self::setUid($uid);
+    }
     public function setUid(int $uid)
     {
         $this->uid=$uid;
