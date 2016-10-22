@@ -2,7 +2,8 @@
 
 function sendtouser($uid)
 {
-    if ($info=Common_User::getInfo($uid)) {
+    if ($info=Common_User::getBaseInfo($uid)) {
+        
         $return=($mail=new Mail())
                 ->from('usercenter@atd3.cn', '用户中心')
                 ->to($info['uid'],$info['uname'])
@@ -13,7 +14,7 @@ function sendtouser($uid)
                     'site_name'=>'DxCore',
                     'message'=>'欢迎注册DxCore账号！',
                     'user'=>$info['uname'],
-                    'verify'=>Common_User::createVerify($uid),
+                    'verify'=>PageUrl::verifyMailUrl($uid,Common_User::createVerify($uid)),
                     'hosturl'=>'//atd3.cn',
                     'hostname'=>'atd3.cn',
                 ]);
@@ -21,4 +22,5 @@ function sendtouser($uid)
         var_dump($mail->errno(), $mail->error());
     }
 }
-sendtouser(51);
+
+sendtouser(53);

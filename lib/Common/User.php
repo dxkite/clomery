@@ -67,6 +67,21 @@ class Common_User
             //信息缓存
             Cache::set('user:'.$uid, $user);
             Cache::set('uid:'.$user, $uid);
+            // 发送验证邮箱
+                $return=($mail=new Mail())
+                ->from('usercenter@atd3.cn', '用户中心')
+                ->to($uid, $user)
+                ->subject('DxCore 邮箱验证')
+                ->use('mail')
+                ->send([
+                    'title'=>'来至 DxCore 的验证邮箱',
+                    'site_name'=>'DxCore',
+                    'message'=>'欢迎注册DxCore账号！',
+                    'user'=>$user,
+                    'verify'=>PageUrl::verifyMailUrl($uid, Common_User::createVerify($uid)),
+                    'hosturl'=>'//atd3.cn',
+                    'hostname'=>'atd3.cn',
+                ]);
             return $uid;
         }
         return 0;
@@ -188,6 +203,11 @@ class Common_User
     public static function getInfo(int $uid)
     {
         $q='SELECT * FROM `#{user_info}` WHERE `uid` = :uid LIMIT 1;';
+        return (new Query($q, ['uid'=>$uid]))->fetch();
+    }
+    public static function getBaseInfo(int $uid)
+    {
+        $q='SELECT * FROM `#{users}` WHERE `uid` = :uid LIMIT 1;';
         return (new Query($q, ['uid'=>$uid]))->fetch();
     }
     public static function setDefaulInfo(int $uid, int $avatar, string $discription):bool

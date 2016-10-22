@@ -17,6 +17,9 @@ class PageUrl
     {
         $info=Common_User::getPublicInfo($uid);
         return Page::url('upload', ['id'=> $info['avatar'], 'name'=> $info['name']]);
+    } 
+    public static function verifyMailUrl(int $uid,string $token){
+        return Page::url('mail_verify',['uid'=>$uid,'token'=>$token]);
     }
     public static function UserHome(int $uid)
     {

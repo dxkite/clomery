@@ -6,7 +6,7 @@ if (is_spider()) {
 
 if (conf('Uninstall')) {
     // 找不到页面时
-    Page::default(['Install','start']);
+    Page::default(['Install', 'start']);
 } else {
 
 // 主页
@@ -19,27 +19,32 @@ Page::visit('/{pagename}', 'Develop#main')
     Page::visit('/article/{page}?', 'article\View#list')
 ->with('page', 'int')->id('article_list')->noCache();
     Page::visit('/article/category:{name}/{page}?', 'article\View#listCategory')
-->with('name', 'string')->with('page','int')->id('article_category_list')->noCache();
+->with('name', 'string')->with('page', 'int')->id('article_category_list')->noCache();
     Page::visit('/article/tag:{name}/{page}?', 'article\View#listTag')
-->with('name', 'string')->with('page','int')->id('article_tag_list')->noCache();
+->with('name', 'string')->with('page', 'int')->id('article_tag_list')->noCache();
     Page::visit('/user:{userid}/{username}?', 'user\View#main')
 ->with('userid', 'int')->with('username', 'string')->id('user_view')->override()->noCache();
 // 查看文章
     Page::visit('/article:{aid}/{name}?', 'article\View#article')
 ->with('aid', 'int')->with('name', 'string')->id('article_view')->override()->noCache();
-    Page::visit('/mail-verify:{uid}.{token}','@user/email_verify')
-    ->with('uid','int')
-    ->with('token','string')->id('mail_verify')->noCache();
-Page::visit('/theme/{path}', function ($path_raw) {
-    $type=pathinfo($path_raw, PATHINFO_EXTENSION);
-    $path_raw=rtrim($path_raw, '/');
-    if (Storage::exist(APP_VIEW.'/'.$path_raw)) {
-        Page::getController()->raw()->type($type);
-        echo Storage::get(APP_VIEW.'/'.$path_raw);
-    } else {
-        Page::error404($path_raw);
-    }
-})->with('path', '/^(.+)$/')->id('theme')->override()->age(10000)->close();
+
+
+
+    Page::visit('/mail-verify:{uid}.{token}', 'verify@user/email_verify')
+    ->with('uid', 'int')
+    ->with('token', 'string')->id('mail_verify')->noCache();
+
+
+    Page::visit('/theme/{path}', function ($path_raw) {
+        $type=pathinfo($path_raw, PATHINFO_EXTENSION);
+        $path_raw=rtrim($path_raw, '/');
+        if (Storage::exist(APP_VIEW.'/'.$path_raw)) {
+            Page::getController()->raw()->type($type);
+            echo Storage::get(APP_VIEW.'/'.$path_raw);
+        } else {
+            Page::error404($path_raw);
+        }
+    })->with('path', '/^(.+)$/')->id('theme')->override()->age(10000)->close();
 
     Page::visit('/upload:{id}/{name}?', ['Resource', 'main'])
 ->with('id', 'int')

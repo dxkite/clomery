@@ -78,6 +78,7 @@ class Mail implements Mail_Interface
         set_error_handler(array($this, 'errorHander'));
         $return=mail('', $this->subject, $message, $header);
         restore_error_handler();
+        // var_dump($message);
         return $return;
     }
 
