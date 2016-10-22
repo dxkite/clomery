@@ -9,7 +9,6 @@ use Session;
 
 class ajax
 {
-
     const REG_EMAIL='/^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/';
     // 密码随意
     // const REG_PASSWD='/^([0-9a-zA-Z\_`!~@#$%^*+=,.?;\'":)(}{/\\\|<>&\[\-]|\])+$/';
@@ -40,11 +39,11 @@ class ajax
                 }break;
                 case 'signup':
                 if (isset($json['user']) && isset($json['passwd']) && isset($json['email']) && isset($json['code'])) {
-                    return self::signup($json['user'], $json['passwd'], $json['email'],$json['code']);
+                    return self::signup($json['user'], $json['passwd'], $json['email'], $json['code']);
                 }break;
                 case 'signin':
                 if (isset($json['user']) && isset($json['passwd']) && isset($json['keep'])) {
-                    return self::signin($json['user'], $json['passwd'],$json['keep']);
+                    return self::signin($json['user'], $json['passwd'], $json['keep']);
                 }break;
             }
         }
@@ -52,7 +51,7 @@ class ajax
     }
 
     public function signup(string $user, string $passwd, string  $email, string $code)
-    {   
+    {
         // var_dump(Session::get('verify_code'),$code);
         if (strtoupper(Session::get('verify_code'))!==strtoupper($code)) {
             $message='invaild verify code';
@@ -62,19 +61,19 @@ class ajax
             $message='invaild email';
         } else {
             if ($id=Common_User::signup($user, $passwd, $email)) {
-                return ['return'=>true,'message'=>'signup success','uid'=>$id];
+                return ['return'=>true,'message'=>'signup success','uid'=>$id,'sendmail'=>Common_User::sendMail($id)];
             }
             $message='signup error('.$id.')';
         }
         return ['return'=>false,'message'=>$message];
     }
 
-    public function signin(string $name, string $passwd,string $keep)
+    public function signin(string $name, string $passwd, string $keep)
     {
         if (!preg_match(self::REG_UNAME, $name)) {
             $message='invaild username';
         } else {
-            if (($rt=Common_User::signin($name, $passwd,$keep))===0) {
+            if (($rt=Common_User::signin($name, $passwd, $keep))===0) {
                 return ['return'=>true];
             }
             return ['return'=>false,'erron'=>$rt];
