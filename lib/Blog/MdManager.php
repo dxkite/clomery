@@ -56,7 +56,7 @@ class Blog_MdManager
     {
         return ['error'=>$this->error];
     }
-    public function MdChange(string $preg,string $replace,bool $console=false)
+    public function MdChange(string $preg, string $replace, bool $console=false)
     {
         // 控制台日志
         $log=function ($values) use ($console) {
@@ -73,11 +73,11 @@ class Blog_MdManager
             $log('read article:'.$get['aid']);
             $markdown=preg_replace_callback('/\!\[(.+?)\]\((.+?)\)/', function ($matchs) use ($log, $preg, $replace) {
                 $result=preg_replace($preg, $replace, $matchs[2]);
-                $log($preg, $replace,$matchs[2],$result);
+                $log($preg, $replace, $matchs[2], $result);
                 $log($matchs[0].' --> !['.$matchs[1].']('.$result.')');
                 return '!['.$matchs[1].']('.$result.')';
             }, $get['contents']);
-            $count=(new Query('UPDATE `atd_articles` SET `contents`=:contents  WHERE `aid`=:aid',['aid'=>$get['aid'],'contents'=>$markdown]))->exec();
+            $count=(new Query('UPDATE `atd_articles` SET `contents`=:contents  WHERE `aid`=:aid', ['aid'=>$get['aid'], 'contents'=>$markdown]))->exec();
             $log('change article:'.$count);
         }
     }
@@ -121,8 +121,9 @@ class Blog_MdManager
         $mkhtml=self::$parser->makeHTML($markdown);
         var_dump($this->urloutside);
     }
-    protected function parseString(string $title){
-        return preg_replace('/\s+?/','-',$title);
+    protected function parseString(string $title)
+    {
+        return preg_replace('/\s+?/', '-', $title);
     }
     protected function uploadMarkdown(string $markdown, stdClass $config)
     {
@@ -140,10 +141,10 @@ class Blog_MdManager
         
         // 获取文章内容
         $markdown=$this->archive->getFromName(self::parsePath($this->root.'/'.$markdown));
-        // 上传链接中使用过的文件
+        // 上传链接中使用过的文件 (已经包含了图片文件)
         $markdown=preg_replace_callback('/\[.+?\]\((.+?)\)/', [$this, 'uploadUsedResource'], $markdown);
         // 上传图片文件
-        $markdown=preg_replace_callback('/\!\[.+?\]\((.+?)\)/', [$this, 'uploadImgResource'], $markdown);
+        // $markdown=preg_replace_callback('/\!\[.+?\]\((.+?)\)/', [$this, 'uploadImgResource'], $markdown);
         // 设置AID
         $aid=isset($config->id)?$config->id:0;
         // 如果文章ID存在，更新文章内容
@@ -196,23 +197,23 @@ class Blog_MdManager
         return $matchs[0];
     }
 
-    protected function uploadImgResource($matchs)
-    {
-        $path=self::parsePath($this->root.'/'.self::parsePath($matchs[1]));
-        // 获取压缩包内部文件
-        if ($content=$this->archive->getFromName($path)) {
-            $id=Upload::uploadString($content, basename($path), pathinfo($path, PATHINFO_EXTENSION), 1);
-            return  preg_replace('/\((.+?)\)$/', '('.str_replace('$', '\$', Upload::url($id,basename($matchs[1]))).')', $matchs[0]);
-        }
-        // 允许从网络上下载URL需求
-        elseif (in_array($matchs[1], $this->urlsave)) {
-            $tmpname= microtime(true).'.tmp';
-            Storage::download($matchs[1], $tmpname);
-            $id=Upload::register(basename($matchs[1]), $tmpname, pathinfo($matchs[1], PATHINFO_EXTENSION), 1);
-            return  preg_replace('/\((.+?)\)$/', '('.str_replace('$', '\$', Upload::url($id,basename($matchs[1]))).')', $matchs[0]);
-        }
-        return $matchs[0];
-    }
+    // protected function uploadImgResource($matchs)
+    // {
+    //     $path=self::parsePath($this->root.'/'.self::parsePath($matchs[1]));
+    //     // 获取压缩包内部文件
+    //     if ($content=$this->archive->getFromName($path)) {
+    //         $id=Upload::uploadString($content, basename($path), pathinfo($path, PATHINFO_EXTENSION), 1);
+    //         return  preg_replace('/\((.+?)\)$/', '('.str_replace('$', '\$', Upload::url($id, basename($matchs[1]))).')', $matchs[0]);
+    //     }
+    //     // 允许从网络上下载URL需求
+    //     elseif (in_array($matchs[1], $this->urlsave)) {
+    //         $tmpname= microtime(true).'.tmp';
+    //         Storage::download($matchs[1], $tmpname);
+    //         $id=Upload::register(basename($matchs[1]), $tmpname, pathinfo($matchs[1], PATHINFO_EXTENSION), 1);
+    //         return  preg_replace('/\((.+?)\)$/', '('.str_replace('$', '\$', Upload::url($id, basename($matchs[1]))).')', $matchs[0]);
+    //     }
+    //     return $matchs[0];
+    // }
 
     protected function uploadUsedResource($matchs)
     {
@@ -220,7 +221,14 @@ class Blog_MdManager
         // 获取压缩包内部文件
         if ($content=$this->archive->getFromName($path)) {
             $id=Upload::uploadString($content, basename($path), pathinfo($path, PATHINFO_EXTENSION), 1);
-            return  preg_replace('/\((.+?)\)$/', '('.str_replace('$', '\$', Upload::url($id,basename($matchs[1]))).')', $matchs[0]);
+            return  preg_replace('/\((.+?)\)$/', '('.str_replace('$', '\$', Upload::url($id, basename($matchs[1]))).')', $matchs[0]);
+        }
+        // 允许从网络上下载URL需求
+        elseif (in_array($matchs[1], $this->urlsave)) {
+            $tmpname= microtime(true).'.tmp';
+            Storage::download($matchs[1], $tmpname);
+            $id=Upload::register(basename($matchs[1]), $tmpname, pathinfo($matchs[1], PATHINFO_EXTENSION), 1);
+            return  preg_replace('/\((.+?)\)$/', '('.str_replace('$', '\$', Upload::url($id, basename($matchs[1]))).')', $matchs[0]);
         }
         return $matchs[0];
     }
