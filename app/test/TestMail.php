@@ -21,4 +21,4 @@ function sendtouser($uid)
         var_dump($mail->errno(), $mail->error());
     }
 }
-sendtouser(87);
+sendtouser(51);
