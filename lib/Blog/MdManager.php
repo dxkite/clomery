@@ -56,6 +56,10 @@ class Blog_MdManager
     {
         return ['error'=>$this->error];
     }
+    public function MdUploadTranslate()
+    {
+        echo 'I be call';
+    }
     public function uploadZipMarkdown(string $filename, string $name='')
     {
         $zip=new ZipArchive;

@@ -11,6 +11,9 @@ class Caller
 
     public function __construct($caller, array $params=[])
     {
+        if (is_string($caller)){
+            $caller= self::parseCaller($caller);
+        }
         $this->caller=$caller;
         $this->params=$params;
     }
@@ -37,5 +40,16 @@ class Caller
     public function args($vargs)
     {
         return self::call(func_get_args());
+    }
+    public static function parseCaller(string $caller)
+    {
+        preg_match('/^(\w+)(?:#(\w+))?/', $caller, $matchs);
+        if (isset($matchs[2])) {
+            return [$matchs[1],$matchs[2]];
+            $this->params=$args;
+        } elseif (isset($matchs[1])) {
+           return $matchs[1];
+        }
+        return null;
     }
 }
