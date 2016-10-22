@@ -159,4 +159,10 @@ class Upload
     {
         self::$uid = $uid;
     }
+    public static function url(int $id,string $name=''){
+        if ($name){
+            return Page::url('upload',['id'=>$id,'name'=>$name]);
+        }
+        return Page::url('upload',['id'=>$id]);
+    }
 }

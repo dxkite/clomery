@@ -152,6 +152,12 @@ class View_Compiler_Pomelo
         preg_match('/\((.+)\)/', $exp, $v);
         return "<?php echo Page::url('theme',['path'=>{$v[1]}]) ?>";
     }
+    
+    protected function parseUpload($exp)
+    {
+        return "<?php echo Upload::url{$exp} ?>";
+    }
+
     protected function parseAuto($exp)
     {
         preg_match('/\((.+?),(.+?)\)/', $exp, $v);

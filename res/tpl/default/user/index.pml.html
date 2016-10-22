@@ -9,7 +9,7 @@
 		<input name="upload" type="file" />
 		<input type="submit" value="上传头像" />
 	</form>
-	<img style="width:8em;height:8em" src="@url('upload_file',['id'=>$_Page->user_info->avatar($_Op->default_avatar),'name'=>$_Page->user_info->name])"
+	<img style="width:8em;height:8em" src="@upload($_Page->user_info->avatar($_Op->default_avatar),$_Page->user_info->name)"
 		alt="avatar">
 	<h1>用户 {{ $_Page->user_info->name }} 你好。</h1>
 	<a href="@auto('user','SignOut')">{{ $_L->signout('退出登陆') }}</a>
