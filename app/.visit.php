@@ -27,9 +27,10 @@ Page::visit('/{pagename}', 'Develop#main')
 // 查看文章
     Page::visit('/article:{aid}/{name}?', 'article\View#article')
 ->with('aid', 'int')->with('name', 'string')->id('article_view')->override()->noCache();
-    Page::visit('/mail-verify:{user}/{usename}','@user/email_verify')
-    ->with('user','int')
-    ->with('username','string')->id('mail_verify')->noCache();
+    Page::visit('/mail-verify:{uid}.{time}.{token}','@user/email_verify')
+    ->with('uid','int')
+    ->with('time','/\d{10}/')
+    ->with('token','string')->id('mail_verify')->noCache();
 Page::visit('/theme/{path}', function ($path_raw) {
     $type=pathinfo($path_raw, PATHINFO_EXTENSION);
     $path_raw=rtrim($path_raw, '/');

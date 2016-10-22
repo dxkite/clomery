@@ -43,10 +43,10 @@ window.addEventListener('load', function () {
         );
     });
        function verfy_username(name) {
-        return /^[\w\u4e00-\u9aff]+$/.test(name);
+        return /^[\w\u4e00-\u9aff]{4,13}$/.test(name);
     }
     username.addEventListener('blur', function () {
-        if (this.value.length > 3) {
+        if (this.value.length > 3 && this.value.length < 14) {
             if (verfy_username(this.value)) {
                 var ask = new ajax();
                 ask.post('/user/ajax').values({ type: 'checkuser', user: this.value }).ready(
@@ -67,8 +67,8 @@ window.addEventListener('load', function () {
                 username.focus();
             }
         }
-        else if (this.value.length < 4) {
-            u_notice.innerHTML = '<span style="color:red">用户名不能少于4个字符！</span>';
+        else if (this.value.length < 4 || this.value.length > 4) {
+            u_notice.innerHTML = '<span style="color:red">用户名的长度在4~13字符之间！</span>';
             username.focus();
         }
     });

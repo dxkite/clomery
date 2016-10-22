@@ -13,7 +13,7 @@ class ajax
     const REG_EMAIL='/^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/';
     // 密码随意
     // const REG_PASSWD='/^([0-9a-zA-Z\_`!~@#$%^*+=,.?;\'":)(}{/\\\|<>&\[\-]|\])+$/';
-    const REG_UNAME='/^[\w\x{4e00}-\x{9aff}]{4,12}$/u';
+    const REG_UNAME='/^[\w\x{4e00}-\x{9aff}]{4,13}$/u';
 
 
     public function main()
