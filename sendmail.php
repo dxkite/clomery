@@ -42,8 +42,18 @@ function sendtouser($uid)
                 ]);
         var_dump($return);
         var_dump($mail->errno(), $mail->error());
+
+        return $return;
     }
 }
 $argv=$_SERVER['argv'];
-var_dump($argv);
-sendtouser($argv[1]);
+
+if (strtolower($argv[1])==='all') {
+    $q='SELECT * FROM `atd_users` WHERE `email_verify` = \'N\'';
+    $qr=new Query($q);
+    while ($get=$qr->fetch()) {
+        print 'Send to :' . $get['uname'] . ' --> '.(sendtouser($get['uid'])?"\033[32mtrue\033[0m":"\033[31mfalse\033[0m") . "\r\n";
+    }
+} else {
+    sendtouser($argv[1]);
+}
