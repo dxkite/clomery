@@ -43,7 +43,7 @@ class Caller
     }
     public static function parseCaller(string $caller)
     {
-        preg_match('/^(\w+)(?:#(\w+))?/', $caller, $matchs);
+        preg_match('/^([\w\\\\]+)(?:#(\w+))?/', $caller, $matchs);
         if (isset($matchs[2])) {
             return [$matchs[1],$matchs[2]];
             $this->params=$args;
