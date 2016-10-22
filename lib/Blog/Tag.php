@@ -41,9 +41,9 @@ class Blog_Tag
     {
         $old_tag=self::getTags($aid, $topic);
         $exist_tag=[];
-        foreach ($old_tag as $key=>$tag_array){
+        foreach ($old_tag as $key=>$tag_array) {
             // 存在的标签
-            if (in_array($tag_array['name'],$tag)){
+            if (in_array($tag_array['name'], $tag)) {
                 // 删除存在的
                 unset($old_tag[$key]);
                 $exist_tag[]=$tag_array['name'];
@@ -52,15 +52,15 @@ class Blog_Tag
         // 添加没有的标签
         foreach ($tag as $tagname) {
             // 存在的标签
-            if (!in_array($tagname,$exist_tag)){
+            if (!in_array($tagname, $exist_tag)) {
                 var_dump(self::addTagToArticle($aid, $topic, $tagname));
             }
         }
         var_export($old_tag);
         // 删除不存在的标签
         foreach ($old_tag as $tag_array) {
-                var_dump($tag_array);
-                self::removeTag($aid,$tag_array['tid']);
+            var_dump($tag_array);
+            self::removeTag($aid, $tag_array['tid']);
         }
     }
 
@@ -69,7 +69,8 @@ class Blog_Tag
         $q='SELECT `#{tags}`.`tid`, `name`  FROM `#{article_tag}` JOIN `#{tags}` ON `#{tags}`.`tid`=`#{article_tag}`.`tid` AND `#{tags}`.`topic`=:topic WHERE `#{article_tag}`.`aid` = :aid ';
         return (new Query($q, ['topic'=>$topic, 'aid'=>$aid]))->fetchAll();
     }
-    public static function getTagsInfo(int $topic=0){
+    public static function getTagsInfo(int $topic=0)
+    {
         return (new Query('SELECT * FROM `atd_tags`'))->fetchAll();
     }
     // 删除文件标签
@@ -81,7 +82,19 @@ class Blog_Tag
         $update='UPDATE `#{tags}` SET `count` = `count`- 1  WHERE `#{tags}`.`tid` = :tid LIMIT 1;';
         return (new Query($delete, ['aid'=>$aid, 'tid'=>$tid]))->exec() && (new Query($update, ['tid'=>$tid]))->exec();
     }
-    public static function parseTag(string $tag){
-        return preg_replace('/\s+?/','-',$tag);
+    public static function parseTag(string $tag)
+    {
+        return preg_replace('/\s+?/', '-', $tag);
+    }
+
+    // 重新统计信息
+    public function refresh()
+    {
+        $q='UPDATE `atd_tags` SET  `count`= (SELECT count(*) FROM `atd_article_tag` WHERE `atd_article_tag`.`tid` =`atd_tags`.`tid` ) WHERE 1;';
+        return (new Query($q))->exec();
+    }
+    public function deleteEmpty(){
+        self::refresh();
+        return (new Query('DELETE FROM `atd_tags` WHERE `count`=0 ;'))->exec();
     }
 }
