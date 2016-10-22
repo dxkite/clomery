@@ -1,8 +1,8 @@
 <?php 
 // SEO 优化 蜘蛛专用样式
-if (is_spider()) {
-    View::theme('spider');
-}
+// if (is_spider()) {
+//     View::theme('spider');
+// }
 
 if (conf('Uninstall')) {
     // 找不到页面时

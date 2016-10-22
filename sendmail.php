@@ -21,6 +21,8 @@ $op=new Site_Options;
 // 语言支持
 Page::language(Cookie::get('lang', 'zh_cn'));
 View::theme(Site_Options::getTheme());
+// 载入页面URL配置规则
+require_once APP_ROOT.'/'.APP_VISIT;
 function sendtouser($uid)
 {
     if ($info=Common_User::getBaseInfo($uid)) {
