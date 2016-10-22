@@ -39,10 +39,10 @@ Page::visit('/theme/{path}', function ($path_raw) {
     }
 })->with('path', '/^(.+)$/')->id('theme')->override()->age(10000)->close();
 
-    Page::visit('/upload{id}/{name}?', ['Resource', 'main'])
+    Page::visit('/upload:{id}/{name}?', ['Resource', 'main'])
 ->with('id', 'int')
 ->with('name', 'string')
-->id('upload_file')->override();
+->id('upload')->override();
     Page::auto('/user', '/user')->id('user');
     // 管理界面导向
     Page::auto('/0.0', '/admin')->id('admin');

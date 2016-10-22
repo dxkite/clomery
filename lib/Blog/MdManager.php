@@ -56,10 +56,31 @@ class Blog_MdManager
     {
         return ['error'=>$this->error];
     }
-    public function MdUploadTranslate()
+    public function MdChange(string $preg,string $replace,bool $console=false)
     {
-        echo 'I be call';
+        // 控制台日志
+        $log=function ($values) use ($console) {
+            if ($console) {
+                foreach (func_get_args() as $value) {
+                    print_r($value);
+                    print "\r\n";
+                }
+            }
+        };
+
+        $q =new Query('SELECT `aid`,`contents` FROM `atd_articles`');
+        while ($get=$q->fetch()) {
+            $log('read article:'.$get['aid']);
+            $markdown=preg_replace_callback('/\!\[(.+?)\]\((.+?)\)/', function ($matchs) use ($log, $preg, $replace) {
+                $result=preg_replace($preg, $replace, $matchs[2]);
+                $log($matchs[0].' --> !['.$matchs[1].']('.$result.')');
+                return '!['.$matchs[1].']('.$result.')';
+            }, $get['contents']);
+            $count=(new Query('UPDATE `atd_articles` SET `contents`=:contents  WHERE `aid`=:aid',['aid'=>$get['aid'],'contents'=>$markdown]))->exec();
+            $log('change article:'.$count);
+        }
     }
+
     public function uploadZipMarkdown(string $filename, string $name='')
     {
         $zip=new ZipArchive;
@@ -178,7 +199,7 @@ class Blog_MdManager
         // 获取压缩包内部文件
         if ($content=$this->archive->getFromName($path)) {
             $id=Upload::uploadString($content, basename($path), pathinfo($path, PATHINFO_EXTENSION), 1);
-            return  preg_replace('/\((.+?)\)$/', '('.str_replace('$', '\$', Page::url('upload_file', ['id'=>$id, 'name'=>basename($matchs[1])])).')', $matchs[0]);
+            return  preg_replace('/\((.+?)\)$/', '('.str_replace('$', '\$', Page::url('upload', ['id'=>$id, 'name'=>basename($matchs[1])])).')', $matchs[0]);
         }
         // 允许从网络上下载URL需求
         elseif (in_array($matchs[1], $this->urlsave)) {
