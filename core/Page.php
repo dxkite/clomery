@@ -124,12 +124,11 @@ class Page
      */
     public static function url(string $id, array $args=[]) : string
     {
-        //$host="http://{$_SERVER['SERVER_NAME']}";
-        // NOTICE 不记得为什么要加这个了，先去除
+        // if (isset($_SERVER['HTTPS'])  && $_SERVER['HTTPS'] && $_SERVER['HTTPS'] !='off') { }
+        // 自动协议头
+        $host="//{$_SERVER['SERVER_NAME']}";
         if (IS_WINDOWS) {
-            $host='/index.php';
-        } else {
-            $host='';
+            $host.='/index.php';
         }
         if (isset(self::$ids[$id])) {
             $url=self::$ids[$id];

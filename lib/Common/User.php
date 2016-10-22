@@ -1,5 +1,5 @@
 <?php
-
+// TODO: 是否限制IP注册
 class Common_User
 {
     public static function userExist(string $user):bool
@@ -23,6 +23,21 @@ class Common_User
             return true;
         }
         return false;
+    }
+    public static function createVerify(int $uid):string
+    {
+        // 猜猜是啥
+        static $mis='5246-687261-5852-6C';
+        $q='UPDATE `atd_users` SET `verify` = :verify , `expriation`=:time  WHERE `atd_users`.`uid` = :uid;';
+        $verify=md5('DXCore-'.CORE_VERSION.'-'.$uid.'-'.time().'-'.$mis);
+        if ((new Query($q, ['verify'=>$verify, 'time'=>time(), 'uid'=>$uid]))->exec()) {
+            return $verify;
+        }
+        return '';
+    }
+    public static function verify(int $uid, string $hash, int $expriaton=0)
+    {
+        return (new Query('UPDATE `#{users}` SET `email_verify` =\'Y\' WHERE `uid`=:uid AND `verify` = :hash AND `expriation` > :expriation LIMIT 1;', ['uid'=>$uid, 'hash'=>$hash, 'expriation'=>$expriaton]))->exec();
     }
     public static function signUp(string $user, string $passwd, string $email):int
     {
@@ -179,5 +194,14 @@ class Common_User
     {
         $q='INSERT INTO `#{user_info}` (`uid`, `avatar`,`discription`) VALUES (:uid,:avatar,:discription);';
         return (new Query($q, ['uid'=>$uid, 'avatar'=>$avatar, 'discription'=>$discription]))->exec();
+    }
+
+    public static function emailVerified(int $uid)
+    {
+        $q='SELECT `email_verify` FROM `#{users}` WHERE `uid` =:uid LIMIT 1;';
+        if ($get=(new Query($q, ['uid'=>$uid]))->fetch()) {
+            return $get['email_verify'] == 'Y';
+        }
+        return false;
     }
 }

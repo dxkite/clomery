@@ -66,8 +66,9 @@ class Blog_Tag
 
     public static function getTags(int $aid, int $topic=0)
     {
-        $q='SELECT `#{tags}`.`tid`, `name`  FROM `#{article_tag}` JOIN `#{tags}` ON `#{tags}`.`tid`=`#{article_tag}`.`tid` AND `#{tags}`.`topic`=:topic WHERE `#{article_tag}`.`aid` = :aid ';
-        return (new Query($q, ['topic'=>$topic, 'aid'=>$aid]))->fetchAll();
+        $q='SELECT `#{tags}`.`tid`, `name`  FROM `#{article_tag}` JOIN `#{tags}` ON `#{tags}`.`tid`=`#{article_tag}`.`tid` AND `#{tags}`.`topic`=:topic WHERE `#{article_tag}`.`aid` = :aid ORDER BY `atd_tags`.`count` DESC';
+        $values=['topic'=>$topic, 'aid'=>$aid];
+        return (new Query($q, $values))->fetchAll();
     }
     public static function getTagsInfo(int $topic=0)
     {
@@ -93,7 +94,8 @@ class Blog_Tag
         $q='UPDATE `atd_tags` SET  `count`= (SELECT count(*) FROM `atd_article_tag` WHERE `atd_article_tag`.`tid` =`atd_tags`.`tid` ) WHERE 1;';
         return (new Query($q))->exec();
     }
-    public function deleteEmpty(){
+    public function deleteEmpty()
+    {
         self::refresh();
         return (new Query('DELETE FROM `atd_tags` WHERE `count`=0 ;'))->exec();
     }
