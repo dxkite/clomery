@@ -1,6 +1,6 @@
 <?php
 
-class Mail
+class Mail implements Mail_Interface
 {
     // 发送至
     private $to=[];
@@ -58,7 +58,14 @@ class Mail
         $this->values[$name]=$value;
         return $this;
     }
-    
+    public function errno()
+    {
+        return $this->errno;
+    }
+    public function error()
+    {
+        return $this->errstr;
+    }
     // 发送邮件
     public function send(array $value_map=[])
     {
@@ -105,14 +112,7 @@ class Mail
         }
         return rtrim($to, ',');
     }
-    public function errno()
-    {
-        return $this->errno;
-    }
-    public function error()
-    {
-        return $this->errstr;
-    }
+
     private function errorHander(int $errno, string $errstr, string $errfile, int $errline, array $errcontext)
     {
         $this->errno=$errno;
