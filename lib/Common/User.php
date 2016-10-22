@@ -151,7 +151,7 @@ class Common_User
         }
         return false;
     }
-
+    
     public static function signOut()
     {
         $uid=Session::get('user_id');
