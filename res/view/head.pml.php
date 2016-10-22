@@ -5,7 +5,7 @@
 	<title><?php View_Compiler_Pomelo::echo($_Page->title($_L->main_title('芒刺中国'))) ?></title>
 	<?php echo Page::insert('head_htmlhead') ?>
 	<?php Page::render("page_meta") ?>
-	<link rel="stylesheet" href="<?php echo Page::url('resource',['path'=>'css/main.css']) ?>">
+	<link rel="stylesheet" href="<?php echo Page::url('theme',['path'=>'css/main.css']) ?>">
 </head>
 <body>
 	<header>

@@ -18,7 +18,7 @@ class Main
             $cobj[]=new Core\Value($category);
         }
         Page::set('article_categorys',$cobj);
-
+        Page::use('hg_index');
         $tags=Blog_Tag::getTagsInfo();
         $tobj=[];
         foreach ($tags as $tag){

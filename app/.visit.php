@@ -28,7 +28,7 @@ Page::visit('/{pagename}', ['Develop', 'main'])
     Page::visit('/article:{aid}/{name}?', ['article\View', 'article'])
 ->with('aid', 'int')->with('name', 'string')->id('article_view')->override()->noCache();
 
-Page::visit('/template:{path}', function ($path_raw) {
+Page::visit('/theme/{path}', function ($path_raw) {
     $type=pathinfo($path_raw, PATHINFO_EXTENSION);
     $path_raw=rtrim($path_raw, '/');
     if (Storage::exist(APP_VIEW.'/'.$path_raw)) {
@@ -37,9 +37,9 @@ Page::visit('/template:{path}', function ($path_raw) {
     } else {
         Page::error404($path_raw);
     }
-})->with('path', '/^(.+)$/')->id('resource')->override()->age(10000)->close();
+})->with('path', '/^(.+)$/')->id('theme')->override()->age(10000)->close();
 
-    Page::visit('/${id}/{name}?', ['Resource', 'main'])
+    Page::visit('/upload{id}/{name}?', ['Resource', 'main'])
 ->with('id', 'int')
 ->with('name', 'string')
 ->id('upload_file')->override();

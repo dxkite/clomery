@@ -21,17 +21,18 @@
     View::loadCompile();
     // 开启Session
     Session::start();
-     // Debug 模式 实时生成模板
-    if (conf('DEBUG', 0)==1) {
-        View::compileAll();
-    }
+
+        // 获取网站设置
+    Site_Options::init();
+    $op=new Site_Options;
     // 语言支持
     Page::language(Cookie::get('lang', 'zh_cn'));
     View::theme(Site_Options::getTheme());
 
-    // 获取网站设置
-    Site_Options::init();
-    $op=new Site_Options;
+    // Debug 模式 实时生成模板
+    if (conf('DEBUG', 0)==1) {
+        View::compileAll();
+    }
     if ($op->site_close==0) {
         // 载入页面URL配置规则
         require_once APP_ROOT.'/'.APP_VISIT;

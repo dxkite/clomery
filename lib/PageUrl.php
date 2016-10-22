@@ -23,16 +23,22 @@ class PageUrl
         return Page::url('user_view', ['userid'=> $uid]);
     }
 
-    public static function categoryPage(string $name,int $page=0){
-        if ($page){
-            return Page::url('article_category_list', ['name'=>$name,'page'=>$page]);
+    public static function categoryPage(string $name, int $page=0)
+    {
+        if ($page) {
+            return Page::url('article_category_list', ['name'=>$name, 'page'=>$page]);
         }
         return Page::url('article_category_list', ['name'=>$name]);
     }
-    public static function tagPage(string $name,int $page=0){
-        if ($page){
-            return Page::url('article_tag_list', ['name'=>$name,'page'=>$page]);
+    public static function tagPage(string $name, int $page=0)
+    {
+        if ($page) {
+            return Page::url('article_tag_list', ['name'=>$name, 'page'=>$page]);
         }
         return Page::url('article_tag_list', ['name'=>$name]);
+    }
+    public static function theme(string $file)
+    {
+        return Page::url('theme',['path'=>$file]);
     }
 }

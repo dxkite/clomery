@@ -15,3 +15,5 @@ res/.conf.ignore
 res/recycle_bin/*
 # 日志
 res/logs/*
+# 忽略开发中的blog样式
+res/tpl/blog/*

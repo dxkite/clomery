@@ -147,10 +147,10 @@ class View_Compiler_Pomelo
     {
         return "<?php echo Page::url{$exp} ?>";
     }
-    protected function parseResource($exp)
+    protected function parseTheme($exp)
     {
         preg_match('/\((.+)\)/', $exp, $v);
-        return "<?php echo Page::url('resource',['path'=>{$v[1]}]) ?>";
+        return "<?php echo Page::url('theme',['path'=>{$v[1]}]) ?>";
     }
     protected function parseAuto($exp)
     {
