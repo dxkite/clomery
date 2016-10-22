@@ -124,9 +124,12 @@ class Page
      */
     public static function url(string $id, array $args=[]) : string
     {
-        // if (isset($_SERVER['HTTPS'])  && $_SERVER['HTTPS'] && $_SERVER['HTTPS'] !='off') { }
-        // 自动协议头
-        $host="//{$_SERVER['SERVER_NAME']}";
+        if (isset($_SERVER['HTTPS'])  && $_SERVER['HTTPS'] && $_SERVER['HTTPS'] !='off') {
+            $host='https://';
+        } else {
+            $host='http://';
+        }
+        $host.=isset($_SERVER['SERVER_NAME'])?$_SERVER['SERVER_NAME']:'atd3.cn';
         if (IS_WINDOWS) {
             $host.='/index.php';
         }
