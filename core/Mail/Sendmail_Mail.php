@@ -71,12 +71,11 @@ class Mail implements Mail_Interface
     {
         // 合并属性值
         $this->values=array_merge($this->values, $value_map);
-        // 测试时变成了2个To
-        // $to=self::parseTo();
+        $to=self::parseTo();
         $message=self::renderBody();
         $header=self::parseHeader();
         set_error_handler(array($this, 'errorHander'));
-        $return=mail('', $this->subject, $message, $header);
+        $return=mail($to, $this->subject, $message, $header);
         restore_error_handler();
         // var_dump($message);
         return $return;
@@ -96,7 +95,7 @@ class Mail implements Mail_Interface
         $header='MIME-Version: 1.0' . "\r\n";
         $header.='Content-Type:'.mime($this->type)."\r\n";
         $header.=self::parseFrom();
-        $header.='To: '.self::parseTo()."\r\n";
+        //$header.='To: '.self::parseTo()."\r\n";
         $header.='X-Mailer: XCore/'.CORE_VERSION."\r\n";
         return $header;
     }
