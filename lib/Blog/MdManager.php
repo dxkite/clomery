@@ -73,6 +73,7 @@ class Blog_MdManager
             $log('read article:'.$get['aid']);
             $markdown=preg_replace_callback('/\!\[(.+?)\]\((.+?)\)/', function ($matchs) use ($log, $preg, $replace) {
                 $result=preg_replace($preg, $replace, $matchs[2]);
+                $log($preg, $replace,$matchs[2],$result);
                 $log($matchs[0].' --> !['.$matchs[1].']('.$result.')');
                 return '!['.$matchs[1].']('.$result.')';
             }, $get['contents']);
