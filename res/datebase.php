@@ -2,7 +2,7 @@
 /* ------------------------------------------------------ *\
    ------------------------------------------------------
    PHP Simple Library XCore 1.x.2-dev Database Backup File
-        Create On: 2016-10-21 16:03:27
+        Create On: 2016-10-22 17:26:20
         SQL Server version: 10.1.10-MariaDB
         Host: localhost   
         Database: hello_world
@@ -51,7 +51,7 @@ Query::beginTransaction();
   KEY `modified` (`modified`),
   KEY `modified_2` (`modified`),
   KEY `category` (`category`)
-) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=utf8'))->exec();
+) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8'))->exec();
 
  (new Query('DROP TABLE IF EXISTS #{category}'))->exec();
 
@@ -115,7 +115,7 @@ Query::beginTransaction();
   `time` int(11) NOT NULL,
   PRIMARY KEY (`hid`),
   KEY `uid` (`uid`)
-) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8'))->exec();
+) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8'))->exec();
 
  (new Query('DROP TABLE IF EXISTS #{site_options}'))->exec();
 
@@ -140,7 +140,7 @@ Query::beginTransaction();
   PRIMARY KEY (`tid`),
   UNIQUE KEY `name` (`name`),
   KEY `topic` (`topic`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8'))->exec();
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8'))->exec();
 
  (new Query('DROP TABLE IF EXISTS #{upload_resource}'))->exec();
 
@@ -152,7 +152,7 @@ Query::beginTransaction();
   PRIMARY KEY (`rid`),
   UNIQUE KEY `hash` (`hash`),
   KEY `type` (`type`)
-) ENGINE=InnoDB AUTO_INCREMENT=1676 DEFAULT CHARSET=utf8'))->exec();
+) ENGINE=InnoDB AUTO_INCREMENT=1688 DEFAULT CHARSET=utf8'))->exec();
 
  (new Query('DROP TABLE IF EXISTS #{uploads}'))->exec();
 
@@ -169,7 +169,7 @@ Query::beginTransaction();
   KEY `public` (`public`),
   KEY `resource` (`resource`),
   KEY `extension` (`extension`)
-) ENGINE=InnoDB AUTO_INCREMENT=112 DEFAULT CHARSET=utf8 COMMENT=\'上传资源表\''))->exec();
+) ENGINE=InnoDB AUTO_INCREMENT=121 DEFAULT CHARSET=utf8 COMMENT=\'上传资源表\''))->exec();
 
  (new Query('DROP TABLE IF EXISTS #{user_info}'))->exec();
 
@@ -187,7 +187,7 @@ Query::beginTransaction();
 
  (new Query('CREATE TABLE `#{users}` (
   `uid` bigint(20) NOT NULL AUTO_INCREMENT,
-  `uname` varchar(12) NOT NULL,
+  `uname` varchar(13) NOT NULL,
   `upass` varchar(60) NOT NULL,
   `gid` int(11) NOT NULL DEFAULT \'3\',
   `signup` int(11) NOT NULL,
@@ -203,7 +203,7 @@ Query::beginTransaction();
   KEY `uid_2` (`uid`),
   KEY `uid_3` (`uid`),
   KEY `uid_4` (`uid`)
-) ENGINE=MyISAM AUTO_INCREMENT=53 DEFAULT CHARSET=utf8'))->exec();
+) ENGINE=MyISAM AUTO_INCREMENT=56 DEFAULT CHARSET=utf8'))->exec();
 
 /** End Querys **/
 Query::commit();

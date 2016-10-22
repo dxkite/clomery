@@ -1,6 +1,6 @@
 -- ----------------------------------------------------------
 -- PHP Simple Library XCore 1.x.2-dev Database Backup File
--- Create On 2016-10-21 16:03:27
+-- Create On 2016-10-22 17:26:20
 -- Host: localhost   Database: hello_world
 -- Server version	10.1.10-MariaDB
 -- ------------------------------------------------------
@@ -51,7 +51,7 @@ CREATE TABLE `atd_articles` (
   KEY `modified` (`modified`),
   KEY `modified_2` (`modified`),
   KEY `category` (`category`)
-) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8;
 
 
 --
@@ -140,7 +140,7 @@ CREATE TABLE `atd_signin_historys` (
   `time` int(11) NOT NULL,
   PRIMARY KEY (`hid`),
   KEY `uid` (`uid`)
-) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8;
 
 
 --
@@ -176,7 +176,7 @@ CREATE TABLE `atd_tags` (
   PRIMARY KEY (`tid`),
   UNIQUE KEY `name` (`name`),
   KEY `topic` (`topic`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
 
 --
@@ -192,7 +192,7 @@ CREATE TABLE `atd_upload_resource` (
   PRIMARY KEY (`rid`),
   UNIQUE KEY `hash` (`hash`),
   KEY `type` (`type`)
-) ENGINE=InnoDB AUTO_INCREMENT=1676 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1688 DEFAULT CHARSET=utf8;
 
 
 --
@@ -213,7 +213,7 @@ CREATE TABLE `atd_uploads` (
   KEY `public` (`public`),
   KEY `resource` (`resource`),
   KEY `extension` (`extension`)
-) ENGINE=InnoDB AUTO_INCREMENT=112 DEFAULT CHARSET=utf8 COMMENT='上传资源表';
+) ENGINE=InnoDB AUTO_INCREMENT=121 DEFAULT CHARSET=utf8 COMMENT='上传资源表';
 
 
 --
@@ -239,7 +239,7 @@ CREATE TABLE `atd_user_info` (
 DROP TABLE IF EXISTS `atd_users`;
 CREATE TABLE `atd_users` (
   `uid` bigint(20) NOT NULL AUTO_INCREMENT,
-  `uname` varchar(12) NOT NULL,
+  `uname` varchar(13) NOT NULL,
   `upass` varchar(60) NOT NULL,
   `gid` int(11) NOT NULL DEFAULT '3',
   `signup` int(11) NOT NULL,
@@ -255,6 +255,6 @@ CREATE TABLE `atd_users` (
   KEY `uid_2` (`uid`),
   KEY `uid_3` (`uid`),
   KEY `uid_4` (`uid`)
-) ENGINE=MyISAM AUTO_INCREMENT=53 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=56 DEFAULT CHARSET=utf8;
 
 
