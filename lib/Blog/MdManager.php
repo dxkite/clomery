@@ -173,8 +173,7 @@ class Blog_MdManager
         if ($aid>0) {
             // 设置标签
             if (isset($config->tags)) {
-                $tags=preg_split('/\s*(;|,|\|)\s*/', $config->tags);
-                Blog_Tag::setTagsToArticle($aid, 0, $tags);
+                Blog_Tag::setTagsToArticle($aid, 0, Blog_Tag::tags2Array($config->tags));
             }
             // 设置分类
             if (isset($config->category_id)) {
