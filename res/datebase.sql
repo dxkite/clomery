@@ -1,6 +1,6 @@
 -- ----------------------------------------------------------
--- PHP Simple Library XCore 1.x.2-dev Database Backup File
--- Create On 2016-10-22 17:26:20
+-- PHP Simple Library XCore 1.x.3-dev Database Backup File
+-- Create On 2016-10-23 10:46:27
 -- Host: localhost   Database: hello_world
 -- Server version	10.1.10-MariaDB
 -- ------------------------------------------------------
@@ -51,7 +51,7 @@ CREATE TABLE `atd_articles` (
   KEY `modified` (`modified`),
   KEY `modified_2` (`modified`),
   KEY `category` (`category`)
-) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8;
 
 
 --
@@ -76,7 +76,7 @@ CREATE TABLE `atd_category` (
 
 
 
-INSERT INTO `atd_category` VALUES ('1','0','0','网站日志','网站的相关话题','3','0'),('2','1','0','网站教程','网站内的一些教程','0','0'),('3','0','0','作者通知','作者通知','1','0');
+INSERT INTO `atd_category` VALUES ('1','0','0','网站日志','网站的相关话题','3','0'),('2','1','0','网站教程','网站内的一些教程','0','0'),('3','0','0','作者通知','作者通知','2','0');
 
 
 --
@@ -140,7 +140,7 @@ CREATE TABLE `atd_signin_historys` (
   `time` int(11) NOT NULL,
   PRIMARY KEY (`hid`),
   KEY `uid` (`uid`)
-) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=utf8;
 
 
 --
@@ -176,7 +176,7 @@ CREATE TABLE `atd_tags` (
   PRIMARY KEY (`tid`),
   UNIQUE KEY `name` (`name`),
   KEY `topic` (`topic`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
 
 
 --
@@ -192,7 +192,7 @@ CREATE TABLE `atd_upload_resource` (
   PRIMARY KEY (`rid`),
   UNIQUE KEY `hash` (`hash`),
   KEY `type` (`type`)
-) ENGINE=InnoDB AUTO_INCREMENT=1688 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1690 DEFAULT CHARSET=utf8;
 
 
 --
@@ -213,7 +213,7 @@ CREATE TABLE `atd_uploads` (
   KEY `public` (`public`),
   KEY `resource` (`resource`),
   KEY `extension` (`extension`)
-) ENGINE=InnoDB AUTO_INCREMENT=121 DEFAULT CHARSET=utf8 COMMENT='上传资源表';
+) ENGINE=InnoDB AUTO_INCREMENT=122 DEFAULT CHARSET=utf8 COMMENT='上传资源表';
 
 
 --
@@ -248,6 +248,8 @@ CREATE TABLE `atd_users` (
   `email_verify` enum('Y','N') NOT NULL DEFAULT 'N',
   `lastip` varchar(32) NOT NULL,
   `token` varchar(32) NOT NULL COMMENT '登陆验证值',
+  `verify` varchar(32) NOT NULL,
+  `expriation` int(11) NOT NULL COMMENT '验证过期时间',
   `status` int(11) NOT NULL DEFAULT '0' COMMENT '状态',
   PRIMARY KEY (`uid`),
   UNIQUE KEY `uid` (`uid`),
@@ -255,6 +257,6 @@ CREATE TABLE `atd_users` (
   KEY `uid_2` (`uid`),
   KEY `uid_3` (`uid`),
   KEY `uid_4` (`uid`)
-) ENGINE=MyISAM AUTO_INCREMENT=56 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8;
 
 

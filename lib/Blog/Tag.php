@@ -56,7 +56,7 @@ class Blog_Tag
                 var_dump(self::addTagToArticle($aid, $topic, $tagname));
             }
         }
-        var_export($old_tag);
+        //  var_export($old_tag);
         // 删除不存在的标签
         foreach ($old_tag as $tag_array) {
             var_dump($tag_array);
