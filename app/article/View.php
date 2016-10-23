@@ -136,6 +136,9 @@ class View
         Page::set('article', new CoreValue($info));
         Page::use('article/read');
         $p=new Markdown_Parser;
+        $p->hook('afterParseCode',function ($result, $value){
+            return preg_replace('/^<pre><code class="(.+?)"/','<pre><code class="prettyprint lang-$1"',$result);
+        });
         $c=Blog_Article::getArticleContent((int)$aid);
         Page::set('article_html', $p->makeHTML($c));
     }
