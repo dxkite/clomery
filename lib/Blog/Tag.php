@@ -86,7 +86,7 @@ class Blog_Tag
 
     public static function tags2Array(string $tag)
     {
-        return preg_split('/\s*(;|,|\|)\s*/', $tag);
+        return substr(preg_split('/\s*(;|,|\|)\s*/', $tag),0,80);
     }
 
     // 重新统计信息
