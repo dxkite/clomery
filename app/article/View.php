@@ -137,8 +137,8 @@ class View
         Page::use('article/read');
         $p=new Markdown_Parser;
         $p->hook('afterParseCode',function ($result, $value){
-            if (preg_match('/^<pre><code class="(.+?)">/',$result)){
-                 return preg_replace('/^<pre><code class="(.+?)">/','<pre><code class="prettyprint lang-$1"',$result);
+            if (preg_match('/^<pre><code class="(.+?)"/',$result)){
+                 return preg_replace('/^<pre><code class="(.+?)"/','<pre><code class="prettyprint lang-$1"',$result);
             }
             return preg_replace('/^<pre><code>/','<pre><code class="prettyprint">',$result);
         });
