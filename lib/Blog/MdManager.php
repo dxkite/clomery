@@ -10,7 +10,8 @@ class Blog_MdManager
     public $urlsave=[];
     public $urloutside=[];
     public $error='';
-    
+    public $attachment=[];
+
     public function __construct()
     {
         self::$parser=new Markdown\Parser();
@@ -99,7 +100,14 @@ class Blog_MdManager
                 // 解析配置
                 $config_set=json_decode($config_file);
                 $this->root=$root;
-                return self::uploadMarkdown($config_set->index, $config_set);
+                var_dump('root='.$root);
+                var_dump($config_file);
+                if ($config_file) {
+                    return self::uploadMarkdown($config_set->index, $config_set);
+                } else {
+                    $this->error='un readable config format';
+                    return -3;
+                }
             } else {
                 $this->error='un readable zip article format';
                 return -2;
@@ -138,7 +146,7 @@ class Blog_MdManager
         }
 
         Upload::setUid($uid);
-        
+        var_dump('User='.$uid);
         // 获取文章内容
         $markdown=$this->archive->getFromName(self::parsePath($this->root.'/'.$markdown));
         // 上传链接中使用过的文件 (已经包含了图片文件)
@@ -171,6 +179,7 @@ class Blog_MdManager
             1, md5($this->archive->filename));
         }
         if ($aid>0) {
+            self::markdownSetFor($aid);
             // 设置标签
             if (isset($config->tags)) {
                 Blog_Tag::setTagsToArticle($aid, 0, Blog_Tag::tags2Array($config->tags));
@@ -220,6 +229,8 @@ class Blog_MdManager
         // 获取压缩包内部文件
         if ($content=$this->archive->getFromName($path)) {
             $id=Upload::uploadString($content, basename($path), pathinfo($path, PATHINFO_EXTENSION), 1);
+            var_dump('Upload='.$id);
+            $this->attachment[]=$id;
             return  preg_replace('/\((.+?)\)$/', '('.str_replace('$', '\$', Upload::url($id, basename($matchs[1]))).')', $matchs[0]);
         }
         // 允许从网络上下载URL需求
@@ -227,11 +238,17 @@ class Blog_MdManager
             $tmpname= microtime(true).'.tmp';
             Storage::download($matchs[1], $tmpname);
             $id=Upload::register(basename($matchs[1]), $tmpname, pathinfo($matchs[1], PATHINFO_EXTENSION), 1);
+            $this->attachment[]=$id;
             return  preg_replace('/\((.+?)\)$/', '('.str_replace('$', '\$', Upload::url($id, basename($matchs[1]))).')', $matchs[0]);
         }
         return $matchs[0];
     }
-    
+    protected function markdownSetFor(int $for)
+    {
+        foreach ($this->attachment as $id) {
+            Upload::setForWhat($id, $for, 0);
+        }
+    }
     // 获取 配置
     protected function getZipConfigFile(string $name='')
     {

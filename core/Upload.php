@@ -29,23 +29,26 @@ class Upload
      * @return bool
      */
     
-    public static function uploadFile(string  $name, int $public=1, string $type=null):int
+    public static function uploadFile(string  $name, int $public=1, string $type=null, int  $for=0, int $what=0):int
     {
         if ($_FILES[$name]['error']===0) {
             $type=$type?$type:pathinfo($_FILES[$name]['name'], PATHINFO_EXTENSION);
-            return self::register($_FILES[$name]['name'], $_FILES[$name]['tmp_name'], $type,$public);
+            return self::register($_FILES[$name]['name'], $_FILES[$name]['tmp_name'], $type, $public, $for, $what);
         }
         return 0;
     }
 
-
+    public static function setForWhat(int $id, int $for, int $what=0)
+    {
+        return (new Query('UPDATE `atd_uploads` SET `for` = :for,`what`=:what WHERE `atd_uploads`.`rid` =:id;', ['id'=>$id, 'for'=>$for, 'what'=>$what]))->exec();
+    }
     
-    public static function uploadString(string $content, string $name, string $type, int $public=1)
+    public static function uploadString(string $content, string $name, string $type, int $public=1, int  $for=0, int $what=0)
     {
         Storage::mkdirs(APP_TMP);
         $file=self::$root.'/'.md5($content);
         if (Storage::put($file, $content)) {
-            $id=self::register($name,$file,$type,$public);
+            $id=self::register($name, $file, $type, $public, $for, $what);
             return $id;
         }
     }
@@ -56,7 +59,7 @@ class Upload
      * @param int $public 是否公开 0否 1是
      * @return int
      */
-    public static function register(string $name, string $file, string $type,int $public=1):int
+    public static function register(string $name, string $file, string $type, int $public=1, int  $for=0, int $what=0):int
     {
         if (Storage::exist($file)) {
             $md5=md5_file($file);
@@ -75,12 +78,12 @@ class Upload
                         $resource=$q->query('SELECT `rid` FROM `#{upload_resource}` WHERE `hash` = :hash', ['hash'=>$md5])->fetch()['rid'];
                         $q->query('UPDATE `#{upload_resource}` SET `reference`=  `reference` +1 WHERE `rid`=:rid', ['rid'=>$resource])->exec();
                     }
-                    // 确保文件为一个
-                    if ($qid=$q->query('SELECT `rid` FROM `#{uploads}` WHERE `resource`=:resource LIMIT 1;', ['resource'=>$resource])->fetch()) {
+                    // 记录不一样的用途
+                    if ($qid=$q->query('SELECT `rid` FROM `#{uploads}` WHERE `resource`=:resource AND `owner`=:owner AND `for`=:for AND `what`= :what LIMIT 1;', ['resource'=>$resource,'owner'=>self::$uid,'for'=>$for,'what'=>$what ])->fetch()) {
                         $id=$qid['rid'];
                     } else {
                         $q->query('INSERT INTO `#{uploads}` ( `owner`,`name`,`extension`,`time`, `resource`,`public`) VALUES (:owner,:name,:extention,:time,:resource,:public);');
-                        $q->values(['owner'=>self::$uid, 'name'=>pathinfo($name,PATHINFO_FILENAME), 'extention'=>$type,'time'=>time(), 'resource'=>$resource, 'public'=>$public])->exec();
+                        $q->values(['owner'=>self::$uid, 'name'=>pathinfo($name, PATHINFO_FILENAME), 'extention'=>$type, 'time'=>time(), 'resource'=>$resource, 'public'=>$public])->exec();
                         $id=$q->lastInsertId();
                     }
                     Query::commit();
@@ -124,8 +127,9 @@ class Upload
         }
         return [];
     }
-    public static function getFilePath($fid):string {
-         if ($get=(new Query('SELECT `hash` FROM `#{uploads}` JOIN  `#{upload_resource}` ON `#{upload_resource}`.`rid`=`resource` WHERE `#{uploads}`.`rid` =:rid LIMIT 1;'))->values(['rid'=>$fid])->fetch()) {
+    public static function getFilePath($fid):string
+    {
+        if ($get=(new Query('SELECT `hash` FROM `#{uploads}` JOIN  `#{upload_resource}` ON `#{upload_resource}`.`rid`=`resource` WHERE `#{uploads}`.`rid` =:rid LIMIT 1;'))->values(['rid'=>$fid])->fetch()) {
             return self::$root.'/'.$get['hash'];
         }
         return '';
@@ -159,10 +163,11 @@ class Upload
     {
         self::$uid = $uid;
     }
-    public static function url(int $id,string $name=''){
-        if ($name){
-            return Page::url('upload',['id'=>$id,'name'=>$name]);
+    public static function url(int $id, string $name='')
+    {
+        if ($name) {
+            return Page::url('upload', ['id'=>$id, 'name'=>$name]);
         }
-        return Page::url('upload',['id'=>$id]);
+        return Page::url('upload', ['id'=>$id]);
     }
 }
