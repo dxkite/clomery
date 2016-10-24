@@ -10,6 +10,8 @@ class Caller
     public $file;
     public $static=false;
     public $params=[];
+    public $bind=[];
+
     // TODO : 可以引用文件的调用
     public function __construct($caller, array $params=[])
     {
@@ -21,16 +23,26 @@ class Caller
         $this->params=$params;
         return $this;
     }
+
     public function call(array $params=[])
     {
         if (is_string($this->caller)) {
             $this->caller= self::parseCaller($this->caller);
         }
+        // 集合所有参数
+        if (count($params)) {
+            $this->params=$params;
+        }
+        // 设置了参数绑定
+        if (count($this->bind)>0) {
+            $args=[];
+            foreach ($this->bind as $index=>$bind) {
+                $args[$index]=isset($this->params[$bind])?$this->params[$bind]:null;
+            }
+            $this->params=$args;
+        }
         // 非空调用
         if ($this->caller) {
-            if (count($params)) {
-                $this->params=$params;
-            }
              // 是函数调用&指定了文件&函数不存在
             if (is_string($this->caller) && !function_exists($this->caller) && $this->file) {
                 self::include_file($this->file);
@@ -42,7 +54,7 @@ class Caller
                     $this->caller[0]=new $this->caller[0];
                 }
             }
-
+            
             return call_user_func_array($this->caller, $this->params);
         } else {
             // 文件参数引入
@@ -61,7 +73,11 @@ class Caller
     }
     protected function parseCaller(string $caller)
     {
-        preg_match('/^([\w\\\\]+)?(?:(#|->|::)(\w+))?(?:@(.+$))?/', $caller, $matchs);
+        preg_match('/^([\w\\\\]+)?(?:(#|->|::)(\w+))?(?:\((.+?)\))?(?:@(.+$))?/', $caller, $matchs);
+        // 添加参数绑定
+        if (isset($matchs[4])) {
+            $this->bind=explode(',', trim($matchs[4], ','));
+        }
         // 指定文件
         if (isset($matchs[4]) && $matchs[4]) {
             $this->file=$matchs[4];
