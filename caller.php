@@ -1,6 +1,7 @@
 <?php
 defined('DOC_ROOT') or define('DOC_ROOT', __DIR__);
 require_once 'core/XCore.php';
+
 $params=array_slice($argv, 2);
 if (isset($argv[1])) {
     print "\033[36mcall \033[34m".$argv[1]."(\033[32m".implode(',', $params)."\033[34m)\033[0m\r\n";

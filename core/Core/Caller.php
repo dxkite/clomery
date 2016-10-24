@@ -26,7 +26,6 @@ class Caller
         if (is_string($this->caller)) {
             $this->caller= self::parseCaller($this->caller);
         }
-
         // 非空调用
         if ($this->caller) {
             if (count($params)) {
@@ -38,7 +37,8 @@ class Caller
             }
             // 调用接口
             elseif (is_array($this->caller) /*&& !is_callable($this->caller)*/) {
-                if (!$this->static) {
+                if ($this->static) {
+                } else {
                     $this->caller[0]=new $this->caller[0];
                 }
             }
@@ -61,13 +61,13 @@ class Caller
     }
     protected function parseCaller(string $caller)
     {
-        preg_match('/^([\w\\\\]+)?(?:(#|::)(\w+))?(?:@(.+$))?/', $caller, $matchs);
+        preg_match('/^([\w\\\\]+)?(?:(#|->|::)(\w+))?(?:@(.+$))?/', $caller, $matchs);
         // 指定文件
         if (isset($matchs[4]) && $matchs[4]) {
             $this->file=$matchs[4];
         }
         if (isset($matchs[2])) {
-            $this->static=($matchs[2]!=='#');
+            $this->static=(strcmp($matchs[2], '::')===0);
         }
         // 方法名
         if (isset($matchs[3]) && $matchs[3]) {

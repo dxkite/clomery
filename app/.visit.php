@@ -12,20 +12,20 @@ if (conf('Uninstall')) {
 // 主页
 Page::visit('/', ['Main', 'main'])->use('index')->id('main_page')->noCache();
 // 待开发的页面
-Page::visit('/{pagename}', 'Develop#main')
+Page::visit('/{pagename}', 'Develop->main')
 ->with('pagename', '/^(notes|question|test|books|about)$/')
 ->use('developing')->id('develop_page')->noCache();
 
-    Page::visit('/article/{page}?', 'article\View#list')
+    Page::visit('/article/{page}?', 'article\View->list')
 ->with('page', 'int')->id('article_list')->noCache();
-    Page::visit('/article/category:{name}/{page}?', 'article\View#listCategory')
+    Page::visit('/article/category:{name}/{page}?', 'article\View->listCategory')
 ->with('name', 'string')->with('page', 'int')->id('article_category_list')->noCache();
-    Page::visit('/article/tag:{name}/{page}?', 'article\View#listTag')
+    Page::visit('/article/tag:{name}/{page}?', 'article\View->listTag')
 ->with('name', 'string')->with('page', 'int')->id('article_tag_list')->noCache();
-    Page::visit('/user:{userid}/{username}?', 'user\View#main')
+    Page::visit('/user:{userid}/{username}?', 'user\View->main')
 ->with('userid', 'int')->with('username', 'string')->id('user_view')->override()->noCache();
 // 查看文章
-    Page::visit('/article:{aid}/{name}?', 'article\View#article')
+    Page::visit('/article:{aid}/{name}?', 'article\View->article')
 ->with('aid', 'int')->with('name', 'string')->id('article_view')->override()->noCache();
 
 
