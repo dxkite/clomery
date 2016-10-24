@@ -165,6 +165,9 @@ class Blog_MdManager
                 if (preg_match('/((keep)?top|置顶)/i', $tagmatch[3])) {
                     $config['top']=1;
                 }
+            }
+            
+            if (preg_match('/^\s*(disallow(ed)?|不允许)([^:]*?)\s*:\s*(.+)\r?\n\r?\n/ims', $header, $tagmatch)) {
                 if (preg_match('/(noreply|(不允许)?回复)/i', $tagmatch[3])) {
                     $config['reply']=0;
                 }
