@@ -10,6 +10,7 @@ if ($info=Common_User::hasSignIn()) {
         var_dump($aid=$md->uploadZipMarkdown($fileinfo['path'], $fileinfo['name']));
         var_dump($md->uploadInfo());
         var_dump(PageUrl::article((int)$aid));
+        var_dump($md->uploads);
         if ($aid) {
             echo '上传成功';
         } elseif ($aid ==0) {

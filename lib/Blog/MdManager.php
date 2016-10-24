@@ -11,6 +11,7 @@ class Blog_MdManager
     public $urloutside=[];
     public $error='';
     public $attachment=[];
+    public $uploads=[];
 
     public function __construct()
     {
@@ -25,34 +26,7 @@ class Blog_MdManager
         $this->urlsave = $urlsave;
     }
 
-    public function readZipMarkdown(string $filename)
-    {
-        $zip=new ZipArchive;
-        $res = $zip->open($filename);
-        
-        if ($res === true) {
-            $this->archive=$zip;
-            if ($config=self::getZipConfigFile()) {
-                $root=dirname($config);
-                $config_file=$zip->getFromName($config);
-                // 去行注释
-                $config_file=preg_replace('/\/\/(.+)$/m', '', $config_file);
-                // 去多行注释
-                $config_file=preg_replace('/\/\*(.+)\*\/$/m', '', $config_file);
-                // 解析配置
-                $config_set=json_decode($config_file);
-                $this->root=$root;
-                return self::previewMarkdown($config_set->index, $config_set);
-            } else {
-                $this->error='un readable zip article format';
-                return -2;
-            }
-            $zip->close();
-        } else {
-            $this->error='read zip field!';
-            return -1;
-        }
-    }
+   
     public function uploadInfo()
     {
         return ['error'=>$this->error];
@@ -91,6 +65,7 @@ class Blog_MdManager
         if ($res === true) {
             $this->archive=$zip;
             $file=self::getMdFiles();
+            //var_dump($file);
             $ret=['file'=>$file,'return'=>self::uploadMarkdown($file)];
             $zip->close();
         } else {
@@ -104,7 +79,8 @@ class Blog_MdManager
     {
         for ($i = 0; $i < $this->archive->numFiles; $i++) {
             $stat=$this->archive->statIndex($i);
-            if ($stat['comp_method']===8 && preg_match('/(readme|index)\.md/i', $stat['name']) === 1) {
+            // var_dump($stat,preg_match('/(readme|index)\.md/i', $stat['name']));
+            if (preg_match('/(readme|index)\.md/i', $stat['name']) === 1) {
                 return  $stat['name'];
             }
         }
@@ -269,6 +245,7 @@ class Blog_MdManager
                 var_dump('set Category='.Blog_Category::setCategory($aid, $config['categorys']));
             }
         }
+        $uploads[]=['title'=>$config['title'],'aid'=>$aid];
         return $aid;
     }
 
