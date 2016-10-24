@@ -1,6 +1,6 @@
 -- ----------------------------------------------------------
 -- PHP Simple Library XCore 1.x.3-dev Database Backup File
--- Create On 2016-10-23 15:56:58
+-- Create On 2016-10-24 12:30:42
 -- Host: localhost   Database: hello_world
 -- Server version	10.1.10-MariaDB
 -- ------------------------------------------------------
@@ -51,7 +51,7 @@ CREATE TABLE `atd_articles` (
   KEY `modified` (`modified`),
   KEY `modified_2` (`modified`),
   KEY `category` (`category`)
-) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=111 DEFAULT CHARSET=utf8;
 
 
 --
@@ -68,15 +68,16 @@ CREATE TABLE `atd_category` (
   `count` int(11) NOT NULL DEFAULT '0',
   `parent` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`cid`),
+  UNIQUE KEY `name` (`name`),
   KEY `cname` (`name`),
   KEY `parent` (`parent`),
   KEY `topic` (`topic`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 
 
 
-INSERT INTO `atd_category` VALUES ('1','0','0','网站日志','网站的相关话题','3','0'),('2','1','0','网站教程','网站内的一些教程','3','0'),('3','0','0','作者通知','作者通知','2','0');
+INSERT INTO `atd_category` VALUES ('1','0','0','网站日志','网站的相关话题','4','0'),('2','1','0','网站教程','网站内的一些教程','4','0'),('3','0','0','作者通知','作者通知','10','0'),('4','0','0','信息安全','信息安全','0','0'),('5','0','0','网络安全','网络安全','1','4'),('6','0','0','功能测试','功能测试','1','0');
 
 
 --
@@ -140,7 +141,7 @@ CREATE TABLE `atd_signin_historys` (
   `time` int(11) NOT NULL,
   PRIMARY KEY (`hid`),
   KEY `uid` (`uid`)
-) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8;
 
 
 --
@@ -176,7 +177,7 @@ CREATE TABLE `atd_tags` (
   PRIMARY KEY (`tid`),
   UNIQUE KEY `name` (`name`),
   KEY `topic` (`topic`)
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8;
 
 
 --
@@ -192,7 +193,7 @@ CREATE TABLE `atd_upload_resource` (
   PRIMARY KEY (`rid`),
   UNIQUE KEY `hash` (`hash`),
   KEY `type` (`type`)
-) ENGINE=InnoDB AUTO_INCREMENT=1833 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2028 DEFAULT CHARSET=utf8;
 
 
 --
@@ -215,8 +216,9 @@ CREATE TABLE `atd_uploads` (
   KEY `public` (`public`),
   KEY `resource` (`resource`),
   KEY `extension` (`extension`),
-  KEY `for` (`for`)
-) ENGINE=InnoDB AUTO_INCREMENT=161 DEFAULT CHARSET=utf8 COMMENT='上传资源表';
+  KEY `for` (`for`),
+  KEY `what` (`what`)
+) ENGINE=InnoDB AUTO_INCREMENT=300 DEFAULT CHARSET=utf8 COMMENT='上传资源表';
 
 
 --
