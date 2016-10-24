@@ -10,7 +10,8 @@ class Caller
     public $file;
     public $static=false;
     public $params=[];
-    public $bind=[];
+    public $func_bind=[];
+
 
     // TODO : 可以引用文件的调用
     public function __construct($caller, array $params=[])
@@ -33,14 +34,16 @@ class Caller
         if (count($params)) {
             $this->params=$params;
         }
+
         // 设置了参数绑定
-        if (count($this->bind)>0) {
+        if (count($this->func_bind)>0) {
             $args=[];
-            foreach ($this->bind as $index=>$bind) {
+            foreach ($this->func_bind as $index=>$bind) {
                 $args[$index]=isset($this->params[$bind])?$this->params[$bind]:null;
             }
             $this->params=$args;
         }
+        
         // 非空调用
         if ($this->caller) {
              // 是函数调用&指定了文件&函数不存在
@@ -54,7 +57,6 @@ class Caller
                     $this->caller[0]=new $this->caller[0];
                 }
             }
-            
             return call_user_func_array($this->caller, $this->params);
         } else {
             // 文件参数引入
@@ -73,22 +75,23 @@ class Caller
     }
     protected function parseCaller(string $caller)
     {
-        preg_match('/^([\w\\\\]+)?(?:(#|->|::)(\w+))?(?:\((.+?)\))?(?:@(.+$))?/', $caller, $matchs);
+        preg_match('/^(?:([\w\\\\]+))?(?:(#|->|::)(\w+))?(?:\((.+?)\))?(?:@(.+$))?/', $caller, $matchs);
         // 添加参数绑定
         if (isset($matchs[4])) {
-            $this->bind=explode(',', trim($matchs[4], ','));
+            $this->func_bind=explode(',', trim($matchs[4], ','));
         }
         // 指定文件
-        if (isset($matchs[4]) && $matchs[4]) {
-            $this->file=$matchs[4];
+        if (isset($matchs[5]) && $matchs[5]) {
+            $this->file=$matchs[5];
         }
+        // 调用方式
         if (isset($matchs[2])) {
             $this->static=(strcmp($matchs[2], '::')===0);
         }
         // 方法名
         if (isset($matchs[3]) && $matchs[3]) {
             return [$matchs[1],$matchs[3]];
-            // 函数名或类名
+            // 函数名
         } elseif (isset($matchs[1]) && $matchs[1]) {
             return $matchs[1];
         }

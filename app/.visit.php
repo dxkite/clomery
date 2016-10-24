@@ -18,6 +18,9 @@ Page::visit('/{pagename}', 'Develop->main')
 
     Page::visit('/article/{page}?', 'article\View->list')
 ->with('page', 'int')->id('article_list')->noCache();
+
+
+
     Page::visit('/article/category:{name}/{page}?', 'article\View->listCategory')
 ->with('name', 'string')->with('page', 'int')->id('article_category_list')->noCache();
     Page::visit('/article/tag:{name}/{page}?', 'article\View->listTag')
