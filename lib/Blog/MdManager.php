@@ -215,7 +215,7 @@ class Blog_MdManager
                     $config['top'],
                     $config['reply'],
                     $config['public'],
-                    md5($markdown+time()))) {
+                    md5($markdown))) {
             var_dump('exsits');
         }
         // ID不存在 相同文件md5则更新文件资源
