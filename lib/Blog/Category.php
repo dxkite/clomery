@@ -72,7 +72,7 @@ class Blog_Category
     public function getCategoryInfo(int $cid)
     {
         $q='SELECT * FROM `atd_category` WHERE `cid`=:cid';
-        return (new Query($q, ['cid'=>$cid]))->fetch;
+        return (new Query($q, ['cid'=>$cid]))->fetch();
     }
     // 重新统计分类信息
     public function refresh()

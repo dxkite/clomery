@@ -10,7 +10,22 @@ class Blog_Tag
         }
         return 0;
     }
-
+    public static function getInfoById(int $id)
+    {
+        $check='SELECT *  FROM `#{tags}` WHERE `tid`= :tid LIMIT 1;';
+        if ($fetch=(new Query($check, ['tid'=>$id]))->fetch()) {
+            return $fetch;
+        }
+        return 0;
+    }
+    public static function getInfoByName(string $tagname)
+    {
+        $check='SELECT * FROM `#{tags}` WHERE `name`= :name LIMIT 1;';
+        if ($fetch=(new Query($check, ['name'=>$tagname]))->fetch()) {
+            return $fetch;
+        }
+        return 0;
+    }
     public static function insertTag(int $topic, string  $tag)
     {
         $insert='INSERT INTO `#{tags}` (`topic`, `name`, `count`) VALUES (:topic ,:tagname, 0);';
@@ -86,7 +101,7 @@ class Blog_Tag
 
     public static function toArray(string $tag)
     {
-        return preg_split('/\s+/',trim($tag));
+        return preg_split('/\s+/', trim($tag));
     }
 
     // 重新统计信息

@@ -63,7 +63,7 @@ class View
         Page::set('title', $category.$title);
         Page::use('article/category');
         
-        $article_list=Blog_Article::getArticlesListbyCategory(0,Blog_Category::getCategoryId($category), $page_content, (int)$offset);
+        $article_list=Blog_Article::getArticlesListbyCategory(0,$cid=Blog_Category::getCategoryId($category), $page_content, (int)$offset);
          Page::set('category',$category);
         // var_dump($article_list,Blog_Category::getCategoryId($category));
         $article_list_obj=[];
@@ -74,7 +74,7 @@ class View
 
         Page::set('article_list', $article_list_obj);
 
-        Page::set('article_numbers', $page_number=Blog_Article::numbers());
+        Page::set('article_numbers', $page_number=Blog_Category::getCategoryInfo($cid)['count']);
         
         if ($page_content<$page_number) {
             for ($i=0, $j=1;$i<$page_number;$j++, $i+=$page_content) {
@@ -111,7 +111,7 @@ class View
             $article_list_obj[]= new CoreValue($article);
         }
         Page::set('article_list', $article_list_obj);
-        Page::set('article_numbers', $page_number=Blog_Article::numbers());
+        Page::set('article_numbers', $page_number=Blog_Tag::getInfoByName($tagname)['count']);
         if ($page_content<$page_number) {
             for ($i=0, $j=1;$i<$page_number;$j++, $i+=$page_content) {
                 $pages[$j]['offset']=$i;
