@@ -8,7 +8,7 @@ class Caller
 {
     public $caller;
     public $file;
-
+    public $static=false;
     public $params=[];
     // TODO : 可以引用文件的调用
     public function __construct($caller, array $params=[])
@@ -36,9 +36,11 @@ class Caller
             if (is_string($this->caller) && !function_exists($this->caller) && $this->file) {
                 self::include_file($this->file);
             }
-            // 调用非静态接口
+            // 调用接口
             elseif (is_array($this->caller) /*&& !is_callable($this->caller)*/) {
-                $this->caller[0]=new $this->caller[0];
+                if (!$this->static) {
+                    $this->caller[0]=new $this->caller[0];
+                }
             }
 
             return call_user_func_array($this->caller, $this->params);
@@ -59,12 +61,18 @@ class Caller
     }
     protected function parseCaller(string $caller)
     {
-        preg_match('/^([\w\\\\]+)?(?:#(\w+))?(?:@(.+$))?/', $caller, $matchs);
-        if (isset($matchs[3]) && $matchs[3]) {
-            $this->file=$matchs[3];
+        preg_match('/^([\w\\\\]+)?(?:(#|::)(\w+))?(?:@(.+$))?/', $caller, $matchs);
+        // 指定文件
+        if (isset($matchs[4]) && $matchs[4]) {
+            $this->file=$matchs[4];
         }
-        if (isset($matchs[2]) && $matchs[2]) {
-            return [$matchs[1],$matchs[2]];
+        if (isset($matchs[2])) {
+            $this->static=($matchs[2]!=='#');
+        }
+        // 方法名
+        if (isset($matchs[3]) && $matchs[3]) {
+            return [$matchs[1],$matchs[3]];
+            // 函数名或类名
         } elseif (isset($matchs[1]) && $matchs[1]) {
             return $matchs[1];
         }
