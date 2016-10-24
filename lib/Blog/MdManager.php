@@ -127,11 +127,12 @@ class Blog_MdManager
     protected function parseMdHead(string $markdown)
     {
         $config=null;
-        $config['time']=time();
-        $config['public']=1;
-        $config['top']=0;
-        $config['reply']=1;
+       
         $markdown=preg_replace_callback('/^\s*(#(?:.+?))-{3,}\r?\n/ism', function ($matchs) use (&$config) {
+            $config['time']=time();
+            $config['public']=1;
+            $config['top']=0;
+            $config['reply']=1;
             $header=$matchs[1];
             // 我是不是该用下循环？？
             if (preg_match('/^\s*#{1,6}\s*(.+)$/im', $header, $tagmatch)) {
@@ -206,13 +207,17 @@ class Blog_MdManager
         if (!isset($config['remark'])) {
             if (preg_match('/^(.+?)\r?\n\r?\n/ims', $markdown, $match_remark)) {
                 $remark=$match_remark[1];
+                // 如果字符长度大于255，删除最后一段
+                if (strlen($remark)>255) {
+                    $remark=preg_replace('/\r?\n(.+)\r?\n\r?\n$/ims', '', $remark);
+                }
+            } else {
+                $remark=substr($markdown, 0, 255);
             }
-            // 如果字符长度大于255，删除最后一段
-            if (strlen($remark)>255) {
-                $remark=preg_replace('/\r?\n(.+)\r?\n\r?\n$/ims', '', $remark);
-            }
+        } else {
+            $remark=$config['remark'];
         }
-        
+
         // 如果文章ID存在，更新文章内容
         if (isset($config['aid']) && Blog_Article::updateExistId(
                     $config['aid'],
@@ -247,7 +252,7 @@ class Blog_MdManager
         
             // 设置分类
             if (isset($config['categorys'])) {
-                if (Common_Auth::editCategory($uid)){
+                if (Common_Auth::editCategory($uid)) {
                     var_dump('create categorys='.Blog_Category::createCategorys($config['categorys']));
                 }
                 var_dump('set Category='.Blog_Category::setCategory($aid, $config['categorys']));
@@ -270,10 +275,20 @@ class Blog_MdManager
         $path=self::parsePath($this->root.'/'.self::parsePath($matchs[1]));
         // 获取压缩包内部文件
         if ($content=$this->archive->getFromName($path)) {
-            $id=Upload::uploadString($content, basename($path), pathinfo($path, PATHINFO_EXTENSION), 1);
-            var_dump('Upload='.$id);
-            $this->attachment[]=$id;
-            return  preg_replace('/\((.+?)\)$/', '('.str_replace('$', '\$', Upload::url($id, basename($matchs[1]))).')', $matchs[0]);
+            // 文章内文章
+            if (preg_match('/\.md$/', $path)) {
+                $aid=self::uploadMarkdown($path);
+                if ($aid>=0) {
+                    return  preg_replace('/\((.+?)\)$/', '('.str_replace('$', '\$', PageUrl::article($aid)).')', $matchs[0]);
+                } else {
+                    return $match[0];
+                }
+            } else {
+                $id=Upload::uploadString($content, basename($path), pathinfo($path, PATHINFO_EXTENSION), 1);
+                var_dump('Upload='.$id);
+                $this->attachment[]=$id;
+                return  preg_replace('/\((.+?)\)$/', '('.str_replace('$', '\$', Upload::url($id, basename($matchs[1]))).')', $matchs[0]);
+            }
         }
         // 允许从网络上下载URL需求
         elseif (in_array($matchs[1], $this->urlsave)) {
