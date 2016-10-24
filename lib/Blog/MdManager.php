@@ -126,16 +126,16 @@ class Blog_MdManager
     
     protected function parseMdHead(string $markdown)
     {
-        $config=null;
-       
+        $config['time']=time();
+        $config['public']=1;
+        $config['top']=0;
+        $config['reply']=1;
+        $config['finish']=0;
+
         $markdown=preg_replace_callback('/^\s*(#(?:.+?))-{3,}\r?\n/ism', function ($matchs) use (&$config) {
-            $config['time']=time();
-            $config['public']=1;
-            $config['top']=0;
-            $config['reply']=1;
             $header=$matchs[1];
             // 我是不是该用下循环？？
-            if (preg_match('/^\s*#{1,6}\s*(.+)$/im', $header, $tagmatch)) {
+            if (preg_match('/^\s*#{1,6}\s(.+)$/im', $header, $tagmatch)) {
                 $config['title']=$tagmatch[1];
             }
             if (preg_match('/^\s*(tags?|标签)([^:]*?)\s*:\s*(.+)$/im', $header, $tagmatch)) {
@@ -162,8 +162,11 @@ class Blog_MdManager
                 if (preg_match('/(save|草稿)/i', $tagmatch[3])) {
                     $config['public']=0;
                 }
-                if (preg_match('/((keep)?top|置顶)/i', $tagmatch[3])) {
+                if (preg_match('/((keep-)?top|置顶)/i', $tagmatch[3])) {
                     $config['top']=1;
+                }
+                if (preg_match('/(finish|完成)/i', $tagmatch[3])) {
+                    $config['finish']=1;
                 }
             }
             
@@ -173,6 +176,7 @@ class Blog_MdManager
                 }
             }
         }, $markdown, 1);
+        var_dump($config);
         return  ['config'=>$config,'markdown'=>$markdown];
     }
     
@@ -184,7 +188,7 @@ class Blog_MdManager
         $parse=self::parseMdHead($markdown);
         $markdown=$parse['markdown'];
         $config=$parse['config'];
-        
+        var_dump($config);
         if (!$config) {
             return -1;
         }
@@ -207,6 +211,9 @@ class Blog_MdManager
         $markdown=preg_replace_callback('/\[.+?\]\((.+?)\)/', [$this, 'uploadUsedResource'], $markdown);
         //  标记文件
         $aid=isset($config['aid'])?$config['aid']:-1;
+        if ($aid!==-1&&$config['finish']) {
+            return $aid;
+        }
         if (!isset($config['remark'])) {
             if (preg_match('/^(.+?)\r?\n\r?\n/ims', $markdown, $match_remark)) {
                 $remark=$match_remark[1];
@@ -279,13 +286,8 @@ class Blog_MdManager
         // 获取压缩包内部文件
         if ($content=$this->archive->getFromName($path)) {
             // 文章内文章
-            if (preg_match('/\.md$/', $path)) {
-                $aid=self::uploadMarkdown($path);
-                if ($aid>=0) {
-                    return  preg_replace('/\((.+?)\)$/', '('.str_replace('$', '\$', PageUrl::article($aid)).')', $matchs[0]);
-                } else {
-                    return $match[0];
-                }
+            if (preg_match('/\.md$/', $path) && ($aid=self::uploadMarkdown($path)) >=0) {
+                return  preg_replace('/\((.+?)\)$/', '('.str_replace('$', '\$', PageUrl::article($aid)).')', $matchs[0]);
             } else {
                 $id=Upload::uploadString($content, basename($path), pathinfo($path, PATHINFO_EXTENSION), 1);
                 var_dump('Upload='.$id);
