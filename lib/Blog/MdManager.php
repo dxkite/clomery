@@ -118,7 +118,7 @@ class Blog_MdManager
             if (preg_match('/^\s*(tags?|标签)([^:]*?)\s*:\s*(.+)$/im', $header, $tagmatch)) {
                 $config['tags']=$tagmatch[3];
             }
-            if (preg_match('/^\s*(a?id|修改)([^:]*?)\s*:\s*(.+)$/im', $header, $tagmatch)) {
+            if (preg_match('/^\s*(a?id|编号)([^:]*?)\s*:\s*(.+)$/im', $header, $tagmatch)) {
                 $config['aid']=(int)$tagmatch[3];
             }
             if (preg_match('/^\s*(categorys?|分类)([^:]*?)\s*:\s*(.+)$/im', $header, $tagmatch)) {
