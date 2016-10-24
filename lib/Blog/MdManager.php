@@ -126,13 +126,14 @@ class Blog_MdManager
     
     protected function parseMdHead(string $markdown)
     {
-        $config['time']=time();
-        $config['public']=1;
-        $config['top']=0;
-        $config['reply']=1;
-        $config['finish']=0;
-
+        // 不合格式的上传Md不将支持
+        $config=null;
         $markdown=preg_replace_callback('/^\s*(#(?:.+?))-{3,}\r?\n/ism', function ($matchs) use (&$config) {
+            $config['time']=time();
+            $config['public']=1;
+            $config['top']=0;
+            $config['reply']=1;
+            $config['finish']=0;
             $header=$matchs[1];
             // 我是不是该用下循环？？
             if (preg_match('/^\s*#{1,6}\s(.+)$/im', $header, $tagmatch)) {
