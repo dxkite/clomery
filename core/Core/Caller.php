@@ -32,14 +32,15 @@ class Caller
             if (count($params)) {
                 $this->params=$params;
             }
-            // 调用非静态接口
-            if (!is_callable($this->caller) && is_array($this->caller)) {
-                $this->caller[0]=new $this->caller[0];
-            }
-            // 是函数调用&指定了文件&函数不存在
+             // 是函数调用&指定了文件&函数不存在
             if (is_string($this->caller) && !function_exists($this->caller) && $this->file) {
                 self::include_file($this->file);
             }
+            // 调用非静态接口
+            elseif (is_array($this->caller) /*&& !is_callable($this->caller)*/) {
+                $this->caller[0]=new $this->caller[0];
+            }
+
             return call_user_func_array($this->caller, $this->params);
         } else {
             // 文件参数引入

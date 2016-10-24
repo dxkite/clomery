@@ -84,9 +84,9 @@ class Blog_Tag
         return (new Query($delete, ['aid'=>$aid, 'tid'=>$tid]))->exec() && (new Query($update, ['tid'=>$tid]))->exec();
     }
 
-    public static function tags2Array(string $tag)
+    public static function toArray(string $tag)
     {
-        return preg_split('/\s+/', $tag);
+        return preg_split('/\s+/',trim($tag));
     }
 
     // 重新统计信息

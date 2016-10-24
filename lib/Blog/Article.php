@@ -60,14 +60,14 @@ class Blog_Article
 
     public static function getArticlesList(int $topic=0, int $count=10, int $offset=0)
     {
-        $q='SELECT `aid`,`title`,`author` as `uid`,`atd_users`.`uname` as `author` ,`remark`,`views`,`modified`,`replys`,`atd_category`.`cid`,`atd_category`.`name` as `category`,`atd_category`.`icon`  FROM `atd_articles` LEFT JOIN  `atd_category` ON `atd_category`.`cid`=`category` LEFT JOIN `atd_users` ON `atd_users`.`uid`=`atd_articles`.`author` WHERE `atd_articles`.`topic`=:topic ORDER BY `atd_articles`.`modified` DESC LIMIT  :offset,:count;';
+        $q='SELECT `aid`,`title`,`author` as `uid`,`atd_users`.`uname` as `author` ,`remark`,`views`,`modified`,`replys`,`atd_category`.`cid`,`atd_category`.`name` as `category`,`atd_category`.`icon`  FROM `atd_articles` LEFT JOIN  `atd_category` ON `atd_category`.`cid`=`category` LEFT JOIN `atd_users` ON `atd_users`.`uid`=`atd_articles`.`author` WHERE `public`=1 AND `atd_articles`.`topic`=:topic ORDER BY `atd_articles`.`modified` DESC LIMIT  :offset,:count;';
         $db=($qs=new Query($q, ['topic'=>$topic, 'count'=>$count, 'offset'=>$offset]))->fetchAll();
         return $db;
     }
 
     public static function getArticlesListByCategory(int $topic,int $categoryid, int $count=10, int $offset=0)
     {
-        $q='SELECT `aid`,`title`,`author` as `uid`,`atd_users`.`uname` as `author` ,`remark`,`views`,`modified`,`replys`,`atd_category`.`cid`,`atd_category`.`name` as `category`,`atd_category`.`icon`  FROM `atd_articles` LEFT JOIN  `atd_category` ON `atd_category`.`cid`=`category` LEFT JOIN `atd_users` ON `atd_users`.`uid`=`atd_articles`.`author` WHERE `atd_articles`.`topic`=:topic AND `category`=:category ORDER BY `atd_articles`.`modified` DESC LIMIT  :offset,:count;';
+        $q='SELECT `aid`,`title`,`author` as `uid`,`atd_users`.`uname` as `author` ,`remark`,`views`,`modified`,`replys`,`atd_category`.`cid`,`atd_category`.`name` as `category`,`atd_category`.`icon`  FROM `atd_articles` LEFT JOIN  `atd_category` ON `atd_category`.`cid`=`category` LEFT JOIN `atd_users` ON `atd_users`.`uid`=`atd_articles`.`author` WHERE  `public`=1 AND `atd_articles`.`topic`=:topic AND `category`=:category ORDER BY `atd_articles`.`modified` DESC LIMIT  :offset,:count;';
         $db=($qs=new Query($q, ['topic'=>$topic,'category'=>$categoryid, 'count'=>$count, 'offset'=>$offset]))->fetchAll();
         // var_dump($qs->error());
         return $db;
@@ -94,7 +94,7 @@ LEFT JOIN
   `atd_category` ON `atd_category`.`cid` = `atd_articles`.`category`
 LEFT JOIN
   `atd_users` ON `atd_users`.`uid` = `atd_articles`.`author`
-WHERE
+WHERE  `public`=1 AND
   `atd_article_tag`.`tid` = :tid ORDER BY `atd_articles`.`modified` DESC LIMIT  :offset,:count;';
 
         $db=($qs=new Query($q, ['topic'=>$topic,'tid'=>$tid, 'count'=>$count, 'offset'=>$offset]))->fetchAll();
@@ -120,7 +120,7 @@ WHERE
     }
     public static function numbers():int
     {
-        $q='SELECT `TABLE_ROWS` as `size` FROM `information_schema`.`TABLES` WHERE  `TABLE_SCHEMA`="'.conf('Database.dbname').'" AND `TABLE_NAME` ="#{articles}" LIMIT 1;';
+        $q='SELECT count(`aid`) as `size` FROM `#{articles}` WHERE `public`=1 LIMIT 1;';
         if ($a=($d=new Query($q))->fetch()) {
             return $a['size'];
         }

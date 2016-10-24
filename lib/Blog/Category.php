@@ -2,9 +2,27 @@
 
 class Blog_Category
 {
-    // 设置分类
-    public function setCategory(int $aid, int $category)
+    public function createCategorys(string $category_str)
     {
+        $categorys=self::toArray($category_str);
+        $parent=0;
+        foreach ($categorys as $category) {
+            $parent=self::quickCreateCategory($category, $parent);
+        }
+        return $parent;
+    }
+
+    public function toArray(string $category)
+    {
+        return preg_split('/(\s*>\s*|\s+)/', trim($category));
+    }
+    
+    // 设置分类
+    public function setCategory(int $aid, string $categorys)
+    {
+        $arrays=self::toArray($categorys);
+        $category=self::getCategoryId(end($arrays));
+        var_dump('categoryid='.$category.'-for:'.end($arrays));
         $q='UPDATE `atd_articles` SET `category` = :category WHERE `atd_articles`.`aid` = :aid ;';
         $u='UPDATE `atd_category` SET `count` = `count` + 1  WHERE `atd_category`.`cid` = :cid;';
         return (new Query($q, ['aid'=>$aid, 'category'=>$category]))->exec() && (new Query($u, ['cid'=>$category]))->exec();
@@ -15,6 +33,15 @@ class Blog_Category
     {
         $q='INSERT INTO `atd_category` (`icon`, `name`, `discription`,`parent`) VALUES (:icon, :name , :discription , :parent);';
         if ((new Query($q, ['icon'=>$icon_id, 'name'=>$name, 'discription'=>$discription, 'parent'=>$parent]))->exec()) {
+            return Query::lastInsertId();
+        }
+        return 0;
+    }
+    // 快速创建分类
+    public function quickCreateCategory(string $name, int $parent=0)
+    {
+        $q='INSERT INTO `atd_category` (`name`, `discription`,`parent`) VALUES (:name , :discription , :parent);';
+        if ((new Query($q, ['name'=>$name, 'discription'=>$name, 'parent'=>$parent]))->exec()) {
             return Query::lastInsertId();
         }
         return 0;
@@ -48,7 +75,8 @@ class Blog_Category
         return (new Query($q, ['cid'=>$cid]))->fetch;
     }
     // 重新统计分类信息
-    public function refresh(){
+    public function refresh()
+    {
         $q='UPDATE `atd_category` SET  `count`= (SELECT count(*) FROM atd_articles WHERE `category` =`atd_category`.`cid` ) WHERE 1;';
         return (new Query($q))->exec();
     }
