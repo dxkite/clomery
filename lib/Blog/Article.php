@@ -142,4 +142,7 @@ WHERE  `public`=1 AND
     {
         return (new Query('ANALYZE TABLE `#{articles}`'))->exec();
     }
+    public function delete(int $aid){
+        //  TODO
+    }
 }

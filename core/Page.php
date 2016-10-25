@@ -12,8 +12,8 @@ class Page
     private static $maps=[];
     private static $default;
     private static $type=[
-        'int'=>'/\d+/',
-        'string'=>'/\S+/'
+        'int'=>'/^\d+$/',
+        'string'=>'/^\S+$/'
     ];
     private static $ids=[];
     private static $controller;
