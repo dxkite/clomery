@@ -245,18 +245,30 @@ class Parser
     {
         $self = $this;
         $text = $this->call('beforeParseInline', $text);
-
+        /**
+        \` 反引号
+        \* 星号
+        \_ 下划线
+        \{\} 大括号  // MathJax
+        \[\] 中括号  // MathJax
+        \(\) 小括号  // MathJax
+        \# 井号
+        \+ 加号
+        \- 减号
+        \. 英文句号
+        \! 感叹号
+        */
         // escape
         $text = preg_replace_callback(
-            "/\\\(.)/u",
+            '/\\\([`_.*-+!#])/u',
             function ($matches) use ($self) {
                 $escaped = htmlspecialchars($matches[1]);
                 $escaped = str_replace('$', '&dollar;', $escaped);
+                var_dump($matches);
                 return  $self->makeHolder($escaped);
             },
             $text
         );
-
         // code
         $text = preg_replace_callback(
             "/(^|[^\\\])(`+)(.+?)\\2/",

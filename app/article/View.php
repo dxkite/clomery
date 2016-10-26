@@ -147,4 +147,15 @@ class View
         $c=Blog_Article::getArticleContent((int)$aid);
         Page::set('article_html', $p->makeHTML($c));
     }
+    function test_markdown_mathjax($path){
+            $p=new Markdown_Parser;
+            $p->hook('afterParseCode',function ($result, $value){
+                if (preg_match('/^<pre><code class="(.+?)"/',$result)){
+                    return preg_replace('/^<pre><code class="(.+?)"/','<pre><code class="prettyprint lang-$1"',$result);
+                }
+                return preg_replace('/^<pre><code>/','<pre><code class="prettyprint">',$result);
+            });
+            $c=\Storage::get($path);
+            print_r($p->makeHTML($c));
+    }
 }
