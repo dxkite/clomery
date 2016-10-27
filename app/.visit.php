@@ -27,7 +27,8 @@ Page::visit('/{pagename}', 'Develop->main')
 // 查看文章
     Page::visit('/article:{aid}/{name}?', 'article\View->article')
 ->with('aid', 'int')->with('name', 'string')->id('article_view')->override()->noCache();
-
+    // 头像Alias
+    Page::visit('/avatar/{name}?','user\View::avatar')->with('name','string')->id('user_avatar')->age(10000)->close();
 
 
     Page::visit('/mail-verify:{uid}.{token}', 'verify@user/email_verify')

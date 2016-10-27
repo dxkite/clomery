@@ -208,6 +208,16 @@ class Common_User
         }
         return $info;
     }
+    public static function getPublicInfoByName(string $name)
+    {
+        static $info=null;
+        if (isset($info[$name])) {
+            return $info[$name];
+        } elseif ($info[$name]=(new Query('SELECT `#{users}`.`uid`,`uname` as `name`,`avatar`,`signup`,`discription` FROM `#{users}`  JOIN `#{user_info}` ON  `#{user_info}`.`uid` = `#{users}`.`uid` WHERE `#{users}`.`uname`=:name  LIMIT 1;', ['name'=>$name]))->fetch()) {
+            return $info[$name];
+        }
+        return $info;
+    }
     public static function getInfo(int $uid)
     {
         $q='SELECT * FROM `#{user_info}` WHERE `uid` = :uid LIMIT 1;';
