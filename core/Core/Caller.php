@@ -24,7 +24,9 @@ class Caller
         $this->params=$params;
         return $this;
     }
-
+    public static function getInstance($caller, array $params=[]){
+        return new Caller($caller,$params);
+    }
     public function call(array $params=[])
     {
         if (is_string($this->caller)) {
