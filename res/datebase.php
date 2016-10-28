@@ -2,7 +2,7 @@
 /* ------------------------------------------------------ *\
    ------------------------------------------------------
    PHP Simple Library XCore 1.x.3-dev Database Backup File
-        Create On: 2016-10-24 12:30:41
+        Create On: 2016-10-28 11:54:48
         SQL Server version: 10.1.10-MariaDB
         Host: localhost   
         Database: hello_world
@@ -51,7 +51,7 @@ Query::beginTransaction();
   KEY `modified` (`modified`),
   KEY `modified_2` (`modified`),
   KEY `category` (`category`)
-) ENGINE=InnoDB AUTO_INCREMENT=111 DEFAULT CHARSET=utf8'))->exec();
+) ENGINE=InnoDB AUTO_INCREMENT=128 DEFAULT CHARSET=utf8'))->exec();
 
  (new Query('DROP TABLE IF EXISTS #{category}'))->exec();
 
@@ -68,9 +68,9 @@ Query::beginTransaction();
   KEY `cname` (`name`),
   KEY `parent` (`parent`),
   KEY `topic` (`topic`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8'))->exec();
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8'))->exec();
 
- (new Query('INSERT INTO  `#{category}` VALUES (\'1\',\'0\',\'0\',\'网站日志\',\'网站的相关话题\',\'4\',\'0\'),(\'2\',\'1\',\'0\',\'网站教程\',\'网站内的一些教程\',\'4\',\'0\'),(\'3\',\'0\',\'0\',\'作者通知\',\'作者通知\',\'10\',\'0\'),(\'4\',\'0\',\'0\',\'信息安全\',\'信息安全\',\'0\',\'0\'),(\'5\',\'0\',\'0\',\'网络安全\',\'网络安全\',\'1\',\'4\'),(\'6\',\'0\',\'0\',\'功能测试\',\'功能测试\',\'1\',\'0\')'))->exec();
+ (new Query('INSERT INTO  `#{category}` VALUES (\'1\',\'0\',\'0\',\'网站日志\',\'网站的相关话题\',\'2\',\'0\'),(\'2\',\'1\',\'0\',\'网站教程\',\'网站内的一些教程\',\'3\',\'0\'),(\'3\',\'0\',\'0\',\'作者通知\',\'作者通知\',\'8\',\'0\'),(\'4\',\'0\',\'0\',\'信息安全\',\'信息安全\',\'0\',\'0\'),(\'5\',\'0\',\'0\',\'网络安全\',\'网络安全\',\'0\',\'4\'),(\'6\',\'0\',\'0\',\'功能测试\',\'功能测试\',\'9\',\'0\'),(\'18\',\'0\',\'0\',\'DX随笔教程集\',\'DX随笔教程集\',\'5\',\'0\'),(\'22\',\'0\',\'0\',\'C语言教程\',\'C语言教程\',\'1\',\'0\')'))->exec();
 
  (new Query('DROP TABLE IF EXISTS #{groups}'))->exec();
 
@@ -141,7 +141,7 @@ Query::beginTransaction();
   PRIMARY KEY (`tid`),
   UNIQUE KEY `name` (`name`),
   KEY `topic` (`topic`)
-) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8'))->exec();
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8'))->exec();
 
  (new Query('DROP TABLE IF EXISTS #{upload_resource}'))->exec();
 
@@ -153,7 +153,7 @@ Query::beginTransaction();
   PRIMARY KEY (`rid`),
   UNIQUE KEY `hash` (`hash`),
   KEY `type` (`type`)
-) ENGINE=InnoDB AUTO_INCREMENT=2028 DEFAULT CHARSET=utf8'))->exec();
+) ENGINE=InnoDB AUTO_INCREMENT=2059 DEFAULT CHARSET=utf8'))->exec();
 
  (new Query('DROP TABLE IF EXISTS #{uploads}'))->exec();
 
@@ -174,7 +174,7 @@ Query::beginTransaction();
   KEY `extension` (`extension`),
   KEY `for` (`for`),
   KEY `what` (`what`)
-) ENGINE=InnoDB AUTO_INCREMENT=300 DEFAULT CHARSET=utf8 COMMENT=\'上传资源表\''))->exec();
+) ENGINE=InnoDB AUTO_INCREMENT=318 DEFAULT CHARSET=utf8 COMMENT=\'上传资源表\''))->exec();
 
  (new Query('DROP TABLE IF EXISTS #{user_info}'))->exec();
 
