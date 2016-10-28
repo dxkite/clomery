@@ -18,7 +18,7 @@ class View
             Page::use('/user/user');
        }
     }
-    public function avatar(string $name){
+    public function avatar(string $name=''){
         $info=Common_User::getPublicInfoByName($name);
         if (isset($info['avatar'])){
             \Upload::outputPublic($info['avatar']);
