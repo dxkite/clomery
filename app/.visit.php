@@ -52,8 +52,10 @@ Page::visit('/{pagename}', 'Develop->main')
 ->with('name', 'string')
 ->id('upload')->override();
     Page::auto('/user', '/user')->id('user');
+
     // 管理界面导向
-    Page::auto('/0.0', '/admin')->id('admin');
+    Page::auto('/admin', '/admin')->id('admin');
+    
     Page::auto('/test', '/test')->id('test');
     // 验证码
     Page::visit('/verify_code', function () {

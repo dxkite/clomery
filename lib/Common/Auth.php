@@ -1,6 +1,7 @@
 <?php
 // 统一使用一个权限表
 // TODO : 多组的权限表 ?
+
 class Common_Auth
 {
     public $uid=0;
@@ -38,4 +39,15 @@ class Common_Auth
         }
         return false;
     }
+
+    
+    public function groupInfo(int $gid) :bool
+    {
+        $cmd='SELECT * FROM `atd_groups`.`gid`= :gid  LIMIT 1;';
+        if ($set=(new Query($cmd, ['git'=>$uid]))->fetch()) {
+            return $set;
+        }
+        return false;
+    }
+    
 }

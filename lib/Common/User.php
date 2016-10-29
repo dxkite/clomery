@@ -15,6 +15,7 @@ class Common_User
         }
         return 0;
     }
+    
     public static function emailExist(string $email):bool
     {
         $q=new Query('SELECT uid FROM #{users} where LOWER(email) = LOWER(:email) LIMIT 1;');
@@ -241,5 +242,13 @@ class Common_User
             return $get['email_verify'] == 'Y';
         }
         return false;
+    }
+    public static function id2group($uid)
+    {
+        $q='SELECT `gid` FROM `#{users}` WHERE `uid` = :uid LIMIT 1;';
+        if ($sets=(new Query($q, ['uid'=>$uid]))->fetch()) {
+            return $sets['gid'];
+        }
+        return 0;
     }
 }
