@@ -15,7 +15,7 @@ class User_Permission
             'editGroup'=>'E_group',
             'editCategory'=>'E_category',
             'useSu'=>'U_su',
-        ];
+    ];
 
     public function __construct(int $uid)
     {

@@ -8,7 +8,7 @@ class User
     private $permission=null;
     private $history=null;
     private $info=null;
-
+    // 验证登陆
     public function hasSignin()
     {
         if ($info=Common_User::hasSignin()) {
@@ -19,16 +19,12 @@ class User
         }
     }
 
-    // 获取信息
-    public function __get(string $name)
+    // 头像URL
+    public function avatar()
     {
-        if (isset($this->base[$name])) {
-            return $this->base[$name];
-        } elseif (method_exists($this, $name)) {
-            return $this->{$name}();
-        }
-        return null;
+        return PageUrl::avatar($this->name);
     }
+
     // 权限
     public function permission()
     {
@@ -41,15 +37,28 @@ class User
     public function history()
     {
         if (is_null($this->history)) {
-            $this->history=Common_User::getSigninLogs($this->base['uid']);
+            $this->history=new Core\Value(Common_User::getSigninLogs($this->base['uid']));
         }
         return $this->history;
     }
+
+    // 用户信息
     public function info()
     {
         if (is_null($this->info)) {
-            $this->info=Common_User::getInfo($this->base['uid']);
+            $this->info=new Core\Value(Common_User::getInfo($this->base['uid']));
         }
         return $this->info;
+    }
+
+    // 获取信息魔术方法
+    public function __get(string $name)
+    {
+        if (isset($this->base[$name])) {
+            return $this->base[$name];
+        } elseif (method_exists($this, $name)) {
+            return $this->{$name}();
+        }
+        return null;
     }
 }

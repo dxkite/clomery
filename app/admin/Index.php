@@ -2,7 +2,7 @@
 
 if (System::user()->hasSignin) {
     echo 'signin';
-    var_dump(System::user()->name);
+    var_dump(System::user()->avatar);
     if (System::user()->permission->editSite) {
         echo 'have perimission';
     } else {

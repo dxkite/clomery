@@ -13,10 +13,9 @@ class PageUrl
     {
         return Page::url('article_view', ['aid'=>$aid, 'name'=>$name]);
     }
-    public static function avatar(int $uid)
+    public static function avatar(string $name)
     {
-        $info=Common_User::getPublicInfo($uid);
-        return Page::url('upload', ['id'=> $info['avatar'], 'name'=> $info['name']]);
+        return Page::url('user_avatar', ['name'=>$name]);
     } 
     public static function verifyMailUrl(int $uid,string $token){
         return Page::url('mail_verify',['uid'=>$uid,'token'=>$token]);
