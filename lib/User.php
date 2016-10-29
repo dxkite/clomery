@@ -4,9 +4,9 @@
 */
 class User
 {
-
     private $base=null;
     private $permission=null;
+    private $history=null;
 
     public function hasSignin()
     {
@@ -18,19 +18,30 @@ class User
         }
     }
     
+    // 获取信息
     public function __get(string $name)
     {
-        if (isset($this->base[$name])){
+        if (isset($this->base[$name])) {
             return $this->base[$name];
+        } elseif (method_exists($this, $name)) {
+            return $this->{$name}();
         }
         return null;
     }
-    
+    // 权限
     public function permission()
     {
         if (is_null($this->permission)) {
             $this->permission=new User_Permission($this->base['uid']);
         }
         return $this->permission;
+    }
+    // 登陆历史
+    public function history()
+    {
+        if (is_null($this->history)) {
+            $this->history=Common_User::getSigninLogs($this->base['uid']);
+        }
+        return $this->history;
     }
 }
