@@ -182,6 +182,7 @@ class Common_User
         (new Query('UPDATE `#{users}` SET `token` = \'\' WHERE `#{users}`.`uid` = :uid ;'))->values(['uid'=>$uid])->exec();
         // 设置登陆状态
         Session::set('signin', false);
+        Cookie::unset('token');
         Session::destroy();
     }
 

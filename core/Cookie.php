@@ -19,6 +19,10 @@ class Cookie
         self::$values[$name]=new Setter($name, $value, $expire);
         return self::$values[$name];
     }
+    public static function unset(string $name)
+    {
+        self::set($name,'unset',0);
+    }
     public static function has(string $name)
     {
         return isset(self::$values[$name]) || isset($_COOKIE[$name]);
