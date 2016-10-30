@@ -36,6 +36,7 @@ class WebSocket_Server
             
             //如果有新的连接
             if (in_array($this->socket, $readable)) {
+               
                 //接受并加入新的socket连接
                 $socket_new = socket_accept($this->socket);
                 $this->clients[] = $socket_new;
@@ -46,7 +47,7 @@ class WebSocket_Server
                 //获取client ip 编码json数据,并发送通知
                 socket_getpeername($socket_new, $ip);
                 printf("Client %s Connected\n",$ip);
-                self::pushMessage(json_encode(array('type'=>'system', 'message'=>$ip.' connected')));
+                self::pushMessage(json_encode(array('type'=>'system', 'message'=>System::user()->name.'('.$ip.') connected')));
                 $found_socket = array_search($this->socket, $readable);
                 unset($readable[$found_socket]);
             }
@@ -141,7 +142,6 @@ class WebSocket_Server
     //握手的逻辑
     public function perform_handshaking($receved_header, $client_conn, $host, $port)
     {
-        print_r($receved_header);
         $headers = array();
         $lines = preg_split("/\r\n/", $receved_header);
         foreach ($lines as $line) {
@@ -150,7 +150,17 @@ class WebSocket_Server
                 $headers[$matches[1]] = $matches[2];
             }
         }
+        if (isset($headers['Cookie']))
+        {
+            $sets=explode(';',$headers['Cookie']);
+            foreach ($sets as $str)
+            {
+                list($key,$value)=explode('=',$str,2);
+                $_COOKIE[trim($key)]=trim($value);
+            }
+        }
         
+        var_dump(System::user()->hasSignin);
         $secKey = $headers['Sec-WebSocket-Key'];
         $secAccept = base64_encode(pack('H*', sha1($secKey . '258EAFA5-E914-47DA-95CA-C5AB0DC85B11')));
         $upgrade  = "HTTP/1.1 101 Web Socket Protocol Handshake\r\n" .
