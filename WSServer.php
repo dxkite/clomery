@@ -1,5 +1,7 @@
 <?php
     require_once 'core/XCore.php';
+        // 开启Session
+    Session::start();
     //require_once 'core/WebSocket.php';
     $ws=new WebSocket_Server();
     $ws->onMessage(function ($id, $message) use($ws) {

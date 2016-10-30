@@ -27,9 +27,13 @@ class Session
         $_SESSION[$name]=$value;
         return isset($_SESSION[$name]);
     }
-    public static function get(string $name, $default=null)
+    public static function get(string $name='', $default=null)
     {
-        return isset($_SESSION[$name])?$_SESSION[$name]:$default;
+        if ($name) {
+            return isset($_SESSION[$name])?$_SESSION[$name]:$default;
+        } else {
+            return $_SESSION;
+        }
     }
     public static function has(string $name)
     {

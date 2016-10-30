@@ -36,7 +36,6 @@ class WebSocket_Server
             
             //如果有新的连接
             if (in_array($this->socket, $readable)) {
-
                 //接受并加入新的socket连接
                 $socket_new = socket_accept($this->socket);
                 $this->clients[] = $socket_new;
