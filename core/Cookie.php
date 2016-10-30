@@ -21,7 +21,7 @@ class Cookie
     }
     public static function unset(string $name)
     {
-        self::set($name,'unset',0);
+        self::set($name, 'unset', 0);
     }
     public static function has(string $name)
     {
@@ -44,6 +44,14 @@ class Cookie
     {
         foreach (self::$values as $setter) {
             $setter->set();
+        }
+    }
+    public static function parseFromString(string $cookie_str)
+    {
+        $sets=explode(';', $cookie_str);
+        foreach ($sets as $str) {
+            list($key, $value)=explode('=', $str, 2);
+            $_COOKIE[trim($key)]=trim($value);
         }
     }
 }

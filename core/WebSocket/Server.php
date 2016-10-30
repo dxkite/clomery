@@ -152,12 +152,7 @@ class WebSocket_Server
         }
         if (isset($headers['Cookie']))
         {
-            $sets=explode(';',$headers['Cookie']);
-            foreach ($sets as $str)
-            {
-                list($key,$value)=explode('=',$str,2);
-                $_COOKIE[trim($key)]=trim($value);
-            }
+            Cookie::parseFromString($headers['Cookie']);
         }
         
         var_dump(System::user()->hasSignin);
