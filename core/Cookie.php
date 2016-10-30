@@ -46,6 +46,9 @@ class Cookie
             $setter->set();
         }
     }
+    /**
+    * 从字符串设置cookie
+    */
     public static function parseFromString(string $cookie_str)
     {
         $sets=explode(';', $cookie_str);
