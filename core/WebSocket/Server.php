@@ -162,6 +162,7 @@ class WebSocket_Server
                     "Upgrade: websocket\r\n" .
                     "Connection: Upgrade\r\n" .
                     "WebSocket-Origin: $host\r\n" .
+                    'X-Powered-By: DXCore/'.CORE_VERSION."\r\n".
                     "Sec-WebSocket-Accept:$secAccept\r\n\r\n";
         socket_write($client_conn, $upgrade, strlen($upgrade));
     }

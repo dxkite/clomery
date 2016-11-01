@@ -187,9 +187,9 @@ class PageController extends Caller
     public function render(array $value=[])
     {
         if (defined('APP_VERSION')) {
-            header('Core-App-Version: '.APP_VERSION);
+            header('X-Core-App-Version: '.APP_VERSION);
         }
-        header('Powered-By: DXCore/'.CORE_VERSION);
+        header('X-Powered-By: DXCore/'.CORE_VERSION);
         if (!is_null($this->status)) {
             send_http_status($this->status);
         }
