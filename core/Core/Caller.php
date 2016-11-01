@@ -45,7 +45,7 @@ class Caller
             }
             $this->params=$args;
         }
-        
+
         // 非空调用
         if ($this->caller) {
              // 是函数调用&指定了文件&函数不存在
@@ -60,14 +60,12 @@ class Caller
                 }
             }
             return call_user_func_array($this->caller, $this->params);
-        } else {
+        } else if ($this->file) {
             // 文件参数引入
             $params=array_unshift($params, $this->file);
             $_SERVER['argv']=$params;
             $_SERVER['args']=count($params);
-            if ($this->file) {
-                return self::include_file($this->file);
-            }
+            return self::include_file($this->file);
         }
         return false;
     }
