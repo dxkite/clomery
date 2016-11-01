@@ -4,7 +4,7 @@ namespace article;
 use Blog_Article;
 use Markdown\Parser as Markdown_Parser;
 use Page;
-use Core\Value as CoreValue;
+use View\Value;
 use Blog_Tag;
 use Blog_Category;
 
@@ -28,7 +28,7 @@ class View
         $article_list_obj=[];
 
         foreach ($article_list as $article){
-            $article_list_obj[]= new CoreValue($article);
+            $article_list_obj[]= new Value($article);
         }
 
         Page::set('article_list', $article_list_obj);
@@ -71,7 +71,7 @@ class View
         $article_list_obj=[];
 
         foreach ($article_list as $article){
-            $article_list_obj[]= new CoreValue($article);
+            $article_list_obj[]= new Value($article);
         }
 
         Page::set('article_list', $article_list_obj);
@@ -110,7 +110,7 @@ class View
          Page::set('tag',$tagname);
         $article_list_obj=[];
         foreach ($article_list as $article){
-            $article_list_obj[]= new CoreValue($article);
+            $article_list_obj[]= new Value($article);
         }
         Page::set('article_list', $article_list_obj);
         Page::set('article_numbers', $page_number=Blog_Tag::getInfoByName($tagname)['count']);
@@ -135,7 +135,7 @@ class View
         $info=Blog_Article::getArticleInfo((int)$aid);
         Page::set('title', $info['title']);
         $info['tags']=Blog_Tag::getTags((int)$aid);
-        Page::set('article', new CoreValue($info));
+        Page::set('article', new Value($info));
         Page::use('article/read');
         $p=new Markdown_Parser;
         $p->hook('afterParseCode',function ($result, $value){

@@ -3,7 +3,7 @@ namespace user;
 
 use Common_User;
 use Page;
-use Core\Value;
+use View\Value;
 
 class Index
 {
