@@ -17,10 +17,10 @@ class Request extends Core\Value
         if (is_null(self::$_get)) {
             self::$_get=new Value($_GET);
         }
-        if (is_null($name)) {
-            return self::$_get;
-        } else {
+        if ($name) {
             return self::$_get->$name;
+        } else {
+            return self::$_get;
         }
     }
 
@@ -29,10 +29,10 @@ class Request extends Core\Value
         if (is_null(self::$_POST)) {
             self::$_post=new Value($_POST);
         }
-        if (is_null($name)) {
-            return self::$_post;
-        } else {
+        if ($name) {
             return self::$_post->$name;
+        } else {
+            return self::$_post;
         }
     }
 
