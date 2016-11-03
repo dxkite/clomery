@@ -41,7 +41,7 @@ class EventCaller
         if ($this->type&self::EVENT_SHIFT) {
             while ($callback=array_shift($this->callers)) {
                 // // 指定名字
-                if (!is_string($this->select) || $callback->name() !==$this->select) {
+                if (is_string($this->select) && $callback->name() !==$this->select) {
                     continue;
                 }
                 if ($callback->call($args)===true && $break) {
@@ -51,7 +51,7 @@ class EventCaller
         } else /* if ($this->type&self::EVENT_POP)*/ {
             while ($callback=array_pop($this->callers)) {
                 
-                if (!is_string($this->select) || $callback->name() !==$this->select) {
+                if ( is_string($this->select) && $callback->name() !==$this->select) {
                     continue;
                 }
                 if ($callback->call($args)===true && $break) {
