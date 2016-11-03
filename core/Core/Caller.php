@@ -11,7 +11,7 @@ class Caller
     public $static=false;
     public $params=[];
     public $func_bind=[];
-
+    public $name;
 
     // TODO : 可以引用文件的调用
     public function __construct($caller, array $params=[])
@@ -19,16 +19,25 @@ class Caller
         $this->caller=$caller;
         $this->params=$params;
     }
+    public function name(string $name='')
+    {
+        if ($name) {
+            $this->name=$name;
+        }
+        return $this->name;
+    }
     public function params(array $params)
     {
         $this->params=$params;
         return $this;
     }
-    public static function getInstance($caller, array $params=[]){
-        return new Caller($caller,$params);
-    }
+    // public static function getInstance($caller, array $params=[])
+    // {
+    //     return new Caller($caller, $params);
+    // }
     public function call(array $params=[])
     {
+        
         if (is_string($this->caller)) {
             $this->caller= self::parseCaller($this->caller);
         }
@@ -45,10 +54,10 @@ class Caller
             }
             $this->params=$args;
         }
-
+        
         // 非空调用
         if ($this->caller) {
-             // 是函数调用&指定了文件&函数不存在
+            // 是函数调用&指定了文件&函数不存在
             if (is_string($this->caller) && !function_exists($this->caller) && $this->file) {
                 self::include_file($this->file);
             }
@@ -60,7 +69,7 @@ class Caller
                 }
             }
             return call_user_func_array($this->caller, $this->params);
-        } else if ($this->file) {
+        } elseif ($this->file) {
             // 文件参数引入
             $params=array_unshift($params, $this->file);
             $_SERVER['argv']=$params;

@@ -1,7 +1,8 @@
 <?php
-use \Core\PageController  as Page_Controller;
-use \Core\Caller;
-use \Core\Arr;
+use Core\PageController  as Page_Controller;
+use Core\Caller;
+use Core\Arr;
+use Core\EventCaller;
 
 /**
  * Class Page
@@ -30,26 +31,40 @@ class Page
             echo 'H:['.$name.']';
         }
         if (isset(self::$insert[$name])) {
-            foreach (self::$insert[$name] as $caller) {
-                $caller->call($args);
-            }
+            self::$insert[$name]->call($args);
         }
     }
     public static function language(string $lang=null)
     {
         return is_null($lang)?self::$lang:self::$lang=$lang;
     }
+
+    public static function insertSelect(string $name, string $select)
+    {
+        if (isset(self::$insert[$name])) {
+            return self::$insert[$name]->select($select);
+        }
+        return false;
+    }
+
     public static function insertCallback(string $name, $caller)
     {
-        $caller=new Caller($caller);
-        self::$insert[$name][]=$caller;
+        if (!isset(self::$insert[$name])) {
+            self::$insert[$name]=new EventCaller;
+        }
+        if ($caller instanceof Caller) {
+            return self::$insert[$name]->add($caller);
+        }
+        return self::$insert[$name]->add(new Caller($caller));
     }
+
     public static function insertCallbackArray(array $callers)
     {
         foreach ($callers as $name => $caller) {
             self::insertCallback($name, $caller);
         }
     }
+
     public static function use(string $page)
     {
         self::$controller->use($page);
@@ -212,7 +227,7 @@ class Page
         $success=false;
         // 保证URL后面都含有 /
         $path=rtrim($match[2], '/').'/';
-        define('__CURRENT_URL__', $path);
+        // define('__CURRENT_URL__', $path);
         // 开始匹配
         foreach (self::$maps as $url=>$caller) {
             // 满足前提条件
