@@ -56,7 +56,7 @@ Page::visit('/{pagename}', 'Develop->main')
     // 管理界面导向
     Page::auto('/admin', '/admin')->id('admin');
 
-    // 管理界面导向
+    // 管理界面导向 - 外部插件用
     Page::visit('/admin/{plugin}', 'admin\Index->plugin')
     ->with('plugin','string')->id('admin_plugin');
 
