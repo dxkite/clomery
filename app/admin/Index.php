@@ -27,7 +27,7 @@ class Index
         return false;
     }
     
-    public function main()
+    public function main($addon='')
     {
         if (System::user()->hasSignin) {
             echo 'signin';

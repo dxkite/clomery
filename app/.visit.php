@@ -55,7 +55,11 @@ Page::visit('/{pagename}', 'Develop->main')
 
     // 管理界面导向
     Page::auto('/admin', '/admin')->id('admin');
-    
+
+    // 管理界面导向
+    Page::visit('/admin/{plugin}', 'admin\Index->plugin')
+    ->with('plugin','string')->id('admin_plugin');
+
     Page::auto('/test', '/test')->id('test');
     // 验证码
     Page::visit('/verify_code', function () {
@@ -67,8 +71,9 @@ Page::visit('/{pagename}', 'Develop->main')
 Page::default(function ($path) {
         Page::error404($path);
     })->use(404)->status(404);
+
 // 404 页面 访问的url为 /QAQ ,无回调函数，使用404的页面，返回状态404，设置名称为 404_page
-Page::visit('/QAQ', function () {
+Page::visit('/404_page.html', function () {
     Page::error404();
 })->use(404)->status(404)->id('404_page');
 }

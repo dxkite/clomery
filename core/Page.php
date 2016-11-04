@@ -23,7 +23,8 @@ class Page
     private static $insert=[];
     private static $globals=[];
     private static $lang='zh_cn';
-    
+    private static $success=false;
+
     public static function insert(string $name, array $args=[])
     {
         // 显示插入点
@@ -192,7 +193,8 @@ class Page
      */
     public static function auto(string $name_path, string $pathroot)
     {
-        $auto=function ($path='Index') use ($name_path, $pathroot) {
+        $success=&self::$success;
+        $auto=function ($path='Index') use ($name_path, $pathroot,&$success) {
             if (!$path) {
                 $path='Index';
             }
@@ -206,7 +208,7 @@ class Page
                     return $app ->main();
                 }
             } else {
-                self::error404(self::url('404_page').'?url='.urlencode($path));
+                $success=false;
             }
         };
         return self::visit(rtrim($name_path).'/{path}?', $auto)
@@ -224,7 +226,7 @@ class Page
     public static function display()
     {
         preg_match('/(.*)\/index.php([^?]*)([?].+)?$/', $_SERVER['PHP_SELF'], $match);
-        $success=false;
+        
         // 保证URL后面都含有 /
         $path=rtrim($match[2], '/').'/';
         // define('__CURRENT_URL__', $path);
@@ -235,7 +237,7 @@ class Page
                 break;
             }
             // 完成匹配
-            if ($success) {
+            if (self::$success) {
                 break;
             }
             // 获取动态参数
@@ -255,7 +257,7 @@ class Page
             // 检查变量是否存在URL中
             if (count($regs)===count($args[1]) && preg_match('/^'.$regpath.'\/?$/', $path, $values)) {
                 // 初步验证成功
-                $success=true;
+                self::$success=true;
                 // 去除第一个值
                 array_shift($values);
                 // 去除非必须参数
@@ -273,20 +275,20 @@ class Page
                     }
                     // 类型再次验证
                     if (isset($keymap[$name]) && !preg_match($preg, $keymap[$name])) {
-                        $success=false;
+                        self::$success=false;
                     }
                 }
 
-                if ($success) {
+                if (self::$success) {
                     self::call($caller, $values);
                 }
             } elseif (preg_match('/^'.preg_quote($url, '/').'$/', $path)) {
-                $success=true;
+                self::$success=true;
                 self::call($caller, [$path]);
             }
         }
         // 默认
-        if (!$success && isset(self::$default)) {
+        if (!self::$success && isset(self::$default)) {
             self::call(self::$default, [$path]);
         }
     }
