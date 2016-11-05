@@ -5,8 +5,8 @@
 // }
 
 if (conf('Uninstall')) {
-    // 找不到页面时
-    Page::default(['Install', 'start']);
+    // 未安装
+    Page::default('Install::start');
 } else {
     // 主页
     Page::visit('/', ['Main', 'main'])->use('index')->id('main_page')->noCache();
@@ -42,6 +42,6 @@ if (conf('Uninstall')) {
     Page::visit('/verify_code', 'Image->verifyImage')->raw()->type('png')->id('verify_code');
     // 找不到页面时
     Page::default('Page::error404')->use(404)->status(404);
-    // 404 页面 访问的url为 /QAQ ,无回调函数，使用404的页面，返回状态404，设置名称为 404_page
+    // 404 页面
     Page::visit('/404_page.html', 'Page::error404')->use(404)->status(404)->id('404_page');
 }
