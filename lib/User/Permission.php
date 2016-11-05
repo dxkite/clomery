@@ -9,13 +9,7 @@ class User_Permission
     public $gid=0;
     public $uid=0;
 
-    public static $alias=[
-            'editSite'=>'E_Site',
-            'editUser'=>'E_user',
-            'editGroup'=>'E_group',
-            'editCategory'=>'E_category',
-            'useSu'=>'U_su',
-    ];
+    public static $alias=[];
 
     public function __construct(int $uid)
     {
