@@ -15,7 +15,6 @@ class Index
             self::setvalues();
             Page::use('user/index');
         } else {
-            // (new SignIn())->main();
              Page::redirect('/user/SignIn');
         }
     }

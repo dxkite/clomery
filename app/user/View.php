@@ -11,7 +11,7 @@ class View
        
        $info=Common_User::getPublicInfo((int)$uid);
        if (isset($info['uid'])){
-            $info['avatar_url']=PageUrl::avatar($info['uid']);
+            $info['avatar_url']=PageUrl::avatar($info['name']);
             $user=new \Core\Value($info);
             Page::set('user', $user);
             Page::set('title', $user->name.' - 的主页');

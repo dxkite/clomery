@@ -7,7 +7,7 @@
 		<div class="basebord">
 			<div class="basebord-title container">
 				<div class="user-bord">
-					<a href="{{PageUrl::UserHome($article->uid)}}"><img alt="icon-bdimg" src="{{PageUrl::Avatar($article->uid)}}"></img></a>
+					<a href="{{PageUrl::UserHome($article->uid)}}"><img alt="icon-bdimg" src="{{PageUrl::Avatar($article->author)}}"></img></a>
 					<div class="p-info">
 						<div class="p-name"><a href="{{PageUrl::UserHome($article->uid)}}">{{ $article->author }}</a> </div>
 						<div class="p-time">{{ date('Y-m-d H:i:s',$article->modified) }} {{ $article->category('未分类') }}</div>
