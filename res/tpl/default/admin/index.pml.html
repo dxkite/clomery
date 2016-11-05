@@ -5,8 +5,17 @@
 </head>
 
 <body>
-    <div>已注册用户：{{ Common_User::numbers() }} </div>
-    <div>文章总数： {{ Blog_Article::numbers() }}</div>
+    <h3>管理项</h3>
+    <ol>
+        @foreach ($_Page->options as $option)
+        <li> <a href="{{$option->href}}"><img src="{{$option->icon}}" alt="{{$option->alt($option->title(''))}}">{{$option->title}}</a></li>
+        @endforeach
+    </ol>
+    <div>
+        <div>已注册用户：{{ Common_User::numbers() }} </div>
+        <div>文章总数： {{ Blog_Article::numbers() }}</div>
+    </div>
+
 </body>
 
 </html>
