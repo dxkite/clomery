@@ -2,7 +2,7 @@
 /* ------------------------------------------------------ *\
    ------------------------------------------------------
    PHP Simple Library XCore 1.x.4-dev Database Backup File
-        Create On: 2016-11-05 14:16:02
+        Create On: 2016-11-05 14:22:51
         SQL Server version: 10.1.10-MariaDB
         Host: localhost   
         Database: hello_world
@@ -96,11 +96,11 @@ Query::beginTransaction();
   `uid` bigint(20) NOT NULL DEFAULT \'0\',
   `sort` int(11) NOT NULL COMMENT \'分组排序\',
   `gname` varchar(80) NOT NULL,
-  `E_Site` enum(\'Y\',\'N\') NOT NULL DEFAULT \'N\' COMMENT \'编辑站点\',
-  `E_group` enum(\'Y\',\'N\') NOT NULL DEFAULT \'N\' COMMENT \'编辑分组\',
-  `E_user` enum(\'Y\',\'N\') NOT NULL DEFAULT \'N\' COMMENT \'编辑用户\',
-  `U_su` enum(\'Y\',\'N\') NOT NULL DEFAULT \'N\' COMMENT \'可以使用别人的名义\',
-  `E_category` enum(\'Y\',\'N\') NOT NULL DEFAULT \'N\' COMMENT \'编辑分类\',
+  `editSite` enum(\'Y\',\'N\') NOT NULL DEFAULT \'N\' COMMENT \'编辑站点\',
+  `editGroup` enum(\'Y\',\'N\') NOT NULL DEFAULT \'N\' COMMENT \'编辑分组\',
+  `editUser` enum(\'Y\',\'N\') NOT NULL DEFAULT \'N\' COMMENT \'编辑用户\',
+  `useSu` enum(\'Y\',\'N\') NOT NULL DEFAULT \'N\' COMMENT \'可以使用别人的名义\',
+  `editCategory` enum(\'Y\',\'N\') NOT NULL DEFAULT \'N\' COMMENT \'编辑分类\',
   PRIMARY KEY (`gid`),
   UNIQUE KEY `uid` (`uid`),
   KEY `gname` (`gname`),
