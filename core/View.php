@@ -71,9 +71,8 @@ class View
      */
     public static function compileAll(string $theme='default')
     {
-        Storage::rmdirs(APP_VIEW,true);
-        if (self::$compiler)
-        {
+        Storage::rmdirs(APP_VIEW, true);
+        if (self::$compiler) {
             $theme=self::$compiler->getTheme();
         }
         $files=Storage::readDirFiles(APP_TPL.'/'.$theme, true, '/\.pml\.html$/');
@@ -81,18 +80,27 @@ class View
             View::compile($file);
         }
         $extensions='';
-        foreach (array_keys (mime()) as $ext)
-        {
+        foreach (array_keys(mime()) as $ext) {
             $extensions.='|'.$ext;
         }
-        $extensions=trim($extensions,'|');
-        $resources=Storage::readDirFiles(APP_TPL.'/'.$theme,true,'/(?<!\.pml)\.('.$extensions.')$/');
+        $extensions=trim($extensions, '|');
+        $resources=Storage::readDirFiles(APP_TPL.'/'.$theme, true, '/(?<!\.pml)\.('.$extensions.')$/');
         $len=strlen(APP_TPL.'/'.$theme);
-        foreach ($resources as $resource)
-        {
-            $path=APP_VIEW.'/'.substr($resource,$len+1);
+        foreach ($resources as $resource) {
+            $path=APP_VIEW.'/'.substr($resource, $len+1);
             Storage::mkdirs(dirname($path));
-            Storage::copy($resource,$path);
+            Storage::copy($resource, $path);
+        }
+    }
+    public function file($path_raw)
+    {
+        $type=pathinfo($path_raw, PATHINFO_EXTENSION);
+        $path_raw=rtrim($path_raw, '/');
+        if (Storage::exist(APP_VIEW.'/'.$path_raw)) {
+            Page::getController()->raw()->type($type);
+            echo Storage::get(APP_VIEW.'/'.$path_raw);
+        } else {
+            Page::error404($path_raw);
         }
     }
 }
