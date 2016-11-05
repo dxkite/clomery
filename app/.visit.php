@@ -9,7 +9,7 @@ if (conf('Uninstall')) {
     Page::default('Install::start');
 } else {
     // 主页
-    Page::visit('/', 'Main::main')->use('index')->id('main_page')->noCache();
+    Page::visit('/', 'Main->main')->use('index')->id('main_page')->noCache();
     // 待开发的页面
     Page::visit('/{pagename}', 'Develop->main')->with('pagename', '/^(notes|question|test|books|about)$/')->use('developing')->id('develop_page')->noCache();
     // 文章列表
