@@ -22,8 +22,8 @@ class User_Permission
         $this->uid=$uid;
         // 获取组别
         self::id2group();
-        $cmd='SELECT * FROM `atd_groups` WHERE `gid`= :gid  LIMIT 1;';
-        if ($set=(new Query($cmd, ['gid'=>$this->gid]))->fetch()) {
+        $cmd='SELECT * FROM `#{permission}` WHERE `uid`=:uid or `gid`= :gid  LIMIT 1;';
+        if ($set=(new Query($cmd, ['gid'=>$this->gid,'uid'=>$uid]))->fetch()) {
             $this->name=$set['gname'];
             unset($set['gname']);
             unset($set['gid']);

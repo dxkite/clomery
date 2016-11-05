@@ -1,8 +1,8 @@
 <?php
 /* ------------------------------------------------------ *\
    ------------------------------------------------------
-   PHP Simple Library XCore 1.x.3-dev Database Backup File
-        Create On: 2016-10-28 11:54:48
+   PHP Simple Library XCore 1.x.4-dev Database Backup File
+        Create On: 2016-11-05 14:16:02
         SQL Server version: 10.1.10-MariaDB
         Host: localhost   
         Database: hello_world
@@ -68,27 +68,9 @@ Query::beginTransaction();
   KEY `cname` (`name`),
   KEY `parent` (`parent`),
   KEY `topic` (`topic`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8'))->exec();
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8'))->exec();
 
  (new Query('INSERT INTO  `#{category}` VALUES (\'1\',\'0\',\'0\',\'网站日志\',\'网站的相关话题\',\'2\',\'0\'),(\'2\',\'1\',\'0\',\'网站教程\',\'网站内的一些教程\',\'3\',\'0\'),(\'3\',\'0\',\'0\',\'作者通知\',\'作者通知\',\'8\',\'0\'),(\'4\',\'0\',\'0\',\'信息安全\',\'信息安全\',\'0\',\'0\'),(\'5\',\'0\',\'0\',\'网络安全\',\'网络安全\',\'0\',\'4\'),(\'6\',\'0\',\'0\',\'功能测试\',\'功能测试\',\'9\',\'0\'),(\'18\',\'0\',\'0\',\'DX随笔教程集\',\'DX随笔教程集\',\'5\',\'0\'),(\'22\',\'0\',\'0\',\'C语言教程\',\'C语言教程\',\'1\',\'0\')'))->exec();
-
- (new Query('DROP TABLE IF EXISTS #{groups}'))->exec();
-
- (new Query('CREATE TABLE `#{groups}` (
-  `gid` int(11) NOT NULL AUTO_INCREMENT,
-  `sort` int(11) NOT NULL COMMENT \'分组排序\',
-  `gname` varchar(80) NOT NULL,
-  `E_Site` enum(\'Y\',\'N\') NOT NULL DEFAULT \'N\' COMMENT \'编辑站点\',
-  `E_group` enum(\'Y\',\'N\') NOT NULL DEFAULT \'N\' COMMENT \'编辑分组\',
-  `E_user` enum(\'Y\',\'N\') NOT NULL DEFAULT \'N\' COMMENT \'编辑用户\',
-  `U_su` enum(\'Y\',\'N\') NOT NULL DEFAULT \'N\' COMMENT \'可以使用别人的名义\',
-  `E_category` enum(\'Y\',\'N\') NOT NULL DEFAULT \'N\' COMMENT \'编辑分类\',
-  PRIMARY KEY (`gid`),
-  KEY `gname` (`gname`),
-  KEY `priority` (`sort`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT=\'权限表\''))->exec();
-
- (new Query('INSERT INTO  `#{groups}` VALUES (\'1\',\'0\',\'网站所有者\',\'Y\',\'Y\',\'Y\',\'Y\',\'Y\')'))->exec();
 
  (new Query('DROP TABLE IF EXISTS #{nav}'))->exec();
 
@@ -107,6 +89,26 @@ Query::beginTransaction();
 
  (new Query('INSERT INTO  `#{nav}` VALUES (\'1\',\'index\',\'/\',\'\',\'1\',\'1\',\'0\'),(\'2\',\'notes\',\'/notes\',\'\',\'1\',\'6\',\'0\'),(\'3\',\'article\',\'/article\',\'\',\'1\',\'2\',\'0\'),(\'4\',\'books\',\'/books\',\'\',\'1\',\'3\',\'0\'),(\'5\',\'question\',\'/question\',\'\',\'1\',\'4\',\'0\'),(\'7\',\'test\',\'/test\',\'OnlineJudge\',\'1\',\'5\',\'0\'),(\'9\',\'about\',\'/about\',\'\',\'1\',\'7\',\'0\')'))->exec();
 
+ (new Query('DROP TABLE IF EXISTS #{permission}'))->exec();
+
+ (new Query('CREATE TABLE `#{permission}` (
+  `gid` int(11) NOT NULL AUTO_INCREMENT,
+  `uid` bigint(20) NOT NULL DEFAULT \'0\',
+  `sort` int(11) NOT NULL COMMENT \'分组排序\',
+  `gname` varchar(80) NOT NULL,
+  `E_Site` enum(\'Y\',\'N\') NOT NULL DEFAULT \'N\' COMMENT \'编辑站点\',
+  `E_group` enum(\'Y\',\'N\') NOT NULL DEFAULT \'N\' COMMENT \'编辑分组\',
+  `E_user` enum(\'Y\',\'N\') NOT NULL DEFAULT \'N\' COMMENT \'编辑用户\',
+  `U_su` enum(\'Y\',\'N\') NOT NULL DEFAULT \'N\' COMMENT \'可以使用别人的名义\',
+  `E_category` enum(\'Y\',\'N\') NOT NULL DEFAULT \'N\' COMMENT \'编辑分类\',
+  PRIMARY KEY (`gid`),
+  UNIQUE KEY `uid` (`uid`),
+  KEY `gname` (`gname`),
+  KEY `priority` (`sort`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT=\'权限表\''))->exec();
+
+ (new Query('INSERT INTO  `#{permission}` VALUES (\'1\',\'0\',\'0\',\'网站所有者\',\'Y\',\'Y\',\'Y\',\'Y\',\'Y\')'))->exec();
+
  (new Query('DROP TABLE IF EXISTS #{signin_historys}'))->exec();
 
  (new Query('CREATE TABLE `#{signin_historys}` (
@@ -116,7 +118,7 @@ Query::beginTransaction();
   `time` int(11) NOT NULL,
   PRIMARY KEY (`hid`),
   KEY `uid` (`uid`)
-) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8'))->exec();
+) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=utf8'))->exec();
 
  (new Query('DROP TABLE IF EXISTS #{site_options}'))->exec();
 
@@ -210,7 +212,7 @@ Query::beginTransaction();
   KEY `uid_2` (`uid`),
   KEY `uid_3` (`uid`),
   KEY `uid_4` (`uid`)
-) ENGINE=InnoDB AUTO_INCREMENT=65 DEFAULT CHARSET=utf8'))->exec();
+) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8'))->exec();
 
 /** End Querys **/
 Query::commit();
