@@ -20,7 +20,7 @@ class Index
         if (System::user()->hasSignin) {
             if (System::user()->permission->editSite) {
                 // Page::set('admin_entrance');
-                $options[]=new Value(['title'=>'管理网站','href'=>Page::url('admin',['path'=>'Site']));
+                $options[]=new Value(['title'=>'管理网站','href'=>Page::url('admin',['path'=>'Site'])]);
                 Page::set('options',$options);
                 Page::use('admin/index');
             } else {
