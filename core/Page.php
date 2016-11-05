@@ -14,7 +14,7 @@ class Page
     private static $default;
     private static $type=[
         'int'=>'/^\d+$/',
-        'string'=>'/^\S+$/'
+        'string'=>'/^.+$/'
     ];
     private static $ids=[];
     private static $controller;
