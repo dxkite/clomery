@@ -9,37 +9,16 @@ use Core\Caller;
 
 class Index
 {
-    public function insertDisplayer()
+    public function entrance($addon='')
     {
-        Page::insertCallback('Display:AdminPage_Menu', [$this, 'displayMenu']);
-
-       
-    }
-
-    public function displayMenu()
-    {
-        echo '<h1>菜单'.$_SERVER['PHP_SELF'].'?admin=site</h1>';
-    }
-
-    public function displaySiteContent()
-    {
-        echo '<h2>Site内容</h2>';
-        return false;
-    }
-    public function plugin($addon)
-    {
-         Page::insertCallback('Display:AdminPage_Content',[$this, 'display'.ucfirst($addon).'Content']);
-         Page::use('admin/index');
 
     }
+    
     public function main()
     {
         if (System::user()->hasSignin) {
-            echo 'signin';
-            var_dump(System::user()->avatar);
-            var_dump(Request::get()->admin);
             if (System::user()->permission->editSite) {
-                echo 'have perimission';
+                // Page::set('admin_entrance');
                 Page::use('admin/index');
             } else {
                 echo 'no perimission';

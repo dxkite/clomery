@@ -28,7 +28,7 @@ class Site_Options
             self::$options[$option['name']] = $option['value'];
         }
         self::$options['powered'] = 'DxSite '.CORE_VERSION;
-        self::$options['poweredUrl'] = 'https://github.com/DXkite/DxSite';
+        self::$options['poweredUrl'] = 'https://github.com/DXkite/DxSite/releases/latest';
         return true;
     }
 

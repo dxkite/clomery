@@ -1,7 +1,12 @@
 <html>
-    <head>
-        <title>{{ $_Page->title('网站管理') }}</title>
-    </head>
-    @insert('Display:AdminPage_Menu')
-    @insert('Display:AdminPage_Content')
+
+<head>
+    <title>{{ $_Page->title('网站管理总览') }}</title>
+</head>
+
+<body>
+    <div>已注册用户：{{ Common_User::numbers() }} </div>
+    <div>文章总数： {{ Blog_Article::numbers() }}</div>
+</body>
+
 </html>

@@ -1,6 +1,4 @@
 <main>
-    <div>已注册用户：{{ Common_User::numbers() }} </div>
-    <div>文章总数： {{ Blog_Article::numbers() }}</div>
     <div>文章分类</div>
     @foreach ($_Page ->article_categorys as $category)
        <a href="{{ PageUrl::categoryPage($category->name) }}">{{$category->name }}({{$category->count(0) }})</a> 
