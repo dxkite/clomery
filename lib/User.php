@@ -37,7 +37,7 @@ class User
     public function history()
     {
         if (is_null($this->history)) {
-            $this->history=new Core\Value(Common_User::getSigninLogs($this->base['uid']));
+            $this->history=Common_User::getSigninLogs($this->base['uid']);
         }
         return $this->history;
     }

@@ -4,13 +4,15 @@ namespace user;
 use Common_User;
 use Page;
 use View\Value;
+use System;
 
 class Index
 {
     public function main()
     {
-        if ($info=Common_User::hasSignin()) {
-            self::signin($info);
+        if (System::user()->hasSignin) {
+            Page::set('admin_site',System::user()->permission->editSite);
+            self::setvalues();
             Page::use('user/index');
         } else {
             // (new SignIn())->main();
@@ -18,21 +20,11 @@ class Index
         }
     }
     
-    public function signin(array $info)
+    public function setvalues()
     {
         import('Site.functions');
         \Site\page_common_set();
-        Page::getController()->noCache();
-        if (Common_User::getInfo($info['uid'])) {
-            $exinfo=Common_User::getInfo($info['uid']);
-        } else {
-            Common_User::setDefaulInfo($info['uid'], 43, 'hhahhahh');
-            $exinfo=Common_User::getInfo($info['uid']);
-        }
-
-        $info=array_merge($info, $exinfo);
-        Page::set('user_info', new Value($info));
-        Page::set('signin_list', Common_User::getSigninLogs($info['uid']));
+        Page::set('user_info',System::user());
     }
 
 }
