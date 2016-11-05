@@ -31,17 +31,17 @@ if (conf('Uninstall')) {
     // 上传的文件
     Page::visit('/upload:{id}/{name}?', 'Resource::main')->with('id', 'int')->with('name', 'string')->id('upload')->override();
     // 用户页面
-    Page::auto('/user', '/user')->id('user');
+    Page::auto('/user', '/user')->id('user')->noCache();
     // 管理界面导向
-    Page::auto('/admin', '/admin')->id('admin');
+    Page::auto('/admin', '/admin')->id('admin')->noCache();
     // 管理界面导向
-    Page::visit('/admin/{entrance}', 'admin\Index->entrance')->with('entrance', 'string')->id('admin_entrance');
+    Page::visit('/admin/{entrance}', 'admin\Index->entrance')->with('entrance', 'string')->id('admin_entrance')->noCache();
     // 测试页面
-    Page::auto('/test', '/test')->id('test');
+    Page::auto('/test', '/test')->id('test')->noCache();
     // 验证码
     Page::visit('/verify_code', 'Image->verifyImage')->raw()->type('png')->id('verify_code');
-    // 找不到页面时
-    Page::default('Page::error404')->use(404)->status(404);
     // 404 页面
     Page::visit('/404_page.html', 'Page::error404')->use(404)->status(404)->id('404_page');
+    // 找不到页面时
+    Page::default('Page::error404')->use(404)->status(404);
 }
