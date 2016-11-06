@@ -7,7 +7,7 @@
                 <th>标题</th>
                 <th>链接</th>
                 <th>提示</th>
-                <th>显示</th>
+                <th>控制</th>
                 <th>操作</th>
             </tr>
             @foreach($_Page->navs as $nav)
@@ -17,7 +17,7 @@
                 <td>{{$nav['url']}}</td>
                 <td>{{$nav['title']}}</td>
                 <td>
-                   {{$nav['show']}}
+                   @if($nav['show'])显示@else隐藏@endif
                 </td>
                 <td><a href="{{ $_SERVER['PHP_SELF'] }}?mod=modify&id={{$nav['id']}}">修改</a> <a href="{{ $_SERVER['PHP_SELF'] }}?mod=delete&id={{$nav['id']}}">删除</a></td>
             </tr>
