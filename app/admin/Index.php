@@ -107,6 +107,7 @@ class Index
                 foreach (Request::post()->nav_sort as $id => $sort) {
                     Common_Navigation::sort($id, $sort);
                 }
+                header('Location:'.$_SERVER['PHP_SELF']);
             }
             Page::set('title', '导航设置');
             Page::insertCallback('Admin-Content', function () {
