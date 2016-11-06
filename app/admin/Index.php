@@ -78,7 +78,7 @@ class Index
                  Common_Navigation::create(Request::post()->nav_create);
                  header('Location:'.$_SERVER['PHP_SELF']);
             } else {
-                Page::set('title', '创建导航 - '.Request::get()->id);
+                Page::set('title', '创建新导航');
                 Page::insertCallback('Admin-Content', function () {
                     Page::render('admin/nav-create');
                 });
