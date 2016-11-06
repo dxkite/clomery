@@ -268,7 +268,7 @@ class Common_User
         }
         // 排序
         if (isset(self::$order_str[$order])){
-            $sql.=' ORDER BY `#{users}`.`'.self::$order_str[$by].'` ';
+            $sql.=' ORDER BY `#{users}`.`'.self::$order_str[$order].'` ';
             $rule=$by===0?' ASC ':' DESC ';
             $sql.=$rule;
         }

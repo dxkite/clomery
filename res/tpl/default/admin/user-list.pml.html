@@ -1,5 +1,6 @@
 <form action="{{$_SERVER['PHP_SELF']}}" method="GET">
     <div>
+        排序：
         <select name="order" id="">
             @foreach ($_Page->order_str as $num=>$name)
             <option value="{{$num}}" @if($_Page->order_select==$num) selected @endif >{{$name}}</option>
@@ -15,7 +16,7 @@
             <option value="{{$num}}" @if($_Page->email_select==$num) selected @endif >{{$name}}</option>
             @endforeach
         </select>
-        <input type="submit" value="筛选">
+        <input type="submit" value="应用排序">
 </form>
 </div>
 <table>
