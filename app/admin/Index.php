@@ -40,6 +40,7 @@ class Index
         $options[]=new Value(['title'=>'网站信息', 'href'=>Page::url('admin')]);
         $options[]=new Value(['title'=>'网站设置', 'href'=>Page::url('admin', ['path'=>'site'])]);
         $options[]=new Value(['title'=>'导航栏设置', 'href'=>Page::url('admin', ['path'=>'navigation'])]);
+        $options[]=new Value(['title'=>'用户管理', 'href'=>Page::url('admin', ['path'=>'user'])]);
         Page::set('options', $options);
         Page::use('admin/index');
     }
@@ -134,5 +135,27 @@ class Index
                 Page::render('admin/nav-sort');
             });
         }
+    }
+
+    public function contentUser()
+    {
+        Page::set('title', '用户管理');
+
+        $order_str=[-1=>'无',0=>'ID',1=>'用户名',2=>'分组ID',3=>'注册时间'];
+        $order_by=[0=>'升序',1=>'降序'];
+        $email=[-1=>'无要求',0=>'未验证',1=>'验证'];
+
+        Page::set('order_str', $order_str);
+        Page::set('order_by', $order_by);
+        Page::set('order_select', Request::get()->order(-1));
+        Page::set('order_by_select', Request::get()->by(0));
+        Page::set('email',$email);
+        Page::set('email_select',Request::get()->email(-1));
+
+        Page::set('users', \Common_User::listUser(Request::get()->order(-1),Request::get()->by(0),Request::get()->email(-1)));
+        Page::insertCallback('Admin-Content', function () {
+            Page::set('navs', Common_Navigation::getNavsets());
+            Page::render('admin/user-list');
+        });
     }
 }

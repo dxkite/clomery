@@ -36,20 +36,25 @@ class Common_Navigation
 
     public static function getNavById(int $id)
     {
-        $q=new Query('SELECT `id`,`sort`,`name`,`url`,`title`,`show` FROM `#{nav}`  WHERE `id`=:id LIMIT 1;',['id'=>$id]);
+        $q=new Query('SELECT `id`,`sort`,`name`,`url`,`title`,`show` FROM `#{nav}`  WHERE `id`=:id LIMIT 1;', ['id'=>$id]);
         return self::$navs=$q->fetch();
     }
 
-    public static function addNav(string $name, string $url, string $title, int $sort=0,int $show=1)
+    public static function addNav(string $name, string $url, string $title, int $sort=0, int $show=1)
     {
         $sql='INSERT INTO `atd_nav` (`name`, `url`, `title`,`sort`,`show`) VALUES (:name,:url,:title,:sort,:show);';
         return (new Query($sql, ['name'=>$name, 'title'=>$title, 'url'=>$url, 'sort'=>$sort]))->exec();
     }
+
     public static function create(array $array)
     {
-        $sql='INSERT INTO `#{nav}` (`name`, `url`, `title`,`sort`,`show`) VALUES (:name,:url,:title,:sort,:show);';
-        return (new Query($sql,$array))->exec();
+        if (!isset($array['parent'])) {
+            $array['parent']=0;
+        }
+        $sql='INSERT INTO `#{nav}` (`name`, `url`, `title`,`sort`,`show`, `parent`) VALUES (:name,:url,:title,:sort,:show,:parent);';
+        return (new Query($sql, $array))->exec();
     }
+    
     public static function update(int $id, array $set)
     {
         $set['id']=$id;
@@ -59,10 +64,10 @@ class Common_Navigation
     }
     public static function delete(int $id)
     {
-        return (new Query('DELETE FROM `#{nav}` WHERE `id`=:id LIMIT 1;',['id'=>$id]))->exec();
+        return (new Query('DELETE FROM `#{nav}` WHERE `id`=:id LIMIT 1;', ['id'=>$id]))->exec();
     }
-    public static function sort(int $id,int $sort)
+    public static function sort(int $id, int $sort)
     {
-        return (new Query('UPDATE `#{nav}` SET `sort`=:sort WHERE `id`=:id LIMIT 1;',['id'=>$id,'sort'=>$sort]))->exec();
+        return (new Query('UPDATE `#{nav}` SET `sort`=:sort WHERE `id`=:id LIMIT 1;', ['id'=>$id, 'sort'=>$sort]))->exec();
     }
 }
