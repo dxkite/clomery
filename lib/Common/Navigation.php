@@ -33,22 +33,32 @@ class Common_Navigation
         $q=new Query('SELECT `id`,`sort`,`name`,`url`,`title`,`show` FROM `#{nav}`  ORDER BY `sort` ASC;');
         return self::$navs=$q->fetchAll();
     }
+
     public static function getNavById(int $id)
     {
         $q=new Query('SELECT `id`,`sort`,`name`,`url`,`title`,`show` FROM `#{nav}`  WHERE `id`=:id LIMIT 1;',['id'=>$id]);
         return self::$navs=$q->fetch();
     }
-    public static function addNavs(string $name, string $url, string $title, int $sort)
+
+    public static function addNav(string $name, string $url, string $title, int $sort=0,int $show=1)
     {
-        $sql='INSERT INTO `atd_nav` (`name`, `url`, `title`,`sort`) VALUES (:name,:url,:title,:sort);';
+        $sql='INSERT INTO `atd_nav` (`name`, `url`, `title`,`sort`,`show`) VALUES (:name,:url,:title,:sort,:show);';
         return (new Query($sql, ['name'=>$name, 'title'=>$title, 'url'=>$url, 'sort'=>$sort]))->exec();
     }
-
+    public static function create(array $array)
+    {
+        $sql='INSERT INTO `#{nav}` (`name`, `url`, `title`,`sort`,`show`) VALUES (:name,:url,:title,:sort,:show);';
+        return (new Query($sql,$array))->exec();
+    }
     public static function update(int $id, array $set)
     {
         $set['id']=$id;
-        $sql='UPDATE `#{nav}` SET `name`=:name ,`url`=:url ,`title`=:title ,`show`=:show   WHERE  `id`= :id LIMIT 1;';
+        $sql='UPDATE `#{nav}` SET `name`=:name ,`url`=:url ,`title`=:title ,`show`=:show,`sort`=:sort   WHERE  `id`= :id LIMIT 1;';
         // 偷懒
         return (new Query($sql, $set))->exec();
+    }
+    public static function delete(int $id)
+    {
+        return (new Query('DELETE FROM `#{nav}` WHERE `id`=:id LIMIT 1;',['id'=>$id]))->exec();
     }
 }

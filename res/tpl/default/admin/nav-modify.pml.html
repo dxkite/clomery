@@ -1,0 +1,16 @@
+<form action="{{ $_SERVER['PHP_SELF'] }}?mod=modify&id={{$_Page->id}}"
+    method="POST">
+    <ol>
+        <li>排序:<input type="number" name="nav_set[sort]" value="{{$_Page->nav['sort']}}"></li>
+        <li>文本:<input type="text" name="nav_set[name]" value="{{$_Page->nav['name']}}"></li>
+        <li>链接:<input type="text" name="nav_set[url]" value="{{$_Page->nav['url']}}"></li>
+        <li>标题:<input type="text" name="nav_set[title]" value="{{$_Page->nav['title']}}"></li>
+        <li>显示: @if ($_Page->nav['show'])
+            <input type="radio" name="nav_set[show]" value="1" checked/>显示
+            <input type="radio" name="nav_set[show]" value="0" />隐藏 @else
+            <input type="radio" name="nav_set[show]" value="1" />显示
+            <input type="radio" name="nav_set[show]" value="0" checked/>隐藏 @endif
+        </li>
+    </ol>
+    <input type="submit" value="修改导航">
+</form>

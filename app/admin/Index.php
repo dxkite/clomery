@@ -5,6 +5,7 @@ use Page;
 use Core\Caller;
 use Core\Value;
 use Request;
+use Common_Navigation;
 
 class Index
 {
@@ -36,6 +37,7 @@ class Index
 
     public function setBasic()
     {
+        $options[]=new Value(['title'=>'设置', 'href'=>Page::url('admin')]);
         $options[]=new Value(['title'=>'网站设置', 'href'=>Page::url('admin', ['path'=>'site'])]);
         $options[]=new Value(['title'=>'导航栏设置', 'href'=>Page::url('admin', ['path'=>'navigation'])]);
         Page::set('options', $options);
@@ -71,28 +73,39 @@ class Index
         Page::set('id', Request::get()->id);
         Page::set('mod', $mod);
         switch ($mod) {
-            case 'create':break;
-
+            case 'create':
+            if (Request::post()->nav_create) {
+                 Common_Navigation::create(Request::post()->nav_create);
+                 header('Location:'.$_SERVER['PHP_SELF']);
+            } else {
+                Page::set('title', '创建导航 - '.Request::get()->id);
+                Page::insertCallback('Admin-Content', function () {
+                    Page::render('admin/nav-create');
+                });
+            }
+            break;
             case 'modify':
-                Page::set('title','修改导航 - '.Request::get()->id);
+                Page::set('title', '修改导航 - '.Request::get()->id);
                 if (Request::post()->nav_set) {
-                    $result= \Common_Navigation::update(Request::get()->id, Request::post()->nav_set);
+                    Common_Navigation::update(Request::get()->id, Request::post()->nav_set);
                     header('Location:'.$_SERVER['PHP_SELF']);
                 } else {
-                    $nav=\Common_Navigation::getNavById(Request::get()->id);
+                    $nav=Common_Navigation::getNavById(Request::get()->id);
                     Page::set('nav', $nav);
                     Page::insertCallback('Admin-Content', function () {
-                        Page::render('admin/nav-item');
+                        Page::render('admin/nav-modify');
                     });
                 }
             break;
             case 'delete':
-
+                Common_Navigation::delete(Request::get()->id);
+                header('Location:'.$_SERVER['PHP_SELF']);
             break;
             case 'sort':
             default:
+            Page::set('title', '导航设置');
             Page::insertCallback('Admin-Content', function () {
-                Page::set('navs', \Common_Navigation::getNavsets());
+                Page::set('navs', Common_Navigation::getNavsets());
                 Page::render('admin/nav-sort');
             });
         }

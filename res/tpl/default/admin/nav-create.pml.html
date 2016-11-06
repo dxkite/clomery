@@ -1,0 +1,13 @@
+<form action="{{ $_SERVER['PHP_SELF'] }}?mod=create" method="POST">
+    <ol>
+        <li>排序:<input type="number" name="nav_create[sort]"></li>
+        <li>文本:<input type="text" name="nav_create[name]" required></li>
+        <li>链接:<input type="text" name="nav_create[url]" required></li>
+        <li>标题:<input type="text" name="nav_create[title]"></li>
+        <li>显示:
+            <input type="radio" name="nav_create[show]" value="1" checked/>显示
+            <input type="radio" name="nav_create[show]" value="0" />隐藏
+        </li>
+    </ol>
+    <input type="submit" value="创建导航">
+</form>
