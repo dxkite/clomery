@@ -37,7 +37,7 @@ class Index
 
     public function setBasic()
     {
-        $options[]=new Value(['title'=>'设置', 'href'=>Page::url('admin')]);
+        $options[]=new Value(['title'=>'网站信息', 'href'=>Page::url('admin')]);
         $options[]=new Value(['title'=>'网站设置', 'href'=>Page::url('admin', ['path'=>'site'])]);
         $options[]=new Value(['title'=>'导航栏设置', 'href'=>Page::url('admin', ['path'=>'navigation'])]);
         Page::set('options', $options);
@@ -50,7 +50,7 @@ class Index
                     'debug_mod'=>conf('DEBUG')?'true':'false',
                     'core_ver'=>CORE_VERSION,
                     'php_ver'=>PHP_VERSION,
-                    'img_ver'=>conf('Driver.Image').'-'.\Image::version(),
+                    'img_ver'=>conf('Driver.Image').'/'.\Image::version(),
                     
                     'db_ver'=>\Database::version(),
                     'user_num'=>\Common_User::numbers(),
