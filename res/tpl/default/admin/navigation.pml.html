@@ -1,0 +1,28 @@
+<html>
+
+<head>
+
+</head>
+
+<body>
+    <table>
+        <tr>
+            <th>排序</th>
+            <th>标识名</th>
+            <th>链接</th>
+            <th>标题</th>
+            <th>显示</th>
+        </tr>
+        @foreach($_Page->navigations as $nav)
+        <tr>
+            <td>{{$nav['sort']}}</td>
+            <td>{{$nav['text']}}</td>
+            <td>{{$nav['url']}}</td>
+            <td>{{$nav['title']}}</td>
+            <td>{{$nav['show']}}</td>
+        </tr>
+        @endforeach
+    </table>
+</body>
+
+</html>

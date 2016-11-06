@@ -17,8 +17,8 @@ class Index
         if (\System::user()->hasSignin) {
             if (\System::user()->permission->editSite) {
                 // Page::set('admin_entrance');
-                $options[]=new Value(['title'=>'网站设置', 'href'=>Page::url('admin', ['path'=>'Site'])]);
-                
+                $options[]=new Value(['title'=>'网站设置', 'href'=>Page::url('admin', ['path'=>'site'])]);
+                $options[]=new Value(['title'=>'导航栏设置', 'href'=>Page::url('admin', ['path'=>'navigation'])]);
                 $infos=[
                     'debug_mod'=>conf('DEBUG')?'true':'false',
                     'core_ver'=>CORE_VERSION,

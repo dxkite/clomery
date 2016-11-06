@@ -13,11 +13,11 @@ class Language extends \Core\Value
         parent::__construct($langs);
     }
 
-    public function e(string $name, string $default=null)
+    public function _e(string $name, string $default=null)
     {
         return call_user_func_array([$this,$name],array_slice(func_get_args(),1));
     }
-    
+
     public function __isset(string $name)
     {
         return (isset($this->var[$name]) && $this->var[$name]);

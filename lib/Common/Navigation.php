@@ -27,14 +27,18 @@ class Common_Navigation
         Cache::set('SiteNav', self::$navs, 0);
         return $q->erron()===0;
     }
-    public static function addNavs(string $name,string $url,string $title,int $sort)
+    public static function getNavset()
+    {
+        $q=new Query('SELECT `id`,`sort`,`name` as `text`,`url`,`title`,`show` FROM `#{nav}`  ORDER BY `sort` ASC;');
+        return self::$navs=$q->fetchAll();
+    }
+    public static function addNavs(string $name, string $url, string $title, int $sort)
     {
         $sql='INSERT INTO `atd_nav` (`name`, `url`, `title`,`sort`) VALUES (:name,:url,:title,:sort);';
-        return (new Query($sql,['name'=>$name,'title'=>$title,'url'=>$url,'sort'=>$sort]))->exec();
+        return (new Query($sql, ['name'=>$name, 'title'=>$title, 'url'=>$url, 'sort'=>$sort]))->exec();
     }
 
-    public static function changeSort(int $id,int $sort)
+    public static function changeSort(int $id, int $sort)
     {
-        
     }
 }

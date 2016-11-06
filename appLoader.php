@@ -25,8 +25,9 @@
         // 获取网站设置
     Site_Options::init();
     $op=new Site_Options;
+    
     // 语言支持
-    Page::language(Cookie::get('lang', 'zh_cn'));
+    Page::language(Cookie::get('lang', 'zh-CN'));
     View::theme(Site_Options::getTheme());
 
     // Debug 模式 实时生成模板
