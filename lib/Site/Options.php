@@ -56,8 +56,17 @@ class Site_Options
         Cache::set('SiteOption', self::$options, 0);
         return $q->erron() === 0;
     }
-
-
+    public static function getSiteOptions()
+    {
+        $sql = 'SELECT * FROM `#{site_options}`';
+        $q = new Query($sql);
+        return  $q->fetchAll();
+    }
+    public static function setOption(string $name,string $value)
+    {
+        $sql='UPDATE `#{site_options}` SET `value`=:value WHERE `name`=:name LIMIT 1;';
+        return (new Query($sql,['name'=>$name,'value'=>$value]))->exec();
+    }
     /**
      * 魔术方法获取设置
      * @param string $name

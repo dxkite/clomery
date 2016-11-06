@@ -33,7 +33,6 @@ class Index
         if (method_exists($this, 'content'.ucfirst($name))) {
             $this->{'content'.$name}();
         }
-        
     }
 
     public function setBasic()
@@ -70,12 +69,22 @@ class Index
     }
     public function contentSite()
     {
-        Page::set('title','网站设置');
-        var_dump(\Site_Options::$options);
-        var_dump(\Storage::readDirs(APP_TPL));
-        Page::insertCallback('Admin-Content', function () {
-            Page::render('admin/site');
-        });
+        Page::set('title', '网站设置');
+        if (Request::post()->site) {
+            foreach (Request::post()->site as $key => $value) {
+                var_dump(\Site_Options::setOption($key, $value));
+            }
+            header('Location:'.$_SERVER['PHP_SELF']);
+        } else {
+            $options=[];
+            foreach (\Site_Options::getSiteOptions() as $option) {
+                $options[$option['name']]=new Value($option);
+            }
+            Page::assign($options);
+            Page::insertCallback('Admin-Content', function () {
+                Page::render('admin/site');
+            });
+        }
     }
     public function contentNavigation()
     {
