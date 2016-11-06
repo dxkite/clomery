@@ -10,9 +10,9 @@
                 <th>显示</th>
                 <th>操作</th>
             </tr>
-            @foreach($_Page->navigations as $nav)
+            @foreach($_Page->navs as $nav)
             <tr>
-                <td><input type="number" value="{{$nav['sort']}}"></td>
+                <td><input type="number" name="nav_sort[{{$nav['id']}}]" value="{{$nav['sort']}}"></td>
                 <td>{{$nav['name']}}</td>
                 <td>{{$nav['url']}}</td>
                 <td>{{$nav['title']}}</td>

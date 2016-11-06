@@ -26,7 +26,7 @@ class Request extends Core\Value
 
     public static function post(string $name='')
     {
-        if (is_null(self::$_POST)) {
+        if (is_null(self::$_post)) {
             self::$_post=new Value($_POST);
         }
         if ($name) {

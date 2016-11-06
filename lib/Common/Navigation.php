@@ -27,10 +27,16 @@ class Common_Navigation
         Cache::set('SiteNav', self::$navs, 0);
         return $q->erron()===0;
     }
-    public static function getNavset()
+
+    public static function getNavsets()
     {
         $q=new Query('SELECT `id`,`sort`,`name`,`url`,`title`,`show` FROM `#{nav}`  ORDER BY `sort` ASC;');
         return self::$navs=$q->fetchAll();
+    }
+    public static function getNavById(int $id)
+    {
+        $q=new Query('SELECT `id`,`sort`,`name`,`url`,`title`,`show` FROM `#{nav}`  WHERE `id`=:id LIMIT 1;',['id'=>$id]);
+        return self::$navs=$q->fetch();
     }
     public static function addNavs(string $name, string $url, string $title, int $sort)
     {
@@ -38,11 +44,11 @@ class Common_Navigation
         return (new Query($sql, ['name'=>$name, 'title'=>$title, 'url'=>$url, 'sort'=>$sort]))->exec();
     }
 
-    public static function update(int $id,array $set)
+    public static function update(int $id, array $set)
     {
         $set['id']=$id;
-        $sql='UPDATE `#{nav}` SET `name`=:name ,`url`=:url ,`title`=:title ,`show`=:show ,`sort`=:sort WHERE  `id`= :id LIMIT 1;';
+        $sql='UPDATE `#{nav}` SET `name`=:name ,`url`=:url ,`title`=:title ,`show`=:show   WHERE  `id`= :id LIMIT 1;';
         // 偷懒
-        return (new Query($sql,$set))->exec();
+        return (new Query($sql, $set))->exec();
     }
 }
