@@ -31,7 +31,7 @@ class Site_Options
         self::$options['poweredUrl'] = 'https://github.com/DXkite/DxSite/releases/latest';
         return true;
     }
-
+    
     /**
      * 获取全部设置
      * @return mixed

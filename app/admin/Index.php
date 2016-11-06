@@ -33,6 +33,7 @@ class Index
         if (method_exists($this, 'content'.ucfirst($name))) {
             $this->{'content'.$name}();
         }
+        
     }
 
     public function setBasic()
@@ -66,6 +67,15 @@ class Index
         });
                 
         Page::assign($infos);
+    }
+    public function contentSite()
+    {
+        Page::set('title','网站设置');
+        var_dump(\Site_Options::$options);
+        var_dump(\Storage::readDirs(APP_TPL));
+        Page::insertCallback('Admin-Content', function () {
+            Page::render('admin/site');
+        });
     }
     public function contentNavigation()
     {

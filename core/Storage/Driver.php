@@ -95,7 +95,7 @@ interface Storage_Driver
      * @return array
      */
     public static function readDirFiles(string $dirs, bool $repeat=false, string $preg='/^.+$/'):array;
-
+    public static function readDirs(string $dirs, bool $repeat=false, string $preg='/^.+$/'):array;
     /**
      * @param string $name
      * @return bool

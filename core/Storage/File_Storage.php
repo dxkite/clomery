@@ -36,6 +36,27 @@ class Storage implements Storage_Driver
         }
         return $file_totu;
     }
+    public static function readDirs(string $dirs, bool $repeat=false, string $preg='/^.+$/'):array
+    {
+        $reads=[];
+        if (self::isDir($dirs)) {
+            $hd=opendir($dirs);
+            while ($read=readdir($hd)) {
+                if (strcmp($read ,'.') !== 0 && strcmp($read, '..') !==0) {
+                    $path=$dirs.'/'.$read;
+                    if (self::isDir($path) && preg_match($preg, $read)) {
+                        $reads[]=$read;
+                        if ($repeat) {
+                            foreach (self::readDirs($path) as $read) {
+                                $reads[]=$read;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return $reads;
+    }
     // 递归删除文件夹
     public static function rmdirs(string $dir, bool $keep=false)
     {
