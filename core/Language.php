@@ -8,15 +8,16 @@ class Language extends \Core\Value
         if (Storage::exist($path=APP_LANG.'/'.$lang.'.lang')) {
             $langs=parse_ini_file($path);
         } else {
-            $langs=parse_ini_file(APP_LANG.'/zh_cn.lang');
+            $langs=parse_ini_file(APP_LANG.'/zh-CN.lang');
         }
         parent::__construct($langs);
     }
 
-    public function _(string $name, string $default=null)
+    public function e(string $name, string $default=null)
     {
         return call_user_func_array([$this,$name],array_slice(func_get_args(),1));
     }
+    
     public function __isset(string $name)
     {
         return (isset($this->var[$name]) && $this->var[$name]);

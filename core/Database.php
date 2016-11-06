@@ -114,7 +114,7 @@ Table;
                 $sql='DROP TABLE IF EXISTS `'.$table.'`;'."\r\n";
                 Storage::put($fileout, $doc."\r\n\r\n".$sql.$str.";\r\n\r\n\r\n", FILE_APPEND);
                 // var_dump($table, $saves_table);
-                preg_match('/^'.conf('Database.prefix').'(.+?)$/',$table, $tbinfo);
+                preg_match('/^'.conf('Database.prefix').'(.+?)$/', $table, $tbinfo);
                 // 0 全部 有则保存指定的
                 if (count($saves_table)===0) {
                     self::saveSQLData($fileout, $table);
@@ -154,8 +154,7 @@ Table;
             }
             Storage::put($file, ";\r\n\n\r\n", FILE_APPEND);
             //Storage::put($file, ";\r\n/*!40000 ALTER TABLE `atd_comment` ENABLE KEYS */;\r\nUNLOCK TABLES;\r\n\r\n", FILE_APPEND);
-        }
-        else{
+        } else {
             Storage::put($file, "/** Table {$table}  Save Failed **/\r\n\n\r\n", FILE_APPEND);
         }
     }
@@ -203,5 +202,9 @@ Table;
             return $table_info['Create Table'];
         }
         return false;
+    }
+    public static function version()
+    {
+        return (new Query('select version() as version;'))->fetch()['version'];
     }
 }

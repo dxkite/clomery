@@ -56,4 +56,8 @@ class Image
     function imgx(string $img,string $code){
         $cmd='\d+|x\d+(.\d+)?';
     }
+    function version()
+    {
+        return gd_info()['GD Version'];
+    }
 }
