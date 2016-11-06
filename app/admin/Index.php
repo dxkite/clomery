@@ -33,9 +33,11 @@ class Index
                     'upload_max'=>ini_get('upload_max_filesize'),
                     'safe_mode'=>ini_get('safe_mode')?'true':'false',
                 ];
+                
                 Page::insertCallback('Admin-Content',function() {
                     Page::render('admin/main');
                 });
+
                 Page::assign($infos);
                 Page::set('options', $options);
                 Page::use('admin/index');
