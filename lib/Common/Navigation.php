@@ -61,4 +61,8 @@ class Common_Navigation
     {
         return (new Query('DELETE FROM `#{nav}` WHERE `id`=:id LIMIT 1;',['id'=>$id]))->exec();
     }
+    public static function sort(int $id,int $sort)
+    {
+        return (new Query('UPDATE `#{nav}` SET `sort`=:sort WHERE `id`=:id LIMIT 1;',['id'=>$id,'sort'=>$sort]))->exec();
+    }
 }

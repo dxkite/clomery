@@ -75,8 +75,8 @@ class Index
         switch ($mod) {
             case 'create':
             if (Request::post()->nav_create) {
-                 Common_Navigation::create(Request::post()->nav_create);
-                 header('Location:'.$_SERVER['PHP_SELF']);
+                Common_Navigation::create(Request::post()->nav_create);
+                header('Location:'.$_SERVER['PHP_SELF']);
             } else {
                 Page::set('title', '创建新导航');
                 Page::insertCallback('Admin-Content', function () {
@@ -103,6 +103,11 @@ class Index
             break;
             case 'sort':
             default:
+            if (Request::post()->nav_sort) {
+                foreach (Request::post()->nav_sort as $id => $sort) {
+                    Common_Navigation::sort($id, $sort);
+                }
+            }
             Page::set('title', '导航设置');
             Page::insertCallback('Admin-Content', function () {
                 Page::set('navs', Common_Navigation::getNavsets());
