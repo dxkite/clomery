@@ -1,0 +1,10 @@
+        <div>DEBUG： {{ $_Page->debug_mod }}</div>
+        <div>已注册用户：{{ $_Page->user_num }} </div>
+        <div>文章总数： {{ $_Page->article_num }}</div>
+        <div>服务器环境： {{ $_Page->env }}</div>
+        <div>PHP版本： {{ $_Page->php_ver }}</div>
+        <div>X-Core版本： {{ $_Page->core_ver }}</div>
+        <div>数据库版本： {{ $_Page->db_ver }}</div>
+        <div>使用的图形库： {{ $_Page->img_ver }}</div>
+        <div>上传文件大小: {{$_Page->upload_max(0) }}</div>
+        <div>安全模式 : {{ $_Page->safe_mode('false') }}</div>

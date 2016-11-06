@@ -1,10 +1,4 @@
-<html>
 
-<head>
-    <title>导航栏设置</title>
-</head>
-
-<body>
     <form action="{{ $_SERVER['PHP_SELF'] }}" method="POST">
 
         <table>
@@ -14,27 +8,21 @@
                 <th>链接</th>
                 <th>标题</th>
                 <th>显示</th>
+                <th>操作</th>
             </tr>
             @foreach($_Page->navigations as $nav)
             <tr>
-                <td><input type="number" name="nav_set[{{$nav['id']}}][sort]" value="{{$nav['sort']}}"></td>
-                <td><input type="text" name="nav_set[{{$nav['id']}}][name]" value="{{$nav['name']}}"></td>
-                <td><input type="text" name="nav_set[{{$nav['id']}}][url]" value="{{$nav['url']}}"></td>
-                <td><input type="text" name="nav_set[{{$nav['id']}}][title]" value="{{$nav['title']}}"></td>
+                <td><input type="number" value="{{$nav['sort']}}"></td>
+                <td>{{$nav['name']}}</td>
+                <td>{{$nav['url']}}</td>
+                <td>{{$nav['title']}}</td>
                 <td>
-                    @if ($nav['show'])
-                    <input type="radio" name="nav_set[{{$nav['id']}}][show]" value="1" checked/>显示
-                    <input type="radio" name="nav_set[{{$nav['id']}}][show]" value="0" />隐藏 
-                    @else
-                    <input type="radio" name="nav_set[{{$nav['id']}}][show]" value="1" />显示
-                    <input type="radio" name="nav_set[{{$nav['id']}}][show]" value="0" checked/>隐藏
-                    @endif
+                   {{$nav['show']}}
                 </td>
+                <td><a href="{{ $_SERVER['PHP_SELF'] }}?mod=modify&id={{$nav['id']}}">修改</a> <a href="{{ $_SERVER['PHP_SELF'] }}?mod=delete&id={{$nav['id']}}">删除</a></td>
             </tr>
             @endforeach
         </table>
-        <input type="submit" value="更新设置">
+        <input type="submit" value="设置排序">
+        <a href="{{ $_SERVER['PHP_SELF'] }}?mod=create">创建新的导航</a>
     </form>
-</body>
-
-</html>

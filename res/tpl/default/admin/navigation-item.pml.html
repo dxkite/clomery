@@ -1,0 +1,18 @@
+
+    <form action="{{ $_SERVER['PHP_SELF'] }}@if($_Page->mod=='create') ?mod=edit&id={{$_Page->id}} @else ?mod=create @endif" method="POST">
+        <ol>
+            <li>
+                文本:<input type="text" name="nav_set[name]" value="{{$nav['name']}}"></li>
+            <li>
+                链接:<input type="text" name="nav_set[url]" value="{{$nav['url']}}"></li>
+            <li>
+                标题:<input type="text" name="nav_set[title]" value="{{$nav['title']}}"></li>
+            <li>显示: @if ($nav['show'])
+                <input type="radio" name="nav_set[show]" value="1" checked/>显示
+                <input type="radio" name="nav_set[show]" value="0" />隐藏 @else
+                <input type="radio" name="nav_set[show]" value="1" />显示
+                <input type="radio" name="nav_set[show]" value="0" checked/>隐藏 @endif
+            </li>
+        </ol>
+        <input type="submit" value="@if($_Page->mod=='create')创建导航@else修改导航@endif">
+    </form>
