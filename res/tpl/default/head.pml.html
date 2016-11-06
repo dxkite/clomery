@@ -32,7 +32,7 @@
 		</div>
 		<nav id="nav-menu" class="clearfix" >
 		@foreach ($_Page->head_index_nav as $at=>$index)
-			<a title="{{$index['title']}}" href="{{$index['url']}}"><div class="nav-menu-item @if( isset($_Page->head_index_nav_select) && $_Page->head_index_nav_select==$at) current @endif"> {{ $_L->_e($index['text']) }}</div> </a>
+			<a title="{{$index['title']}}" href="{{$index['url']}}"><div class="nav-menu-item @if( isset($_Page->head_index_nav_select) && $_Page->head_index_nav_select==$at) current @endif"> {{ $index['text'] }}</div> </a>
 		@endforeach
 		</nav>
 	</header>

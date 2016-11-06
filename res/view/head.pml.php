@@ -32,7 +32,7 @@
 		</div>
 		<nav id="nav-menu" class="clearfix" >
 		<?php foreach($_Page->head_index_nav as $at=>$index): ?>
-			<a title="<?php View_Compiler_Pomelo::echo($index['title']) ?>" href="<?php View_Compiler_Pomelo::echo($index['url']) ?>"><div class="nav-menu-item <?php if( isset($_Page->head_index_nav_select) && $_Page->head_index_nav_select==$at): ?> current <?php endif; ?>"> <?php View_Compiler_Pomelo::echo($_L->_e($index['text'])) ?></div> </a>
+			<a title="<?php View_Compiler_Pomelo::echo($index['title']) ?>" href="<?php View_Compiler_Pomelo::echo($index['url']) ?>"><div class="nav-menu-item <?php if( isset($_Page->head_index_nav_select) && $_Page->head_index_nav_select==$at): ?> current <?php endif; ?>"> <?php View_Compiler_Pomelo::echo($index['text']) ?></div> </a>
 		<?php endforeach; ?>
 		</nav>
 	</header>
