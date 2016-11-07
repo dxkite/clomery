@@ -1,5 +1,5 @@
 <?php
-    require_once 'core/XCore.php';
+require_once '../core/XCore.php';
         // 开启Session
     Session::start();
     //require_once 'core/WebSocket.php';

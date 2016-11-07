@@ -1,6 +1,6 @@
 <?php
-defined('DOC_ROOT') or define('DOC_ROOT', __DIR__);
-require_once 'core/XCore.php';
+defined('DOC_ROOT') or define('DOC_ROOT', __DIR__ .'/..');
+require_once '../core/XCore.php';
     // APP 相关数据
     defined('WEB_ROOT') or define('WEB_ROOT', DOC_ROOT.'/public');
     // 语言文件夹

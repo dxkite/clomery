@@ -10,21 +10,39 @@ function import(string $name)
     if (isset($imported[$name])) {
         return $imported[$name];
     }
-    $paths=[APP_LIB, CORE_PATH, APP_ROOT]; // 搜索目录
-    $name=preg_replace('/[\\\\_\/.]/', DIRECTORY_SEPARATOR, $name);
+    // App运行库为独立控制
+    if (preg_match('/^app(?:\\\\|_)(.*)$/',$name,$matchs))
+    {
+        $fname=preg_replace('/[\\\\_\/.]/', DIRECTORY_SEPARATOR,$matchs[1]);
+        $app_loader=APP_ROOT.'/'.$fname.'.php';
+        // 优先查找文件
+        if (file_exists($app_loader)) {
+            require_once $app_loader;
+            class_alias($matchs[1],$name);
+            $imported[$name]=$app_loader;
+            return $app_loader;
+        }
+    }
+
+    $fname=preg_replace('/[\\\\_\/.]/', DIRECTORY_SEPARATOR, $name);
+
+    $paths=[APP_LIB, CORE_PATH]; // 搜索目录
+    
     foreach ($paths as $root) {
         // 优先查找文件
-        if (file_exists($require=$root.'/'.$name.'.php')) {
+        if (file_exists($require=$root.'/'.$fname.'.php')) {
             $imported[$name]=$require;
             require_once $require;
+            return $require;
         }
         // 其次查找目录配驱动
-        elseif (is_dir($dir=$root.'/'.$name)) {
-            $option=strpos($name, DIRECTORY_SEPARATOR)?substr($name, 0, strpos($name, DIRECTORY_SEPARATOR)):$name;
-            $name=strpos($name, DIRECTORY_SEPARATOR)?substr($name, strpos($name, DIRECTORY_SEPARATOR)+1):$name;
+        elseif (is_dir($dir=$root.'/'.$fname)) {
+            $option=strpos($fname, DIRECTORY_SEPARATOR)?substr($fname, 0, strpos($fname, DIRECTORY_SEPARATOR)):$fname;
+            $fname=strpos($fname, DIRECTORY_SEPARATOR)?substr($fname, strpos($fname, DIRECTORY_SEPARATOR)+1):$fname;
             // 配置存在
-            if (conf('Driver.'. $option) && file_exists($require=$dir.'/'.conf('Driver.'. $option)."_{$name}.php")) {
+            if (conf('Driver.'. $option) && file_exists($require=$dir.'/'.conf('Driver.'. $option)."_{$fname}.php")) {
                 require_once $require;
+                return $require;
             }
         }
     }

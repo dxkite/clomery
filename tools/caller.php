@@ -1,6 +1,6 @@
 <?php
-defined('DOC_ROOT') or define('DOC_ROOT', __DIR__);
-require_once 'core/XCore.php';
+defined('DOC_ROOT') or define('DOC_ROOT', __DIR__ .'/..');
+require_once '../core/XCore.php';
 
 $params=array_slice($argv, 2);
 if (isset($argv[1])) {
