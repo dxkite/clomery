@@ -1,5 +1,5 @@
 <?php
-    require_once __DIR__.'/core/XCore.php';
+    require_once __DIR__.'/../core/XCore.php';
 
     // APP 相关数据
     defined('WEB_ROOT') or define('WEB_ROOT', DOC_ROOT.'/public');

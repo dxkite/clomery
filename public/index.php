@@ -1,3 +1,3 @@
 <?php
     define('WEB_ROOT',__DIR__);
-    require_once '../appLoader.php';
+    require_once '../lib/appLoader.php';
