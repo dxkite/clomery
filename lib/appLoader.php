@@ -34,20 +34,12 @@
     if (conf('DEBUG', 0)==1) {
         View::compileAll();
     }
+    // 关闭网站后只能手动开启
     if ($op->site_close==0) {
         // 载入页面URL配置规则
         require_once APP_ROOT.'/'.APP_VISIT;
     } else {
-        Page::visit('/resource/{path}', function ($path_raw) {
-            $type=pathinfo($path_raw, PATHINFO_EXTENSION);
-            $path_raw=rtrim($path_raw, '/');
-            if (Storage::exist(APP_VIEW.'/'.$path_raw)) {
-                Page::getController()->raw()->type($type);
-                echo Storage::get(APP_VIEW.'/'.$path_raw);
-            } else {
-                Page::error404($path_raw);
-            }
-        })->with('path', '/^(.+)$/')->id('resource')->override();
+        Page::visit('/theme/{path}', 'View::file')->with('path', '/^(.+)$/')->id('theme')->override()->age(10000)->close();
         Page::global('_Op', $op);
         Page::visit('/{path}?', null)->with('path', '/^.*?$/')->use('close');
     }
