@@ -17,52 +17,77 @@
 }
 
 .article-tags {
-	margin-bottom: 10px
+	margin-bottom: 10px;
 }
 
 .article-tags a {
-	padding: 4px 10px;
-	background-color: #19B5FE;
-	color: white;
+  position: relative;
+	padding: 4px 10px 4px 0px;
 	font-size: 12px;
 	line-height: 16px;
 	font-weight: 400;
+  color: black;
 	margin: 0 5px 5px 0;
 	border-radius: 2px;
 	display: inline-block;
-    cursor: pointer;
+  cursor: pointer;
+  text-decoration: none;
 }
 
 .article-tags a:nth-child(5n) {
-	background-color: #4A4A4A
+	border: 1px #4A4A4A solid;
 }
-
+.article-tags a:nth-child(5n)::before  {
+  color: #4A4A4A;
+}
 .article-tags a:nth-child(5n+1) {
-	background-color: #ff5e5c
+  border: 1px #ff5e5c solid;
 }
-
+.article-tags a:nth-child(5n+1)::before  {
+  color: #ff5e5c ;
+}
 .article-tags a:nth-child(5n+2) {
-	background-color: #ffbb50
+  border: 1px #ffbb50 solid;
 }
-
+.article-tags a:nth-child(5n+2)::before {
+  color: #ffbb50;
+}
 .article-tags a:nth-child(5n+3) {
-	background-color: #1ac756
+  border: 1px #1ac756 solid;
 }
-
+.article-tags a:nth-child(5n+3)::before {
+  color: #1ac756;
+}
 .article-tags a:nth-child(5n+4) {
-	background-color: #19B5FE
+  border: 1px #19B5FE solid;
+}
+.article-tags a:nth-child(5n+4)::before {
+   color :#19B5FE ;
 }
 
-.article-tags a:hover {
-	background-color: #1B1B1B;
-	color: #FFF
+.article-tags a::before {
+	content: '·';
+  position: relative;
+  float: left;
 }
+
+.article-tags a:hover::after { 
+  content: ' ';
+  opacity:0.1; 
+  top:0;
+  background-color: #000;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
+
 .article-head
 {
     position: relative;
     display: block;
     border-bottom: 1px solid #e7e7e7;
 }
+
 .article-title
 {
        position: relative;
