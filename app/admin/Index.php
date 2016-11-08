@@ -141,18 +141,14 @@ class Index
     {
         
         Page::set('title', '用户管理');
+        $users= \Common_User::listUser();
+        
+        foreach ($users as $key=>$user)
+        {
+            $user['group']=\Common_User::gid2name($user['gid']);
+            $users[$key]=new Value($user);
+        }
 
-        $order_str=[-1=>'无',0=>'ID',1=>'用户名',2=>'分组ID',3=>'注册时间'];
-        $order_by=[-1=>'无',0=>'升序',1=>'降序'];
-        $email=[-1=>'无要求',0=>'未验证',1=>'验证'];
-
-        Page::set('order_str', $order_str);
-        Page::set('order_by', $order_by);
-        Page::set('order_select', Request::get()->order(-1));
-        Page::set('order_by_select', Request::get()->by(-1));
-        Page::set('email',$email);
-        Page::set('email_select',Request::get()->email(-1));
-        $users= \Common_User::listUser(Request::get()->order(-1),Request::get()->by(0),Request::get()->email(-1));
         Page::set('users',$users);
         Page::insertCallback('Admin-Content', function () {
             Page::set('navs', Common_Navigation::getNavsets());

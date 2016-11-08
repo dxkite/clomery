@@ -255,25 +255,18 @@ class Common_User
         return 0;
     }
 
-    public static function listUser(int $order=-1,int $by=0,int $verified=-1,int $count=20,int $offset=0)
+    public static function gid2name(int $gid)
     {
-        
-        $sql='SELECT `uid`,`uname` as `name`,`gid`,`signup`,`status`,`email`,`email_verify`, `lastip` FROM `#{users}` ';
-        // 邮箱验证
-        if ($verified>=0)
-        {
-            $sql.=' WHERE `email_verify` = ';
-            $vk=$verified===1?"'Y'":"'N'";
-            $sql.=$vk;
+        $q='SELECT `gname` FROM `#{permission}` WHERE `gid` = :gid LIMIT 1;';
+        if ($sets=(new Query($q, ['gid'=>$gid]))->fetch()) {
+            return $sets['gname'];
         }
-        // 排序
-        if (isset(self::$order_str[$order])){
-            $sql.=' ORDER BY `#{users}`.`'.self::$order_str[$order].'` ';
-            $rule=$by===0?' ASC ':' DESC ';
-            $sql.=$rule;
-        }
+        return null;
+    }
 
-        $sql.=' LIMIT :offset,:count;';
+    public static function listUser(int $count=20,int $offset=0)
+    {
+        $sql='SELECT `uid`,`uname` as `name`,`gid`,`signup`,`status`,`email`,`email_verify`, `lastip` FROM `#{users}` LIMIT :offset,:count;';
         return (new Query($sql,['offset'=>$offset,'count'=>$count]))->fetchAll();
     }
 }
