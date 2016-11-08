@@ -19,7 +19,7 @@
                 <td>
                    @if($nav['show'])显示@else隐藏@endif
                 </td>
-                <td><a href="{{ $_SERVER['PHP_SELF'] }}?mod=modify&id={{$nav['id']}}">修改</a> <a href="{{ $_SERVER['PHP_SELF'] }}?mod=delete&id={{$nav['id']}}">删除</a></td>
+                <td><a href="{{ $_SERVER['PHP_SELF'] }}?mod=modify&id={{$nav['id']}}">编辑</a> <a href="{{ $_SERVER['PHP_SELF'] }}?mod=delete&id={{$nav['id']}}">删除</a></td>
             </tr>
             @endforeach
         </table>
