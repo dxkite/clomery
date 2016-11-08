@@ -263,7 +263,11 @@ class Common_User
         }
         return null;
     }
-
+    public static function setStatu(int $uid,int $statu=1)
+    {
+        $sql='UPDATE `atd_users` SET `status` = :statu WHERE `atd_users`.`uid` = :uid;';
+        return (new Query($sql,['statu'=>$statu,'uid'=>$uid]))->exec();
+    }
     public static function listUser(int $page,int $count=20)
     {
         $sql='SELECT `uid`,`uname` as `name`,`gid`,`signup`,`status`,`email`,`email_verify`, `lastip` FROM `#{users}` LIMIT :offset,:count;';

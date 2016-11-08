@@ -8,7 +8,7 @@
         <th>注册时间</th>
         <th>上次登陆IP</th>
         <th>状态</th>
-        <th>操作</th>
+        <th>管理</th>
     </tr>
     @foreach ($_Page->users as $user)
     <tr>
@@ -20,14 +20,13 @@
         <td>{{ date('Y-m-d H:i:s',$user->signup(0)) }}</td>
         <td>{{ $user->lastip }}</td>
         <td>{{ $user->status }}</td>
-        <td><a href="{{$_SERVER['PHP_SELF']}}?option={{$user->uid}}">操作</a> <a href="{{$_SERVER['PHP_SELF']}}?delete={{$user->uid }}">删除</a></td>
+        <td><a href="{{$_SERVER['PHP_SELF']}}?option={{$user->uid}}">操作</a> @if ($user->status)
+            <a href="{{$_SERVER['PHP_SELF']}}?active={{$user->uid }}">解禁</a> @else
+            <a href="{{$_SERVER['PHP_SELF']}}?freeze={{$user->uid }}">封禁</a> @endif
+        </td>
     </tr>
     @endforeach
 </table>
-@foreach ($_Page->pages as $number)
-    @if ($number == $_Page->page_current)
-        <span>{{$number}}</span>
-    @else
-        <a href="{{$_SERVER['PHP_SELF']}}?page={{$number}}">{{$number}}</a>
-    @endif
-@endforeach
+@foreach ($_Page->pages as $number) @if ($number == $_Page->page_current)
+<span>{{$number}}</span> @else
+<a href="{{$_SERVER['PHP_SELF']}}?page={{$number}}">{{$number}}</a> @endif @endforeach
