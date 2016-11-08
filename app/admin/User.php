@@ -11,7 +11,7 @@ class User extends \Admin_Autoentrance
     public function run()
     {
         Page::set('title', '用户管理');
-        $page_count=20;
+        $page_count=10;
         $count= \Common_User::numbers();
         $max=ceil($count/$page_count);
 
