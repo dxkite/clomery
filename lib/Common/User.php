@@ -264,9 +264,9 @@ class Common_User
         return null;
     }
 
-    public static function listUser(int $count=20,int $offset=0)
+    public static function listUser(int $page,int $count=20)
     {
         $sql='SELECT `uid`,`uname` as `name`,`gid`,`signup`,`status`,`email`,`email_verify`, `lastip` FROM `#{users}` LIMIT :offset,:count;';
-        return (new Query($sql,['offset'=>$offset,'count'=>$count]))->fetchAll();
+        return (new Query($sql,['offset'=>$page*$count,'count'=>$count]))->fetchAll();
     }
 }

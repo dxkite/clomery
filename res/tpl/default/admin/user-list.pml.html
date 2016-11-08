@@ -24,3 +24,10 @@
     </tr>
     @endforeach
 </table>
+@foreach ($_Page->pages as $number)
+    @if ($number == $_Page->page_current)
+        <span>{{$number}}</span>
+    @else
+        <a href="{{$_SERVER['PHP_SELF']}}?page={{$number}}">{{$number}}</a>
+    @endif
+@endforeach
