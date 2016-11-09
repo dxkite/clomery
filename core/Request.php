@@ -60,4 +60,12 @@ class Request extends Core\Value
         $ip=json_decode(@file_get_contents($url), true);
         return $ip;
     }
+    public function hasPost()
+    {
+        return count($_POST);
+    }
+    public function hasGet()
+    {
+        return count($_GET);
+    }
 }
