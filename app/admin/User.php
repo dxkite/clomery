@@ -22,9 +22,9 @@ class User extends \Admin_Autoentrance
             header('Location:'.$_SERVER['PHP_SELF']);
         } elseif (Request::get()->edit) {
             self::edit(Request::get()->edit);
-        } elseif (isset($post->send_mail)) {
-            Common_User::sendMail($user);
-            header('Location:'.$_SERVER['PHP_SELF'].'?edit='.$user);
+        } elseif (Request::get()->send_mail) {
+            Common_User::sendMail(Request::get()->send_mail);
+            header('Location:'.$_SERVER['PHP_SELF'].'?edit='.Request::get()->send_mail(0));
         }
         // 列表
         else {
