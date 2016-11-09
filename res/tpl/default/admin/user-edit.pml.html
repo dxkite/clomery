@@ -7,16 +7,18 @@
             <label for="delete_user_all">删除与用户相关的信息</label>
         </li>
         <li>用户名: <input name="name" type="text" value="{{$_Page->user->uname}}"></li>
-        <li>邮箱: <input type="email" name="email" value="{{$_Page->user->email}}">
+        <li>邮箱: <input type="email" name="email" value="{{$_Page->user->email}}"> @if ($_Page->user->email_verify==='Y')
             <select name="email_verify" id="">
-                @if ($_Page->user->email_verify==='Y')
                 <option value="Y" selected>已验证</option>
                 <option value="N">未验证</option>
-                @else
+            </select> 
+            @else
+            <select name="email_verify" id="">
                 <option value="Y">已验证</option>
                 <option value="N" selected>未验证</option>
-                @endif
-            </select>
+            </select> 
+            <a href="{{ $_SERVER['PHP_SELF'] }}?send_mail={{$_Page->user->uid}}">发送验证邮件</a>
+            @endif
         </li>
         <li>密码: <input type="text" name="upass" placeholder="不修改请留空"></li>
         <li>分组:

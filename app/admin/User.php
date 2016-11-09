@@ -35,6 +35,9 @@ class User extends \Admin_Autoentrance
             $post=Request::post();
             if (isset($post->delete)) {
                 echo 'unsupport delete user';
+            } elseif (isset($post->send_mail)) {
+                Common_User::sendMail($user);
+                header('Location:'.$_SERVER['PHP_SELF'].'?edit='.$user);
             } else {
                 var_dump(Common_User::modify($user, Request::post()->name, Request::post()->group, Request::post()->email, Request::post()->email_verify, Request::post()->status));
                 if ($passwd=Request::post()->passwd) {
