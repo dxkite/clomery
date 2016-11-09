@@ -147,6 +147,7 @@ class Common_User
         }
         return [];
     }
+
     public static function hasSignin()
     {
         if ($get=self::getLastUserInfo()) {
@@ -273,6 +274,16 @@ class Common_User
         return null;
     }
 
+    public static function modify(int $uid,string $name,int $gid,string $email,string $verify,int $status)
+    {
+        $sql='UPDATE `atd_users` SET `uname`=:name,`gid`=:gid,`email`=:email,`email_verify`=:verify,`status`=:status WHERE `uid` = :uid';
+        return (new Query($sql,['uid'=>$uid,'name'=>$name,'email'=>$email,'verify'=>$verify,'status'=>$status,'gid'=>$gid]))->exec();
+    }
+    public static function changePasswd(int $uid,string $passwd)
+    {
+        $sql='UPDATE `atd_users` SET `upass`=:passwd  AND token=\'\' WHERE uid=:uid LIMIT 1;';
+        return (new Query($sql,['uid'=>$uid,'passwd'=>password_hash($passwd, PASSWORD_DEFAULT)]))->exec();
+    }
     public static function setStatu(int $uid,int $statu=1)
     {
         $sql='UPDATE `atd_users` SET `status` = :statu WHERE `atd_users`.`uid` = :uid;';

@@ -6,7 +6,7 @@
             <input disabled id="delete_user_all" type="checkbox" name="delete_all">
             <label for="delete_user_all">删除与用户相关的信息</label>
         </li>
-        <li>用户名: <input name="uname" type="text" value="{{$_Page->user->uname}}"></li>
+        <li>用户名: <input name="name" type="text" value="{{$_Page->user->uname}}"></li>
         <li>邮箱: <input type="email" name="email" value="{{$_Page->user->email}}">
             <select name="email_verify" id="">
                 @if ($_Page->user->email_verify==='Y')
@@ -22,7 +22,7 @@
         <li>分组:
             <select name="group" id="">
             @foreach($_Page->groups as $group)
-            <option value="{{$group['gid']}}" @if($group['gid']===$_Page->user->gid) selected @endif>{{$group['gname']}}</option>
+            <option value="{{$group['gid']}}" @if($group['gid'] == $_Page->user->gid(0)) selected @endif>{{$group['gname']}}</option>
             @endforeach
             </select>
             <a href="{{$_SERVER['PHP_SELF']}}?edit_permission={{$_Page->user->uid}}">编辑权限</a>

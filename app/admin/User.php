@@ -6,6 +6,7 @@ use Core\Value;
 use Request;
 use Common_Navigation;
 use Common_User;
+
 class User extends \Admin_Autoentrance
 {
     public function run()
@@ -15,16 +16,14 @@ class User extends \Admin_Autoentrance
             Common_User::setStatu(Request::get()->freeze);
             header('Location:'.$_SERVER['PHP_SELF']);
         }
-        // 解封 
+        // 解封
         elseif (Request::get()->active) {
             Common_User::setStatu(Request::get()->active, 0);
             header('Location:'.$_SERVER['PHP_SELF']);
-        }
-        elseif (Request::get()->edit)
-        {
+        } elseif (Request::get()->edit) {
             self::edit(Request::get()->edit);
         }
-        // 列表 
+        // 列表
         else {
             self::listUser();
         }
@@ -32,13 +31,26 @@ class User extends \Admin_Autoentrance
     public function edit(int $user)
     {
         Page::set('title', '编辑用户');
-        Page::set('user',new Value(Common_User::getBaseInfo($user)));
-        Page::set('groups',Common_User::getGroups());
+        if (Request::hasPost()) {
+            $post=Request::post();
+            if (isset($post->delete)) {
+                echo 'unsupport delete user';
+            } else {
+                var_dump(Common_User::modify($user, Request::post()->name, Request::post()->group, Request::post()->email, Request::post()->email_verify, Request::post()->status));
+                if ($passwd=Request::post()->passwd) {
+                    Common_User::changePasswd($user, $passwd);
+                }
+                header('Location:'.$_SERVER['PHP_SELF'].'?edit='.$user);
+            }
+        }
+        Page::set('user', new Value(Common_User::getBaseInfo($user)));
+        $groups=Common_User::getGroups();
+        $groups[]=['gid'=>0,'gname'=>'未分组'];
+        Page::set('groups', $groups);
         Page::insertCallback('Admin-Content', function () {
             Page::set('navs', Common_Navigation::getNavsets());
             Page::render('admin/user-edit');
         });
-        var_dump(Request::post());
     }
 
     public function listUser()
