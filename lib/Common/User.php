@@ -189,7 +189,7 @@ class Common_User
         Session::destroy();
     }
 
-    public static function numbers():int
+    public static function count():int
     {
         $q='SELECT `TABLE_ROWS` as `size` FROM `information_schema`.`TABLES` WHERE  `TABLE_SCHEMA`="'.conf('Database.dbname').'" AND `TABLE_NAME` ="#{users}" LIMIT 1;';
         if ($a=($d=new Query($q))->fetch()) {

@@ -70,7 +70,7 @@ class User extends \Admin_Autoentrance
     {
         Page::set('title', '用户管理');
         $page_count=10;
-        $count= Common_User::numbers();
+        $count= Common_User::count();
         $max=ceil($count/$page_count);
         $page=Request::get()->page(1)>$max?$max:Request::get()->page(1);
         $users= Common_User::listUser($page-1, $page_count);

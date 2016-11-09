@@ -23,7 +23,7 @@ class Index extends \Admin_Autoentrance
                     'img_ver'=>conf('Driver.Image').'/'.\Image::version(),
                     
                     'db_ver'=>\Database::version(),
-                    'user_num'=>\Common_User::numbers(),
+                    'user_num'=>\Common_User::count(),
                     'article_num'=>\Blog_Article::countPublic(),
                     'env'=>$_SERVER['SERVER_SOFTWARE'],
                     
