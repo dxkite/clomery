@@ -1,0 +1,43 @@
+<form action="{{ $_SERVER['PHP_SELF'] }}?edit={{$_Page->user->uid}}" method="POST">
+    <ol>
+        <li>删除用户：
+            <input disabled id="delete_user" type="checkbox" name="delete">
+            <label for="delete_user">删除用户</label>
+            <input disabled id="delete_user_all" type="checkbox" name="delete_all">
+            <label for="delete_user_all">删除与用户相关的信息</label>
+        </li>
+        <li>用户名: <input name="uname" type="text" value="{{$_Page->user->uname}}"></li>
+        <li>邮箱: <input type="email" name="email" value="{{$_Page->user->email}}">
+            <select name="email_verify" id="">
+                @if ($_Page->user->email_verify==='Y')
+                <option value="Y" selected>已验证</option>
+                <option value="N">未验证</option>
+                @else
+                <option value="Y">已验证</option>
+                <option value="N" selected>未验证</option>
+                @endif
+            </select>
+        </li>
+        <li>密码: <input type="text" name="upass" placeholder="不修改请留空"></li>
+        <li>分组:
+            <select name="group" id="">
+            @foreach($_Page->groups as $group)
+            <option value="{{$group['gid']}}" @if($group['gid']===$_Page->user->gid) selected @endif>{{$group['gname']}}</option>
+            @endforeach
+            </select>
+            <a href="{{$_SERVER['PHP_SELF']}}?edit_permission={{$_Page->user->uid}}">编辑权限</a>
+        </li>
+        <li>用户状态:
+            <select name="status" id="">
+                @if ($_Page->user->status==0)
+                <option value="0" selected>活动</option>
+                <option value="1">封禁</option>
+                @else
+                <option value="0">活动</option>
+                <option value="1"  selected>封禁</option>
+                @endif
+            </select>
+        </li>
+    </ol>
+    <input type="submit" value="应用修改">
+</form>

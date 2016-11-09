@@ -263,6 +263,16 @@ class Common_User
         }
         return null;
     }
+    
+    public static function getGroups()
+    {
+         $q='SELECT `gid`,`gname` FROM `#{permission}` WHERE `uid` = 0 LIMIT 1;';
+        if ($sets=(new Query($q))->fetchAll()) {
+            return $sets;
+        }
+        return null;
+    }
+
     public static function setStatu(int $uid,int $statu=1)
     {
         $sql='UPDATE `atd_users` SET `status` = :statu WHERE `atd_users`.`uid` = :uid;';
