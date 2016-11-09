@@ -64,7 +64,21 @@ class Blog_Article
         $db=($qs=new Query($q, ['topic'=>$topic, 'count'=>$count, 'offset'=>$offset]))->fetchAll();
         return $db;
     }
-
+    // admin
+    public static function listArticles(int $page=1,int $page_count=10)
+    {
+        $q='SELECT `aid`,`title`,`author` as `uid`,`atd_users`.`uname` as `author` ,`views`,`created`,`modified`,`replys`,`public`,`atd_articles`.`verify`,`atd_category`.`cid`,`atd_category`.`name` as `category` FROM `atd_articles` LEFT JOIN  `atd_category` ON `atd_category`.`cid`=`category` LEFT JOIN `atd_users` ON `atd_users`.`uid`=`atd_articles`.`author` ORDER BY `atd_articles`.`modified` DESC LIMIT  :offset,:count;';
+        return (new Query($q,['offset'=>($page-1)* $page_count,'count'=>$page_count]))->fetchAll(); 
+    }
+    public static function count():int
+    {
+        $q='SELECT count(`aid`) as `size` FROM `#{articles}` ';
+        if ($a=($d=new Query($q))->fetch()) {
+            return $a['size'];
+        }
+        return 0;
+    }
+    
     public static function getArticlesListByCategory(int $topic,int $categoryid, int $count=10, int $offset=0)
     {
         $q='SELECT `aid`,`title`,`author` as `uid`,`atd_users`.`uname` as `author` ,`remark`,`views`,`modified`,`replys`,`atd_category`.`cid`,`atd_category`.`name` as `category`,`atd_category`.`icon`  FROM `atd_articles` LEFT JOIN  `atd_category` ON `atd_category`.`cid`=`category` LEFT JOIN `atd_users` ON `atd_users`.`uid`=`atd_articles`.`author` WHERE  `public`=1 AND `atd_articles`.`topic`=:topic AND `category`=:category ORDER BY `atd_articles`.`modified` DESC LIMIT  :offset,:count;';
@@ -118,9 +132,10 @@ WHERE  `public`=1 AND
         }
         return '';
     }
+
     public static function numbers():int
     {
-        $q='SELECT count(`aid`) as `size` FROM `#{articles}` WHERE `public`=1 LIMIT 1;';
+        $q='SELECT count(`aid`) as `size` FROM `#{articles}` WHERE `public`=1 ;';
         if ($a=($d=new Query($q))->fetch()) {
             return $a['size'];
         }

@@ -25,6 +25,7 @@ abstract class Admin_Autoentrance
         $options[]=new Value(['title'=>'网站设置', 'href'=>Page::url('admin', ['path'=>'Site'])]);
         $options[]=new Value(['title'=>'导航栏设置', 'href'=>Page::url('admin', ['path'=>'Navigation'])]);
         $options[]=new Value(['title'=>'用户管理', 'href'=>Page::url('admin', ['path'=>'User'])]);
+        $options[]=new Value(['title'=>'文章管理', 'href'=>Page::url('admin', ['path'=>'Article'])]);
         Page::set('options', $options);
         Page::use('admin/index');
     }
