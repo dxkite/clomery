@@ -279,6 +279,11 @@ class Common_User
         $sql='UPDATE `atd_users` SET `uname`=:name,`gid`=:gid,`email`=:email,`email_verify`=:verify,`status`=:status WHERE `uid` = :uid';
         return (new Query($sql,['uid'=>$uid,'name'=>$name,'email'=>$email,'verify'=>$verify,'status'=>$status,'gid'=>$gid]))->exec();
     }
+    public static function delete(int $uid)
+    {
+        $sql='DELETE FROM `atd_users` WHERE `atd_users`.`uid` = :uid LIMIT 1;';
+        return (new Query($sql,['uid'=>$uid]))->exec();
+    }
     public static function changePasswd(int $uid,string $passwd)
     {
         $sql='UPDATE `atd_users` SET `upass`=:passwd  AND token=\'\' WHERE uid=:uid LIMIT 1;';

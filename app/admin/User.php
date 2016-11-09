@@ -25,16 +25,26 @@ class User extends \Admin_Autoentrance
         }
         // 列表
         else {
-            self::listUser();
+            if (Request::post()->users) {
+                switch (Request::post()->do) {
+                    case 'sendmail': self::sendmail(Request::post()->users); break;
+                    case 'delete':self::delete(Request::post()->users);break;
+                }
+                header('Location:'.$_SERVER['PHP_SELF']);
+            } else {
+                self::listUser();
+            }
         }
     }
+
     public function edit(int $user)
     {
         Page::set('title', '编辑用户');
         if (Request::hasPost()) {
             $post=Request::post();
             if (isset($post->delete)) {
-                echo 'unsupport delete user';
+                Common_User::delete($user);
+                header('Location:'.$_SERVER['PHP_SELF']);
             } elseif (isset($post->send_mail)) {
                 Common_User::sendMail($user);
                 header('Location:'.$_SERVER['PHP_SELF'].'?edit='.$user);
@@ -77,5 +87,23 @@ class User extends \Admin_Autoentrance
             Page::set('navs', Common_Navigation::getNavsets());
             Page::render('admin/user-list');
         });
+    }
+
+    private function sendmail(array $users)
+    {
+        foreach ($users as $uid => $send) {
+            if (!Common_User::emailVerified($uid) && $send == 'on') {
+                Common_User::sendMail($uid);
+            }
+        }
+    }
+
+    private function delete(array $users)
+    {
+        foreach ($users as $uid => $send) {
+            if ($send=='on') {
+                Common_User::delete($uid);
+            }
+        }
     }
 }

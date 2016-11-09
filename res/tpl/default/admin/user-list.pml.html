@@ -1,35 +1,43 @@
-<table>
-    <tr>
-        <th>用户ID</th>
-        <th>用户名</th>
-        <th>分组</th>
-        <th>邮箱</th>
-        <th>验证</th>
-        <th>注册时间</th>
-        <th>上次登陆IP</th>
-        <th>状态</th>
-        <th>操作</th>
-    </tr>
-    @foreach ($_Page->users as $user)
-    <tr>
-        <td>{{ $user->uid }}</td>
-        <td>{{ $user->name }}</td>
-        <td>{{ $user->group('未分组') }}</td>
-        <td>{{ $user->email }}</td>
-        <td>{{ $user->email_verify }}</td>
-        <td>{{ date('Y-m-d H:i:s',$user->signup(0)) }}</td>
-        <td>{{ $user->lastip }}</td>
-        <td>{{ $user->status }}</td>
-        <td><a href="{{$_SERVER['PHP_SELF']}}?edit={{$user->uid}}">编辑</a> 
-        @if ($user->status)
-            <a href="{{$_SERVER['PHP_SELF']}}?active={{$user->uid }}">解禁</a> 
-        @else
-            <a href="{{$_SERVER['PHP_SELF']}}?freeze={{$user->uid }}">封禁</a> 
-        @endif
-        </td>
-    </tr>
-    @endforeach
-</table>
+<form action="{{ $_SERVER['PHP_SELF'] }}" method="POST">
+    <table>
+        <tr>
+            <th>批量</th>
+            <th>用户ID</th>
+            <th>用户名</th>
+            <th>分组</th>
+            <th>邮箱</th>
+            <th>验证</th>
+            <th>注册时间</th>
+            <th>上次登陆IP</th>
+            <th>状态</th>
+            <th>操作</th>
+        </tr>
+        @foreach ($_Page->users as $user)
+        <tr>
+            <td> <input type="checkbox" name="users[{{ $user->uid }}]"> </td>
+            <td>{{ $user->uid }}</td>
+            <td>{{ $user->name }}</td>
+            <td>{{ $user->group('未分组') }}</td>
+            <td>{{ $user->email }}</td>
+            <td>{{ $user->email_verify }}</td>
+            <td>{{ date('Y-m-d H:i:s',$user->signup(0)) }}</td>
+            <td>{{ $user->lastip }}</td>
+            <td>{{ $user->status }}</td>
+            <td><a href="{{$_SERVER['PHP_SELF']}}?edit={{$user->uid}}">编辑</a> @if ($user->status)
+                <a href="{{$_SERVER['PHP_SELF']}}?active={{$user->uid }}">解禁</a> @else
+                <a href="{{$_SERVER['PHP_SELF']}}?freeze={{$user->uid }}">封禁</a> @endif
+            </td>
+        </tr>
+        @endforeach
+    </table>
+    <input id="delete" type="radio" name="do" value="delete">
+    <label for="delete">删除用户</label>
+    <input disabled id="delete_all" type="radio" name="do" value="delete_all">
+    <label for="delete_all">删除用户以及与用户相关的信息</label>
+    <input id="sendmail" type="radio" name="do" value="sendmail" checked>
+    <label for="sendmail" >发送验证邮件</label>
+    <input type="submit" value="批量操作">
+</form>
 @foreach ($_Page->pages as $number) @if ($number == $_Page->page_current)
 <span>{{$number}}</span> @else
 <a href="{{$_SERVER['PHP_SELF']}}?page={{$number}}">{{$number}}</a> @endif @endforeach
