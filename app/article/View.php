@@ -32,7 +32,7 @@ class View
 
         Page::set('article_list', $article_list_obj);
 
-        Page::set('article_numbers', $page_number=Blog_Article::numbers());
+        Page::set('article_numbers', $page_number=Blog_Article::countPublic());
         
         if ($page_content<$page_number) {
             for ($i=0, $j=1;$i<$page_number;$j++, $i+=$page_content) {

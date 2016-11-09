@@ -133,7 +133,7 @@ WHERE  `public`=1 AND
         return '';
     }
 
-    public static function numbers():int
+    public static function countPublic():int
     {
         $q='SELECT count(`aid`) as `size` FROM `#{articles}` WHERE `public`=1 ;';
         if ($a=($d=new Query($q))->fetch()) {

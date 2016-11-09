@@ -24,7 +24,7 @@ class Index extends \Admin_Autoentrance
                     
                     'db_ver'=>\Database::version(),
                     'user_num'=>\Common_User::numbers(),
-                    'article_num'=>\Blog_Article::numbers(),
+                    'article_num'=>\Blog_Article::countPublic(),
                     'env'=>$_SERVER['SERVER_SOFTWARE'],
                     
                     'upload_max'=>ini_get('upload_max_filesize'),
