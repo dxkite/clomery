@@ -2,7 +2,7 @@
 /* ------------------------------------------------------ *\
    ------------------------------------------------------
    PHP Simple Library XCore 1.x.4-dev Database Backup File
-        Create On: 2016-11-05 14:22:51
+        Create On: 2016-11-09 19:47:21
         SQL Server version: 10.1.10-MariaDB
         Host: localhost   
         Database: hello_world
@@ -87,7 +87,7 @@ Query::beginTransaction();
   KEY `parent` (`parent`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8'))->exec();
 
- (new Query('INSERT INTO  `#{nav}` VALUES (\'1\',\'index\',\'/\',\'\',\'1\',\'1\',\'0\'),(\'2\',\'notes\',\'/notes\',\'\',\'1\',\'6\',\'0\'),(\'3\',\'article\',\'/article\',\'\',\'1\',\'2\',\'0\'),(\'4\',\'books\',\'/books\',\'\',\'1\',\'3\',\'0\'),(\'5\',\'question\',\'/question\',\'\',\'1\',\'4\',\'0\'),(\'7\',\'test\',\'/test\',\'OnlineJudge\',\'1\',\'5\',\'0\'),(\'9\',\'about\',\'/about\',\'\',\'1\',\'7\',\'0\')'))->exec();
+ (new Query('INSERT INTO  `#{nav}` VALUES (\'1\',\'首页\',\'/\',\'index\',\'1\',\'1\',\'0\'),(\'3\',\'文章\',\'/article\',\'article\',\'1\',\'2\',\'0\'),(\'4\',\'books\',\'/books\',\'\',\'0\',\'3\',\'0\'),(\'5\',\'问题\',\'/question\',\'\',\'1\',\'6\',\'0\'),(\'7\',\'在线测试\',\'/test\',\'OnlineJudge\',\'0\',\'5\',\'0\'),(\'9\',\'关于\',\'/about\',\'\',\'1\',\'7\',\'0\')'))->exec();
 
  (new Query('DROP TABLE IF EXISTS #{permission}'))->exec();
 
@@ -118,7 +118,7 @@ Query::beginTransaction();
   `time` int(11) NOT NULL,
   PRIMARY KEY (`hid`),
   KEY `uid` (`uid`)
-) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=utf8'))->exec();
+) ENGINE=InnoDB AUTO_INCREMENT=90 DEFAULT CHARSET=utf8'))->exec();
 
  (new Query('DROP TABLE IF EXISTS #{site_options}'))->exec();
 
@@ -131,7 +131,7 @@ Query::beginTransaction();
   KEY `name` (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8 COMMENT=\'网站设置表\''))->exec();
 
- (new Query('INSERT INTO  `#{site_options}` VALUES (\'1\',\'site_name\',\'芒刺中国 -- 导入\'),(\'2\',\'theme\',\'default\'),(\'19\',\'site_logo\',\'/static/img/mccn.svg\'),(\'20\',\'keywords\',\'芒刺,程序员,文摘\'),(\'21\',\'lang\',\'zh_cn\'),(\'22\',\'HV_SignUp\',\'0\'),(\'23\',\'HV_SignIn\',\'0\'),(\'24\',\'HV_Post\',\'0\'),(\'25\',\'HV_Comment\',\'0\'),(\'26\',\'allowSignUp\',\'1\'),(\'27\',\'copyright\',\'芒刺中国\'),(\'28\',\'site_close\',\'0\'),(\'29\',\'close_info\',\'芒刺中国系统开发中\'),(\'30\',\'default_avatar\',\'39\'),(\'31\',\'beian\',\'湘ICP备16001199号-1\')'))->exec();
+ (new Query('INSERT INTO  `#{site_options}` VALUES (\'1\',\'site_name\',\'芒刺中国\'),(\'2\',\'theme\',\'default\'),(\'19\',\'site_logo\',\'/static/img/mccn.svg\'),(\'20\',\'keywords\',\'芒刺,程序员,文摘\'),(\'21\',\'lang\',\'zh_cn\'),(\'22\',\'HV_SignUp\',\'0\'),(\'23\',\'HV_SignIn\',\'0\'),(\'24\',\'HV_Post\',\'0\'),(\'25\',\'HV_Comment\',\'0\'),(\'26\',\'allowSignUp\',\'1\'),(\'27\',\'copyright\',\'芒刺中国\'),(\'28\',\'site_close\',\'0\'),(\'29\',\'close_info\',\'芒刺中国系统开发中\'),(\'31\',\'beian\',\'湘ICP备16001199号-1\')'))->exec();
 
  (new Query('DROP TABLE IF EXISTS #{tags}'))->exec();
 
@@ -196,7 +196,7 @@ Query::beginTransaction();
   `uid` bigint(20) NOT NULL AUTO_INCREMENT,
   `uname` varchar(13) NOT NULL,
   `upass` varchar(60) NOT NULL,
-  `gid` int(11) NOT NULL DEFAULT \'3\',
+  `gid` int(11) NOT NULL DEFAULT \'0\',
   `signup` int(11) NOT NULL,
   `signin` int(11) NOT NULL,
   `email` varchar(50) NOT NULL,
@@ -212,7 +212,7 @@ Query::beginTransaction();
   KEY `uid_2` (`uid`),
   KEY `uid_3` (`uid`),
   KEY `uid_4` (`uid`)
-) ENGINE=InnoDB AUTO_INCREMENT=66 DEFAULT CHARSET=utf8'))->exec();
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8'))->exec();
 
 /** End Querys **/
 Query::commit();
