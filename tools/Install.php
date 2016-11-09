@@ -1,5 +1,7 @@
 <?php
 /** Debug Install Script **/
+// TODO:安装时添加管理账户
+// TODO:自增值归0
 defined('DOC_ROOT') or define('DOC_ROOT', __DIR__ .'/..');
 require_once '../core/XCore.php';
 $ok="\033[32m[Ok]\033[0m ";
