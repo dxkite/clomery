@@ -13,7 +13,6 @@ class Caller
     public $func_bind=[];
     public $name;
 
-    // TODO : 可以引用文件的调用
     public function __construct($caller, array $params=[])
     {
         $this->caller=$caller;

@@ -205,14 +205,16 @@ class Common_User
     }
     public static function getPublicInfo(int $uid)
     {
+        // TODO: 创建用户的同时创建用户信息表
         static $info=null;
         if (isset($info[$uid])) {
             return $info[$uid];
-        } elseif ($info[$uid]=(new Query('SELECT `#{users}`.`uid`,`uname` as `name`,`avatar`,`signup`,`discription` FROM `#{users}`  JOIN `#{user_info}` ON  `#{user_info}`.`uid` = `#{users}`.`uid` WHERE `#{users}`.`uid`=:uid  LIMIT 1;', ['uid'=>$uid]))->fetch()) {
+        } elseif ($info[$uid]=(new Query('SELECT `#{users}`.`uid`,`uname` as `name`,`avatar`,`signup`,`discription` FROM `#{users}`  LEFT JOIN `#{user_info}` ON  `#{user_info}`.`uid` = `#{users}`.`uid` WHERE `#{users}`.`uid`=:uid  LIMIT 1;', ['uid'=>$uid]))->fetch()) {
             return $info[$uid];
         }
-        return $info;
+        return $info[$uid];
     }
+
     public static function getPublicInfoByName(string $name)
     {
         static $info=null;

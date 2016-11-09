@@ -1,6 +1,4 @@
 <?php
-// 统一使用一个权限表
-// TODO : 多组的权限表 ?
 
 class Common_Auth
 {
