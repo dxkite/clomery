@@ -10,7 +10,6 @@ class View
     {
        
        $info=Common_User::getPublicInfo((int)$uid);
-       var_dump($info);
        if (isset($info['uid'])){
             $info['avatar_url']=PageUrl::avatar($info['name']);
             $user=new \Core\Value($info);
