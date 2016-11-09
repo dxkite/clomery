@@ -22,6 +22,9 @@ class User extends \Admin_Autoentrance
             header('Location:'.$_SERVER['PHP_SELF']);
         } elseif (Request::get()->edit) {
             self::edit(Request::get()->edit);
+        } elseif (isset($post->send_mail)) {
+            Common_User::sendMail($user);
+            header('Location:'.$_SERVER['PHP_SELF'].'?edit='.$user);
         }
         // 列表
         else {
@@ -45,9 +48,6 @@ class User extends \Admin_Autoentrance
             if (isset($post->delete)) {
                 Common_User::delete($user);
                 header('Location:'.$_SERVER['PHP_SELF']);
-            } elseif (isset($post->send_mail)) {
-                Common_User::sendMail($user);
-                header('Location:'.$_SERVER['PHP_SELF'].'?edit='.$user);
             } else {
                 var_dump(Common_User::modify($user, Request::post()->name, Request::post()->group, Request::post()->email, Request::post()->email_verify, Request::post()->status));
                 if ($passwd=Request::post()->passwd) {
