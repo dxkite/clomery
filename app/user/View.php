@@ -8,7 +8,7 @@ class View
 {
     public function main($uid)
     {
-       
+       // 测试脚本
        $info=Common_User::getPublicInfo((int)$uid);
        if (isset($info['uid'])){
             $info['avatar_url']=PageUrl::avatar($info['name']);
