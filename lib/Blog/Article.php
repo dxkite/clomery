@@ -68,7 +68,7 @@ class Blog_Article
     public static function listArticles(int $page=1,int $page_count=10)
     {
         $q='SELECT `aid`,`title`,`author` as `uid`,`atd_users`.`uname` as `author` ,`views`,`created`,`modified`,`replys`,`public`,`atd_articles`.`verify`,`atd_category`.`cid`,`atd_category`.`name` as `category` FROM `atd_articles` LEFT JOIN  `atd_category` ON `atd_category`.`cid`=`category` LEFT JOIN `atd_users` ON `atd_users`.`uid`=`atd_articles`.`author` ORDER BY `atd_articles`.`modified` DESC LIMIT  :offset,:count;';
-        return (new Query($q,['offset'=>($page-1)* $page_count,'count'=>$page_count]))->fetchAll(); 
+        return (new Query($q,['offset'=>($page-1)* $page_count>0?($page-1)* $page_count:0,'count'=>$page_count]))->fetchAll(); 
     }
     public static function count():int
     {
