@@ -100,13 +100,19 @@ class Query implements Query_Interface
         $query=self::auto_prefix($query);
         // 调整数据表
         if ($this->database && $this->dbchange) {
-            self::$pdo->query('USE '.$this->database);
-            $this->dbchange=false;
+            if (self::$pdo->query('USE '.$this->database)) {
+                $this->dbchange=false;
+            } else {
+                die('Could not select database:'.$this->database);
+            }
         } elseif (!$this->database) {
-            self::$pdo->query('USE '.conf('Database.dbname'));
-            $this->database=conf('Database.dbname');
-        }
-        else{
+            if (self::$pdo->query('USE '.$this->database)) {
+                self::$pdo->query('USE '.conf('Database.dbname'));
+                $this->database=conf('Database.dbname');
+            } else {
+                die('Could not select database:'.$this->database);
+            }
+        } else {
             var_dump($this->database);
             var_dump(conf('Database.dbname'));
         }
