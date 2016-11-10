@@ -76,7 +76,7 @@ class Common_User
         return 0;
     }
 
-
+    
     public function sendMail($uid)
     {
         if ($info=Common_User::getBaseInfo($uid)) {

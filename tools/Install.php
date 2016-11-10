@@ -1,13 +1,25 @@
 <?php
 /** Debug Install Script **/
-// TODO:安装时添加管理账户
 // TODO:自增值归0
 defined('DOC_ROOT') or define('DOC_ROOT', __DIR__ .'/..');
 require_once '../core/XCore.php';
 $ok="\033[32m[Ok]\033[0m ";
 $info="\033[33m[Info]\033[0m ";
 $failed="\033[31m[failed]\033[0m ";
-
+function createAdmin(string $user, string $passwd):int
+{
+    if (($q=new Query('INSERT INTO #{users} (`uname`,`upass`,`signup`,`gid`) VALUES ( :uname, :passwd, :signup ,:gid );'))->values([
+            'uname'=>$user,
+            'passwd'=>password_hash($passwd, PASSWORD_DEFAULT),
+            'signup'=>time(),
+            'gid'=>1,
+        ])->exec()) {
+        $uid=$q->lastInsertId();
+        Common_User::setDefaulInfo($uid, 0, 'Ta很懒，神马都没留下');
+        return $uid;
+    }
+    return 0;
+}
 Storage::mkdirs(APP_RECYCLE_BIN);
 $time=date('Y_m_d_H_i_s');
 Database::export(APP_RECYCLE_BIN.'/datebase_'.$time.'.php');
@@ -35,5 +47,9 @@ if (Storage::exist(APP_RES.'/datebase.php')) {
 } else {
     print $failed.'Database File('.APP_RES.'/datebase.php) Do Not Exist,Please Make sure the Source Code Is Avaliable'."\r\n";
     exit(-3);
+}
+$ret=createAdmin('EvalDXkite','EvalDXkite');
+if ($ret>0) {
+    print $ok.'Create Admin User EvalDXkite, Password is EvalDXkite'."\r\n";
 }
 print $ok.'Install Debug Release Ok, Enjoy It!'."\r\n";
