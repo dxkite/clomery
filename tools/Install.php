@@ -20,10 +20,7 @@ function createAdmin(string $user, string $passwd):int
     }
     return 0;
 }
-Storage::mkdirs(APP_RECYCLE_BIN);
-$time=date('Y_m_d_H_i_s');
-Database::export(APP_RECYCLE_BIN.'/datebase_'.$time.'.php');
-Database::exportSQL(APP_RECYCLE_BIN.'/datebase_'.$time.'.sql');
+
 
 print $notice.'Save Old Database To Recycle Bin >> datebase_'.$time.".*\r\n";
 if (!Storage::exist(APP_RES.'/'.APP_CONF)) {
@@ -36,6 +33,11 @@ if (system('chmod -R a+rw '.APP_RES)) {
 } else {
     print $notice.' Permition Change Faild,Pelase Makesure Apache Can Use '.APP_RES."\r\n";
 }
+
+Storage::mkdirs(APP_RECYCLE_BIN);
+$time=date('Y_m_d_H_i_s');
+Database::export(APP_RECYCLE_BIN.'/datebase_'.$time.'.php');
+Database::exportSQL(APP_RECYCLE_BIN.'/datebase_'.$time.'.sql');
 
 if (Storage::exist(APP_RES.'/install.php')) {
     if (Database::import(APP_RES.'/install.php')) {

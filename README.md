@@ -58,8 +58,10 @@
 
 ## 使用说明
 
-```
+```bash
 git clone https://github.com/DXkite/DxSite .
+cp .conf.simple res/.conf
+vim res/.conf #修改成你要的配置
 php tools/Install.php
 ```
 ### 注意
