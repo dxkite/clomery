@@ -83,6 +83,7 @@ class Query implements Query_Interface
     public function erron():int
     {
         if ($this->stmt) {
+                        var_dump($this->stmt->errorCode());
             return $this->stmt->errorCode();
         }
         return false;
@@ -106,8 +107,7 @@ class Query implements Query_Interface
                 die('Could not select database:'.$this->database);
             }
         } elseif (!is_null($this->database)) {
-            if (self::$pdo->query('USE '.$this->database)) {
-                self::$pdo->query('USE '.conf('Database.dbname'));
+            if (self::$pdo->query('USE '.conf('Database.dbname'))) {
                 $this->database=conf('Database.dbname');
             } else {
                 die('Could not select database:'.$this->database);
