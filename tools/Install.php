@@ -36,6 +36,7 @@ if (system('chmod -R a+rw '.APP_RES)) {
 
 Storage::mkdirs(APP_RECYCLE_BIN);
 $time=date('Y_m_d_H_i_s');
+
 Database::export(APP_RECYCLE_BIN.'/datebase_'.$time.'.php');
 Database::exportSQL(APP_RECYCLE_BIN.'/datebase_'.$time.'.sql');
 

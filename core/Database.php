@@ -9,7 +9,11 @@ class Database
         }
         return false;
     }
-
+    public static function exits(string $name)
+    {
+        $sql='SELECT `schema_name` FROM `information_schema`.`schemata` WHERE `schema_name`=:name LIMIT 1;';
+        return (new Query($sql, ['name'=>$name]))->fetch();
+    }
     public static function export(string $export, array $saves_table=[])
     {
         $version=CORE_VERSION;
@@ -38,16 +42,18 @@ Query::beginTransaction();
 
 Table;
         $export_str=$head;
-        foreach ($tables as $table_array) {
-            $tablename=current($table_array);
-            preg_match('/^'.conf('Database.prefix').'(.+?)$/', $tablename, $tbinfo);
-            $export_str.=self::querySQLString('DROP TABLE IF EXISTS #{'.$tbinfo[1].'}');
-            $export_str.=self::querySQLTableStruct(current($table_array));
+        if (is_array($table)) {
+            foreach ($tables as $table_array) {
+                $tablename=current($table_array);
+                preg_match('/^'.conf('Database.prefix').'(.+?)$/', $tablename, $tbinfo);
+                $export_str.=self::querySQLString('DROP TABLE IF EXISTS #{'.$tbinfo[1].'}');
+                $export_str.=self::querySQLTableStruct(current($table_array));
             // 0 全部 有则保存指定的
             if (count($saves_table)===0) {
                 $export_str.=self::querySQLTableValues(current($table_array));
             } elseif (in_array($tbinfo[1], $saves_table)) {
                 $export_str.=self::querySQLTableValues(current($table_array));
+            }
             }
         }
         $end=<<< 'End'
@@ -103,16 +109,17 @@ Table;
     public static function saveSQLTables(string $fileout, array $saves_table=[])
     {
         $tables=($q=new Query("show tables;"))->fetchAll();
-        foreach ($tables as $table) {
-            $table=current($table);
-            $doc=<<< Table
+        if (is_array($table)) {
+            foreach ($tables as $table) {
+                $table=current($table);
+                $doc=<<< Table
 --
 -- Create Table $table
 --
 Table;
-            if ($str=self::getTableStruct($table)) {
-                $sql='DROP TABLE IF EXISTS `'.$table.'`;'."\r\n";
-                Storage::put($fileout, $doc."\r\n\r\n".$sql.$str.";\r\n\r\n\r\n", FILE_APPEND);
+                if ($str=self::getTableStruct($table)) {
+                    $sql='DROP TABLE IF EXISTS `'.$table.'`;'."\r\n";
+                    Storage::put($fileout, $doc."\r\n\r\n".$sql.$str.";\r\n\r\n\r\n", FILE_APPEND);
                 // var_dump($table, $saves_table);
                 preg_match('/^'.conf('Database.prefix').'(.+?)$/', $table, $tbinfo);
                 // 0 全部 有则保存指定的
@@ -121,8 +128,9 @@ Table;
                 } elseif (in_array($tbinfo[1], $saves_table)) {
                     self::saveSQLData($fileout, $table);
                 }
-            } else {
-                return false;
+                } else {
+                    return false;
+                }
             }
         }
         return true;
