@@ -23,8 +23,15 @@
             <td>{{$article_item['modified']}} </td>
             <td>{{$article_item['views'] }}</td>
             <td>{{$article_item['replys'] }}</td>
-            <td>{{$article_item['verify'] }}</td>
-            <td> @if ($article_item['public']) 
+            <td>
+                @if ($article_item['verify']) 
+                <a href="{{$_SERVER['PHP_SELF']}}?verified={{$article_item['aid']}}">取消通过</a> 
+                @else 
+                <a href="{{$_SERVER['PHP_SELF']}}?verify={{$article_item['aid']}}">通过审核</a> 
+                @endif
+            </td>
+            <td> 
+                @if ($article_item['public']) 
                 <a href="{{$_SERVER['PHP_SELF']}}?private={{$article_item['aid']}}">发布中</a> 
                 @else 
                 <a href="{{$_SERVER['PHP_SELF']}}?public={{$article_item['aid']}}">草稿</a> 

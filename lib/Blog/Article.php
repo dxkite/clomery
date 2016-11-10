@@ -176,4 +176,10 @@ WHERE  `public`=1 AND
          $q='UPDATE `#{articles}` SET `public` = :public WHERE `#{articles}`.`aid` = :aid;';
         return (new Query($q, ['aid'=>$aid ,'public'=>$public]))->exec();
     }
+    
+    public function verify(int $aid,int $verify=1)
+    {
+         $q='UPDATE `#{articles}` SET `verify` = :verify WHERE `#{articles}`.`aid` = :aid;';
+        return (new Query($q, ['aid'=>$aid ,'verify'=>$verify]))->exec();
+    }
 }

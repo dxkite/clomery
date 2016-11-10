@@ -21,6 +21,12 @@ class Article extends \Admin_Autoentrance
         } elseif ($aid=Request::get()->public) {
             Article::publish($aid, 1);
             self::list();
+        } elseif ($aid=Request::get()->verified) {
+            Article::verify($aid, 0);
+            self::list();
+        } elseif ($aid=Request::get()->verify) {
+            Article::verify($aid, 1);
+            self::list();
         } else {
             if (Request::hasPost()) {
                 var_dump($article=Request::post()->artilce);
