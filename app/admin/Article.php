@@ -11,12 +11,21 @@ class Article extends \Admin_Autoentrance
     public function run()
     {
         if ($aid=Request::get()->edit) {
-            if (Request::hasPost())
-            {
-                var_dump(Article::setArticle(Request::get()->edit,Request::post()->title,Request::post()->remark,Request::post()->contents));
+            if (Request::hasPost()) {
+                var_dump(Article::setArticle(Request::get()->edit, Request::post()->title, Request::post()->remark, Request::post()->contents));
             }
             self::edit($aid);
         } else {
+            if (Request::hasPost()) {
+                var_dump($article=Request::post()->artilce);
+                foreach ($article as $aid=>$on) {
+                    if ($on=='on') {
+                        Article::delete($aid);
+                    }
+                }
+                header('Location:'.$_SERVER['PHP_SELF']);
+                return;
+            }
             self::list();
         }
     }

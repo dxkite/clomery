@@ -22,14 +22,14 @@ class Blog_Article
         return -$qy->erron();
     }
     // 存在相同ZIP:某些资源上传失败刷新
-    public static function updateExistHash(string $hash,string $content,int $time)
+    public static function updateExistHash(string $hash, string $content, int $time)
     {
         $q='UPDATE `#{articles}`  SET `contents` = :content ,  `modified`=:modified WHERE `hash` = :hash LIMIT 1;';
-        return (new Query($q, ['hash'=>$hash,'content'=>$content,'modified'=>$time]))->exec();
+        return (new Query($q, ['hash'=>$hash, 'content'=>$content, 'modified'=>$time]))->exec();
     }
 
     // 存在文章更新内容
-    public static function updateExistId(int $aid,int $author, string $title, string $remark, string $contents, int $time,int $keeptop=0, int $allowreply=1, int $public=1, string $hash='0')
+    public static function updateExistId(int $aid, int $author, string $title, string $remark, string $contents, int $time, int $keeptop=0, int $allowreply=1, int $public=1, string $hash='0')
     {
         $q='UPDATE `#{articles}`  SET 
         `author`=:author, 
@@ -48,7 +48,7 @@ class Blog_Article
             'title'=>$title,
             'remark'=>$remark,
             'contents'=>$contents,
-            'modified'=>$time ,
+            'modified'=>$time,
             'top'=>$keeptop,
             'reply'=>$allowreply,
             'public'=>$public,
@@ -65,10 +65,10 @@ class Blog_Article
         return $db;
     }
     // admin
-    public static function listArticles(int $page=1,int $page_count=10)
+    public static function listArticles(int $page=1, int $page_count=10)
     {
         $q='SELECT `aid`,`title`,`author` as `uid`,`#{users}`.`uname` as `author` ,`views`,`created`,`modified`,`replys`,`public`,`#{articles}`.`verify`,`#{category}`.`cid`,`#{category}`.`name` as `category` FROM `#{articles}` LEFT JOIN  `#{category}` ON `#{category}`.`cid`=`category` LEFT JOIN `#{users}` ON `#{users}`.`uid`=`#{articles}`.`author` ORDER BY `#{articles}`.`modified` DESC LIMIT  :offset,:count;';
-        return (new Query($q,['offset'=>($page-1)* $page_count>0?($page-1)* $page_count:0,'count'=>$page_count]))->fetchAll(); 
+        return (new Query($q, ['offset'=>($page-1)* $page_count>0?($page-1)* $page_count:0, 'count'=>$page_count]))->fetchAll();
     }
     public static function count():int
     {
@@ -79,14 +79,14 @@ class Blog_Article
         return 0;
     }
     
-    public static function getArticlesListByCategory(int $topic,int $categoryid, int $count=10, int $offset=0)
+    public static function getArticlesListByCategory(int $topic, int $categoryid, int $count=10, int $offset=0)
     {
         $q='SELECT `aid`,`title`,`author` as `uid`,`#{users}`.`uname` as `author` ,`remark`,`views`,`modified`,`replys`,`#{category}`.`cid`,`#{category}`.`name` as `category`,`#{category}`.`icon`  FROM `#{articles}` LEFT JOIN  `#{category}` ON `#{category}`.`cid`=`category` LEFT JOIN `#{users}` ON `#{users}`.`uid`=`#{articles}`.`author` WHERE  `public`=1 AND `#{articles}`.`topic`=:topic AND `category`=:category ORDER BY `#{articles}`.`modified` DESC LIMIT  :offset,:count;';
-        $db=($qs=new Query($q, ['topic'=>$topic,'category'=>$categoryid, 'count'=>$count, 'offset'=>$offset]))->fetchAll();
+        $db=($qs=new Query($q, ['topic'=>$topic, 'category'=>$categoryid, 'count'=>$count, 'offset'=>$offset]))->fetchAll();
         // var_dump($qs->error());
         return $db;
     }
-    public static function getArticlesListByTag(int $topic,int $tid, int $count=10, int $offset=0)
+    public static function getArticlesListByTag(int $topic, int $tid, int $count=10, int $offset=0)
     {
         $q='SELECT
   `#{articles}`.`aid`,
@@ -111,7 +111,7 @@ LEFT JOIN
 WHERE  `public`=1 AND
   `#{article_tag}`.`tid` = :tid ORDER BY `#{articles}`.`modified` DESC LIMIT  :offset,:count;';
 
-        $db=($qs=new Query($q, ['topic'=>$topic,'tid'=>$tid, 'count'=>$count, 'offset'=>$offset]))->fetchAll();
+        $db=($qs=new Query($q, ['topic'=>$topic, 'tid'=>$tid, 'count'=>$count, 'offset'=>$offset]))->fetchAll();
         // var_dump($qs->error());
         return $db;
     }
@@ -124,12 +124,12 @@ WHERE  `public`=1 AND
     public static function getArticle(int $aid)
     {
         $q='SELECT `aid`,`title`,`remark`,`contents` FROM `#{articles}` WHERE `aid`=:aid LIMIT 1;';
-        return (new Query($q,['aid'=>$aid]))->fetch();
+        return (new Query($q, ['aid'=>$aid]))->fetch();
     }
-    public static function setArticle(int $aid,string $title,string $remark,string $contents)
+    public static function setArticle(int $aid, string $title, string $remark, string $contents)
     {
         $c='UPDATE `#{articles}` SET `title` = :title,`remark`=:remark,`contents`=:contents WHERE `aid` = :aid LIMIT 1;';
-        return (new Query($c,['aid'=>$aid,'title'=>$title,'remark'=>$remark,'contents'=>$contents]))->exec();
+        return (new Query($c, ['aid'=>$aid, 'title'=>$title, 'remark'=>$remark, 'contents'=>$contents]))->exec();
     }
     public static function getArticleContent(int $aid)
     {
@@ -154,7 +154,7 @@ WHERE  `public`=1 AND
     
     public static function setCategory($aid, $categoryid)
     {
-        return Blog_Category::setCategory($aid,$categoryid);
+        return Blog_Category::setCategory($aid, $categoryid);
     }
 
     public static function setTopic($aid, $topic)
@@ -167,7 +167,8 @@ WHERE  `public`=1 AND
     {
         return (new Query('ANALYZE TABLE `#{articles}`'))->exec();
     }
-    public function delete(int $aid){
-        //  TODO
+    public function delete(int $aid)
+    {
+        return (new Query('DELETE FROM `#{articles}` WHERE `aid`=:aid', ['aid'=>$aid]))->exec();
     }
 }

@@ -1,34 +1,41 @@
-<table>
-    <tr>    
-        <th>文章ID</th>
-        <th>标题</th>
-        <th>作者</th>
-        <th>分类</th>
-        <th>创建时间</th>
-        <th>最后编辑</th>
-        <th>浏览</th>
-        <th>回复</th>
-        <th>审核</th>
-        <th>发布</th>
-        <th>操作</th>
-    </tr>
-    @foreach ($_Page->article_list  as $article_item)
-    <tr>
-        <td>{{$article_item['aid']}}</td>
-        <td><a href="{{$_SERVER['PHP_SELF']}}?edit={{$article_item['aid']}}">{{$article_item['title']}}</a></td>
-        <td>{{$article_item['author']}}</td>
-        <td>{{$article_item['category']}}</td>
-        <td>{{$article_item['created']}} </td>
-        <td>{{$article_item['modified']}} </td>
-        <td>{{$article_item['views'] }}</td>
-        <td>{{$article_item['replys'] }}</td>
-        <td>{{$article_item['verify'] }}</td>
-        <td>{{$article_item['public'] }}</td>
-        <td> <a href="{{PageUrl::article($article_item['aid'])}}">查看</a> </td>
-    </tr>
-    @endforeach
-</table>
+<form action="{{$_SERVER['PHP_SELF']}}" method="POST">
+    <table>
+        <tr>
+            <th>文章ID</th>
+            <th>标题</th>
+            <th>作者</th>
+            <th>分类</th>
+            <th>创建时间</th>
+            <th>最后编辑</th>
+            <th>浏览</th>
+            <th>回复</th>
+            <th>审核</th>
+            <th>发布</th>
+            <th>操作</th>
+        </tr>
+        @foreach ($_Page->article_list as $article_item)
+        <tr>
+            <td><input type="checkbox" name="artilce[{{$article_item['aid']}}]"> {{$article_item['aid']}}</td>
+            <td><a href="{{$_SERVER['PHP_SELF']}}?edit={{$article_item['aid']}}">{{$article_item['title']}}</a></td>
+            <td>{{$article_item['author']}}</td>
+            <td>{{$article_item['category']}}</td>
+            <td>{{$article_item['created']}} </td>
+            <td>{{$article_item['modified']}} </td>
+            <td>{{$article_item['views'] }}</td>
+            <td>{{$article_item['replys'] }}</td>
+            <td>{{$article_item['verify'] }}</td>
+            <td>{{$article_item['public'] }}</td>
+            <td> <a href="{{PageUrl::article($article_item['aid'])}}">查看</a> </td>
+        </tr>
+        @endforeach
+    </table>
+    <div>
+        @foreach ($_Page->pages as $number) @if ($number == $_Page->page_current)
+        <span>{{$number}}</span> @else
+        <a href="{{$_SERVER['PHP_SELF']}}?page={{$number}}">{{$number}}</a> @endif @endforeach
+    </div>
+    <div>
+        <input type="submit" value="批量删除">
+    </div>
 
-@foreach ($_Page->pages as $number) @if ($number == $_Page->page_current)
-<span>{{$number}}</span> @else
-<a href="{{$_SERVER['PHP_SELF']}}?page={{$number}}">{{$number}}</a> @endif @endforeach
+</form>
