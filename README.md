@@ -1,4 +1,5 @@
-# 多功能混合网站(CMS?)
+# 多功能混合网站
+
 网站功能主要分四大功能：    
 - [ ] Blog      
     基本功能：在线Markdown博客
@@ -10,6 +11,7 @@
     扩展功能：视频在线播放
 
 ## 辅助系统 
+
 ### XCore
 
 - [x] View 模板引擎
@@ -36,6 +38,7 @@
 - [ ] DxDOM DOM操纵辅助
 
 ## 网站功能实现细则
+
 - [x] v1.0 
     - [x] 用户功能 - 注册/登陆/注销/删除
     - [x] 后台管理 - 用户管理
@@ -48,12 +51,16 @@
     - [ ] 文章审核
 
 ## 使用说明
+
 ```
 git clone https://github.com/DXkite/DxSite .
 php tools/Install.php
 ```
 ### 注意
+
 - .conf.semple 为配置文件模板,配置好后改名为 .conf 放到 /res 目录下   
 - res 目录要保证服务器可读写     
 
-## MIT Lisence
+## License
+
+DxCore is licensed under the [MIT License](http://opensource.org/licenses/MIT).
