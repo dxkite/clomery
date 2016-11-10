@@ -24,11 +24,6 @@ class Site_Options
         } else {
             return false;
         }
-        foreach ($options as $option) {
-            self::$options[$option['name']] = $option['value'];
-        }
-        self::$options['powered'] = 'DxSite '.CORE_VERSION;
-        self::$options['poweredUrl'] = 'https://github.com/DXkite/DxSite/releases/latest';
         return true;
     }
     
@@ -52,7 +47,12 @@ class Site_Options
     {
         $sql = 'SELECT * FROM `#{site_options}`';
         $q = new Query($sql);
-        self::$options = $q->fetchAll();
+        $options = $q->fetchAll();
+        foreach ($options as $option) {
+            self::$options[$option['name']] = $option['value'];
+        }
+        self::$options['powered'] = 'DxSite '.CORE_VERSION;
+        self::$options['poweredUrl'] = 'https://github.com/DXkite/DxSite/releases/latest';
         Cache::set('SiteOption', self::$options, 0);
         return $q->erron() === 0;
     }
@@ -62,10 +62,10 @@ class Site_Options
         $q = new Query($sql);
         return  $q->fetchAll();
     }
-    public static function setOption(string $name,string $value)
+    public static function setOption(string $name, string $value)
     {
         $sql='UPDATE `#{site_options}` SET `value`=:value WHERE `name`=:name LIMIT 1;';
-        return (new Query($sql,['name'=>$name,'value'=>$value]))->exec();
+        return (new Query($sql, ['name'=>$name, 'value'=>$value]))->exec();
     }
     /**
      * 魔术方法获取设置

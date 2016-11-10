@@ -80,10 +80,9 @@ class Query implements Query_Interface
         }
         return false;
     }
-    public function erron():int
+    public function erron():string
     {
         if ($this->stmt) {
-                        var_dump($this->stmt->errorCode());
             return $this->stmt->errorCode();
         }
         return false;
@@ -103,10 +102,11 @@ class Query implements Query_Interface
         if ($this->database && $this->dbchange) {
             if (self::$pdo->query('USE '.$this->database)) {
                 $this->dbchange=false;
+                $this->database=null;
             } else {
                 die('Could not select database:'.$this->database);
             }
-        } elseif (!is_null($this->database)) {
+        } elseif (is_null($this->database)) {
             if (self::$pdo->query('USE '.conf('Database.dbname'))) {
                 $this->database=conf('Database.dbname');
             } else {

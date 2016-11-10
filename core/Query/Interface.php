@@ -16,7 +16,7 @@ interface Query_Interface
     public function values(array $values);
     public function query(string $query, array $array=[]);
     public function error();
-    public function erron():int;
+    public function erron():string;
     // 是否链接成功
     public function good() :bool;
     // 事务系列
