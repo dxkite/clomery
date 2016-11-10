@@ -11,5 +11,5 @@ $php=preg_replace('/AUTO_INCREMENT=\d+/','AUTO_INCREMENT=0',$php);
 Storage::put(APP_RES.'/install.php',$php);
 $sql=Storage::get($bksql);
 $sql=preg_replace('/AUTO_INCREMENT=\d+/','AUTO_INCREMENT=0',$sql);
-Storage::put(APP_RES.'/install.sql',$php);
+Storage::put(APP_RES.'/install.sql',$sql);
 echo 'created install database file';

@@ -130,9 +130,15 @@ Table;
     public static function saveSQLData(string $file, string $table)
     {
         $q=new Query('SELECT * FROM '.$table.' WHERE 1;', [], true);
+        $columns=(new Query('SHOW COLUMNS FROM '.$table.';'))->fetchAll();
+        $key='(';
+        foreach ($columns  as $column) {
+            $key.='`'.$column['Field'].'`,';
+        }
+        $key=rtrim($key, ',').')';
         if ($q) {
             //$sql="\r\n\r\nLOCK TABLES `$table` WRITE;\r\n/*!40000 ALTER TABLE `$table` DISABLE KEYS */;\r\n".'INSERT INTO `'.$table.'` VALUES ';
-            $sql="\r\n\r\n".'INSERT INTO `'.$table.'` VALUES ';
+            $sql="\r\n\r\n".'INSERT INTO `'.$table.'` '.$key.' VALUES ';
             Storage::put($file, $sql, FILE_APPEND);
             $first=true;
             while ($values=$q->fetch()) {
@@ -171,8 +177,14 @@ Table;
     public static function getTableValues(string $table)
     {
         $q=new Query('SELECT * FROM '.$table.' WHERE 1;', [], true);
+        $columns=(new Query('SHOW COLUMNS FROM '.$table.';'))->fetchAll();
+        $key='(';
+        foreach ($columns  as $column) {
+            $key.='`'.$column['Field'].'`,';
+        }
+        $key=rtrim($key, ',').')';
         if ($q) {
-            $sqlout='INSERT INTO `'.$table.'` VALUES ';
+            $sqlout='INSERT INTO `'.$table.'` '.$key.' VALUES ';
             $first=true;
             while ($values=$q->fetch()) {
                 $sql='';
