@@ -2,7 +2,7 @@
 /* ------------------------------------------------------ *\
    ------------------------------------------------------
    PHP Simple Library XCore 1.0 Database Backup File
-        Create On: 2016-11-10 13:33:35
+        Create On: 2016-11-10 13:41:21
         SQL Server version: 10.1.10-MariaDB
         Host: localhost   
         Database: hello_world
@@ -85,7 +85,7 @@ Query::beginTransaction();
   KEY `parent` (`parent`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8'))->exec();
 
- (new Query('INSERT INTO  `#{nav}` VALUES (\'1\',\'首页\',\'/\',\'index\',\'1\',\'1\',\'0\'),(\'3\',\'文章\',\'/article\',\'article\',\'1\',\'2\',\'0\'),(\'4\',\'books\',\'/books\',\'\',\'0\',\'3\',\'0\'),(\'5\',\'问题\',\'/question\',\'\',\'0\',\'6\',\'0\'),(\'7\',\'在线测试\',\'/test\',\'OnlineJudge\',\'0\',\'5\',\'0\'),(\'9\',\'关于\',\'/about\',\'\',\'1\',\'7\',\'0\')'))->exec();
+ (new Query('INSERT INTO  `#{nav}` VALUES (\'1\',\'首页\',\'/\',\'index\',\'1\',\'1\',\'0\'),(\'3\',\'文章\',\'/article\',\'article\',\'1\',\'2\',\'0\'),(\'9\',\'关于\',\'/about\',\'\',\'1\',\'7\',\'0\')'))->exec();
 
  (new Query('DROP TABLE IF EXISTS #{permission}'))->exec();
 
