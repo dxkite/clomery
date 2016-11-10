@@ -105,17 +105,14 @@ class Query implements Query_Interface
             } else {
                 die('Could not select database:'.$this->database);
             }
-        } elseif (!$this->database) {
+        } elseif (!is_null($this->database)) {
             if (self::$pdo->query('USE '.$this->database)) {
                 self::$pdo->query('USE '.conf('Database.dbname'));
                 $this->database=conf('Database.dbname');
             } else {
                 die('Could not select database:'.$this->database);
             }
-        } else {
-            var_dump($this->database);
-            var_dump(conf('Database.dbname'));
-        }
+        } 
 
         if ($this->scroll) {
             $stmt=self::$pdo->prepare($query, [PDO::ATTR_CURSOR=>PDO::CURSOR_SCROLL]);
