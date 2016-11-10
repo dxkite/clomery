@@ -4,12 +4,31 @@ namespace admin;
 use Page;
 use Blog_Article as Article;
 use Request;
+use Core\Value;
 
 class Article extends \Admin_Autoentrance
 {
     public function run()
     {
-        self::list();
+        if ($aid=Request::get()->edit) {
+            if (Request::hasPost())
+            {
+                var_dump(Article::setArticle(Request::get()->edit,Request::post()->title,Request::post()->remark,Request::post()->contents));
+            }
+            self::edit($aid);
+        } else {
+            self::list();
+        }
+    }
+    
+    public function edit(int $aid)
+    {
+        Page::set('title', '文章编辑');
+        $article=Article::getArticle($aid);
+        Page::set('article', new Value($article));
+        Page::insertCallback('Admin-Content', function () {
+            Page::render('admin/article-edit');
+        });
     }
 
     public function list()

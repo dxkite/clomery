@@ -20,7 +20,7 @@ class PageUrl
     public static function verifyMailUrl(int $uid,string $token){
         return Page::url('mail_verify',['uid'=>$uid,'token'=>$token]);
     }
-    public static function UserHome(int $uid)
+    public static function userHome(int $uid)
     {
         return Page::url('user_view', ['userid'=> $uid]);
     }

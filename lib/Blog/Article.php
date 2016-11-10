@@ -120,7 +120,17 @@ WHERE  `public`=1 AND
         $q='SELECT `aid`,`title`,`author` as `uid`,`#{users}`.`uname` as `author` ,`remark`,`views`,`modified`,`replys`,`#{category}`.`cid`,`#{category}`.`name` as `category`,`#{category}`.`icon` FROM `#{articles}` LEFT JOIN  `#{category}` ON `#{category}`.`cid`=`category` LEFT JOIN `#{users}` ON `#{users}`.`uid`=`#{articles}`.`author` WHERE `aid`=:aid LIMIT 1;';
         return ($qs=new Query($q, ['aid'=>$aid]))->fetch();
     }
-
+    // TODO: 更多编辑项
+    public static function getArticle(int $aid)
+    {
+        $q='SELECT `aid`,`title`,`remark`,`contents` FROM `#{articles}` WHERE `aid`=:aid LIMIT 1;';
+        return (new Query($q,['aid'=>$aid]))->fetch();
+    }
+    public static function setArticle(int $aid,string $title,string $remark,string $contents)
+    {
+        $c='UPDATE `#{articles}` SET `title` = :title,`remark`=:remark,`contents`=:contents WHERE `aid` = :aid LIMIT 1;';
+        return (new Query($c,['aid'=>$aid,'title'=>$title,'remark'=>$remark,'contents'=>$contents]))->exec();
+    }
     public static function getArticleContent(int $aid)
     {
         $q='SELECT `contents` FROM `#{articles}` WHERE `aid`=:aid LIMIT 1;';
