@@ -27,18 +27,17 @@ if (!Storage::exist(APP_RES.'/'.APP_CONF)) {
     exit(-1);
 }
 
-if (system('chmod -R a+rw '.APP_RES)) {
-    print $notice.' Permition Change Faild,Pelase Makesure Apache Can Use '.APP_RES."\r\n";
-} else {
-    print $ok.' Change Permition  To a+rw '."\r\n";
-}
-
 Storage::mkdirs(APP_RECYCLE_BIN);
 
 $time=date('Y_m_d_H_i_s');
 Database::export(APP_RECYCLE_BIN.'/datebase_'.$time.'.php');
 Database::exportSQL(APP_RECYCLE_BIN.'/datebase_'.$time.'.sql');
 print $notice.'Save Old Database To Recycle Bin >> datebase_'.$time.".*\r\n";
+if (system('chmod -R a+rw '.APP_RES)) {
+    print $notice.' Permition Change Faild,Pelase Makesure Apache Can Use '.APP_RES."\r\n";
+} else {
+    print $ok.' Change Permition  To a+rw '."\r\n";
+}
 
 if (Storage::exist(APP_RES.'/install.php')) {
     if (Database::import(APP_RES.'/install.php')) {
