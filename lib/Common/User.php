@@ -54,6 +54,7 @@ class Common_User
             'token'=>$token,
         ])->exec()) {
             $uid=$q->lastInsertId();
+            self::setDefaulInfo($uid,0,'Ta很懒，神马都没留下');
             // 登陆日志记录
             (new Query('INSERT INTO `#{signin_historys}` (`uid`,`ip`,`time`) VALUES (:uid,:ip,:time)'))->values([
                  'uid'=>$uid,
@@ -205,7 +206,6 @@ class Common_User
     }
     public static function getPublicInfo(int $uid)
     {
-        // TODO: 创建用户的同时创建用户信息表
         static $info=null;
         if (isset($info[$uid])) {
             return $info[$uid];
