@@ -15,7 +15,7 @@
     @foreach ($_Page->article_list  as $article_item)
     <tr>
         <td>{{$article_item['aid']}}</td>
-        <td><a href="{{$_SERVER['PHP_SELF']}}?edit={{$article_item['aid']}}">{{$article_item['title']}}</a> <a href="{{PageUrl::article($article_item['aid'])}}">查看</a> </td>
+        <td><a href="{{$_SERVER['PHP_SELF']}}?edit={{$article_item['aid']}}">{{$article_item['title']}}</a></td>
         <td>{{$article_item['author']}}</td>
         <td>{{$article_item['category']}}</td>
         <td>{{$article_item['created']}} </td>
@@ -24,6 +24,7 @@
         <td>{{$article_item['replys'] }}</td>
         <td>{{$article_item['verify'] }}</td>
         <td>{{$article_item['public'] }}</td>
+        <td> <a href="{{PageUrl::article($article_item['aid'])}}">查看</a> </td>
     </tr>
     @endforeach
 </table>
