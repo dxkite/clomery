@@ -117,7 +117,7 @@ WHERE  `public`=1 AND `#{articles}`.`verify`=1 AND
     }
     public static function getArticleInfo(int $aid)
     {
-        $q='SELECT `aid`,`title`,`author` as `uid`,`#{users}`.`uname` as `author` ,`remark`,`views`,`modified`,`replys`,`#{category}`.`cid`,`#{category}`.`name` as `category`,`#{category}`.`icon` FROM `#{articles}` LEFT JOIN  `#{category}` ON `#{category}`.`cid`=`category` LEFT JOIN `#{users}` ON `#{users}`.`uid`=`#{articles}`.`author` WHERE `aid`=:aid LIMIT 1;';
+        $q='SELECT `aid`,`title`,`author` as `uid`,`#{users}`.`uname` as `author` ,`remark`,`views`,`modified`,`replys`,`public`,`#{articles}`.`verify`,`#{category}`.`cid`,`#{category}`.`name` as `category`,`#{category}`.`icon` FROM `#{articles}` LEFT JOIN  `#{category}` ON `#{category}`.`cid`=`category` LEFT JOIN `#{users}` ON `#{users}`.`uid`=`#{articles}`.`author` WHERE `aid`=:aid LIMIT 1;';
         return ($qs=new Query($q, ['aid'=>$aid]))->fetch();
     }
     // TODO: 更多编辑项

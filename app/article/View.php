@@ -26,7 +26,7 @@ class View
         $article_list=Blog_Article::getArticlesList(0, $page_content, (int)$offset);
         $article_list_obj=[];
 
-        foreach ($article_list as $article){
+        foreach ($article_list as $article) {
             $article_list_obj[]= new Value($article);
         }
 
@@ -48,7 +48,7 @@ class View
         }
     }
 
-    public static function listCategory($category,$offset=0)
+    public static function listCategory($category, $offset=0)
     {
         var_dump("id====".$category);
         import('Site.functions');
@@ -62,12 +62,12 @@ class View
         Page::set('title', $category.$title);
         Page::use('article/category');
         
-        $article_list=Blog_Article::getArticlesListbyCategory(0,$cid=Blog_Category::getCategoryId($category), $page_content, (int)$offset);
-         Page::set('category',$category);
+        $article_list=Blog_Article::getArticlesListbyCategory(0, $cid=Blog_Category::getCategoryId($category), $page_content, (int)$offset);
+        Page::set('category', $category);
         // var_dump($article_list,Blog_Category::getCategoryId($category));
         $article_list_obj=[];
 
-        foreach ($article_list as $article){
+        foreach ($article_list as $article) {
             $article_list_obj[]= new Value($article);
         }
 
@@ -88,7 +88,7 @@ class View
             Page::set('use_page_nav', false);
         }
     }
-    public static function listTag($tagname,$offset=0)
+    public static function listTag($tagname, $offset=0)
     {
         import('Site.functions');
         
@@ -101,10 +101,10 @@ class View
         Page::set('title', $tagname .$title);
         Page::use('article/tag');
         
-        $article_list=Blog_Article::getArticlesListByTag(0,Blog_Tag::getTagId($tagname), $page_content, (int)$offset);
-         Page::set('tag',$tagname);
+        $article_list=Blog_Article::getArticlesListByTag(0, Blog_Tag::getTagId($tagname), $page_content, (int)$offset);
+        Page::set('tag', $tagname);
         $article_list_obj=[];
-        foreach ($article_list as $article){
+        foreach ($article_list as $article) {
             $article_list_obj[]= new Value($article);
         }
         Page::set('article_list', $article_list_obj);
@@ -124,33 +124,39 @@ class View
     }
     public static function article($aid)
     {
+        $info=Blog_Article::getArticleInfo((int)$aid);
         import('Site.functions');
         \Site\page_common_set();
         Page::set('head_index_nav_select', 1);
-        $info=Blog_Article::getArticleInfo((int)$aid);
         Page::set('title', $info['title']);
         $info['tags']=Blog_Tag::getTags((int)$aid);
         Page::set('article', new Value($info));
         Page::use('article/read');
-        $p=new Markdown_Parser;
-        $p->hook('afterParseCode',function ($result, $value){
-            if (preg_match('/^<pre><code class="(.+?)"/',$result)){
-                 return preg_replace('/^<pre><code class="(.+?)"/','<pre><code class="prettyprint lang-$1"',$result);
-            }
-            return preg_replace('/^<pre><code>/','<pre><code class="prettyprint">',$result);
-        });
-        $c=Blog_Article::getArticleContent((int)$aid);
-        Page::set('article_html', $p->makeHTML($c));
-    }
-    function test_markdown_mathjax($path){
+        if ($info['verify']) {
             $p=new Markdown_Parser;
-            $p->hook('afterParseCode',function ($result, $value){
-                if (preg_match('/^<pre><code class="(.+?)"/',$result)){
-                    return preg_replace('/^<pre><code class="(.+?)"/','<pre><code class="prettyprint lang-$1"',$result);
+            $p->hook('afterParseCode', function ($result, $value) {
+                if (preg_match('/^<pre><code class="(.+?)"/', $result)) {
+                    return preg_replace('/^<pre><code class="(.+?)"/', '<pre><code class="prettyprint lang-$1"', $result);
                 }
-                return preg_replace('/^<pre><code>/','<pre><code class="prettyprint">',$result);
+                return preg_replace('/^<pre><code>/', '<pre><code class="prettyprint">', $result);
             });
-            $c=\Storage::get($path);
-            print_r($p->makeHTML($c));
+            $c=Blog_Article::getArticleContent((int)$aid);
+            Page::set('article_html', $p->makeHTML($c));
+        } else {
+            Page::set('article_html', '文章审核中...');
+        }
+    }
+
+    public function test_markdown_mathjax($path)
+    {
+        $p=new Markdown_Parser;
+        $p->hook('afterParseCode', function ($result, $value) {
+            if (preg_match('/^<pre><code class="(.+?)"/', $result)) {
+                return preg_replace('/^<pre><code class="(.+?)"/', '<pre><code class="prettyprint lang-$1"', $result);
+            }
+            return preg_replace('/^<pre><code>/', '<pre><code class="prettyprint">', $result);
+        });
+        $c=\Storage::get($path);
+        print_r($p->makeHTML($c));
     }
 }
