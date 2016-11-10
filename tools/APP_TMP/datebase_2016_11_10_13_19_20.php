@@ -2,7 +2,7 @@
 /* ------------------------------------------------------ *\
    ------------------------------------------------------
    PHP Simple Library XCore 1.0.5-dev Database Backup File
-        Create On: 2016-11-10 13:20:44
+        Create On: 2016-11-10 13:19:20
         SQL Server version: 10.1.10-MariaDB
         Host: localhost   
         Database: hello_world
@@ -51,7 +51,7 @@ Query::beginTransaction();
   KEY `modified` (`modified`),
   KEY `modified_2` (`modified`),
   KEY `category` (`category`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8'))->exec();
+) ENGINE=InnoDB AUTO_INCREMENT=128 DEFAULT CHARSET=utf8'))->exec();
 
  (new Query('DROP TABLE IF EXISTS #{category}'))->exec();
 
@@ -68,7 +68,7 @@ Query::beginTransaction();
   KEY `cname` (`name`),
   KEY `parent` (`parent`),
   KEY `topic` (`topic`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8'))->exec();
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8'))->exec();
 
  (new Query('DROP TABLE IF EXISTS #{nav}'))->exec();
 
@@ -83,7 +83,7 @@ Query::beginTransaction();
   PRIMARY KEY (`id`),
   KEY `id` (`id`),
   KEY `parent` (`parent`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8'))->exec();
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8'))->exec();
 
  (new Query('INSERT INTO  `#{nav}` VALUES (\'1\',\'首页\',\'/\',\'index\',\'1\',\'1\',\'0\'),(\'3\',\'文章\',\'/article\',\'article\',\'1\',\'2\',\'0\'),(\'4\',\'books\',\'/books\',\'\',\'0\',\'3\',\'0\'),(\'5\',\'问题\',\'/question\',\'\',\'0\',\'6\',\'0\'),(\'7\',\'在线测试\',\'/test\',\'OnlineJudge\',\'0\',\'5\',\'0\'),(\'9\',\'关于\',\'/about\',\'\',\'1\',\'7\',\'0\')'))->exec();
 
@@ -103,7 +103,7 @@ Query::beginTransaction();
   UNIQUE KEY `uid` (`uid`),
   KEY `gname` (`gname`),
   KEY `priority` (`sort`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COMMENT=\'权限表\''))->exec();
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT=\'权限表\''))->exec();
 
  (new Query('INSERT INTO  `#{permission}` VALUES (\'1\',\'0\',\'0\',\'网站所有者\',\'Y\',\'Y\',\'Y\',\'Y\',\'Y\')'))->exec();
 
@@ -116,7 +116,7 @@ Query::beginTransaction();
   `time` int(11) NOT NULL,
   PRIMARY KEY (`hid`),
   KEY `uid` (`uid`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8'))->exec();
+) ENGINE=InnoDB AUTO_INCREMENT=91 DEFAULT CHARSET=utf8'))->exec();
 
  (new Query('DROP TABLE IF EXISTS #{site_options}'))->exec();
 
@@ -127,7 +127,7 @@ Query::beginTransaction();
   PRIMARY KEY (`id`),
   UNIQUE KEY `name_2` (`name`),
   KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COMMENT=\'网站设置表\''))->exec();
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=utf8 COMMENT=\'网站设置表\''))->exec();
 
  (new Query('INSERT INTO  `#{site_options}` VALUES (\'1\',\'site_name\',\'芒刺中国\'),(\'2\',\'theme\',\'default\'),(\'19\',\'site_logo\',\'/static/img/mccn.svg\'),(\'20\',\'keywords\',\'芒刺,程序员,文摘\'),(\'21\',\'lang\',\'zh_cn\'),(\'22\',\'HV_SignUp\',\'0\'),(\'23\',\'HV_SignIn\',\'0\'),(\'24\',\'HV_Post\',\'0\'),(\'25\',\'HV_Comment\',\'0\'),(\'26\',\'allowSignUp\',\'1\'),(\'27\',\'copyright\',\'芒刺中国\'),(\'28\',\'site_close\',\'0\'),(\'29\',\'close_info\',\'芒刺中国系统开发中\'),(\'31\',\'beian\',\'湘ICP备16001199号-1\')'))->exec();
 
@@ -141,7 +141,7 @@ Query::beginTransaction();
   PRIMARY KEY (`tid`),
   UNIQUE KEY `name` (`name`),
   KEY `topic` (`topic`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8'))->exec();
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8'))->exec();
 
  (new Query('DROP TABLE IF EXISTS #{upload_resource}'))->exec();
 
@@ -153,7 +153,7 @@ Query::beginTransaction();
   PRIMARY KEY (`rid`),
   UNIQUE KEY `hash` (`hash`),
   KEY `type` (`type`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8'))->exec();
+) ENGINE=InnoDB AUTO_INCREMENT=2059 DEFAULT CHARSET=utf8'))->exec();
 
  (new Query('DROP TABLE IF EXISTS #{uploads}'))->exec();
 
@@ -174,7 +174,7 @@ Query::beginTransaction();
   KEY `extension` (`extension`),
   KEY `for` (`for`),
   KEY `what` (`what`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COMMENT=\'上传资源表\''))->exec();
+) ENGINE=InnoDB AUTO_INCREMENT=318 DEFAULT CHARSET=utf8 COMMENT=\'上传资源表\''))->exec();
 
  (new Query('DROP TABLE IF EXISTS #{user_info}'))->exec();
 
@@ -210,7 +210,7 @@ Query::beginTransaction();
   KEY `uid_2` (`uid`),
   KEY `uid_3` (`uid`),
   KEY `uid_4` (`uid`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8'))->exec();
+) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=utf8'))->exec();
 
 /** End Querys **/
 Query::commit();

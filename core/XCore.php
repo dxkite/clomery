@@ -16,9 +16,11 @@
     defined('WEB_MIME') or define('WEB_MIME', '.mime');
     defined('APP_RECYCLE_BIN') or define('APP_RECYCLE_BIN', APP_RES.'/recycle_bin');
     // 备份
-    defined('APP_BACKUP') or define('APP_BACKUP',APP_RES.'/backups');
+    defined('APP_BACKUP') or define('APP_BACKUP', APP_RES.'/backups');
+    // 临时文件
+    defined('APP_TMP')or define('APP_TMP',  APP_RES.'/tmp');
     // 不支持Rewrite模块的windows平台 > Apache 的bug https://bz.apache.org/bugzilla/show_bug.cgi?id=41441
-    defined('IS_WINDOWS') or define('IS_WINDOWS',DIRECTORY_SEPARATOR === '\\');
+    defined('IS_WINDOWS') or define('IS_WINDOWS', DIRECTORY_SEPARATOR === '\\');
     // 载入内置函数 PS:就是个自动加载，和配置加载
     require_once CORE_PATH.'/Core.php';
          // 设置PHP属性

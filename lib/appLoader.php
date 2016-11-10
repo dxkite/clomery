@@ -8,9 +8,6 @@
     // 视图控制
     defined('APP_VIEW')or define('APP_VIEW', APP_RES.'/view');
     defined('APP_TPL')or define('APP_TPL', APP_RES.'/tpl');
-    // 临时文件
-    defined('APP_TMP')or define('APP_TMP',  APP_RES.'/tmp');
-
     defined('INSTALL_LOCK') or define('INSTALL_LOCK', 'install.lock');
     defined('APP_VISIT') or define('APP_VISIT', '.visit.php');
 

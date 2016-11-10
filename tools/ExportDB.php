@@ -2,15 +2,15 @@
 defined('DOC_ROOT') or define('DOC_ROOT', __DIR__ .'/..');
 require_once '../core/XCore.php';
 
-Storage::mkdirs(APP_BACKUP);
+Storage::mkdirs(APP_TMP.'/database');
 $time=date('Y_m_d_H_i_s');
-Database::export(APP_BACKUP.'/datebase_'.$time.'.php');
-Database::exportSQL(APP_BACKUP.'/datebase_'.$time.'.sql');
+Database::export($bkphp=APP_TMP.'/datebase_'.$time.'.php',['nav','site_options','permission']);
+Database::exportSQL($bksql=APP_TMP.'/datebase_'.$time.'.sql',['nav','site_options','permission']);
 print $info.'BackupDateBase >> datebase_'.$time.".*\r\n";
-$php=Storage::get(APP_RES.'/datebase.php');
+$php=Storage::get($bkphp);
 $php=preg_replace('/AUTO_INCREMENT=\d+/','AUTO_INCREMENT=0',$php);
 Storage::put(APP_RES.'/install.php',$php);
-$sql=Storage::get(APP_RES.'/datebase.sql');
+$sql=Storage::get($bksql);
 $sql=preg_replace('/AUTO_INCREMENT=\d+/','AUTO_INCREMENT=0',$sql);
 Storage::put(APP_RES.'/install.sql',$php);
 echo 'created install database file';
