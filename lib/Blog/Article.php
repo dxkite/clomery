@@ -60,7 +60,7 @@ class Blog_Article
 
     public static function getArticlesList(int $topic=0, int $count=10, int $offset=0)
     {
-        $q='SELECT `aid`,`title`,`author` as `uid`,`#{users}`.`uname` as `author` ,`remark`,`views`,`modified`,`replys`,`#{category}`.`cid`,`#{category}`.`name` as `category`,`#{category}`.`icon`  FROM `#{articles}` LEFT JOIN  `#{category}` ON `#{category}`.`cid`=`category` LEFT JOIN `#{users}` ON `#{users}`.`uid`=`#{articles}`.`author` WHERE `public`=1 AND `verify`=1 AND `#{articles}`.`topic`=:topic ORDER BY `#{articles}`.`modified` DESC LIMIT  :offset,:count;';
+        $q='SELECT `aid`,`title`,`author` as `uid`,`#{users}`.`uname` as `author` ,`remark`,`views`,`modified`,`replys`,`#{category}`.`cid`,`#{category}`.`name` as `category`,`#{category}`.`icon`  FROM `#{articles}` LEFT JOIN  `#{category}` ON `#{category}`.`cid`=`category` LEFT JOIN `#{users}` ON `#{users}`.`uid`=`#{articles}`.`author` WHERE `public`=1 AND `#{articles}`.`verify`=1 AND `#{articles}`.`topic`=:topic ORDER BY `#{articles}`.`modified` DESC LIMIT  :offset,:count;';
         $db=($qs=new Query($q, ['topic'=>$topic, 'count'=>$count, 'offset'=>$offset]))->fetchAll();
         return $db;
     }
@@ -81,7 +81,7 @@ class Blog_Article
     
     public static function getArticlesListByCategory(int $topic, int $categoryid, int $count=10, int $offset=0)
     {
-        $q='SELECT `aid`,`title`,`author` as `uid`,`#{users}`.`uname` as `author` ,`remark`,`views`,`modified`,`replys`,`#{category}`.`cid`,`#{category}`.`name` as `category`,`#{category}`.`icon`  FROM `#{articles}` LEFT JOIN  `#{category}` ON `#{category}`.`cid`=`category` LEFT JOIN `#{users}` ON `#{users}`.`uid`=`#{articles}`.`author` WHERE  `public`=1 AND `verify`=1 AND `#{articles}`.`topic`=:topic AND `category`=:category ORDER BY `#{articles}`.`modified` DESC LIMIT  :offset,:count;';
+        $q='SELECT `aid`,`title`,`author` as `uid`,`#{users}`.`uname` as `author` ,`remark`,`views`,`modified`,`replys`,`#{category}`.`cid`,`#{category}`.`name` as `category`,`#{category}`.`icon`  FROM `#{articles}` LEFT JOIN  `#{category}` ON `#{category}`.`cid`=`category` LEFT JOIN `#{users}` ON `#{users}`.`uid`=`#{articles}`.`author` WHERE  `public`=1 AND `#{articles}`.`verify`=1 AND `#{articles}`.`topic`=:topic AND `category`=:category ORDER BY `#{articles}`.`modified` DESC LIMIT  :offset,:count;';
         $db=($qs=new Query($q, ['topic'=>$topic, 'category'=>$categoryid, 'count'=>$count, 'offset'=>$offset]))->fetchAll();
         // var_dump($qs->error());
         return $db;
@@ -108,7 +108,7 @@ LEFT JOIN
   `#{category}` ON `#{category}`.`cid` = `#{articles}`.`category`
 LEFT JOIN
   `#{users}` ON `#{users}`.`uid` = `#{articles}`.`author`
-WHERE  `public`=1 AND `verify`=1 AND 
+WHERE  `public`=1 AND `#{articles}`.`verify`=1 AND 
   `#{article_tag}`.`tid` = :tid ORDER BY `#{articles}`.`modified` DESC LIMIT  :offset,:count;';
 
         $db=($qs=new Query($q, ['topic'=>$topic, 'tid'=>$tid, 'count'=>$count, 'offset'=>$offset]))->fetchAll();
@@ -145,7 +145,7 @@ WHERE  `public`=1 AND `verify`=1 AND
 
     public static function countPublic():int
     {
-        $q='SELECT count(`aid`) as `size` FROM `#{articles}` WHERE `public`=1 AND `verify`=1 ;';
+        $q='SELECT count(`aid`) as `size` FROM `#{articles}` WHERE `public`=1 AND `#{articles}`.`verify`=1 ;';
         if ($a=($d=new Query($q))->fetch()) {
             return $a['size'];
         }
