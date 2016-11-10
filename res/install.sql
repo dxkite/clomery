@@ -1,6 +1,6 @@
 -- ----------------------------------------------------------
--- PHP Simple Library XCore 1.0 Database Backup File
--- Create On 2016-11-10 17:31:26
+-- PHP Simple Library XCore 1.0.1 Database Backup File
+-- Create On 2016-11-10 23:15:51
 -- Host: localhost   Database: hello_world
 -- Server version	10.1.10-MariaDB
 -- ------------------------------------------------------
@@ -158,7 +158,7 @@ CREATE TABLE `atd_site_options` (
 
 
 
-INSERT INTO `atd_site_options` (`id`,`name`,`value`) VALUES ('1','site_name','芒刺中国'),('2','theme','default'),('19','site_logo','/static/img/mccn.svg'),('20','keywords','芒刺,程序员,文摘'),('21','lang','zh_cn'),('22','HV_SignUp','0'),('23','HV_SignIn','0'),('24','HV_Post','0'),('25','HV_Comment','0'),('26','allowSignUp','1'),('27','copyright','芒刺中国'),('28','site_close','0'),('29','close_info','芒刺中国系统开发中'),('31','beian','湘ICP备16001199号-1');
+INSERT INTO `atd_site_options` (`id`,`name`,`value`) VALUES ('1','site_name','DxSite - 追求极简'),('2','theme','default'),('19','site_logo','/static/img/dxsite.svg'),('20','keywords','DxSite,追求极简'),('21','lang','zh_cn'),('22','HV_SignUp','0'),('23','HV_SignIn','0'),('24','HV_Post','0'),('25','HV_Comment','0'),('26','allowSignUp','1'),('27','copyright','ATD工作室'),('28','site_close','0'),('29','close_info','芒刺中国系统开发中'),('31','beian','湘ICP备16001199号-1');
 
 
 --
