@@ -1,6 +1,6 @@
 <?php
 /** Debug Install Script **/
-// TODO:自增值归0
+
 defined('DOC_ROOT') or define('DOC_ROOT', __DIR__ .'/..');
 require_once '../core/XCore.php';
 $ok="\033[32m[Ok]\033[0m ";
@@ -37,15 +37,15 @@ if (system('chmod -R a+rw '.APP_RES)) {
     print $info.' Permition Change Faild,Pelase Makesure Apache Can Use '.APP_RES."\r\n";
 }
 
-if (Storage::exist(APP_RES.'/datebase.php')) {
-    if (Database::import(APP_RES.'/datebase.php')) {
+if (Storage::exist(APP_RES.'/install.php')) {
+    if (Database::import(APP_RES.'/install.php')) {
         print $ok.' Installed Database'."\r\n";
     } else {
-        print $failed. 'Import Database Failed! Please Import Date Use '.APP_RES.'/datebase.sql'."\r\n";
+        print $failed. 'Import Database Failed! Please Import Date Use '.APP_RES.'/install.sql'."\r\n";
         exit(-3);
     }
 } else {
-    print $failed.'Database File('.APP_RES.'/datebase.php) Do Not Exist,Please Make sure the Source Code Is Avaliable'."\r\n";
+    print $failed.'Database File('.APP_RES.'/install.php) Do Not Exist,Please Make sure the Source Code Is Avaliable'."\r\n";
     exit(-3);
 }
 $ret=createAdmin('EvalDXkite','EvalDXkite');

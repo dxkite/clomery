@@ -15,6 +15,8 @@
     defined('APP_CONF') or define('APP_CONF', '.conf');
     defined('WEB_MIME') or define('WEB_MIME', '.mime');
     defined('APP_RECYCLE_BIN') or define('APP_RECYCLE_BIN', APP_RES.'/recycle_bin');
+    // 备份
+    defined('APP_BACKUP') or define('APP_BACKUP',APP_RES.'/backups');
     // 不支持Rewrite模块的windows平台 > Apache 的bug https://bz.apache.org/bugzilla/show_bug.cgi?id=41441
     defined('IS_WINDOWS') or define('IS_WINDOWS',DIRECTORY_SEPARATOR === '\\');
     // 载入内置函数 PS:就是个自动加载，和配置加载
