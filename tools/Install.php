@@ -29,9 +29,9 @@ if (!Storage::exist(APP_RES.'/'.APP_CONF)) {
 }
 
 if (system('chmod -R a+rw '.APP_RES)) {
-    print $ok.' Change Permition  To a+rw '."\r\n";
-} else {
     print $notice.' Permition Change Faild,Pelase Makesure Apache Can Use '.APP_RES."\r\n";
+} else {
+    print $ok.' Change Permition  To a+rw '."\r\n";
 }
 
 Storage::mkdirs(APP_RECYCLE_BIN);
@@ -51,7 +51,7 @@ if (Storage::exist(APP_RES.'/install.php')) {
     print $failed.'Database File('.APP_RES.'/install.php) Do Not Exist,Please Make sure the Source Code Is Avaliable'."\r\n";
     exit(-3);
 }
-$ret=createAdmin('EvalDXkite','EvalDXkite');
+$ret=createAdmin('EvalDXkite', 'EvalDXkite');
 if ($ret>0) {
     print $ok.'Create Admin User EvalDXkite, Password is EvalDXkite'."\r\n";
 }
