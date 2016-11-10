@@ -53,6 +53,7 @@
 res 目录要保证服务器可读写     
 运行脚本 Install.php
 ```
+git clone https://github.com/DXkite/DxSite
 php tools/Install.php
 ```
 ## MIT Lisence
