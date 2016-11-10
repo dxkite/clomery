@@ -171,4 +171,9 @@ WHERE  `public`=1 AND
     {
         return (new Query('DELETE FROM `#{articles}` WHERE `aid`=:aid', ['aid'=>$aid]))->exec();
     }
+    public function publish(int $aid,int $public=1)
+    {
+         $q='UPDATE `#{articles}` SET `public` = :public WHERE `#{articles}`.`aid` = :aid;';
+        return (new Query($q, ['aid'=>$aid ,'public'=>$public]))->exec();
+    }
 }

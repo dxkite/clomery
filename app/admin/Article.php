@@ -15,6 +15,12 @@ class Article extends \Admin_Autoentrance
                 var_dump(Article::setArticle(Request::get()->edit, Request::post()->title, Request::post()->remark, Request::post()->contents));
             }
             self::edit($aid);
+        } elseif ($aid=Request::get()->private) {
+            Article::publish($aid, 0);
+            self::list();
+        } elseif ($aid=Request::get()->public) {
+            Article::publish($aid, 1);
+            self::list();
         } else {
             if (Request::hasPost()) {
                 var_dump($article=Request::post()->artilce);
