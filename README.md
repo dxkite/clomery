@@ -48,12 +48,12 @@
     - [ ] 文章审核
 
 ## 使用说明
-.conf.semple 为配置文件模板        
-配置好后改名为 .conf 放到 /res 目录下   
-res 目录要保证服务器可读写     
-运行脚本 Install.php
 ```
-git clone https://github.com/DXkite/DxSite
+git clone https://github.com/DXkite/DxSite .
 php tools/Install.php
 ```
+### 注意
+- .conf.semple 为配置文件模板,配置好后改名为 .conf 放到 /res 目录下   
+- res 目录要保证服务器可读写     
+
 ## MIT Lisence
