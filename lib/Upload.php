@@ -40,7 +40,7 @@ class Upload
 
     public static function setForWhat(int $id, int $for, int $what=0)
     {
-        return (new Query('UPDATE `atd_uploads` SET `for` = :for,`what`=:what WHERE `atd_uploads`.`rid` =:id;', ['id'=>$id, 'for'=>$for, 'what'=>$what]))->exec();
+        return (new Query('UPDATE `#{uploads}` SET `for` = :for,`what`=:what WHERE `#{uploads}`.`rid` =:id;', ['id'=>$id, 'for'=>$for, 'what'=>$what]))->exec();
     }
     
     public static function uploadString(string $content, string $name, string $type, int $public=1, int  $for=0, int $what=0)

@@ -60,14 +60,14 @@ class Blog_Article
 
     public static function getArticlesList(int $topic=0, int $count=10, int $offset=0)
     {
-        $q='SELECT `aid`,`title`,`author` as `uid`,`atd_users`.`uname` as `author` ,`remark`,`views`,`modified`,`replys`,`atd_category`.`cid`,`atd_category`.`name` as `category`,`atd_category`.`icon`  FROM `atd_articles` LEFT JOIN  `atd_category` ON `atd_category`.`cid`=`category` LEFT JOIN `atd_users` ON `atd_users`.`uid`=`atd_articles`.`author` WHERE `public`=1 AND `atd_articles`.`topic`=:topic ORDER BY `atd_articles`.`modified` DESC LIMIT  :offset,:count;';
+        $q='SELECT `aid`,`title`,`author` as `uid`,`#{users}`.`uname` as `author` ,`remark`,`views`,`modified`,`replys`,`#{category}`.`cid`,`#{category}`.`name` as `category`,`#{category}`.`icon`  FROM `#{articles}` LEFT JOIN  `#{category}` ON `#{category}`.`cid`=`category` LEFT JOIN `#{users}` ON `#{users}`.`uid`=`#{articles}`.`author` WHERE `public`=1 AND `#{articles}`.`topic`=:topic ORDER BY `#{articles}`.`modified` DESC LIMIT  :offset,:count;';
         $db=($qs=new Query($q, ['topic'=>$topic, 'count'=>$count, 'offset'=>$offset]))->fetchAll();
         return $db;
     }
     // admin
     public static function listArticles(int $page=1,int $page_count=10)
     {
-        $q='SELECT `aid`,`title`,`author` as `uid`,`atd_users`.`uname` as `author` ,`views`,`created`,`modified`,`replys`,`public`,`atd_articles`.`verify`,`atd_category`.`cid`,`atd_category`.`name` as `category` FROM `atd_articles` LEFT JOIN  `atd_category` ON `atd_category`.`cid`=`category` LEFT JOIN `atd_users` ON `atd_users`.`uid`=`atd_articles`.`author` ORDER BY `atd_articles`.`modified` DESC LIMIT  :offset,:count;';
+        $q='SELECT `aid`,`title`,`author` as `uid`,`#{users}`.`uname` as `author` ,`views`,`created`,`modified`,`replys`,`public`,`#{articles}`.`verify`,`#{category}`.`cid`,`#{category}`.`name` as `category` FROM `#{articles}` LEFT JOIN  `#{category}` ON `#{category}`.`cid`=`category` LEFT JOIN `#{users}` ON `#{users}`.`uid`=`#{articles}`.`author` ORDER BY `#{articles}`.`modified` DESC LIMIT  :offset,:count;';
         return (new Query($q,['offset'=>($page-1)* $page_count>0?($page-1)* $page_count:0,'count'=>$page_count]))->fetchAll(); 
     }
     public static function count():int
@@ -81,7 +81,7 @@ class Blog_Article
     
     public static function getArticlesListByCategory(int $topic,int $categoryid, int $count=10, int $offset=0)
     {
-        $q='SELECT `aid`,`title`,`author` as `uid`,`atd_users`.`uname` as `author` ,`remark`,`views`,`modified`,`replys`,`atd_category`.`cid`,`atd_category`.`name` as `category`,`atd_category`.`icon`  FROM `atd_articles` LEFT JOIN  `atd_category` ON `atd_category`.`cid`=`category` LEFT JOIN `atd_users` ON `atd_users`.`uid`=`atd_articles`.`author` WHERE  `public`=1 AND `atd_articles`.`topic`=:topic AND `category`=:category ORDER BY `atd_articles`.`modified` DESC LIMIT  :offset,:count;';
+        $q='SELECT `aid`,`title`,`author` as `uid`,`#{users}`.`uname` as `author` ,`remark`,`views`,`modified`,`replys`,`#{category}`.`cid`,`#{category}`.`name` as `category`,`#{category}`.`icon`  FROM `#{articles}` LEFT JOIN  `#{category}` ON `#{category}`.`cid`=`category` LEFT JOIN `#{users}` ON `#{users}`.`uid`=`#{articles}`.`author` WHERE  `public`=1 AND `#{articles}`.`topic`=:topic AND `category`=:category ORDER BY `#{articles}`.`modified` DESC LIMIT  :offset,:count;';
         $db=($qs=new Query($q, ['topic'=>$topic,'category'=>$categoryid, 'count'=>$count, 'offset'=>$offset]))->fetchAll();
         // var_dump($qs->error());
         return $db;
@@ -89,27 +89,27 @@ class Blog_Article
     public static function getArticlesListByTag(int $topic,int $tid, int $count=10, int $offset=0)
     {
         $q='SELECT
-  `atd_articles`.`aid`,
+  `#{articles}`.`aid`,
   `title`,
   `author` AS `uid`,
-  `atd_users`.`uname` AS `author`,
+  `#{users}`.`uname` AS `author`,
   `remark`,
   `views`,
   `modified`,
   `replys`,
-  `atd_category`.`cid`,
-  `atd_category`.`name` AS `category`,
-  `atd_category`.`icon`
+  `#{category}`.`cid`,
+  `#{category}`.`name` AS `category`,
+  `#{category}`.`icon`
 FROM
-  `atd_article_tag`
+  `#{article_tag}`
 JOIN
-  `atd_articles` ON `atd_articles`.`aid` = `atd_article_tag`.`aid` AND `atd_articles`.`topic` = :topic
+  `#{articles}` ON `#{articles}`.`aid` = `#{article_tag}`.`aid` AND `#{articles}`.`topic` = :topic
 LEFT JOIN
-  `atd_category` ON `atd_category`.`cid` = `atd_articles`.`category`
+  `#{category}` ON `#{category}`.`cid` = `#{articles}`.`category`
 LEFT JOIN
-  `atd_users` ON `atd_users`.`uid` = `atd_articles`.`author`
+  `#{users}` ON `#{users}`.`uid` = `#{articles}`.`author`
 WHERE  `public`=1 AND
-  `atd_article_tag`.`tid` = :tid ORDER BY `atd_articles`.`modified` DESC LIMIT  :offset,:count;';
+  `#{article_tag}`.`tid` = :tid ORDER BY `#{articles}`.`modified` DESC LIMIT  :offset,:count;';
 
         $db=($qs=new Query($q, ['topic'=>$topic,'tid'=>$tid, 'count'=>$count, 'offset'=>$offset]))->fetchAll();
         // var_dump($qs->error());
@@ -117,7 +117,7 @@ WHERE  `public`=1 AND
     }
     public static function getArticleInfo(int $aid)
     {
-        $q='SELECT `aid`,`title`,`author` as `uid`,`atd_users`.`uname` as `author` ,`remark`,`views`,`modified`,`replys`,`atd_category`.`cid`,`atd_category`.`name` as `category`,`atd_category`.`icon` FROM `atd_articles` LEFT JOIN  `atd_category` ON `atd_category`.`cid`=`category` LEFT JOIN `atd_users` ON `atd_users`.`uid`=`atd_articles`.`author` WHERE `aid`=:aid LIMIT 1;';
+        $q='SELECT `aid`,`title`,`author` as `uid`,`#{users}`.`uname` as `author` ,`remark`,`views`,`modified`,`replys`,`#{category}`.`cid`,`#{category}`.`name` as `category`,`#{category}`.`icon` FROM `#{articles}` LEFT JOIN  `#{category}` ON `#{category}`.`cid`=`category` LEFT JOIN `#{users}` ON `#{users}`.`uid`=`#{articles}`.`author` WHERE `aid`=:aid LIMIT 1;';
         return ($qs=new Query($q, ['aid'=>$aid]))->fetch();
     }
 
@@ -149,7 +149,7 @@ WHERE  `public`=1 AND
 
     public static function setTopic($aid, $topic)
     {
-        $q='UPDATE `atd_articles` SET `topic` = :topic WHERE `atd_articles`.`aid` = :aid;';
+        $q='UPDATE `#{articles}` SET `topic` = :topic WHERE `#{articles}`.`aid` = :aid;';
         return (new Query($q, ['aid'=>$aid, 'topic'=>$topic]))->exec();
     }
     // 数据不对时分析

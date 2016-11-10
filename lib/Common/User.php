@@ -31,7 +31,7 @@ class Common_User
     {
         // 猜猜是啥
         static $mis='5246-687261-5852-6C';
-        $q='UPDATE `atd_users` SET `verify` = :verify , `expriation`=:time  WHERE `atd_users`.`uid` = :uid;';
+        $q='UPDATE `#{users}` SET `verify` = :verify , `expriation`=:time  WHERE `#{users}`.`uid` = :uid;';
         $verify=md5('DXCore-'.CORE_VERSION.'-'.$uid.'-'.time().'-'.$mis);
         if ((new Query($q, ['verify'=>$verify, 'time'=>time(), 'uid'=>$uid]))->exec()) {
             return $verify;
@@ -278,22 +278,22 @@ class Common_User
 
     public static function modify(int $uid,string $name,int $gid,string $email,string $verify,int $status)
     {
-        $sql='UPDATE `atd_users` SET `uname`=:name,`gid`=:gid,`email`=:email,`email_verify`=:verify,`status`=:status WHERE `uid` = :uid';
+        $sql='UPDATE `#{users}` SET `uname`=:name,`gid`=:gid,`email`=:email,`email_verify`=:verify,`status`=:status WHERE `uid` = :uid';
         return (new Query($sql,['uid'=>$uid,'name'=>$name,'email'=>$email,'verify'=>$verify,'status'=>$status,'gid'=>$gid]))->exec();
     }
     public static function delete(int $uid)
     {
-        $sql='DELETE FROM `atd_users` WHERE `atd_users`.`uid` = :uid LIMIT 1;';
+        $sql='DELETE FROM `#{users}` WHERE `#{users}`.`uid` = :uid LIMIT 1;';
         return (new Query($sql,['uid'=>$uid]))->exec();
     }
     public static function changePasswd(int $uid,string $passwd)
     {
-        $sql='UPDATE `atd_users` SET `upass`=:passwd  AND token=\'\' WHERE uid=:uid LIMIT 1;';
+        $sql='UPDATE `#{users}` SET `upass`=:passwd  AND token=\'\' WHERE uid=:uid LIMIT 1;';
         return (new Query($sql,['uid'=>$uid,'passwd'=>password_hash($passwd, PASSWORD_DEFAULT)]))->exec();
     }
     public static function setStatu(int $uid,int $statu=1)
     {
-        $sql='UPDATE `atd_users` SET `status` = :statu WHERE `atd_users`.`uid` = :uid;';
+        $sql='UPDATE `#{users}` SET `status` = :statu WHERE `#{users}`.`uid` = :uid;';
         return (new Query($sql,['statu'=>$statu,'uid'=>$uid]))->exec();
     }
     public static function listUser(int $page,int $count=20)
