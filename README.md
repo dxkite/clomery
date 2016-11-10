@@ -1,4 +1,4 @@
-# 多功能混合网站
+<img src="public/static/img/dxsite.svg" alt="DxSite" width="600">
 
 网站功能主要分四大功能：    
 - [ ] Blog      
