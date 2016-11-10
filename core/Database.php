@@ -42,7 +42,7 @@ Query::beginTransaction();
 
 Table;
         $export_str=$head;
-        if (is_array($table)) {
+        if (is_array($tables)) {
             foreach ($tables as $table_array) {
                 $tablename=current($table_array);
                 preg_match('/^'.conf('Database.prefix').'(.+?)$/', $tablename, $tbinfo);
@@ -109,7 +109,7 @@ Table;
     public static function saveSQLTables(string $fileout, array $saves_table=[])
     {
         $tables=($q=new Query("show tables;"))->fetchAll();
-        if (is_array($table)) {
+        if (is_array($tables)) {
             foreach ($tables as $table) {
                 $table=current($table);
                 $doc=<<< Table
