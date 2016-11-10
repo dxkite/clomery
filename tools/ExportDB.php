@@ -1,6 +1,6 @@
 <?php
 defined('DOC_ROOT') or define('DOC_ROOT', __DIR__ .'/..');
-require_once '../core/XCore.php';
+require_once __DIR__.'/../core/XCore.php';
 
 Storage::mkdirs(APP_TMP.'/database');
 $time=date('Y_m_d_H_i_s');

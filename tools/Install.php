@@ -2,7 +2,7 @@
 /** Debug Install Script **/
 
 defined('DOC_ROOT') or define('DOC_ROOT', __DIR__ .'/..');
-require_once '../core/XCore.php';
+require_once __DIR__.'/../core/XCore.php';
 $ok="\033[32m[Ok]\033[0m ";
 $info="\033[33m[Info]\033[0m ";
 $failed="\033[31m[failed]\033[0m ";
