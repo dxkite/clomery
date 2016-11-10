@@ -4,9 +4,8 @@ require_once '../core/XCore.php';
 
 Storage::mkdirs(APP_TMP.'/database');
 $time=date('Y_m_d_H_i_s');
-Database::export($bkphp=APP_TMP.'/datebase_'.$time.'.php',['nav','site_options','permission']);
-Database::exportSQL($bksql=APP_TMP.'/datebase_'.$time.'.sql',['nav','site_options','permission']);
-print $info.'BackupDateBase >> datebase_'.$time.".*\r\n";
+Database::export($bkphp=APP_TMP.'/database/datebase_'.$time.'.php',['nav','site_options','permission']);
+Database::exportSQL($bksql=APP_TMP.'/database/datebase_'.$time.'.sql',['nav','site_options','permission']);
 $php=Storage::get($bkphp);
 $php=preg_replace('/AUTO_INCREMENT=\d+/','AUTO_INCREMENT=0',$php);
 Storage::put(APP_RES.'/install.php',$php);
