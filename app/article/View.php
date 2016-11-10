@@ -146,5 +146,4 @@ class View
             Page::set('article_html', '文章审核中...');
         }
     }
-
 }
