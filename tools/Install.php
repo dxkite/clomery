@@ -6,6 +6,7 @@ require_once __DIR__.'/../core/XCore.php';
 $ok="\033[32m[Ok]\033[0m ";
 $notice ="\033[33m[Notice]\033[0m ";
 $failed="\033[31m[failed]\033[0m ";
+
 function createAdmin(string $user, string $passwd):int
 {
     if (($q=new Query('INSERT INTO #{users} (`uname`,`upass`,`signup`,`gid`) VALUES ( :uname, :passwd, :signup ,:gid );'))->values([
@@ -21,8 +22,6 @@ function createAdmin(string $user, string $passwd):int
     return 0;
 }
 
-
-print $notice.'Save Old Database To Recycle Bin >> datebase_'.$time.".*\r\n";
 if (!Storage::exist(APP_RES.'/'.APP_CONF)) {
     print $notice.'Please Modify '.DOC_ROOT.'/.conf.simple Configurtion And Save To '.APP_RES.'/'.APP_CONF."\r\n";
     exit(-1);
@@ -35,10 +34,11 @@ if (system('chmod -R a+rw '.APP_RES)) {
 }
 
 Storage::mkdirs(APP_RECYCLE_BIN);
-$time=date('Y_m_d_H_i_s');
 
+$time=date('Y_m_d_H_i_s');
 Database::export(APP_RECYCLE_BIN.'/datebase_'.$time.'.php');
 Database::exportSQL(APP_RECYCLE_BIN.'/datebase_'.$time.'.sql');
+print $notice.'Save Old Database To Recycle Bin >> datebase_'.$time.".*\r\n";
 
 if (Storage::exist(APP_RES.'/install.php')) {
     if (Database::import(APP_RES.'/install.php')) {
