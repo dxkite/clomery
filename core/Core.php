@@ -80,10 +80,10 @@ function mime(string $name=null, $default=null)
 {
     static $mime=null;
     if (is_null($mime)) {
-        if (file_exists($path=DOC_ROOT.'/'.WEB_MIME)) {
+        if (file_exists($path=CORE_PATH.'/'.WEB_MIME)) {
             $mime=parse_ini_file($path);
         } else {
-            die('<h1>Missing the mine file ( DOC_ROOT/'.WEB_MIME.'), Please ensure the integrity of the program.</h1> <a href="https://github.com/DXkite/MongCix" title="CLONE ME ON THE GITHUB" >CLONE ME ON THE GITHUB</a>');
+            die('<h1>Missing the mine file ( CORE_PATH/'.WEB_MIME.'), Please ensure the integrity of the program.</h1> <a href="https://github.com/DXkite/MongCix" title="CLONE ME ON THE GITHUB" >CLONE ME ON THE GITHUB</a>');
         }
     }
     if (is_null($name)) {
