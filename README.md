@@ -1,4 +1,4 @@
-<img src="public/static/img/dxsite.svg" alt="DxSite" width="600">
+![DxSite](docs/dxsite.png)
 
 网站功能主要分四大功能：    
 - [ ] Blog      
