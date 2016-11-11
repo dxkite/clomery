@@ -278,13 +278,19 @@ class Page
                         self::$success=false;
                     }
                 }
-
+                if ($filter=$caller->filter()) {
+                    self::$success=$filter->call($args);
+                }
                 if (self::$success) {
                     self::call($caller, $values);
                 }
             } elseif (preg_match('/^'.preg_quote($url, '/').'$/', $path)) {
-                self::$success=true;
-                self::call($caller, [$path]);
+                if ($filter=$caller->filter()) {
+                    self::$success=$filter->call();
+                }
+                if (self::$success) {
+                    self::call($caller, [$path]);
+                }
             }
         }
         // 默认
@@ -317,17 +323,12 @@ class Page
     {
         // 将控制器压入当前控制器
         self::$controller=$caller;
-        if ($caller->filter()) {
-            self::$success=$filter->args($args);
+        ob_start();
+        $return=$caller->call($args);
+        self::$content=ob_get_clean();
+        if (!is_array($return)) {
+            $return=[$return];
         }
-        if (self::$success) {
-            ob_start();
-            $return=$caller->call($args);
-            self::$content=ob_get_clean();
-            if (!is_array($return)) {
-                $return=[$return];
-            }
-            $caller->render($return);
-        }
+        $caller->render($return);
     }
 }

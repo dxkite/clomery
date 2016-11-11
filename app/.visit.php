@@ -33,9 +33,9 @@ if (conf('Uninstall')) {
     // 用户页面
     Page::auto('/user', '/user')->id('user')->noCache();
     // 管理界面导向
-    Page::auto('/admin', '/admin')->id('admin')->noCache();
+    Page::auto('/admin', '/admin')->id('admin')->filter('Filter::isAdmin')->noCache();
     // 管理界面导向
-    Page::visit('/admin/{entrance}', 'app\admin\Index->entrance')->with('entrance', 'string')->id('admin_entrance')->noCache();
+    Page::visit('/admin/{entrance}', 'app\admin\Index->entrance')->with('entrance', 'string')->id('admin_entrance')->filter('Filter::isAdmin')->noCache();
     // 测试页面
     Page::auto('/test', '/test')->id('test')->noCache();
     // 验证码
