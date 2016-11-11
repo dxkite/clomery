@@ -10,8 +10,6 @@ if (conf('Uninstall')) {
 } else {
     // 主页
     Page::visit('/', 'app\Main->main')->use('index')->id('main_page')->noCache();
-    // 待开发的页面
-    Page::visit('/{pagename}', 'app\Develop->main')->with('pagename', '/^(notes|question|test|books|about)$/')->use('developing')->id('develop_page')->noCache();
     // 文章列表
     Page::visit('/article/{page}?', 'app\article\View->list')->with('page', 'int')->id('article_list')->noCache();
     // 文章分类
@@ -29,7 +27,7 @@ if (conf('Uninstall')) {
     // 模板文件
     Page::visit('/theme/{path}', 'View::file')->with('path', '/^(.+)$/')->id('theme')->override()->age(10000)->close();
     // 上传的文件
-    Page::visit('/upload:{id}/{name}?', 'app\Resource::main')->with('id', 'int')->with('name', 'string')->id('upload')->override();
+    Page::visit('/upload:{id}/{name}?', 'Upload::outputPublic')->with('id', 'int')->with('name', 'string')->id('upload')->override();
     // 用户页面
     Page::auto('/user', '/user')->id('user')->noCache();
     // 管理界面导向
