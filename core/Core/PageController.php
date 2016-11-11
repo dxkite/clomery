@@ -53,7 +53,7 @@ class PageController extends Caller
     private $age=0;
     private $close=false;
     private $cache=null;
-
+    private $filter=null;
     /**
      * PageController constructor.
      * @param mixed $caller 可调用对象
@@ -224,6 +224,7 @@ class PageController extends Caller
         $this->preRule=($_SERVER['REQUEST_METHOD'] === 'POST');
         return $this;
     }
+
     public function accept(string $accept)
     {
         $this->preRule=preg_match('/'.preg_quote($accept).'/i', $_SERVER['HTTP_ACCEPT']);
@@ -234,11 +235,11 @@ class PageController extends Caller
         $this->preRule=($_SERVER['SERVER_PORT']===$port);
         return $this;
     }
-    public function userAgent($caller)
-    {
-        $this->preRule=(new Caller($caller))->call();
-        return $this;
-    }
+    // public function userAgent($caller)
+    // {
+    //     $this->preRule=(new Caller($caller))->call();
+    //     return $this;
+    // }
     public function isSpider()
     {
         $this->preRule=is_spider();
@@ -253,6 +254,17 @@ class PageController extends Caller
     public function close()
     {
         $this->close=true;
+        return $this;
+    }
+    public function filter($caller=null)
+    {
+        if (is_null($caller)) {
+            if ($this->filter) {
+                return new Caller($this->filter);
+            }
+            return null;
+        }
+        $this->filter=$caller;
         return $this;
     }
 }

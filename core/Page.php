@@ -194,7 +194,7 @@ class Page
     public static function auto(string $name_path, string $pathroot)
     {
         $success=&self::$success;
-        $auto=function ($path='Index') use ($name_path, $pathroot,&$success) {
+        $auto=function ($path='Index') use ($name_path, $pathroot, &$success) {
             if (!$path) {
                 $path='Index';
             }
@@ -317,12 +317,17 @@ class Page
     {
         // 将控制器压入当前控制器
         self::$controller=$caller;
-        ob_start();
-        $return=$caller->call($args);
-        self::$content=ob_get_clean();
-        if (!is_array($return)) {
-            $return=[$return];
+        if ($caller->filter()) {
+            self::$success=$filter->args($args);
         }
-        $caller->render($return);
+        if (self::$success) {
+            ob_start();
+            $return=$caller->call($args);
+            self::$content=ob_get_clean();
+            if (!is_array($return)) {
+                $return=[$return];
+            }
+            $caller->render($return);
+        }
     }
 }
