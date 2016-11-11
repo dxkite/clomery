@@ -7,7 +7,7 @@ use Core\Value;
 use Request;
 use Common_Navigation;
 
-class Index extends \Admin_Autoentrance
+class Index extends \Page_Admin
 {
     public function entrance(string $addon)
     {

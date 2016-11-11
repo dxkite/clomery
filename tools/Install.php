@@ -36,7 +36,7 @@ print $notice.'Save Old Database To Recycle Bin >> datebase_'.$time.".*\r\n";
 if (system('chmod -R a+rw '.APP_RES)) {
     print $notice.' Permition Change Faild,Pelase Makesure Apache Can Use '.APP_RES."\r\n";
 } else {
-    print $ok.' Change Permition  To a+rw '."\r\n";
+    print $ok.' Change Resource Dir:"'.APP_RES.'"\'s Permition  To a+rw '."\r\n";
 }
 
 if (Storage::exist(APP_RES.'/install.php')) {

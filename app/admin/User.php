@@ -7,7 +7,7 @@ use Request;
 use Common_Navigation;
 use Common_User;
 
-class User extends \Admin_Autoentrance
+class User extends \Page_Admin
 {
     public function run()
     {

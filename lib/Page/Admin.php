@@ -1,24 +1,13 @@
 <?php
 use Core\Value;
 
-abstract class Admin_Autoentrance
+abstract class Page_Admin
 {
     public function main()
     {
-        if (\System::user()->hasSignin) {
-            if (\System::user()->permission->editSite) {
-                self::setBasic();
-                $this->run();
-            } else {
-                echo 'no perimission';
-                Page::redirect('/');
-            }
-        } else {
-            Page::redirect('/user/SignIn');
-        }
+        self::setBasic();
+        $this->run();
     }
-    abstract function run();
-
     public function setBasic()
     {
         $options[]=new Value(['title'=>'网站信息', 'href'=>Page::url('admin')]);

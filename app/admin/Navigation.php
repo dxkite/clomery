@@ -7,7 +7,7 @@ use Core\Value;
 use Request;
 use Common_Navigation;
 
-class Navigation extends \Admin_Autoentrance
+class Navigation extends \Page_Admin
 {
     
     public function run()

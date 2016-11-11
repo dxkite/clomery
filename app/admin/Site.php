@@ -5,7 +5,7 @@ use Page;
 use Core\Value;
 use Request;
 
-class Site extends \Admin_Autoentrance
+class Site extends \Page_Admin
 {
     function run()
     {

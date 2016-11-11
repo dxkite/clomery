@@ -1,13 +1,10 @@
 <?php
-import('Site.functions');
-class Develop
+
+class Develop  extends Page_Main
 {
-    public function main(string $name)
+    public function run(string $name)
     {
         Page::set('title', '网页开发中');
-        $index='article|books|question|test|notes|about';
-        $atr=explode('|', $index);
-        Site\page_common_set();
-        Page::set('head_index_nav_select',array_search($name, $atr)+1);
+        Page::set('head_index_nav_select',2);
     }
 }

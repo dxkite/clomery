@@ -6,7 +6,7 @@ use Blog_Article as Article;
 use Request;
 use Core\Value;
 
-class Article extends \Admin_Autoentrance
+class Article extends \Page_Admin
 {
     public function run()
     {
