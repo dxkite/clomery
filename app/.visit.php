@@ -35,7 +35,7 @@ if (conf('Uninstall')) {
     // 管理界面导向
     Page::visit('/admin/{entrance}', 'app\admin\Index->entrance')->with('entrance', 'string')->id('admin_entrance')->filter('Filter::isAdmin')->noCache();
     // 测试页面
-    Page::auto('/test', '/test')->id('test')->noCache();
+    Page::auto('/test', '/test')->id('test')->filter('Filter::isAdmin')->noCache();
     // 验证码
     Page::visit('/verify_code', 'Image->verifyImage')->raw()->type('png')->id('verify_code');
     // 404 页面
