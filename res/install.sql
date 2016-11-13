@@ -1,6 +1,6 @@
 -- ----------------------------------------------------------
 -- PHP Simple Library XCore 1.0.1 Database Backup File
--- Create On 2016-11-13 11:47:09
+-- Create On 2016-11-13 11:54:19
 -- Host: localhost   Database: mongci
 -- Server version	10.1.10-MariaDB
 -- ------------------------------------------------------
@@ -66,7 +66,7 @@ CREATE TABLE `atd_bugs` (
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `status` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 --
@@ -107,7 +107,7 @@ CREATE TABLE `atd_groups` (
   PRIMARY KEY (`gid`),
   KEY `gname` (`gname`),
   KEY `priority` (`sort`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COMMENT='权限表';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='权限表';
 
 
 --

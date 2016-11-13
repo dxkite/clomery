@@ -36,7 +36,6 @@ class Caller
     // }
     public function call(array $params=[])
     {
-        
         if (is_string($this->caller)) {
             $this->caller= self::parseCaller($this->caller);
         }
@@ -119,6 +118,9 @@ class Caller
                     $imported[$name]=$require;
                     return require_once $require;
                 }
+            }
+            if (file_exists($name)) {
+                return require_once $name;
             }
         }
     }
