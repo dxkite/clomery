@@ -57,7 +57,7 @@ function conf(string $name, $default=null)
 {
     static $conf=null;
     if (is_null($conf)) {
-        if (file_exists($path=APP_RES.'/'.APP_CONF) && file_exists(APP_RES.'/install.lock')) {
+        if (file_exists($path=APP_RES.'/'.APP_CONF) /*&& file_exists(APP_RES.'/install.lock')*/) {
             $conf=parse_ini_file($path, true);
         } elseif (file_exists($path=DOC_ROOT.'/.conf.simple')) {
             $conf=parse_ini_file($path, true);

@@ -36,6 +36,8 @@ class Install
     }
     public function installSite()
     {
+        $success='√';
+        $error='×';
         if (Request::hasPost()) {
             $conf=parse_ini_file(DOC_ROOT.'/.conf.simple', true);
             $conf['DEBUG']=0;
@@ -45,13 +47,11 @@ class Install
             $conf['Database']['user']=Request::post()->dbuser('root');
             $conf['Database']['passwd']=Request::post()->dbpass('root');
             $conf['Database']['prefix']=Request::post()->dbfix('atd_');
-            self::saveIni(APP_RES.'/'.APP_CONF, $conf);
+            Page::set('conf', self::saveIni(APP_RES.'/'.APP_CONF, $conf)?$success:$error);
             Page::set('user', Request::post()->admin);
             Page::set('passwd', Request::post()->passwd);
             Page::use('install-progress');
         } else {
-            $success='√';
-            $error='×';
             Page::set('res', Storage::isWritable(APP_RES)?$success:$error);
             Page::set('image', function_exists('gd_info')?$success:$error);
             Page::use('install');
