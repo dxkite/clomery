@@ -2,7 +2,7 @@
 /* ------------------------------------------------------ *\
    ------------------------------------------------------
    PHP Simple Library XCore 1.0.1 Database Backup File
-        Create On: 2016-11-13 13:03:22
+        Create On: 2016-11-13 13:10:20
         SQL Server version: 10.1.10-MariaDB
         Host: localhost   
         Database: mongci
@@ -13,7 +13,13 @@
 try {
 /** Open Transaction Avoid Error **/
 Query::beginTransaction();
-(new Query('CREATE DATABASE IF NOT EXISTS '.conf('Database.dbname').';'))->exec();
+$effect=($create=new Query('CREATE DATABASE IF NOT EXISTS '.conf('Database.dbname').';'))->exec();
+if ($create->erron()==0){
+        echo 'Create Database '.conf('Database.dbname').' Ok,effect '.$effect.' rows'."\r\n";
+    }
+    else{
+        die('Database '.conf('Database.dbname').'create filed!');   
+    }
  (new Query('DROP TABLE IF EXISTS #{article_tag}'))->exec();
 
         $effect=($query_article_tag=new Query('CREATE TABLE `#{article_tag}` (
@@ -23,12 +29,10 @@ Query::beginTransaction();
   KEY `aid` (`aid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8'))->exec();
         if ($query_article_tag->erron()==0){
-            echo 'Create Table:'.conf('Database.prefix').'article_tag Ok,effect '.$effect.' rows'."
-";
+            echo 'Create Table:'.conf('Database.prefix').'article_tag Ok,effect '.$effect.' rows'."\r\n";
         }
         else{
-             echo 'Create Table:'.conf('Database.prefix').'article_tag Error!,effect '.$effect.' rows'."
-";   
+             echo 'Create Table:'.conf('Database.prefix').'article_tag Error!,effect '.$effect.' rows'."\r\n";   
         }
         ob_flush();
         flush(); (new Query('DROP TABLE IF EXISTS #{articles}'))->exec();
@@ -62,12 +66,10 @@ Query::beginTransaction();
   KEY `category` (`category`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8'))->exec();
         if ($query_articles->erron()==0){
-            echo 'Create Table:'.conf('Database.prefix').'articles Ok,effect '.$effect.' rows'."
-";
+            echo 'Create Table:'.conf('Database.prefix').'articles Ok,effect '.$effect.' rows'."\r\n";
         }
         else{
-             echo 'Create Table:'.conf('Database.prefix').'articles Error!,effect '.$effect.' rows'."
-";   
+             echo 'Create Table:'.conf('Database.prefix').'articles Error!,effect '.$effect.' rows'."\r\n";   
         }
         ob_flush();
         flush(); (new Query('DROP TABLE IF EXISTS #{bugs}'))->exec();
@@ -81,12 +83,10 @@ Query::beginTransaction();
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8'))->exec();
         if ($query_bugs->erron()==0){
-            echo 'Create Table:'.conf('Database.prefix').'bugs Ok,effect '.$effect.' rows'."
-";
+            echo 'Create Table:'.conf('Database.prefix').'bugs Ok,effect '.$effect.' rows'."\r\n";
         }
         else{
-             echo 'Create Table:'.conf('Database.prefix').'bugs Error!,effect '.$effect.' rows'."
-";   
+             echo 'Create Table:'.conf('Database.prefix').'bugs Error!,effect '.$effect.' rows'."\r\n";   
         }
         ob_flush();
         flush(); (new Query('DROP TABLE IF EXISTS #{category}'))->exec();
@@ -106,12 +106,10 @@ Query::beginTransaction();
   KEY `topic` (`topic`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8'))->exec();
         if ($query_category->erron()==0){
-            echo 'Create Table:'.conf('Database.prefix').'category Ok,effect '.$effect.' rows'."
-";
+            echo 'Create Table:'.conf('Database.prefix').'category Ok,effect '.$effect.' rows'."\r\n";
         }
         else{
-             echo 'Create Table:'.conf('Database.prefix').'category Error!,effect '.$effect.' rows'."
-";   
+             echo 'Create Table:'.conf('Database.prefix').'category Error!,effect '.$effect.' rows'."\r\n";   
         }
         ob_flush();
         flush(); (new Query('DROP TABLE IF EXISTS #{groups}'))->exec();
@@ -130,12 +128,10 @@ Query::beginTransaction();
   KEY `priority` (`sort`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT=\'权限表\''))->exec();
         if ($query_groups->erron()==0){
-            echo 'Create Table:'.conf('Database.prefix').'groups Ok,effect '.$effect.' rows'."
-";
+            echo 'Create Table:'.conf('Database.prefix').'groups Ok,effect '.$effect.' rows'."\r\n";
         }
         else{
-             echo 'Create Table:'.conf('Database.prefix').'groups Error!,effect '.$effect.' rows'."
-";   
+             echo 'Create Table:'.conf('Database.prefix').'groups Error!,effect '.$effect.' rows'."\r\n";   
         }
         ob_flush();
         flush(); (new Query('DROP TABLE IF EXISTS #{nav}'))->exec();
@@ -153,22 +149,18 @@ Query::beginTransaction();
   KEY `parent` (`parent`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8'))->exec();
         if ($query_nav->erron()==0){
-            echo 'Create Table:'.conf('Database.prefix').'nav Ok,effect '.$effect.' rows'."
-";
+            echo 'Create Table:'.conf('Database.prefix').'nav Ok,effect '.$effect.' rows'."\r\n";
         }
         else{
-             echo 'Create Table:'.conf('Database.prefix').'nav Error!,effect '.$effect.' rows'."
-";   
+             echo 'Create Table:'.conf('Database.prefix').'nav Error!,effect '.$effect.' rows'."\r\n";   
         }
         ob_flush();
         flush();        $effect=($query_nav_insert=new Query('INSERT INTO  `#{nav}` (`id`,`name`,`url`,`title`,`show`,`sort`,`parent`) VALUES (\'1\',\'首页\',\'/\',\'index\',\'1\',\'1\',\'0\'),(\'3\',\'文章\',\'/article\',\'article\',\'1\',\'2\',\'0\'),(\'9\',\'关于\',\'/about\',\'\',\'1\',\'7\',\'0\')'))->exec();
         if ($query_nav_insert->erron()==0){
-            echo 'Insert Table:'.conf('Database.prefix').'nav Data Ok!,effect '.$effect.' rows'."
-";
+            echo 'Insert Table:'.conf('Database.prefix').'nav Data Ok!,effect '.$effect.' rows'."\r\n";
         }
         else{
-             echo 'Insert Table:'.conf('Database.prefix').'nav Data  Error!,effect '.$effect.' rows'."
-";   
+             echo 'Insert Table:'.conf('Database.prefix').'nav Data  Error!,effect '.$effect.' rows'."\r\n";   
         }
         ob_flush();
         flush(); (new Query('DROP TABLE IF EXISTS #{permission}'))->exec();
@@ -189,22 +181,18 @@ Query::beginTransaction();
   KEY `priority` (`sort`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COMMENT=\'权限表\''))->exec();
         if ($query_permission->erron()==0){
-            echo 'Create Table:'.conf('Database.prefix').'permission Ok,effect '.$effect.' rows'."
-";
+            echo 'Create Table:'.conf('Database.prefix').'permission Ok,effect '.$effect.' rows'."\r\n";
         }
         else{
-             echo 'Create Table:'.conf('Database.prefix').'permission Error!,effect '.$effect.' rows'."
-";   
+             echo 'Create Table:'.conf('Database.prefix').'permission Error!,effect '.$effect.' rows'."\r\n";   
         }
         ob_flush();
         flush();        $effect=($query_permission_insert=new Query('INSERT INTO  `#{permission}` (`gid`,`uid`,`sort`,`gname`,`editSite`,`editGroup`,`editUser`,`useSu`,`editCategory`) VALUES (\'1\',\'0\',\'0\',\'网站所有者\',\'Y\',\'Y\',\'Y\',\'Y\',\'Y\')'))->exec();
         if ($query_permission_insert->erron()==0){
-            echo 'Insert Table:'.conf('Database.prefix').'permission Data Ok!,effect '.$effect.' rows'."
-";
+            echo 'Insert Table:'.conf('Database.prefix').'permission Data Ok!,effect '.$effect.' rows'."\r\n";
         }
         else{
-             echo 'Insert Table:'.conf('Database.prefix').'permission Data  Error!,effect '.$effect.' rows'."
-";   
+             echo 'Insert Table:'.conf('Database.prefix').'permission Data  Error!,effect '.$effect.' rows'."\r\n";   
         }
         ob_flush();
         flush(); (new Query('DROP TABLE IF EXISTS #{signin_historys}'))->exec();
@@ -218,12 +206,10 @@ Query::beginTransaction();
   KEY `uid` (`uid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8'))->exec();
         if ($query_signin_historys->erron()==0){
-            echo 'Create Table:'.conf('Database.prefix').'signin_historys Ok,effect '.$effect.' rows'."
-";
+            echo 'Create Table:'.conf('Database.prefix').'signin_historys Ok,effect '.$effect.' rows'."\r\n";
         }
         else{
-             echo 'Create Table:'.conf('Database.prefix').'signin_historys Error!,effect '.$effect.' rows'."
-";   
+             echo 'Create Table:'.conf('Database.prefix').'signin_historys Error!,effect '.$effect.' rows'."\r\n";   
         }
         ob_flush();
         flush(); (new Query('DROP TABLE IF EXISTS #{site_options}'))->exec();
@@ -237,22 +223,18 @@ Query::beginTransaction();
   KEY `name` (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COMMENT=\'网站设置表\''))->exec();
         if ($query_site_options->erron()==0){
-            echo 'Create Table:'.conf('Database.prefix').'site_options Ok,effect '.$effect.' rows'."
-";
+            echo 'Create Table:'.conf('Database.prefix').'site_options Ok,effect '.$effect.' rows'."\r\n";
         }
         else{
-             echo 'Create Table:'.conf('Database.prefix').'site_options Error!,effect '.$effect.' rows'."
-";   
+             echo 'Create Table:'.conf('Database.prefix').'site_options Error!,effect '.$effect.' rows'."\r\n";   
         }
         ob_flush();
         flush();        $effect=($query_site_options_insert=new Query('INSERT INTO  `#{site_options}` (`id`,`name`,`value`) VALUES (\'1\',\'site_name\',\'芒刺中国\'),(\'2\',\'theme\',\'default\'),(\'19\',\'site_logo\',\'/static/img/mccn.svg\'),(\'20\',\'keywords\',\'芒刺,程序员,文摘\'),(\'21\',\'lang\',\'zh_cn\'),(\'22\',\'HV_SignUp\',\'0\'),(\'23\',\'HV_SignIn\',\'0\'),(\'24\',\'HV_Post\',\'0\'),(\'25\',\'HV_Comment\',\'0\'),(\'26\',\'allowSignUp\',\'1\'),(\'27\',\'copyright\',\'芒刺中国\'),(\'28\',\'site_close\',\'0\'),(\'29\',\'close_info\',\'芒刺中国系统开发中\'),(\'31\',\'beian\',\'湘ICP备16001199号-1\')'))->exec();
         if ($query_site_options_insert->erron()==0){
-            echo 'Insert Table:'.conf('Database.prefix').'site_options Data Ok!,effect '.$effect.' rows'."
-";
+            echo 'Insert Table:'.conf('Database.prefix').'site_options Data Ok!,effect '.$effect.' rows'."\r\n";
         }
         else{
-             echo 'Insert Table:'.conf('Database.prefix').'site_options Data  Error!,effect '.$effect.' rows'."
-";   
+             echo 'Insert Table:'.conf('Database.prefix').'site_options Data  Error!,effect '.$effect.' rows'."\r\n";   
         }
         ob_flush();
         flush(); (new Query('DROP TABLE IF EXISTS #{tags}'))->exec();
@@ -267,12 +249,10 @@ Query::beginTransaction();
   KEY `topic` (`topic`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8'))->exec();
         if ($query_tags->erron()==0){
-            echo 'Create Table:'.conf('Database.prefix').'tags Ok,effect '.$effect.' rows'."
-";
+            echo 'Create Table:'.conf('Database.prefix').'tags Ok,effect '.$effect.' rows'."\r\n";
         }
         else{
-             echo 'Create Table:'.conf('Database.prefix').'tags Error!,effect '.$effect.' rows'."
-";   
+             echo 'Create Table:'.conf('Database.prefix').'tags Error!,effect '.$effect.' rows'."\r\n";   
         }
         ob_flush();
         flush(); (new Query('DROP TABLE IF EXISTS #{upload_resource}'))->exec();
@@ -287,12 +267,10 @@ Query::beginTransaction();
   KEY `type` (`type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8'))->exec();
         if ($query_upload_resource->erron()==0){
-            echo 'Create Table:'.conf('Database.prefix').'upload_resource Ok,effect '.$effect.' rows'."
-";
+            echo 'Create Table:'.conf('Database.prefix').'upload_resource Ok,effect '.$effect.' rows'."\r\n";
         }
         else{
-             echo 'Create Table:'.conf('Database.prefix').'upload_resource Error!,effect '.$effect.' rows'."
-";   
+             echo 'Create Table:'.conf('Database.prefix').'upload_resource Error!,effect '.$effect.' rows'."\r\n";   
         }
         ob_flush();
         flush(); (new Query('DROP TABLE IF EXISTS #{uploads}'))->exec();
@@ -316,12 +294,10 @@ Query::beginTransaction();
   KEY `what` (`what`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT=\'上传资源表\''))->exec();
         if ($query_uploads->erron()==0){
-            echo 'Create Table:'.conf('Database.prefix').'uploads Ok,effect '.$effect.' rows'."
-";
+            echo 'Create Table:'.conf('Database.prefix').'uploads Ok,effect '.$effect.' rows'."\r\n";
         }
         else{
-             echo 'Create Table:'.conf('Database.prefix').'uploads Error!,effect '.$effect.' rows'."
-";   
+             echo 'Create Table:'.conf('Database.prefix').'uploads Error!,effect '.$effect.' rows'."\r\n";   
         }
         ob_flush();
         flush(); (new Query('DROP TABLE IF EXISTS #{user_info}'))->exec();
@@ -336,12 +312,10 @@ Query::beginTransaction();
   KEY `avatar` (`avatar`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT=\'用户信息\''))->exec();
         if ($query_user_info->erron()==0){
-            echo 'Create Table:'.conf('Database.prefix').'user_info Ok,effect '.$effect.' rows'."
-";
+            echo 'Create Table:'.conf('Database.prefix').'user_info Ok,effect '.$effect.' rows'."\r\n";
         }
         else{
-             echo 'Create Table:'.conf('Database.prefix').'user_info Error!,effect '.$effect.' rows'."
-";   
+             echo 'Create Table:'.conf('Database.prefix').'user_info Error!,effect '.$effect.' rows'."\r\n";   
         }
         ob_flush();
         flush(); (new Query('DROP TABLE IF EXISTS #{users}'))->exec();
@@ -368,12 +342,10 @@ Query::beginTransaction();
   KEY `uid_4` (`uid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8'))->exec();
         if ($query_users->erron()==0){
-            echo 'Create Table:'.conf('Database.prefix').'users Ok,effect '.$effect.' rows'."
-";
+            echo 'Create Table:'.conf('Database.prefix').'users Ok,effect '.$effect.' rows'."\r\n";
         }
         else{
-             echo 'Create Table:'.conf('Database.prefix').'users Error!,effect '.$effect.' rows'."
-";   
+             echo 'Create Table:'.conf('Database.prefix').'users Error!,effect '.$effect.' rows'."\r\n";   
         }
         ob_flush();
         flush();/** End Querys **/

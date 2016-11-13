@@ -39,7 +39,13 @@ class Database
 try {
 /** Open Transaction Avoid Error **/
 Query::beginTransaction();
-(new Query('CREATE DATABASE IF NOT EXISTS '.conf('Database.dbname').';'))->exec();
+\$effect=(\$create=new Query('CREATE DATABASE IF NOT EXISTS '.conf('Database.dbname').';'))->exec();
+if (\$create->erron()==0){
+        echo 'Create Database '.conf('Database.dbname').' Ok,effect '.\$effect.' rows'."\\r\\n";
+    }
+    else{
+        die('Database '.conf('Database.dbname').'create filed!');   
+    }
 
 Table;
         $export_str=$head;
@@ -117,10 +123,10 @@ Table;
         $create=<<< queryCreateTable
         \$effect=(\$query_{$table}=new Query('$sql'))->exec();
         if (\$query_{$table}->erron()==0){
-            echo 'Create Table:'.conf('Database.prefix').'$table Ok,effect '.\$effect.' rows'."\r\n";
+            echo 'Create Table:'.conf('Database.prefix').'$table Ok,effect '.\$effect.' rows'."\\r\\n";
         }
         else{
-             echo 'Create Table:'.conf('Database.prefix').'$table Error!,effect '.\$effect.' rows'."\r\n";   
+             echo 'Create Table:'.conf('Database.prefix').'$table Error!,effect '.\$effect.' rows'."\\r\\n";   
         }
         ob_flush();
         flush();
@@ -137,10 +143,10 @@ queryCreateTable;
                 $insert=<<< queryInsertTable
         \$effect=(\$query_{$table}_insert=new Query('$sql'))->exec();
         if (\$query_{$table}_insert->erron()==0){
-            echo 'Insert Table:'.conf('Database.prefix').'{$table} Data Ok!,effect '.\$effect.' rows'."\r\n";
+            echo 'Insert Table:'.conf('Database.prefix').'{$table} Data Ok!,effect '.\$effect.' rows'."\\r\\n";
         }
         else{
-             echo 'Insert Table:'.conf('Database.prefix').'{$table} Data  Error!,effect '.\$effect.' rows'."\r\n";   
+             echo 'Insert Table:'.conf('Database.prefix').'{$table} Data  Error!,effect '.\$effect.' rows'."\\r\\n";   
         }
         ob_flush();
         flush();
