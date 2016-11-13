@@ -1,4 +1,6 @@
 <?php
+use Core\Caller;
+
 class Install
 {
     public function start()
@@ -22,12 +24,11 @@ class Install
     }
     public function progress()
     {
-        $msg=['install database','create res','create Administer'];
-        foreach ($msg as $touch) {
-            sleep(1);
-            echo "<div>{$touch}</div>";
-            ob_flush();
-            flush();
+        $indb=new Caller('@'.APP_RES.'/install.php');
+        $in->call();
+        $ret=self::createAdmin(Request::get()->user,Request::get()->passwd);
+        if ($ret>0) {
+            print $ok.'Create Admin User '.Request::get()->user.', Password is '.Request::get()->passwd."\r\n";
         }
     }
     public function installSite()
@@ -51,5 +52,19 @@ class Install
             Page::set('image', function_exists('gd_info')?$success:$error);
             Page::use('install');
         }
+    }
+    public function createAdmin(string $user, string $passwd):int
+    {
+        if (($q=new Query('INSERT INTO #{users} (`uname`,`upass`,`signup`,`gid`) VALUES ( :uname, :passwd, :signup ,:gid );'))->values([
+            'uname'=>$user,
+            'passwd'=>password_hash($passwd, PASSWORD_DEFAULT),
+            'signup'=>time(),
+            'gid'=>1,
+        ])->exec()) {
+            $uid=$q->lastInsertId();
+            Common_User::setDefaulInfo($uid, 0, 'Ta很懒，神马都没留下');
+            return $uid;
+        }
+        return 0;
     }
 }

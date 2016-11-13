@@ -7,21 +7,6 @@ $ok="\033[32m[Ok]\033[0m ";
 $notice ="\033[33m[Notice]\033[0m ";
 $failed="\033[31m[failed]\033[0m ";
 
-function createAdmin(string $user, string $passwd):int
-{
-    if (($q=new Query('INSERT INTO #{users} (`uname`,`upass`,`signup`,`gid`) VALUES ( :uname, :passwd, :signup ,:gid );'))->values([
-            'uname'=>$user,
-            'passwd'=>password_hash($passwd, PASSWORD_DEFAULT),
-            'signup'=>time(),
-            'gid'=>1,
-        ])->exec()) {
-        $uid=$q->lastInsertId();
-        Common_User::setDefaulInfo($uid, 0, 'Ta很懒，神马都没留下');
-        return $uid;
-    }
-    return 0;
-}
-
 if (!Storage::exist(APP_RES.'/'.APP_CONF)) {
     print $notice.'Please Modify '.DOC_ROOT.'/.conf.simple Configurtion And Save To '.APP_RES.'/'.APP_CONF."\r\n";
     exit(-1);
@@ -50,7 +35,7 @@ if (Storage::exist(APP_RES.'/install.php')) {
     print $failed.'Database File('.APP_RES.'/install.php) Do Not Exist,Please Make sure the Source Code Is Avaliable'."\r\n";
     exit(-3);
 }
-$ret=createAdmin('EvalDXkite', 'EvalDXkite');
+$ret=app\Install::createAdmin('EvalDXkite', 'EvalDXkite');
 if ($ret>0) {
     print $ok.'Create Admin User EvalDXkite, Password is EvalDXkite'."\r\n";
 }
