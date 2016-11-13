@@ -1,6 +1,6 @@
 -- ----------------------------------------------------------
 -- PHP Simple Library XCore 1.0.1 Database Backup File
--- Create On 2016-11-13 12:02:00
+-- Create On 2016-11-13 12:22:34
 -- Host: localhost   Database: mongci
 -- Server version	10.1.10-MariaDB
 -- ------------------------------------------------------
@@ -294,6 +294,6 @@ CREATE TABLE `atd_users` (
   KEY `uid_2` (`uid`),
   KEY `uid_3` (`uid`),
   KEY `uid_4` (`uid`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 

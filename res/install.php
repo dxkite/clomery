@@ -2,7 +2,7 @@
 /* ------------------------------------------------------ *\
    ------------------------------------------------------
    PHP Simple Library XCore 1.0.1 Database Backup File
-        Create On: 2016-11-13 12:02:00
+        Create On: 2016-11-13 12:22:34
         SQL Server version: 10.1.10-MariaDB
         Host: localhost   
         Database: mongci
@@ -28,7 +28,9 @@ Query::beginTransaction();
         else{
              echo 'Create Table:'.conf('Database.prefix').'article_tag Error!,effect '.$effect.' rows'."
 ";   
-        } (new Query('DROP TABLE IF EXISTS #{articles}'))->exec();
+        }
+        ob_flush();
+        flush(); (new Query('DROP TABLE IF EXISTS #{articles}'))->exec();
 
         $effect=($query_articles=new Query('CREATE TABLE `#{articles}` (
   `aid` bigint(20) NOT NULL AUTO_INCREMENT COMMENT \'ID\',
@@ -65,7 +67,9 @@ Query::beginTransaction();
         else{
              echo 'Create Table:'.conf('Database.prefix').'articles Error!,effect '.$effect.' rows'."
 ";   
-        } (new Query('DROP TABLE IF EXISTS #{bugs}'))->exec();
+        }
+        ob_flush();
+        flush(); (new Query('DROP TABLE IF EXISTS #{bugs}'))->exec();
 
         $effect=($query_bugs=new Query('CREATE TABLE `#{bugs}` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -82,7 +86,9 @@ Query::beginTransaction();
         else{
              echo 'Create Table:'.conf('Database.prefix').'bugs Error!,effect '.$effect.' rows'."
 ";   
-        } (new Query('DROP TABLE IF EXISTS #{category}'))->exec();
+        }
+        ob_flush();
+        flush(); (new Query('DROP TABLE IF EXISTS #{category}'))->exec();
 
         $effect=($query_category=new Query('CREATE TABLE `#{category}` (
   `cid` bigint(20) NOT NULL AUTO_INCREMENT COMMENT \'分类\',
@@ -105,7 +111,9 @@ Query::beginTransaction();
         else{
              echo 'Create Table:'.conf('Database.prefix').'category Error!,effect '.$effect.' rows'."
 ";   
-        } (new Query('DROP TABLE IF EXISTS #{groups}'))->exec();
+        }
+        ob_flush();
+        flush(); (new Query('DROP TABLE IF EXISTS #{groups}'))->exec();
 
         $effect=($query_groups=new Query('CREATE TABLE `#{groups}` (
   `gid` int(11) NOT NULL AUTO_INCREMENT,
@@ -127,7 +135,9 @@ Query::beginTransaction();
         else{
              echo 'Create Table:'.conf('Database.prefix').'groups Error!,effect '.$effect.' rows'."
 ";   
-        } (new Query('DROP TABLE IF EXISTS #{nav}'))->exec();
+        }
+        ob_flush();
+        flush(); (new Query('DROP TABLE IF EXISTS #{nav}'))->exec();
 
         $effect=($query_nav=new Query('CREATE TABLE `#{nav}` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -148,7 +158,9 @@ Query::beginTransaction();
         else{
              echo 'Create Table:'.conf('Database.prefix').'nav Error!,effect '.$effect.' rows'."
 ";   
-        }        $effect=($query_nav_insert=new Query('INSERT INTO  `#{nav}` (`id`,`name`,`url`,`title`,`show`,`sort`,`parent`) VALUES (\'1\',\'首页\',\'/\',\'index\',\'1\',\'1\',\'0\'),(\'3\',\'文章\',\'/article\',\'article\',\'1\',\'2\',\'0\'),(\'9\',\'关于\',\'/about\',\'\',\'1\',\'7\',\'0\')'))->exec();
+        }
+        ob_flush();
+        flush();        $effect=($query_nav_insert=new Query('INSERT INTO  `#{nav}` (`id`,`name`,`url`,`title`,`show`,`sort`,`parent`) VALUES (\'1\',\'首页\',\'/\',\'index\',\'1\',\'1\',\'0\'),(\'3\',\'文章\',\'/article\',\'article\',\'1\',\'2\',\'0\'),(\'9\',\'关于\',\'/about\',\'\',\'1\',\'7\',\'0\')'))->exec();
         if ($query_nav_insert->erron()==0){
             echo 'Insert Table:'.conf('Database.prefix').'nav Data Ok!,effect '.$effect.' rows'."
 ";
@@ -156,7 +168,9 @@ Query::beginTransaction();
         else{
              echo 'Insert Table:'.conf('Database.prefix').'nav Data  Error!,effect '.$effect.' rows'."
 ";   
-        } (new Query('DROP TABLE IF EXISTS #{permission}'))->exec();
+        }
+        ob_flush();
+        flush(); (new Query('DROP TABLE IF EXISTS #{permission}'))->exec();
 
         $effect=($query_permission=new Query('CREATE TABLE `#{permission}` (
   `gid` int(11) NOT NULL AUTO_INCREMENT,
@@ -180,7 +194,9 @@ Query::beginTransaction();
         else{
              echo 'Create Table:'.conf('Database.prefix').'permission Error!,effect '.$effect.' rows'."
 ";   
-        }        $effect=($query_permission_insert=new Query('INSERT INTO  `#{permission}` (`gid`,`uid`,`sort`,`gname`,`editSite`,`editGroup`,`editUser`,`useSu`,`editCategory`) VALUES (\'1\',\'0\',\'0\',\'网站所有者\',\'Y\',\'Y\',\'Y\',\'Y\',\'Y\')'))->exec();
+        }
+        ob_flush();
+        flush();        $effect=($query_permission_insert=new Query('INSERT INTO  `#{permission}` (`gid`,`uid`,`sort`,`gname`,`editSite`,`editGroup`,`editUser`,`useSu`,`editCategory`) VALUES (\'1\',\'0\',\'0\',\'网站所有者\',\'Y\',\'Y\',\'Y\',\'Y\',\'Y\')'))->exec();
         if ($query_permission_insert->erron()==0){
             echo 'Insert Table:'.conf('Database.prefix').'permission Data Ok!,effect '.$effect.' rows'."
 ";
@@ -188,7 +204,9 @@ Query::beginTransaction();
         else{
              echo 'Insert Table:'.conf('Database.prefix').'permission Data  Error!,effect '.$effect.' rows'."
 ";   
-        } (new Query('DROP TABLE IF EXISTS #{signin_historys}'))->exec();
+        }
+        ob_flush();
+        flush(); (new Query('DROP TABLE IF EXISTS #{signin_historys}'))->exec();
 
         $effect=($query_signin_historys=new Query('CREATE TABLE `#{signin_historys}` (
   `hid` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -205,7 +223,9 @@ Query::beginTransaction();
         else{
              echo 'Create Table:'.conf('Database.prefix').'signin_historys Error!,effect '.$effect.' rows'."
 ";   
-        } (new Query('DROP TABLE IF EXISTS #{site_options}'))->exec();
+        }
+        ob_flush();
+        flush(); (new Query('DROP TABLE IF EXISTS #{site_options}'))->exec();
 
         $effect=($query_site_options=new Query('CREATE TABLE `#{site_options}` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -222,7 +242,9 @@ Query::beginTransaction();
         else{
              echo 'Create Table:'.conf('Database.prefix').'site_options Error!,effect '.$effect.' rows'."
 ";   
-        }        $effect=($query_site_options_insert=new Query('INSERT INTO  `#{site_options}` (`id`,`name`,`value`) VALUES (\'1\',\'site_name\',\'芒刺中国\'),(\'2\',\'theme\',\'default\'),(\'19\',\'site_logo\',\'/static/img/mccn.svg\'),(\'20\',\'keywords\',\'芒刺,程序员,文摘\'),(\'21\',\'lang\',\'zh_cn\'),(\'22\',\'HV_SignUp\',\'0\'),(\'23\',\'HV_SignIn\',\'0\'),(\'24\',\'HV_Post\',\'0\'),(\'25\',\'HV_Comment\',\'0\'),(\'26\',\'allowSignUp\',\'1\'),(\'27\',\'copyright\',\'芒刺中国\'),(\'28\',\'site_close\',\'0\'),(\'29\',\'close_info\',\'芒刺中国系统开发中\'),(\'31\',\'beian\',\'湘ICP备16001199号-1\')'))->exec();
+        }
+        ob_flush();
+        flush();        $effect=($query_site_options_insert=new Query('INSERT INTO  `#{site_options}` (`id`,`name`,`value`) VALUES (\'1\',\'site_name\',\'芒刺中国\'),(\'2\',\'theme\',\'default\'),(\'19\',\'site_logo\',\'/static/img/mccn.svg\'),(\'20\',\'keywords\',\'芒刺,程序员,文摘\'),(\'21\',\'lang\',\'zh_cn\'),(\'22\',\'HV_SignUp\',\'0\'),(\'23\',\'HV_SignIn\',\'0\'),(\'24\',\'HV_Post\',\'0\'),(\'25\',\'HV_Comment\',\'0\'),(\'26\',\'allowSignUp\',\'1\'),(\'27\',\'copyright\',\'芒刺中国\'),(\'28\',\'site_close\',\'0\'),(\'29\',\'close_info\',\'芒刺中国系统开发中\'),(\'31\',\'beian\',\'湘ICP备16001199号-1\')'))->exec();
         if ($query_site_options_insert->erron()==0){
             echo 'Insert Table:'.conf('Database.prefix').'site_options Data Ok!,effect '.$effect.' rows'."
 ";
@@ -230,7 +252,9 @@ Query::beginTransaction();
         else{
              echo 'Insert Table:'.conf('Database.prefix').'site_options Data  Error!,effect '.$effect.' rows'."
 ";   
-        } (new Query('DROP TABLE IF EXISTS #{tags}'))->exec();
+        }
+        ob_flush();
+        flush(); (new Query('DROP TABLE IF EXISTS #{tags}'))->exec();
 
         $effect=($query_tags=new Query('CREATE TABLE `#{tags}` (
   `tid` int(11) NOT NULL AUTO_INCREMENT,
@@ -248,7 +272,9 @@ Query::beginTransaction();
         else{
              echo 'Create Table:'.conf('Database.prefix').'tags Error!,effect '.$effect.' rows'."
 ";   
-        } (new Query('DROP TABLE IF EXISTS #{upload_resource}'))->exec();
+        }
+        ob_flush();
+        flush(); (new Query('DROP TABLE IF EXISTS #{upload_resource}'))->exec();
 
         $effect=($query_upload_resource=new Query('CREATE TABLE `#{upload_resource}` (
   `rid` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -266,7 +292,9 @@ Query::beginTransaction();
         else{
              echo 'Create Table:'.conf('Database.prefix').'upload_resource Error!,effect '.$effect.' rows'."
 ";   
-        } (new Query('DROP TABLE IF EXISTS #{uploads}'))->exec();
+        }
+        ob_flush();
+        flush(); (new Query('DROP TABLE IF EXISTS #{uploads}'))->exec();
 
         $effect=($query_uploads=new Query('CREATE TABLE `#{uploads}` (
   `rid` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -293,7 +321,9 @@ Query::beginTransaction();
         else{
              echo 'Create Table:'.conf('Database.prefix').'uploads Error!,effect '.$effect.' rows'."
 ";   
-        } (new Query('DROP TABLE IF EXISTS #{user_info}'))->exec();
+        }
+        ob_flush();
+        flush(); (new Query('DROP TABLE IF EXISTS #{user_info}'))->exec();
 
         $effect=($query_user_info=new Query('CREATE TABLE `#{user_info}` (
   `uid` bigint(20) NOT NULL,
@@ -311,7 +341,9 @@ Query::beginTransaction();
         else{
              echo 'Create Table:'.conf('Database.prefix').'user_info Error!,effect '.$effect.' rows'."
 ";   
-        } (new Query('DROP TABLE IF EXISTS #{users}'))->exec();
+        }
+        ob_flush();
+        flush(); (new Query('DROP TABLE IF EXISTS #{users}'))->exec();
 
         $effect=($query_users=new Query('CREATE TABLE `#{users}` (
   `uid` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -333,7 +365,7 @@ Query::beginTransaction();
   KEY `uid_2` (`uid`),
   KEY `uid_3` (`uid`),
   KEY `uid_4` (`uid`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8'))->exec();
+) ENGINE=InnoDB DEFAULT CHARSET=utf8'))->exec();
         if ($query_users->erron()==0){
             echo 'Create Table:'.conf('Database.prefix').'users Ok,effect '.$effect.' rows'."
 ";
@@ -341,7 +373,9 @@ Query::beginTransaction();
         else{
              echo 'Create Table:'.conf('Database.prefix').'users Error!,effect '.$effect.' rows'."
 ";   
-        }/** End Querys **/
+        }
+        ob_flush();
+        flush();/** End Querys **/
 Query::commit();
 return true;
 } 

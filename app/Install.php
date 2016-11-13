@@ -25,11 +25,13 @@ class Install
     public function progress()
     {
         $indb=new Caller('@'.APP_RES.'/install.php');
-        $in->call();
-        $ret=self::createAdmin(Request::get()->user,Request::get()->passwd);
+        echo '<pre>';
+        $indb->call();
+        $ret=self::createAdmin(Request::get()->user('EvalDXkite'), Request::get()->passwd('EvalDXkite'));
         if ($ret>0) {
-            print $ok.'Create Admin User '.Request::get()->user.', Password is '.Request::get()->passwd."\r\n";
+            echo $ok.'Create Admin User '.Request::get()->user.', Password is '.Request::get()->passwd."\r\n";
         }
+        echo '</pre>';
     }
     public function installSite()
     {
