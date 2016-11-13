@@ -39,6 +39,7 @@ class Database
 try {
 /** Open Transaction Avoid Error **/
 Query::beginTransaction();
+(new Query('CREATE DATABASE IF NOT EXISTS '.conf('Database.dbname').';'))->exec();
 
 Table;
         $export_str=$head;

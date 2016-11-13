@@ -14,13 +14,13 @@ class Install
 
     public function installLock()
     {
-        $time=file_get_contents(DOC_ROOT.'/'.INSTALL_LOCK);
+        $time=file_get_contents(APP_RES.'/'.INSTALL_LOCK);
         echo 'Install Locked : Last Install At  '.date('Y-m-d H:i:s', $time);
     }
 
     public function lock()
     {
-        file_put_contents(DOC_ROOT.'/'.INSTALL_LOCK, time());
+        file_put_contents(APP_RES.'/'.INSTALL_LOCK, time());
     }
     public function progress()
     {
@@ -29,9 +29,10 @@ class Install
         $indb->call();
         $ret=self::createAdmin(Request::get()->user('EvalDXkite'), Request::get()->passwd('EvalDXkite'));
         if ($ret>0) {
-            echo $ok.'Create Admin User '.Request::get()->user.', Password is '.Request::get()->passwd."\r\n";
+            echo 'Create Admin User '.Request::get()->user.', Password is '.Request::get()->passwd."\r\n";
         }
         echo '</pre>';
+        self::lock();
     }
     public function installSite()
     {
@@ -40,10 +41,11 @@ class Install
             $conf['DEBUG']=0;
             $conf['NoCache']=0;
             $conf['Database']['host']=Request::post()->dbhost('127.0.0.1');
-            $conf['Database']['dbname']=Request::post()->dbname('127.0.0.1');
-            $conf['Database']['passwd']=Request::post()->dbpass('127.0.0.1');
-            $conf['Database']['user']=Request::post()->dbuser('127.0.0.1');
-            $conf['Database']['prefix']=Request::post()->dbfix('127.0.0.1');
+            $conf['Database']['dbname']=Request::post()->dbname('dxsite');
+            $conf['Database']['user']=Request::post()->dbuser('root');
+            $conf['Database']['passwd']=Request::post()->dbpass('root');
+            $conf['Database']['prefix']=Request::post()->dbfix('atd_');
+            self::saveIni(APP_RES.'/'.APP_CONF, $conf);
             Page::set('user', Request::post()->admin);
             Page::set('passwd', Request::post()->passwd);
             Page::use('install-progress');
@@ -68,5 +70,20 @@ class Install
             return $uid;
         }
         return 0;
+    }
+    public function saveIni(string $file, array $save)
+    {
+        $out='## DXSite CONF FILE'."\r\n## \t".'Create At:'.time()."\r\n";
+        foreach ($save as $name => $values) {
+            if (is_array($values)) {
+                $out.="[{$name}]\r\n";
+                foreach ($values as $key => $value) {
+                    $out.=$key.'="'.addslashes($value).'"'."\r\n";
+                }
+            } else {
+                $out.=$name.'="'.addslashes($values).'"'."\r\n";
+            }
+        }
+        file_put_contents($file, $out);
     }
 }

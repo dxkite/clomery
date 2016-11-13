@@ -2,7 +2,7 @@
 /* ------------------------------------------------------ *\
    ------------------------------------------------------
    PHP Simple Library XCore 1.0.1 Database Backup File
-        Create On: 2016-11-13 12:22:34
+        Create On: 2016-11-13 13:03:22
         SQL Server version: 10.1.10-MariaDB
         Host: localhost   
         Database: mongci
@@ -13,6 +13,7 @@
 try {
 /** Open Transaction Avoid Error **/
 Query::beginTransaction();
+(new Query('CREATE DATABASE IF NOT EXISTS '.conf('Database.dbname').';'))->exec();
  (new Query('DROP TABLE IF EXISTS #{article_tag}'))->exec();
 
         $effect=($query_article_tag=new Query('CREATE TABLE `#{article_tag}` (
@@ -365,7 +366,7 @@ Query::beginTransaction();
   KEY `uid_2` (`uid`),
   KEY `uid_3` (`uid`),
   KEY `uid_4` (`uid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8'))->exec();
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8'))->exec();
         if ($query_users->erron()==0){
             echo 'Create Table:'.conf('Database.prefix').'users Ok,effect '.$effect.' rows'."
 ";

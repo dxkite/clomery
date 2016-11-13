@@ -11,14 +11,13 @@ function import(string $name)
         return $imported[$name];
     }
     // App运行库为独立控制
-    if (preg_match('/^app(?:\\\\|_)(.*)$/',$name,$matchs))
-    {
-        $fname=preg_replace('/[\\\\_\/.]/', DIRECTORY_SEPARATOR,$matchs[1]);
+    if (preg_match('/^app(?:\\\\|_)(.*)$/', $name, $matchs)) {
+        $fname=preg_replace('/[\\\\_\/.]/', DIRECTORY_SEPARATOR, $matchs[1]);
         $app_loader=APP_ROOT.'/'.$fname.'.php';
         // 优先查找文件
         if (file_exists($app_loader)) {
             require_once $app_loader;
-            class_alias($matchs[1],$name);
+            class_alias($matchs[1], $name);
             $imported[$name]=$app_loader;
             return $app_loader;
         }
@@ -27,7 +26,7 @@ function import(string $name)
     $fname=preg_replace('/[\\\\_\/.]/', DIRECTORY_SEPARATOR, $name);
 
     $paths=[APP_LIB, CORE_PATH]; // 搜索目录
-    
+
     foreach ($paths as $root) {
         // 优先查找文件
         if (file_exists($require=$root.'/'.$fname.'.php')) {
@@ -58,12 +57,11 @@ function conf(string $name, $default=null)
 {
     static $conf=null;
     if (is_null($conf)) {
-        if (file_exists($path=APP_RES.'/'.APP_CONF)) {
+        if (file_exists($path=APP_RES.'/'.APP_CONF) && file_exists(APP_RES.'/install.lock')) {
             $conf=parse_ini_file($path, true);
         } elseif (file_exists($path=DOC_ROOT.'/.conf.simple')) {
             $conf=parse_ini_file($path, true);
-            $conf['Uninstall']=true;
-            $conf['Install_Lock']=file_exists($path=APP_RES.'/install.lock');
+            $conf['Uninstall']=!file_exists($path=APP_RES.'/install.lock');
         } else {
             die('<h1>Missing The configure file (DOC_ROOT/'.APP_CONF.'), Please ensure the integrity of the program.</h1> <a href="https://github.com/DXkite/MongCix" title="CLONE ME ON THE GITHUB" >CLONE ME ON THE GITHUB</a>');
         }
