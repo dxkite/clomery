@@ -2,8 +2,7 @@
 if (Common_User::hasSignin()) {
      Page::redirect('/user');
 } else {
-    import('Site.functions');
-    Site\page_common_set();
+    Page::global('_Op', new Site_Options);
     Page::getController()->noCache();
     Page::use('user/signup');
 }

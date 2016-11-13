@@ -21,8 +21,7 @@ class Index
     
     public function setvalues()
     {
-        import('Site.functions');
-        \Site\page_common_set();
+        Page::global('_Op', new \Site_Options);
         Page::set('user_info',System::user());
     }
 

@@ -13,8 +13,7 @@ class View
     public static function list($offset=0)
     {
         var_dump($offset);
-        import('Site.functions');
-        \Site\page_common_set();
+        \Page_Main::setNav();
         Page::set('head_index_nav_select', 1);
         // TODO : 添加文章管理
         $page_content=10;
@@ -51,10 +50,7 @@ class View
     public static function listCategory($category, $offset=0)
     {
         var_dump("id====".$category);
-        import('Site.functions');
-        
-        \Site\page_common_set();
-
+        \Page_Main::setNav();
         Page::set('head_index_nav_select', 1);
         $page_content=2;
         $page= (int) ($offset/$page_content+1);
@@ -90,11 +86,8 @@ class View
     }
     public static function listTag($tagname, $offset=0)
     {
-        import('Site.functions');
-        
-        \Site\page_common_set();
-
         Page::set('head_index_nav_select', 1);
+        \Page_Main::setNav();
         $page_content=2;
         $page= (int) ($offset/$page_content+1);
         $title= $page?'- 第'.$page .'页':'';
@@ -125,8 +118,7 @@ class View
     public static function article($aid)
     {
         $info=Blog_Article::getArticleInfo((int)$aid);
-        import('Site.functions');
-        \Site\page_common_set();
+        \Page_Main::setNav();
         Page::set('head_index_nav_select', 1);
         Page::set('title', $info['title']);
         $info['tags']=Blog_Tag::getTags((int)$aid);

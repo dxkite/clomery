@@ -169,12 +169,12 @@ class Page
 
     public static function error404($path=null)
     {
-        import('Site.functions');
-        Site\page_common_set();
+        \Page_Main::setNav();
         Page::set('path', $path);
         Page::set('site_title', '页面找不到了哦！');
         Page::getController()->use(404)->status(404);
     }
+
     public static function id(string $id, string $url)
     {
         self::$ids[$id]=$url;
