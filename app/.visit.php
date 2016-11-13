@@ -5,8 +5,10 @@
 // }
 
 if (conf('Uninstall')) {
+    // 安装进程
+    Page::visit('/install-progress', 'app\Install::progress')->noRender(true);
     // 未安装
-    Page::default('Install::start');
+    Page::default('app\Install->start');
 } else {
     // 主页
     Page::visit('/', 'app\Main->main')->use('index')->id('main_page')->noCache();

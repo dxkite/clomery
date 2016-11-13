@@ -323,12 +323,16 @@ class Page
     {
         // 将控制器压入当前控制器
         self::$controller=$caller;
-        ob_start();
-        $return=$caller->call($args);
-        self::$content=ob_get_clean();
-        if (!is_array($return)) {
-            $return=[$return];
+        if ($caller->renderController()) {
+            ob_start();
+            $return=$caller->call($args);
+            self::$content=ob_get_clean();
+            if (!is_array($return)) {
+                $return=[$return];
+            }
+            $caller->render($return);
+        } else {
+            $caller->call($args);
         }
-        $caller->render($return);
     }
 }

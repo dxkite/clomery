@@ -54,6 +54,8 @@ class PageController extends Caller
     private $close=false;
     private $cache=null;
     private $filter=null;
+    // 渲染控制
+    private $noRender=false;
     /**
      * PageController constructor.
      * @param mixed $caller 可调用对象
@@ -266,5 +268,14 @@ class PageController extends Caller
         }
         $this->filter=$caller;
         return $this;
+    }
+    public function noRender(bool $noRender=false)
+    {
+        $this->noRender=$noRender;
+        return $this;
+    }
+    public function renderController()
+    {
+        return !$this->noRender;
     }
 }
