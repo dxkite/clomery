@@ -24,6 +24,7 @@ class Install
     }
     public function progress()
     {
+        self::lock();
         $indb=new Caller('@'.APP_RES.'/install.php');
         echo '<pre>';
         $indb->call();
@@ -32,7 +33,6 @@ class Install
             echo 'Create Admin User '.Request::get()->user.', Password is '.Request::get()->passwd."\r\n";
         }
         echo '</pre>';
-        self::lock();
     }
     public function installSite()
     {
