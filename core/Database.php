@@ -103,7 +103,7 @@ Table;
     {
         if ($struct=self::getTableStruct($table)) {
             $struct=preg_replace('/^CREATE TABLE `'.conf('Database.prefix').'(.+?)`/', 'CREATE TABLE `#{$1}`', $struct);
-            return self::queryCreateTable($struct,$table);
+            return self::queryCreateTable($struct, $table);
         }
         return '/* Error Export Table Struct : '.$table.' */';
     }
@@ -116,10 +116,8 @@ Table;
     public static function queryCreateTable(string $sql, string $table)
     {
         echo 'export '.$table.' struct ... '."\r\n";
-        $table=preg_replace('/^'.conf('Database.prefix').'/','',$table);
+        $table=preg_replace('/^'.conf('Database.prefix').'/', '', $table);
         $sql=addslashes($sql);
-        // return '$effect=($query=new Query(\''.addslashes($sql).'\'))->exec();'."\r\n\r\n".
-        // 'if ($query->erron ==0) echo "Create Table".conf()" '"";
         $create=<<< queryCreateTable
         \$effect=(\$query_{$table}=new Query('$sql'))->exec();
         if (\$query_{$table}->erron()==0){
@@ -131,16 +129,15 @@ Table;
         ob_flush();
         flush();
 queryCreateTable;
-    return $create;
+        return $create;
     }
 
     public static function queryInsertTable(string $sql, string $table)
     {
-         echo 'export '.$table.' data  ... '."\r\n";
-          $table=preg_replace('/^'.conf('Database.prefix').'/','',$table);
+        echo 'export '.$table.' data  ... '."\r\n";
+        $table=preg_replace('/^'.conf('Database.prefix').'/', '', $table);
         $sql=addslashes($sql);
-        //return ' (new Query(\''.addslashes($sql).'\'))->exec();'."\r\n\r\n";
-                $insert=<<< queryInsertTable
+        $insert=<<< queryInsertTable
         \$effect=(\$query_{$table}_insert=new Query('$sql'))->exec();
         if (\$query_{$table}_insert->erron()==0){
             echo 'Insert Table:'.conf('Database.prefix').'{$table} Data Ok!,effect '.\$effect.' rows'."\\r\\n";
@@ -151,7 +148,7 @@ queryCreateTable;
         ob_flush();
         flush();
 queryInsertTable;
-    return $insert;
+        return $insert;
     }
 
     public static function saveSQLTables(string $fileout, array $saves_table=[])
@@ -225,7 +222,7 @@ Table;
     {
         if ($sql=self::getTableValues($table)) {
             $sql=preg_replace('/^INSERT INTO `'.conf('Database.prefix').'(.+?)`/', 'INSERT INTO  `#{$1}`', $sql);
-            return self::queryInsertTable($sql,$table);
+            return self::queryInsertTable($sql, $table);
         }
         return '/* Table ' .$table .'\'s Values Cann\'t Get */';
     }

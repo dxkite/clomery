@@ -55,18 +55,7 @@ function import(string $name)
  */
 function conf(string $name, $default=null)
 {
-    static $conf=null;
-    if (is_null($conf)) {
-        if (file_exists($path=APP_RES.'/'.APP_CONF) /*&& file_exists(APP_RES.'/install.lock')*/) {
-            $conf=parse_ini_file($path, true);
-        } elseif (file_exists($path=DOC_ROOT.'/.conf.simple')) {
-            $conf=parse_ini_file($path, true);
-            $conf['Uninstall']=!file_exists($path=APP_RES.'/install.lock');
-        } else {
-            die('<h1>Missing The configure file (DOC_ROOT/'.APP_CONF.'), Please ensure the integrity of the program.</h1> <a href="https://github.com/DXkite/MongCix" title="CLONE ME ON THE GITHUB" >CLONE ME ON THE GITHUB</a>');
-        }
-    }
-    return Arr::get($conf, $name, $default);
+    return Configuration::getInstance()->get($name,$default);
 }
 
 /**

@@ -25,6 +25,7 @@ class Install
     public function progress()
     {
         self::lock();
+        Configuration::getInstance()->reload();
         $indb=new Caller('@'.APP_RES.'/install.php');
         echo '<pre>';
         $indb->call();
