@@ -114,8 +114,8 @@ Table;
         // return '$effect=($query=new Query(\''.addslashes($sql).'\'))->exec();'."\r\n\r\n".
         // 'if ($query->erron ==0) echo "Create Table".conf()" '"";
         $create=<<< queryCreateTable
-        \$effect=(\$query=new Query('$sql'))->exec();
-        if (\$query->error()==0){
+        \$effect=(\$query_{$table}=new Query('$sql'))->exec();
+        if (\$query_{$table}->error()==0){
             echo 'Create Table:'.conf('Database.prefix').'$table Ok,Effect:'.\$effect.'rows'."\r\n";
         }
         else{
@@ -132,8 +132,8 @@ queryCreateTable;
         $sql=addslashes($sql);
         //return ' (new Query(\''.addslashes($sql).'\'))->exec();'."\r\n\r\n";
                 $insert=<<< queryInsertTable
-        \$effect=(\$query{$table}=new Query('$sql'))->exec();
-        if (\$query{$table}->error()==0){
+        \$effect=(\$query_{$table}_insert=new Query('$sql'))->exec();
+        if (\$query_{$table}_insert->error()==0){
             echo 'Insert Table:'.conf('Database.prefix').'{$table} Data Ok!,Effect:'.\$effect.'rows'."\r\n";
         }
         else{
