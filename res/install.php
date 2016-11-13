@@ -2,7 +2,7 @@
 /* ------------------------------------------------------ *\
    ------------------------------------------------------
    PHP Simple Library XCore 1.0.1 Database Backup File
-        Create On: 2016-11-13 11:46:21
+        Create On: 2016-11-13 11:47:09
         SQL Server version: 10.1.10-MariaDB
         Host: localhost   
         Database: mongci
@@ -20,7 +20,7 @@ Query::beginTransaction();
   `aid` bigint(20) NOT NULL,
   KEY `tid` (`tid`),
   KEY `aid` (`aid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8'))->exec());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8'))->exec();
         if ($query->error()==0){
             echo 'Create Table:'.conf('Database.prefix').'article_tag Ok!'."
 ";
@@ -57,7 +57,7 @@ Query::beginTransaction();
   KEY `modified` (`modified`),
   KEY `modified_2` (`modified`),
   KEY `category` (`category`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8'))->exec());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8'))->exec();
         if ($query->error()==0){
             echo 'Create Table:'.conf('Database.prefix').'articles Ok!'."
 ";
@@ -74,7 +74,7 @@ Query::beginTransaction();
   `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `status` tinyint(1) NOT NULL DEFAULT \'0\',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8'))->exec());
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8'))->exec();
         if ($query->error()==0){
             echo 'Create Table:'.conf('Database.prefix').'bugs Ok!'."
 ";
@@ -97,7 +97,7 @@ Query::beginTransaction();
   KEY `cname` (`name`),
   KEY `parent` (`parent`),
   KEY `topic` (`topic`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8'))->exec());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8'))->exec();
         if ($query->error()==0){
             echo 'Create Table:'.conf('Database.prefix').'category Ok!'."
 ";
@@ -119,7 +119,7 @@ Query::beginTransaction();
   PRIMARY KEY (`gid`),
   KEY `gname` (`gname`),
   KEY `priority` (`sort`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COMMENT=\'权限表\''))->exec());
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COMMENT=\'权限表\''))->exec();
         if ($query->error()==0){
             echo 'Create Table:'.conf('Database.prefix').'groups Ok!'."
 ";
@@ -140,7 +140,7 @@ Query::beginTransaction();
   PRIMARY KEY (`id`),
   KEY `id` (`id`),
   KEY `parent` (`parent`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8'))->exec());
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8'))->exec();
         if ($query->error()==0){
             echo 'Create Table:'.conf('Database.prefix').'nav Ok!'."
 ";
@@ -148,7 +148,7 @@ Query::beginTransaction();
         else{
              echo 'Create Table:'.conf('Database.prefix').'nav Error!'."
 ";   
-        }        $effect=($query=new Query('INSERT INTO  `#{nav}` (`id`,`name`,`url`,`title`,`show`,`sort`,`parent`) VALUES (\'1\',\'首页\',\'/\',\'index\',\'1\',\'1\',\'0\'),(\'3\',\'文章\',\'/article\',\'article\',\'1\',\'2\',\'0\'),(\'9\',\'关于\',\'/about\',\'\',\'1\',\'7\',\'0\')'))->exec());
+        }        $effect=($query=new Query('INSERT INTO  `#{nav}` (`id`,`name`,`url`,`title`,`show`,`sort`,`parent`) VALUES (\'1\',\'首页\',\'/\',\'index\',\'1\',\'1\',\'0\'),(\'3\',\'文章\',\'/article\',\'article\',\'1\',\'2\',\'0\'),(\'9\',\'关于\',\'/about\',\'\',\'1\',\'7\',\'0\')'))->exec();
         if ($query->error()==0){
             echo 'Insert Table:'.conf('Database.prefix').'nav Ok!'."
 ";
@@ -172,7 +172,7 @@ Query::beginTransaction();
   UNIQUE KEY `uid` (`uid`),
   KEY `gname` (`gname`),
   KEY `priority` (`sort`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COMMENT=\'权限表\''))->exec());
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COMMENT=\'权限表\''))->exec();
         if ($query->error()==0){
             echo 'Create Table:'.conf('Database.prefix').'permission Ok!'."
 ";
@@ -180,7 +180,7 @@ Query::beginTransaction();
         else{
              echo 'Create Table:'.conf('Database.prefix').'permission Error!'."
 ";   
-        }        $effect=($query=new Query('INSERT INTO  `#{permission}` (`gid`,`uid`,`sort`,`gname`,`editSite`,`editGroup`,`editUser`,`useSu`,`editCategory`) VALUES (\'1\',\'0\',\'0\',\'网站所有者\',\'Y\',\'Y\',\'Y\',\'Y\',\'Y\')'))->exec());
+        }        $effect=($query=new Query('INSERT INTO  `#{permission}` (`gid`,`uid`,`sort`,`gname`,`editSite`,`editGroup`,`editUser`,`useSu`,`editCategory`) VALUES (\'1\',\'0\',\'0\',\'网站所有者\',\'Y\',\'Y\',\'Y\',\'Y\',\'Y\')'))->exec();
         if ($query->error()==0){
             echo 'Insert Table:'.conf('Database.prefix').'permission Ok!'."
 ";
@@ -197,7 +197,7 @@ Query::beginTransaction();
   `time` int(11) NOT NULL,
   PRIMARY KEY (`hid`),
   KEY `uid` (`uid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8'))->exec());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8'))->exec();
         if ($query->error()==0){
             echo 'Create Table:'.conf('Database.prefix').'signin_historys Ok!'."
 ";
@@ -214,7 +214,7 @@ Query::beginTransaction();
   PRIMARY KEY (`id`),
   UNIQUE KEY `name_2` (`name`),
   KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COMMENT=\'网站设置表\''))->exec());
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COMMENT=\'网站设置表\''))->exec();
         if ($query->error()==0){
             echo 'Create Table:'.conf('Database.prefix').'site_options Ok!'."
 ";
@@ -222,7 +222,7 @@ Query::beginTransaction();
         else{
              echo 'Create Table:'.conf('Database.prefix').'site_options Error!'."
 ";   
-        }        $effect=($query=new Query('INSERT INTO  `#{site_options}` (`id`,`name`,`value`) VALUES (\'1\',\'site_name\',\'芒刺中国\'),(\'2\',\'theme\',\'default\'),(\'19\',\'site_logo\',\'/static/img/mccn.svg\'),(\'20\',\'keywords\',\'芒刺,程序员,文摘\'),(\'21\',\'lang\',\'zh_cn\'),(\'22\',\'HV_SignUp\',\'0\'),(\'23\',\'HV_SignIn\',\'0\'),(\'24\',\'HV_Post\',\'0\'),(\'25\',\'HV_Comment\',\'0\'),(\'26\',\'allowSignUp\',\'1\'),(\'27\',\'copyright\',\'芒刺中国\'),(\'28\',\'site_close\',\'0\'),(\'29\',\'close_info\',\'芒刺中国系统开发中\'),(\'31\',\'beian\',\'湘ICP备16001199号-1\')'))->exec());
+        }        $effect=($query=new Query('INSERT INTO  `#{site_options}` (`id`,`name`,`value`) VALUES (\'1\',\'site_name\',\'芒刺中国\'),(\'2\',\'theme\',\'default\'),(\'19\',\'site_logo\',\'/static/img/mccn.svg\'),(\'20\',\'keywords\',\'芒刺,程序员,文摘\'),(\'21\',\'lang\',\'zh_cn\'),(\'22\',\'HV_SignUp\',\'0\'),(\'23\',\'HV_SignIn\',\'0\'),(\'24\',\'HV_Post\',\'0\'),(\'25\',\'HV_Comment\',\'0\'),(\'26\',\'allowSignUp\',\'1\'),(\'27\',\'copyright\',\'芒刺中国\'),(\'28\',\'site_close\',\'0\'),(\'29\',\'close_info\',\'芒刺中国系统开发中\'),(\'31\',\'beian\',\'湘ICP备16001199号-1\')'))->exec();
         if ($query->error()==0){
             echo 'Insert Table:'.conf('Database.prefix').'site_options Ok!'."
 ";
@@ -240,7 +240,7 @@ Query::beginTransaction();
   PRIMARY KEY (`tid`),
   UNIQUE KEY `name` (`name`),
   KEY `topic` (`topic`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8'))->exec());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8'))->exec();
         if ($query->error()==0){
             echo 'Create Table:'.conf('Database.prefix').'tags Ok!'."
 ";
@@ -258,7 +258,7 @@ Query::beginTransaction();
   PRIMARY KEY (`rid`),
   UNIQUE KEY `hash` (`hash`),
   KEY `type` (`type`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8'))->exec());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8'))->exec();
         if ($query->error()==0){
             echo 'Create Table:'.conf('Database.prefix').'upload_resource Ok!'."
 ";
@@ -285,7 +285,7 @@ Query::beginTransaction();
   KEY `extension` (`extension`),
   KEY `for` (`for`),
   KEY `what` (`what`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT=\'上传资源表\''))->exec());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT=\'上传资源表\''))->exec();
         if ($query->error()==0){
             echo 'Create Table:'.conf('Database.prefix').'uploads Ok!'."
 ";
@@ -303,7 +303,7 @@ Query::beginTransaction();
   `phone` varchar(11) DEFAULT NULL,
   PRIMARY KEY (`uid`),
   KEY `avatar` (`avatar`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT=\'用户信息\''))->exec());
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT=\'用户信息\''))->exec();
         if ($query->error()==0){
             echo 'Create Table:'.conf('Database.prefix').'user_info Ok!'."
 ";
@@ -333,7 +333,7 @@ Query::beginTransaction();
   KEY `uid_2` (`uid`),
   KEY `uid_3` (`uid`),
   KEY `uid_4` (`uid`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8'))->exec());
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8'))->exec();
         if ($query->error()==0){
             echo 'Create Table:'.conf('Database.prefix').'users Ok!'."
 ";

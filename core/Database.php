@@ -114,7 +114,7 @@ Table;
         // return '$effect=($query=new Query(\''.addslashes($sql).'\'))->exec();'."\r\n\r\n".
         // 'if ($query->erron ==0) echo "Create Table".conf()" '"";
         $create=<<< queryCreateTable
-        \$effect=(\$query=new Query('$sql'))->exec());
+        \$effect=(\$query=new Query('$sql'))->exec();
         if (\$query->error()==0){
             echo 'Create Table:'.conf('Database.prefix').'$table Ok!'."\r\n";
         }
@@ -132,7 +132,7 @@ queryCreateTable;
         $sql=addslashes($sql);
         //return ' (new Query(\''.addslashes($sql).'\'))->exec();'."\r\n\r\n";
                 $insert=<<< queryInsertTable
-        \$effect=(\$query=new Query('$sql'))->exec());
+        \$effect=(\$query=new Query('$sql'))->exec();
         if (\$query->error()==0){
             echo 'Insert Table:'.conf('Database.prefix').'$table Ok!'."\r\n";
         }
