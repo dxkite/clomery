@@ -63,6 +63,7 @@ class Upload
     {
         if (Storage::exist($file)) {
             $md5=md5_file($file);
+            $size=filesize($file);
             Storage::mkdirs(self::$root);
             
             if (Storage::move($file, $file=self::$root.'/'.$md5)) {
@@ -70,9 +71,9 @@ class Upload
                 try {
                     Query::beginTransaction();
                     // 插入文件所有总表
-                    $q=new Query('INSERT INTO `#{upload_resource}` ( `type`,`hash`, `reference`) VALUES (:type,:hash,1);');
+                    $q=new Query('INSERT INTO `#{upload_resource}` ( `type`,`size`,`hash`, `reference`) VALUES (:type,:size,:hash,1);');
                     $resource=0;
-                    if ($q->values(['type'=>$type, 'hash'=>$md5])->exec()) {
+                    if ($q->values(['type'=>$type, 'hash'=>$md5,'size'=>$size])->exec()) {
                         $resource=$q->lastInsertId();
                     } else {
                         $resource=$q->query('SELECT `rid` FROM `#{upload_resource}` WHERE `hash` = :hash', ['hash'=>$md5])->fetch()['rid'];
