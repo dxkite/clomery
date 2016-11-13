@@ -115,11 +115,11 @@ Table;
         // 'if ($query->erron ==0) echo "Create Table".conf()" '"";
         $create=<<< queryCreateTable
         \$effect=(\$query_{$table}=new Query('$sql'))->exec();
-        if (\$query_{$table}->error()==0){
-            echo 'Create Table:'.conf('Database.prefix').'$table Ok,Effect:'.\$effect.'rows'."\r\n";
+        if (\$query_{$table}->erron()==0){
+            echo 'Create Table:'.conf('Database.prefix').'$table Ok,effect '.\$effect.' rows'."\r\n";
         }
         else{
-             echo 'Create Table:'.conf('Database.prefix').'$table Error!,Effect:'.\$effect.'rows'."\r\n";   
+             echo 'Create Table:'.conf('Database.prefix').'$table Error!,effect '.\$effect.' rows'."\r\n";   
         }
 queryCreateTable;
     return $create;
@@ -133,11 +133,11 @@ queryCreateTable;
         //return ' (new Query(\''.addslashes($sql).'\'))->exec();'."\r\n\r\n";
                 $insert=<<< queryInsertTable
         \$effect=(\$query_{$table}_insert=new Query('$sql'))->exec();
-        if (\$query_{$table}_insert->error()==0){
-            echo 'Insert Table:'.conf('Database.prefix').'{$table} Data Ok!,Effect:'.\$effect.'rows'."\r\n";
+        if (\$query_{$table}_insert->erron()==0){
+            echo 'Insert Table:'.conf('Database.prefix').'{$table} Data Ok!,effect '.\$effect.' rows'."\r\n";
         }
         else{
-             echo 'Insert Table:'.conf('Database.prefix').'{$table} Data  Error!,Effect:'.\$effect.'rows'."\r\n";   
+             echo 'Insert Table:'.conf('Database.prefix').'{$table} Data  Error!,effect '.\$effect.' rows'."\r\n";   
         }
 queryInsertTable;
     return $insert;
