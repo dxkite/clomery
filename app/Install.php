@@ -20,20 +20,26 @@ class Install
 
     public function lock()
     {
-        file_put_contents(APP_RES.'/'.INSTALL_LOCK, time());
+        return file_put_contents(APP_RES.'/'.INSTALL_LOCK, time());
     }
     public function progress()
     {
-        self::lock();
-        Configuration::getInstance()->reload();
+        echo 'Lock Install:'.(self::lock()?'OK':'ERROR');
+        ob_flush();
+        flush();
+        $conf=Configuration::getInstance()->reload();
         $indb=new Caller('@'.APP_RES.'/install.php');
         echo '<pre>';
+        ob_flush();
+        flush();
         $indb->call();
         $ret=self::createAdmin(Request::get()->user('EvalDXkite'), Request::get()->passwd('EvalDXkite'));
         if ($ret>0) {
             echo 'Create Admin User '.Request::get()->user.', Password is '.Request::get()->passwd."\r\n";
         }
         echo '</pre>';
+        ob_flush();
+        flush();
     }
     public function installSite()
     {
@@ -85,6 +91,6 @@ class Install
                 $out.=$name.'="'.addslashes($values).'"'."\r\n";
             }
         }
-        file_put_contents($file, $out);
+        return file_put_contents($file, $out);
     }
 }

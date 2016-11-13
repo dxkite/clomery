@@ -109,10 +109,8 @@ class Query implements Query_Interface
         } elseif (is_null($this->database)) {
             if (self::$pdo->query('USE '.conf('Database.dbname'))) {
                 $this->database=conf('Database.dbname');
-            } else {
-                die('Could not select database:'.conf('Database.dbname'));
-            }
-        } 
+            } 
+        }
 
         if ($this->scroll) {
             $stmt=self::$pdo->prepare($query, [PDO::ATTR_CURSOR=>PDO::CURSOR_SCROLL]);

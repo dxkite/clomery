@@ -1,7 +1,7 @@
 -- ----------------------------------------------------------
 -- PHP Simple Library XCore 1.0.1 Database Backup File
--- Create On 2016-11-13 13:10:20
--- Host: localhost   Database: mongci
+-- Create On 2016-11-13 13:53:48
+-- Host: localhost   Database: hello_world
 -- Server version	10.1.10-MariaDB
 -- ------------------------------------------------------
 /*!40101 SET NAMES utf8 */;
@@ -51,22 +51,7 @@ CREATE TABLE `atd_articles` (
   KEY `modified` (`modified`),
   KEY `modified_2` (`modified`),
   KEY `category` (`category`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
---
--- Create Table atd_bugs
---
-
-DROP TABLE IF EXISTS `atd_bugs`;
-CREATE TABLE `atd_bugs` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user` varchar(80) NOT NULL,
-  `discription` varchar(255) NOT NULL,
-  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `status` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 
 --
@@ -87,27 +72,7 @@ CREATE TABLE `atd_category` (
   KEY `cname` (`name`),
   KEY `parent` (`parent`),
   KEY `topic` (`topic`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
---
--- Create Table atd_groups
---
-
-DROP TABLE IF EXISTS `atd_groups`;
-CREATE TABLE `atd_groups` (
-  `gid` int(11) NOT NULL AUTO_INCREMENT,
-  `sort` int(11) NOT NULL COMMENT '分组排序',
-  `gname` varchar(80) NOT NULL,
-  `E_Site` enum('Y','N') NOT NULL DEFAULT 'N' COMMENT '编辑站点',
-  `E_group` enum('Y','N') NOT NULL DEFAULT 'N' COMMENT '编辑分组',
-  `E_user` enum('Y','N') NOT NULL DEFAULT 'N' COMMENT '编辑用户',
-  `U_su` enum('Y','N') NOT NULL DEFAULT 'N' COMMENT '可以使用别人的名义',
-  `E_category` enum('Y','N') NOT NULL DEFAULT 'N' COMMENT '编辑分类',
-  PRIMARY KEY (`gid`),
-  KEY `gname` (`gname`),
-  KEY `priority` (`sort`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='权限表';
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 
 --
@@ -173,7 +138,7 @@ CREATE TABLE `atd_signin_historys` (
   `time` int(11) NOT NULL,
   PRIMARY KEY (`hid`),
   KEY `uid` (`uid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 
 --
@@ -193,7 +158,7 @@ CREATE TABLE `atd_site_options` (
 
 
 
-INSERT INTO `atd_site_options` (`id`,`name`,`value`) VALUES ('1','site_name','芒刺中国'),('2','theme','default'),('19','site_logo','/static/img/mccn.svg'),('20','keywords','芒刺,程序员,文摘'),('21','lang','zh_cn'),('22','HV_SignUp','0'),('23','HV_SignIn','0'),('24','HV_Post','0'),('25','HV_Comment','0'),('26','allowSignUp','1'),('27','copyright','芒刺中国'),('28','site_close','0'),('29','close_info','芒刺中国系统开发中'),('31','beian','湘ICP备16001199号-1');
+INSERT INTO `atd_site_options` (`id`,`name`,`value`) VALUES ('1','site_name','DxSite - 追求极简'),('2','theme','default'),('19','site_logo','/static/img/dxsite.svg'),('20','keywords','DxSite,追求极简'),('21','lang','zh_cn'),('22','HV_SignUp','0'),('23','HV_SignIn','0'),('24','HV_Post','0'),('25','HV_Comment','0'),('26','allowSignUp','1'),('27','copyright','ATD工作室'),('28','site_close','0'),('29','close_info','芒刺中国系统开发中'),('31','beian','湘ICP备16001199号-1');
 
 
 --
@@ -209,7 +174,7 @@ CREATE TABLE `atd_tags` (
   PRIMARY KEY (`tid`),
   UNIQUE KEY `name` (`name`),
   KEY `topic` (`topic`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 
 --
@@ -225,7 +190,7 @@ CREATE TABLE `atd_upload_resource` (
   PRIMARY KEY (`rid`),
   UNIQUE KEY `hash` (`hash`),
   KEY `type` (`type`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 
 --
@@ -250,7 +215,7 @@ CREATE TABLE `atd_uploads` (
   KEY `extension` (`extension`),
   KEY `for` (`for`),
   KEY `what` (`what`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='上传资源表';
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8 COMMENT='上传资源表';
 
 
 --

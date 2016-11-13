@@ -6,9 +6,9 @@
 
 if (conf('Uninstall')) {
     // 安装进程
-    Page::visit('/install-progress', 'app\Install::progress')->noRender(true);
+    Page::visit('/install-progress', 'app\Install::progress')->noRender(true)->noCache();
     // 未安装
-    Page::default('app\Install->start');
+    Page::default('app\Install->start')->noCache();
 } else {
     // 主页
     Page::visit('/', 'app\Main->main')->use('index')->id('main_page')->noCache();

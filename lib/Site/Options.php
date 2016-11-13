@@ -18,9 +18,9 @@ class Site_Options
     public static function init()
     {
         if (Cache::has('SiteOption')) {
-            $options = Cache::get('SiteOption');
-        } elseif (self::refresh()) {
-            $options = self::$options;
+           self::$options = Cache::get('SiteOption');
+        } elseif ($options=self::refresh()) {
+            self::$options =$options;
         } else {
             return false;
         }
