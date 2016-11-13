@@ -121,6 +121,8 @@ Table;
         else{
              echo 'Create Table:'.conf('Database.prefix').'$table Error!,effect '.\$effect.' rows'."\r\n";   
         }
+        ob_flush();
+        flush();
 queryCreateTable;
     return $create;
     }
@@ -139,6 +141,8 @@ queryCreateTable;
         else{
              echo 'Insert Table:'.conf('Database.prefix').'{$table} Data  Error!,effect '.\$effect.' rows'."\r\n";   
         }
+        ob_flush();
+        flush();
 queryInsertTable;
     return $insert;
     }
