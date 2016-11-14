@@ -55,7 +55,7 @@ function import(string $name)
  */
 function conf(string $name, $default=null)
 {
-    return Configuration::getInstance()->get($name,$default);
+    return Configuration::instance()->get($name,$default);
 }
 
 /**

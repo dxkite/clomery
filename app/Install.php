@@ -27,7 +27,7 @@ class Install
         echo 'Lock Install:'.(self::lock()?'OK':'ERROR');
         ob_flush();
         flush();
-        $conf=Configuration::getInstance()->reload();
+        $conf=Configuration::instance()->reload();
         $indb=new Caller('@'.APP_RES.'/install.php');
         echo '<pre>';
         ob_flush();

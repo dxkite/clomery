@@ -4,7 +4,7 @@ use Core\Arr;
 class Configuration
 {
     private $conf=null;
-    private static $confobj=null;
+    private static $instance=null;
     
     private function __construct()
     {
@@ -18,17 +18,17 @@ class Configuration
         $this->conf['Uninstall']=!file_exists(APP_RES.'/install.lock');
     }
 
-    public function getInstance()
+    public function instance()
     {
-        if (is_null(self::$confobj)) {
-            self::$confobj =new Configuration();
+        if (is_null(self::$instance)) {
+            self::$instance =new self();
         }
-        return self::$confobj;
+        return self::$instance;
     }
     public function reload()
     {
-        self::$confobj =new Configuration();
-        return self::$confobj;
+        self::$instance =new self();
+        return self::$instance;
     }
 
     public function get(string $name, $default=null)
