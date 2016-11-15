@@ -5,13 +5,13 @@ namespace Core;
  * Class Value
  * @package Core
  */
-class Value
+class Value implements \Iterator
 {
     /**
      * @var
      */
     protected $var;
-
+    protected $key;
     /**
      * Value constructor.
      * @param $var
@@ -78,5 +78,31 @@ class Value
             return call_user_func_array('sprintf', $args);
         }
         return $fmt;
+    }
+    /// 迭代器扩展
+    public function rewind()
+    {
+        reset($this->var);
+        $this->key=key($this->var);
+    }
+
+    public function current()
+    {
+        return  current($this->var);
+    }
+
+    public function key()
+    {
+        return $this->key=key($this->var);
+    }
+
+    public function next()
+    {
+        next($this->var);
+    }
+
+    public function valid()
+    {
+        return isset($this->var[$this->key]);
     }
 }
