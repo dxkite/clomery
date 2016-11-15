@@ -112,7 +112,7 @@ class PageController extends Caller
     {
         if ($preg) {
             if (is_array($name) && is_array($preg)) {
-                $arrs=Arr::combine($name, $preg);
+                $arrs=ArrayHelper::combine($name, $preg);
                 $this->regs=array_merge($arrs, $this->regs);
             } elseif (is_string($name) && is_string($preg)) {
                 $this->regs[$name]=$preg;

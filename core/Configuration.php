@@ -1,5 +1,5 @@
 <?php
-use Core\Arr;
+use Core\ArrayHelper;
 
 class Configuration
 {
@@ -33,6 +33,6 @@ class Configuration
 
     public function get(string $name, $default=null)
     {
-        return Arr::get($this->conf, $name, $default);
+        return ArrayHelper::get($this->conf, $name, $default);
     }
 }

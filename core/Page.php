@@ -1,7 +1,7 @@
 <?php
 use Core\PageController  as Page_Controller;
 use Core\Caller;
-use Core\Arr;
+use Core\ArrayHelper;
 use Core\EventCaller;
 
 /**
@@ -124,7 +124,7 @@ class Page
     }
     public static function set(string $name, $value)
     {
-        self::$values=Arr::set(self::$values, $name, $value);
+        self::$values=ArrayHelper::set(self::$values, $name, $value);
     }
     public static function default($caller)
     {

@@ -1,6 +1,6 @@
 <?php
 
-use Core\Arr; // 引入Arr数组操纵类
+use Core\ArrayHelper; // 引入ArrayHelper数组操纵类
 
 spl_autoload_register('import');
 
@@ -76,7 +76,7 @@ function mime(string $name=null, $default=null)
     if (is_null($name)) {
         return $mime;
     }
-    return Arr::get($mime, $name, $default);
+    return ArrayHelper::get($mime, $name, $default);
 }
 
 function send_http_status($code)

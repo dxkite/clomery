@@ -7,7 +7,7 @@ namespace Core;
  * 获取值
  * 导出成文件
 */
-class Arr
+class ArrayHelper
 {
     /**
     * @ref  获取数组元素
