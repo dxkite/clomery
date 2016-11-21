@@ -18,7 +18,7 @@ class Caller
         $this->caller=$caller;
         $this->params=$params;
     }
-    public function name(string $name='')
+    public function name(string $name=null)
     {
         if ($name) {
             $this->name=$name;
