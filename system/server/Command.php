@@ -105,7 +105,7 @@ class Command
             return $imported[$name];
         }
         if ($name) {
-            $paths=[__DIR__,SITE_CMD]; 
+            $paths=[SITE_CMD,__DIR__]; 
             foreach ($paths as $root) {
                 if (file_exists($require=$root.'/'.$name.'.php')) {
                     $imported[$name]=$require;

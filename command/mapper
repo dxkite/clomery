@@ -1,0 +1,3 @@
+; method urlmap command name
+GET /article-{id:int} Article->id view-article
+GET /test{:int} Article->id

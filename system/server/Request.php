@@ -18,15 +18,17 @@ final class Request extends Value
     {
         // 预处理
         if (preg_match('/^\/\?\//', $_SERVER['REQUEST_URI'])) {
-            $preg='/^(\/\?\/([^?]*))(?:[?](.+))?$/';
+            $preg='/^(\/\?(\/[^?]*))(?:[?](.+))?$/';
             preg_match($preg, $_SERVER['REQUEST_URI'], $match);
             $_SERVER['PHP_SELF']=$match[1];
-            parse_str($match[3], $_GET);
+            if (isset($match[3])) {
+                parse_str($match[3], $_GET);
+            }
             $this->url=$match[2];
         } else {
-            $preg='/(.*)\/index.php\/([^?]*)?$/';
+            $preg='/(.*)\/index.php(\/[^?]*)?$/';
             preg_match($preg, $_SERVER['PHP_SELF'], $match);
-            $this->url=$match[2];
+            $this->url=isset($match[2])?$match[2]:'/';
         }
         if (!isset($_SERVER['PATH_INFO'])) {
             $_SERVER['PATH_INFO']=$this->url;
@@ -38,7 +40,10 @@ final class Request extends Value
         $str=file_get_contents('php://input');
         return core\Json::decode($str, true);
     }
-
+    public function method()
+    {
+        return $_SERVER['REQUEST_METHOD'];
+    }
     public function get(string $name='')
     {
         if (is_null(self::$get)) {
