@@ -1,4 +1,4 @@
-; method urlmap command[template:type] name
-GET /article-{id:int} Article->getById view-article
-GET /article-json-{id:int} Article->jsonReturn view-article-json
+; method urlmap command[template:type] options
+GET /article-{id:int} Article->getById id=view-article
+GET /article-json-{id:int} Article->jsonReturn id=view-article-json  cache=false
 GET /test{:int} Article->id[:json]

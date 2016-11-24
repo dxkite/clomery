@@ -16,6 +16,7 @@ class Render
         if ($this->render instanceof Page || $this->type && $this->type!=='json') {
             if (!($this->render instanceof Page)) {
                 $page=new Page($this->render);
+                $page->setType($this->type);
             } else {
                 $page=$this->render;
             }
@@ -36,7 +37,7 @@ class Render
         }
         return true;
     }
-    
+
     public function setType(string $type)
     {
         $this->type=$type;
