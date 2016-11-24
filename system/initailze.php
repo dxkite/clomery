@@ -6,7 +6,6 @@ define('SITE_TEMPLATE', SITE_RESOURCE.'/template');
 define('SITE_VIEW', SITE_RESOURCE.'/view');
 define('SITE_VERSION', '2.0.0');
 define('SITE_CONFIG', SITE_RESOURCE.'/config.php');
-defined('IS_WINDOWS') or define('IS_WINDOWS', DIRECTORY_SEPARATOR === '\\');
 
 function __autoload(string $name)
 {
