@@ -14,8 +14,11 @@ class Page
     {
         self::$values=array_merge(self::$values, $values);
     }
-    public static function set(string $name, $value)
+    public function set(string $name, $value)
     {
-        self::$values=core\ArrayHelper::set(self::$values, $name, $value);
+        $this->values=core\ArrayHelper::set($this->values, $name, $value);
+    }
+    public function display(){
+        
     }
 }

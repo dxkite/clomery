@@ -1,6 +1,4 @@
 <?php
-namespace server;
-
 use server\core\Value;
 
 final class Request extends Value
@@ -33,6 +31,12 @@ final class Request extends Value
         if (!isset($_SERVER['PATH_INFO'])) {
             $_SERVER['PATH_INFO']=$this->url;
         }
+        if (is_null($this->post)) {
+            $this->post=new Value($_POST);
+        }
+        if (is_null($this->get)) {
+            $this->get=new Value($_GET);
+        }
     }
 
     public function json()
@@ -44,30 +48,30 @@ final class Request extends Value
     {
         return $_SERVER['REQUEST_METHOD'];
     }
-    public function url(){
+    public function url()
+    {
         return $this->url;
+    }
+    public function set(string $name, $value)
+    {
+        $this->get->$name=$value;
+        return $this;
     }
     public function get(string $name='')
     {
-        if (is_null(self::$get)) {
-            self::$get=new Value($_GET);
-        }
         if ($name) {
-            return self::$get->$name;
+            return $this->get->$name;
         } else {
-            return self::$get;
+            return $this->get;
         }
     }
 
     public function post(string $name='')
     {
-        if (is_null(self::$post)) {
-            self::$post=new Value($_POST);
-        }
         if ($name) {
-            return self::$post->$name;
+            return $this->post->$name;
         } else {
-            return self::$post;
+            return $this->post;
         }
     }
 

@@ -28,7 +28,7 @@ class Command
         return $this;
     }
 
-    public function call(array $params=[])
+    public function exec(array $params=[])
     {
         if (is_string($this->command)) {
             $this->command= self::parseCommand($this->command);
@@ -46,7 +46,7 @@ class Command
             }
             $this->params=$args;
         }
-        
+        spl_autoload_register([$this,'loadCommand']);
         // 非空调用
         if ($this->command) {
             // 是函数调用&指定了文件&函数不存在
@@ -72,7 +72,7 @@ class Command
     }
     public function args($vargs)
     {
-        return self::call(func_get_args());
+        return self::exec(func_get_args());
     }
     protected function parseCommand(string $command)
     {
@@ -105,9 +105,19 @@ class Command
             return $imported[$name];
         }
         if ($name) {
-            $paths=[SITE_CMD,__DIR__]; 
+            $fname=preg_replace('/[\\\\_\/.]/', DIRECTORY_SEPARATOR, $name);
+            $paths=[__DIR__];
+            $command=[SITE_CMD];
+            // 普通
             foreach ($paths as $root) {
-                if (file_exists($require=$root.'/'.$name.'.php')) {
+                if (file_exists($require=$root.'/'.$fname.'.php')) {
+                    $imported[$name]=$require;
+                    return require_once $require;
+                }
+            }
+            // 运行时命令
+            foreach ($command as $root) {
+                if (file_exists($require=$root.'/'.$fname.'.cmd.php')) {
                     $imported[$name]=$require;
                     return require_once $require;
                 }
