@@ -10,6 +10,10 @@ final class Request extends Value
     private $url;
     public function __construct()
     {
+        self::init();
+    }
+    public function init()
+    {
         // 预处理
         if (preg_match('/^\/\?\//', $_SERVER['REQUEST_URI'])) {
             $preg='/^(\/\?\/([^?]*))(?:[?](.+))?$/';
