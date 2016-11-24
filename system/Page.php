@@ -1,6 +1,6 @@
 <?php
-namespace server;
 use template\Manager as Manager;
+
 class Page
 {
     protected $values=[];
@@ -10,15 +10,17 @@ class Page
     protected $age=0;
     protected $close=false;
     protected $status=200;
-    
-    public function __construct(string $template=null, array $values=null)
+    protected $id;
+    protected $content;
+
+    public function __construct(string $template=null, array $values=[])
     {
         $this->template=$template;
         $this->values=$values;
     }
     public function assign(array $values)
     {
-        self::$values=array_merge(self::$values, $values);
+        $this->values=array_merge($this->values, $values);
         return $this;
     }
     public function set(string $name, $value)
@@ -62,8 +64,9 @@ class Page
 
     public function setOptions($options)
     {
+        
         foreach ($options as $name=>$value) {
-            $method='set'+ucfirst($name);
+            $method='set'.ucfirst($name);
             if (method_exists($this, $method)) {
                 $this->$method($value);
             }
@@ -71,8 +74,9 @@ class Page
         return $this;
     }
 
-    public function display($values)
+    public function display(array $values=[])
     {
+
         header('X-Powered-By: DxSite/'.SITE_VERSION, true, $this->status);
         // 缓存控制
         if ($this->cache) {
@@ -83,9 +87,23 @@ class Page
         if ($this->close) {
             header('Connection:close');
         }
+        if ($this->type){
+            header('Content-Type:'.mime($this->type));
+        }
         
-        if ($this->template){
-            self::renderTemplate($values);
+        if ($this->template && $this->type==='html'){
+            $set=[];
+            if (is_array($values)){
+                $set=$values;
+            }
+            self::renderTemplate($set);
+        }
+        else if ($this->type==='json')
+        {
+            echo json_encode($values);
+        }
+        else{
+            echo $this->content;
         }
     }
 
@@ -93,13 +111,13 @@ class Page
         // 合并数据
         self::assign($values);
         // 获取界面路径
-        $file=Manager::viewPath($page);
+        $file=Manager::viewPath($this->template);
         if (Storage::exist($file)) {
             $value['_Page']=new server\core\Value($this->values);
             extract($value, EXTR_OVERWRITE);
             require_once $file;
-        } elseif ($page!=='') {
-            trigger_error($page.' TPL no Find!');
+        } else {
+            trigger_error($this->template.' TPL no Find!');
         }
     }
 
@@ -143,6 +161,38 @@ class Page
     public function getStatus()
     {
         return $this->status;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getContent()
+    {
+        return $this->content;
+    }
+
+    /**
+     * @param mixed $content
+     */
+    public function setContent($content)
+    {
+        $this->content = $content;
+    }
+
+    /**
+     * @param mixed $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
     }
 
     /**

@@ -4,8 +4,6 @@ namespace server;
 class Render
 {
     protected $render;
-    protected $type;
-    protected $template;
 
     public function __construct($render)
     {
@@ -14,10 +12,14 @@ class Render
     public function render($options)
     {
         // 页面重置
-        if ($this->render instanceof Page) {
+        if ($this->render instanceof \Page) {
+           
             $this->render->setOptions($options)->display();
         } 
-        
+        else
+        {
+           (new \Page())->setOptions($options)->display($this->render);
+        }
         return true;
     }
 

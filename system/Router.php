@@ -95,8 +95,18 @@ class Router
                     }
                     $this->request->set($param_name, $value);
                 }
-                $render=(new Command($this->mapper[$name]['cmd']))->args($this->request);
-                return (new Render($render))->render($this->mapper[$name]['options']);
+                if (isset($this->mapper[$name]['options']['noOb'])) {
+                    $render=(new Command($this->mapper[$name]['cmd']))->args($this->request);
+                    return (new Render($render))->render($this->mapper[$name]['options']);
+                } else {
+                    ob_start();
+                    $render=(new Command($this->mapper[$name]['cmd']))->args($this->request);
+                    $content=ob_get_clean();
+                    if ($content) {
+                        $this->mapper[$name]['options']['content']=$content;
+                    }
+                    return (new Render($render))->render($this->mapper[$name]['options']);
+                }
             }
         }
         // 路由找不到则使用自动加载
