@@ -11,7 +11,7 @@ class Event
         if (!isset(self::$events[$name])) {
             self::$events[$name]=new EventCaller;
         }
-        if ($caller instanceof Caller) {
+        if ($callback instanceof Caller) {
             return self::$insert[$name]->add($caller);
         }
         return self::$events[$name]->add(new Caller($callback));

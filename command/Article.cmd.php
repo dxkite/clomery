@@ -9,6 +9,7 @@ class Article
         Event::listen('Page:test',function(){
             echo 'PageHock';
         });
+        Mail::mailer();
         return ['title'=>'DXkite'];
     }
     public function jsonReturn()
