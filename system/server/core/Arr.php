@@ -1,5 +1,5 @@
 <?php
-namespace server;
+namespace server\core;
 
 /**
  * 数组操纵，
