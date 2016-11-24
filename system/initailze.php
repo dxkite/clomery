@@ -6,6 +6,8 @@ define('SITE_TEMPLATE', SITE_RESOURCE.'/template');
 define('SITE_VIEW', SITE_RESOURCE.'/view');
 define('SITE_VERSION', '2.0.0');
 define('SITE_CONFIG', SITE_RESOURCE.'/config.php');
+define('SITE_LIBS', __DIR__.'/../librarys');
+
 spl_autoload_register('__autoload');
 
 function __autoload(string $name)
@@ -16,7 +18,7 @@ function __autoload(string $name)
     }
 
     $fname=preg_replace('/[\\\\_\/.]/', DIRECTORY_SEPARATOR, $name);
-    $paths=[__DIR__]; // 搜索目录
+    $paths=[__DIR__,SITE_LIBS]; // 搜索目录
 
     foreach ($paths as $root) {
         // 优先查找文件

@@ -99,16 +99,19 @@ class Router
                 return (new Render($render))->render($this->mapper[$name]['options']);
             }
         }
+        // 路由找不到则使用自动加载
+        $rawcmd=SITE_CMD.'/'.$this->request->url().'.auto.php';
+        if (realpath($rawcmd)) {
+            if (preg_match('/^'.preg_quote(SITE_CMD, '/').'/', $rawcmd)) {
+                return require $rawcmd;
+            }
+        }
+        // 啥都找不到
+        Event::only('404_error')->args($this->request->url());
     }
 
     public static function dispatch(Request $request)
     {
-        $rawcmd=SITE_CMD.'/'.$request->url().'.auto.php';
-        if (realpath($rawcmd)) {
-            if (preg_match('/^'.preg_quote(SITE_CMD,'/').'/',$rawcmd)) {
-                return require $rawcmd;
-            }
-        }
         if (!self::$router) {
             self::$router=new Router($request);
         }
