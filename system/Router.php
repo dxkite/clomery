@@ -31,14 +31,14 @@ class Router
                     $mapper=['method'=>$match[1],'url'=>$match[2],'cmd'=>$duri[1]];
                     $value=preg_replace('/\s+/', '&', trim(isset($match[4])?$match[4]:''));
                     parse_str($value, $options);
-                    $mapper['options']=$options;
-                    $id=isset($mapper['options']['id'])?$mapper['options']['id']:count($this->mapper);
                     if (isset($duri[2])) {
-                        $mapper['template']=$duri[2];
+                        $options['template']=$duri[2];
                     }
                     if (isset($duri[3])) {
-                        $mapper['type']=$duri[3];
+                        $options['type']=$duri[3];
                     }
+                    $mapper['options']=$options;
+                    $id=isset($mapper['options']['id'])?$mapper['options']['id']:count($this->mapper);
                     $this->mapper[$id]=$mapper;
                     $this->matchs[$id]=self::buildMatch($id, $match[2]);
                 }
