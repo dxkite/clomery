@@ -1,7 +1,7 @@
 <?php
 namespace user;
 
-class User
+class User 
 {
     protected $uid;
     protected $name;
