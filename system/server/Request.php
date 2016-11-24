@@ -1,39 +1,39 @@
 <?php
 namespace server;
 
-use core\Value;
+use server\core\Value;
 
 final class Request extends Value
 {
-    private $_get=null;
-    private $_post=null;
-    
+    private $get=null;
+    private $post=null;
+    private $url;
     public function json()
     {
         $str=file_get_contents('php://input');
-        return Core\JSON::decode($str, true);
+        return core\Json::decode($str, true);
     }
     public function get(string $name='')
     {
-        if (is_null(self::$_get)) {
-            self::$_get=new Value($_GET);
+        if (is_null(self::$get)) {
+            self::$get=new Value($_GET);
         }
         if ($name) {
-            return self::$_get->$name;
+            return self::$get->$name;
         } else {
-            return self::$_get;
+            return self::$get;
         }
     }
 
     public function post(string $name='')
     {
-        if (is_null(self::$_post)) {
-            self::$_post=new Value($_POST);
+        if (is_null(self::$post)) {
+            self::$post=new Value($_POST);
         }
         if ($name) {
-            return self::$_post->$name;
+            return self::$post->$name;
         } else {
-            return self::$_post;
+            return self::$post;
         }
     }
 
@@ -61,7 +61,7 @@ final class Request extends Value
         $ip=json_decode(@file_get_contents($url), true);
         return $ip;
     }
-    
+
     public function hasPost()
     {
         return count($_POST);
