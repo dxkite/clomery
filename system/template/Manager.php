@@ -1,6 +1,8 @@
 <?php
 namespace template;
 
+use Storage;
+
 class Manager
 {
     /**

@@ -1,4 +1,5 @@
 <?php
+namespace template;
 
 class Builder
 {
@@ -108,55 +109,13 @@ class Builder
         $comment=sprintf('/(?<!!)%s(.+)%s/',preg_quote(self::$commentTag[0]) ,preg_quote(self::$commentTag[1]));
         return preg_replace(
             [$rawecho, $echo, $comment],
-            ['<?php echo($1) ?>', '<?php View_Compiler_Pomelo::echo($1) ?>', '<?php /* $1 */ ?>'],
+            ['<?php echo($1) ?>', '<?php template\Builder::echo($1) ?>', '<?php /* $1 */ ?>'],
             $str
         );
     }
     protected function parseEcho($exp)
     {
-        return "<?php View_Compiler_Pomelo::echo{$exp} ?>";
-    }
-    /*  protected function parseVar($exp)
-    {
-        return "<?php return Pomelo::var{$exp} ?>";
-    }
-    */    
-    public static function url(string $name, array $args=[])
-    {
-        echo Page::url($name, $args);
-    }
-    protected function parseInsertAt($exp)
-    {
-        preg_match('/\((.+)\)/', $exp, $v);
-        return '<?php Page::insertCallback('.$v[1].',function () { ?>';
-    }
-    protected function parseInsertEnd()
-    {
-        return '<?php });?>';
-    }
-    protected function parseInsert($exp)
-    {
-        return "<?php echo Page::insert{$exp} ?>";
-    }
-    protected function parseUrl($exp)
-    {
-        return "<?php echo Page::url{$exp} ?>";
-    }
-    protected function parseTheme($exp)
-    {
-        preg_match('/\((.+)\)/', $exp, $v);
-        return "<?php echo Page::url('theme',['path'=>{$v[1]}]) ?>";
-    }
-    
-    protected function parseUpload($exp)
-    {
-        return "<?php echo Upload::url{$exp} ?>";
-    }
-
-    protected function parseAuto($exp)
-    {
-        preg_match('/\((.+?),(.+?)\)/', $exp, $v);
-        return "<?php echo Page::url({$v[1]},['path'=>{$v[2]}]) ?>";
+        return "<?php template\Builder::echo{$exp} ?>";
     }
     // IF 语句
     protected function parseIf($exp)
