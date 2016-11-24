@@ -1,5 +1,5 @@
 <?php
-namespace server\core;
+namespace helper;
 class Json
 {
     public static $error=[

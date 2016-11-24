@@ -97,6 +97,7 @@ class Page
                 $set=$values;
             }
             self::renderTemplate($set);
+            echo $this->content;
         }
         else if ($this->type==='json')
         {
@@ -113,7 +114,7 @@ class Page
         // 获取界面路径
         $file=Manager::viewPath($this->template);
         if (Storage::exist($file)) {
-            $value['_Page']=new server\core\Value($this->values);
+            $value['_Page']=new helper\Value($this->values);
             extract($value, EXTR_OVERWRITE);
             require_once $file;
         } else {

@@ -10,6 +10,8 @@ class Article
             echo 'PageHock';
         });
         Mail::mailer();
+        Cookie::set('Dxkite','IsME!',100000);
+
         return ['title'=>'DXkite'];
     }
     public function jsonReturn()

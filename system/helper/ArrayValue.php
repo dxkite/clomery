@@ -1,5 +1,5 @@
 <?php
-namespace server\core;
+namespace helper;
 
 class ArrayValue extends Value
 {
