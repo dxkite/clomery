@@ -6,6 +6,7 @@ class Article
     {
         echo 'Article - '.$rq->get('id');
         echo Router::url('view-article', ['id'=>12]);
+        return ['title'=>'DXkite'];
     }
     public function jsonReturn()
     {

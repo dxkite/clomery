@@ -18,7 +18,7 @@ class Render
         } 
         else
         {
-           (new \Page())->setOptions($options)->display($this->render);
+           (new \Page())->setOptions($options)->display(is_array($this->render)?$this->render:[]);
         }
         return true;
     }

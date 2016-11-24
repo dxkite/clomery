@@ -41,14 +41,17 @@ function conf(string $name, $default=null)
     return server\core\ArrayHelper::get($conf, $name, $default);
 }
 
-function mime(string $name)
+function mime(string $name='')
 {
     static $mime;
-    if (!$mime)
-    {
+    if (!$mime) {
         $mime=parse_ini_file(__DIR__.'/type.mime');
     }
-    return isset($mime[$name])?$mime[$name]:'text/plain';
+    if ($name) {
+        return isset($mime[$name])?$mime[$name]:'text/plain';
+    } else {
+        return  $mime;
+    }
 }
 // 设置PHP属性
 set_time_limit(conf('timelimit', 0));
@@ -56,3 +59,4 @@ set_time_limit(conf('timelimit', 0));
 date_default_timezone_set(conf('timezone', 'PRC'));
 
 template\Manager::loadCompile();
+template\Manager::compileAll();

@@ -90,8 +90,8 @@ class Page
         if ($this->type){
             header('Content-Type:'.mime($this->type));
         }
-        
-        if ($this->template && $this->type==='html'){
+
+        if ($this->template){
             $set=[];
             if (is_array($values)){
                 $set=$values;

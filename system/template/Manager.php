@@ -76,7 +76,7 @@ class Manager
         }
         $files=Storage::readDirFiles(SITE_TEMPLATE.'/'.$theme, true, '/\.tpl\.html$/');
         foreach ($files as $file) {
-            View::compile($file);
+            self::compile($file);
         }
         $extensions='';
         foreach (array_keys(mime()) as $ext) {

@@ -1,10 +1,10 @@
 <?php
 namespace template;
-
+use Storage;
 class Builder
 {
-    public static $extRaw='.pml.html';
-    public static $extCpl='.pml.php';
+    public static $extRaw='.tpl.html';
+    public static $extCpl='.tpl';
     protected static $errorInfo=[
         0=>'No Error',
         1=>'File %s Not Exist',
@@ -17,7 +17,6 @@ class Builder
     protected static $commentTag=['{--','--}'];
    
     protected static $theme='default';
-    protected static $spider='spider';
 
     public static function viewPath(string $name)
     {
@@ -29,10 +28,9 @@ class Builder
     public function compileFile(string $filename)
     {
         $file=preg_replace('/^'.preg_quote(SITE_TEMPLATE.'/'.self::$theme.'/', '/').'/', '', $filename);
+        $output=SITE_VIEW.'/'.preg_replace('/'.preg_quote(self::$extRaw).'$/', self::$extCpl, $file);
         if (Storage::exist($filename)) {
             $content= self::compileText(Storage::get($filename));
-            $spider=self::$theme==='spider'?'/@spider/':'/';
-            $output=SITE_VIEW.$spider.preg_replace('/'.preg_quote(self::$extRaw).'$/', self::$extCpl, $file);
             if (!Storage::isDir($dir=dirname($output))) {
                 Storage::mkdirs(dirname($output));
             }
