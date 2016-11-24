@@ -6,11 +6,11 @@ class Article
     {
         echo 'Article - '.$rq->get('id');
         echo Router::url('view-article', ['id'=>12]);
-        Event::listen('Page:test',function(){
+        Event::listen('Page:test', function () {
             echo 'PageHock';
         });
-        Mail::mailer();
-        Cookie::set('Dxkite','IsME!',100000);
+        Helper::mailer();
+        Cookie::set('Dxkite', 'IsME!', 100000);
 
         return ['title'=>'DXkite'];
     }

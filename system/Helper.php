@@ -1,6 +1,6 @@
 <?php
 
-final class Mail
+final class Helper
 {
     private static $mailer= null;
     public static function mailer()
@@ -11,4 +11,5 @@ final class Mail
         }
         return self::$mailer;
     }
+    
 }
