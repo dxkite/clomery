@@ -10,6 +10,6 @@ class Router
     }
     public function dispatch()
     {
-        echo 'dispatch';
+        
     }
 }

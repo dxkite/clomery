@@ -8,10 +8,12 @@ final class Request extends Value
     private $get=null;
     private $post=null;
     private $url;
+
     public function __construct()
     {
         self::init();
     }
+
     public function init()
     {
         // 预处理
