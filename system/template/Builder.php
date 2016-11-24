@@ -1,6 +1,8 @@
 <?php
 namespace template;
+
 use Storage;
+
 class Builder
 {
     public static $extRaw='.tpl.html';
@@ -91,7 +93,7 @@ class Builder
             // var_dump($match);
             if (method_exists($this, $method = 'parse'.ucfirst($match[1]))) {
                 $match[0] = $this->$method(isset($match[3])?$match[3]:null);
-            } 
+            }
             /*else {
                 $match[0] ='<?php  Pomelo::'.ucfirst($match[1]).$match[3].' ?>';
             }*/
@@ -104,7 +106,7 @@ class Builder
     {
         $echo=sprintf('/(?<!!)%s\s*(.+?)\s*?%s/', preg_quote(self::$echoTag[0]), preg_quote(self::$echoTag[1]));
         $rawecho=sprintf('/(?<!!)%s\s*(.+?)\s*?%s/', preg_quote(self::$rawTag[0]), preg_quote(self::$rawTag[1]));
-        $comment=sprintf('/(?<!!)%s(.+)%s/',preg_quote(self::$commentTag[0]) ,preg_quote(self::$commentTag[1]));
+        $comment=sprintf('/(?<!!)%s(.+)%s/', preg_quote(self::$commentTag[0]), preg_quote(self::$commentTag[1]));
         return preg_replace(
             [$rawecho, $echo, $comment],
             ['<?php echo($1) ?>', '<?php template\Builder::echo($1) ?>', '<?php /* $1 */ ?>'],
@@ -175,6 +177,21 @@ class Builder
         foreach (func_get_args() as $arg) {
             echo htmlspecialchars($arg);
         }
+    }
+
+
+    protected function parseInsertAt($exp)
+    {
+        preg_match('/\((.+)\)/', $exp, $v);
+        return '<?php Event::listen('.$v[1].',function () { ?>';
+    }
+    protected function parseInsertEnd()
+    {
+        return '<?php });?>';
+    }
+    protected function parseInsert($exp)
+    {
+        return "<?php Event::pop{$exp}->exec() ?>";
     }
     // 错误报错
     public function error()

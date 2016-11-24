@@ -6,7 +6,7 @@ class Event
 {
     public static $events=[];
     
-    public static function addEventListener(string $name, $callback)
+    public static function listen(string $name, $callback)
     {
         if (!isset(self::$events[$name])) {
             self::$events[$name]=new EventCaller;
