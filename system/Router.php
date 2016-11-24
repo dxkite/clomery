@@ -64,11 +64,11 @@ class Router
         }, $url);
         return $url;
     }
-    
+
     protected function buildUrl(string $name, array $values)
     {
         $url=$this->mapper[$name]['url'];
-        $url=preg_replace_callback('/\{(?:(\w+)(?::(\w+)))\}/', function ($match) use ($name,$values) {
+        $url=preg_replace_callback('/\{(?:(\w+)(?::(\w+)))\}/', function ($match) use ($name, $values) {
             $param_name=$match[1];
             $param_type=isset($match[2])?$match[2]:'url';
             if (isset($values[$param_name])) {
@@ -103,10 +103,16 @@ class Router
 
     public static function dispatch(Request $request)
     {
+        $rawcmd=SITE_CMD.'/'.$request->url().'.auto.php';
+        if (realpath($rawcmd)) {
+            if (preg_match('/^'.preg_quote(SITE_CMD,'/').'/',$rawcmd)) {
+                return require $rawcmd;
+            }
+        }
         if (!self::$router) {
             self::$router=new Router($request);
         }
-        self::$router->display();
+        return self::$router->display();
     }
 
     public static function url(string $id, array $values=null)
