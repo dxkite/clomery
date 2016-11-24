@@ -106,7 +106,7 @@ class Command
         }
         if ($name) {
             $fname=preg_replace('/[\\\\_\/.]/', DIRECTORY_SEPARATOR, $name);
-            $paths=[__DIR__,SITE_LIBS]; // 搜索目录
+            $paths=[__DIR__,SITE_LIB]; // 搜索目录
             $command=[SITE_CMD];
             // 普通
             foreach ($paths as $root) {
