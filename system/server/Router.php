@@ -52,6 +52,10 @@ class Router
 
     public function dispatch()
     {
-        var_dump($this);
+       foreach ($this->matchs as $preg){
+           if (preg_match('/^'.$preg.'$/',$this->request->url())){
+               echo 'hello';
+           }
+       }
     }
 }

@@ -44,6 +44,9 @@ final class Request extends Value
     {
         return $_SERVER['REQUEST_METHOD'];
     }
+    public function url(){
+        return $this->url;
+    }
     public function get(string $name='')
     {
         if (is_null(self::$get)) {
