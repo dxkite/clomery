@@ -26,7 +26,7 @@ final class Request extends Value
             $_SERVER['PATH_INFO']=$this->url;
         }
     }
-    
+
     public function json()
     {
         $str=file_get_contents('php://input');
@@ -75,7 +75,7 @@ final class Request extends Value
         return $ip;
     }
 
-    public function ipAddress($ip)
+    public function ip2Address($ip)
     {
         $url="http://ip.taobao.com/service/getIpInfo.php?ip=".$ip;
         $ip=json_decode(@file_get_contents($url), true);
