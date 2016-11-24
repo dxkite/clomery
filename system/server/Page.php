@@ -16,6 +16,6 @@ class Page
     }
     public static function set(string $name, $value)
     {
-        self::$values=Arr::set(self::$values, $name, $value);
+        self::$values=core\ArrayHelper::set(self::$values, $name, $value);
     }
 }

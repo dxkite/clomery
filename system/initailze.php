@@ -36,7 +36,7 @@ function conf(string $name, $default=null)
             $conf=require_once SITE_CONFIG;
         }
     }
-    return server\core\Arr::get($conf, $name, $default);
+    return server\core\ArrayHelper::get($conf, $name, $default);
 }
 
 function mime(string $name)
