@@ -1,6 +1,0 @@
-;Method URL RunableString[DatabeseQuerys,...](type:template)  Option-Sets
-GET /  app\Main[db-query1,db-query2](html:template)  id=main 
-GET /aritcle-{aid:int}  app\Main#aritcle(0)@file[article#getarticle](html:template) id=article
-GET /404 app\Main#404(html:404) id=404
-GET /tag:{tag:int=0} app\Main#tag[article#listtag](html:listarticle) id=listTag
-GET /api/get-article  [getarticle] id=404

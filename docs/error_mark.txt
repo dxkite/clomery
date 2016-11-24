@@ -1,5 +1,0 @@
-<b>Warning</b>:  file_put_contents(D:\Server\three\core/../res/view/page_meta.pml.php): failed to open stream: Permission denied in <b>D:\Server\three\core\Storage\File_Storage.php</b> on line <b>78</b><br />
-<b>Warning</b>:  copy(D:\Server\three\core/../res/view/js/signup.js): failed to open stream: Permission denied in <b>D:\Server\three\core\Storage\File_Storage.php</b> on line <b>61</b><br />
-<b>Notice</b>:  404 TPL no Find! in <b>D:\Server\three\core\Page.php</b> on line <b>96</b><br />
-<b>Warning</b>:  copy(D:\Server\three\core/../res/view/js/ajax.js): failed to open stream: Permission denied in <b>D:\Server\three\core\Storage\File_Storage.php</b> on line <b>61</b><br />
-<b>Warning</b>:  session_start(): The session id is too long or contains illegal characters, valid characters are a-z, A-Z, 0-9 and '-,' in <b>/srv/hosts/mc/core/Session.php</b> on line <b>19</b><br />
