@@ -32,7 +32,7 @@ function tablename($namespace, $name)
 }
 
 compileAll();
-file_put_contents($outsql, '-- '.time()."\r\n");
+file_put_contents($outsql, '-- create:'.date('Y-m-d H:i:s')."\r\n");
 foreach ($tables as $table) {
     $name=pathinfo($table, PATHINFO_FILENAME);
     $namespace=preg_replace('/\\\\\//', '\\', dirname($table));
