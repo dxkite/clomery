@@ -1,0 +1,8 @@
+@if ($_SQL->namespace)namespace {{$_SQL->namespace}}; 
+@endif
+class {{ $_SQL->name }} {
+@foreach($_SQL->fields as $name => $field)
+    /** {{$field}} */
+    protected ${{$name}};
+@endforeach
+}
