@@ -1,6 +1,9 @@
 <?php
 namespace user; 
-class OptionLog {
+
+use archive\Archive;
+
+class OptionLog implements Arichive {
     protected static $_fields=['oid','uid','name','sketch','ip','time'];
     /**
      * 日志ID 

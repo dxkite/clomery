@@ -1,6 +1,9 @@
 <?php
 namespace user; 
-class Permision {
+
+use archive\Archive;
+
+class Permision implements Arichive {
     protected static $_fields=['pid','uid','gid','upload'];
     /**
      * 权限ID 

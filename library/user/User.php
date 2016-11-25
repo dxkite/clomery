@@ -1,6 +1,9 @@
 <?php
 namespace user; 
-class User {
+
+use archive\Archive;
+
+class User implements Arichive {
     protected static $_fields=['uid','name','password','groupid'];
     /**
      * 用户ID 

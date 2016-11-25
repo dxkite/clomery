@@ -1,6 +1,9 @@
 <?php if($_SQL->namespace): ?>namespace <?php template\Builder::echo($_SQL->namespace) ?>; 
 <?php endif; ?>
-class <?php template\Builder::echo($_SQL->name) ?> {
+
+use archive\Archive;
+
+class <?php template\Builder::echo($_SQL->name) ?> implements Arichive {
     protected static $_fields=<?php template\Builder::echo($this->getFieldsStr()) ?>;
 <?php foreach($_SQL->fields as $name => $field): ?>
 <?php  $comment =isset($this->sets[$name]['comment'])? $this->sets[$name]['comment'] :$field; ?>

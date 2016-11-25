@@ -1,6 +1,9 @@
 <?php
 namespace user; 
-class Token {
+
+use archive\Archive;
+
+class Token implements Arichive {
     protected static $_fields=['tid','uid','name','ip','time','expire','value'];
     /**
      * 令牌ID 
