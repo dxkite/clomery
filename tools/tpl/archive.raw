@@ -2,15 +2,32 @@
 @endif
 class {{ $_SQL->name }} {
 @foreach($_SQL->fields as $name => $field)
-    /** {{$field}} */
+<?php  $comment =isset($this->sets[$name]['comment'])? $this->sets[$name]['comment'] :$field; ?>
+<?php  $type = preg_match('/int/i',$field)?'int':'string'; ?>
+    /**
+     * {{$comment}} 
+     * @var {{$type}} 
+     */
     protected ${{$name}};
 @endforeach
 
 @foreach($_SQL->fields as $name => $field)
 <?php  $type = preg_match('/int/i',$field)?'int':'string'; ?>
-    public function set{{ucfirst($name)}}({{$type}} ${{$name}}){
+
+
+    /**
+     * @return {{$_SQL->name}}   
+     */
+    public function set{{ucfirst($name)}}({{$type}} ${{$name}}) {
         $this->{{$name}}=${{$name}};
         return $this;
+    }
+
+    /**
+     * @return {{$type}}   
+     */
+    public function get{{ucfirst($name)}}() : {{$type}} {
+        return $this->{{$name}};
     }
 @endforeach
 }

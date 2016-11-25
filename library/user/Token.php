@@ -1,47 +1,152 @@
 <?php
 namespace user; 
 class Token {
-    /** bigint(20) */
+    /**
+     * 令牌ID 
+     * @var  int 
+     */
     protected $tid;
-    /** bigint(20) */
+    /**
+     * 使用的用户 
+     * @var  int 
+     */
     protected $uid;
-    /** varchar(80) */
+    /**
+     * 命令名 
+     * @var  string 
+     */
     protected $name;
-    /** varchar(32) */
+    /**
+     * 使用令牌的ID 
+     * @var  string 
+     */
     protected $ip;
-    /** int(11) */
+    /**
+     * 使用的时间 
+     * @var  int 
+     */
     protected $time;
-    /** int(11) */
+    /**
+     * 过期时间 
+     * @var  int 
+     */
     protected $expire;
-    /** varchar(255) */
+    /**
+     * 附加值 
+     * @var  string 
+     */
     protected $value;
 
-    public function setTid(int $tid){
+
+
+    /**
+     * @return  Token   
+     */
+    public function setTid(int $tid) {
         $this->tid=$tid;
         return $this;
     }
-    public function setUid(int $uid){
+
+    /**
+     * @return  int   
+     */
+    public function getTid() : int {
+        return $this->tid;
+    }
+
+
+    /**
+     * @return  Token   
+     */
+    public function setUid(int $uid) {
         $this->uid=$uid;
         return $this;
     }
-    public function setName(string $name){
+
+    /**
+     * @return  int   
+     */
+    public function getUid() : int {
+        return $this->uid;
+    }
+
+
+    /**
+     * @return  Token   
+     */
+    public function setName(string $name) {
         $this->name=$name;
         return $this;
     }
-    public function setIp(string $ip){
+
+    /**
+     * @return  string   
+     */
+    public function getName() : string {
+        return $this->name;
+    }
+
+
+    /**
+     * @return  Token   
+     */
+    public function setIp(string $ip) {
         $this->ip=$ip;
         return $this;
     }
-    public function setTime(int $time){
+
+    /**
+     * @return  string   
+     */
+    public function getIp() : string {
+        return $this->ip;
+    }
+
+
+    /**
+     * @return  Token   
+     */
+    public function setTime(int $time) {
         $this->time=$time;
         return $this;
     }
-    public function setExpire(int $expire){
+
+    /**
+     * @return  int   
+     */
+    public function getTime() : int {
+        return $this->time;
+    }
+
+
+    /**
+     * @return  Token   
+     */
+    public function setExpire(int $expire) {
         $this->expire=$expire;
         return $this;
     }
-    public function setValue(string $value){
+
+    /**
+     * @return  int   
+     */
+    public function getExpire() : int {
+        return $this->expire;
+    }
+
+
+    /**
+     * @return  Token   
+     */
+    public function setValue(string $value) {
         $this->value=$value;
         return $this;
+    }
+
+    /**
+     * @return  string   
+     */
+    public function getValue() : string {
+        return $this->value;
     }
 }

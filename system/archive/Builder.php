@@ -14,7 +14,7 @@ class Builder
 
     public function export(string $template,string $path){
         ob_start();
-        $_SQL=new Value(['fields'=>$this->fields,'name'=>$this->name,'namespace'=>$this->namespace]);
+        $_SQL=new Value(['fields'=>$this->fields,'sets'=>$this->sets,'name'=>$this->name,'namespace'=>$this->namespace]);
         require $template;
         $class=ob_get_clean();
         file_put_contents($path,"<?php\r\n".$class);

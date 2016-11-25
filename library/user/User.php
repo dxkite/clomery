@@ -1,29 +1,89 @@
 <?php
 namespace user; 
 class User {
-    /** bigint(20) */
+    /**
+     * 用户ID 
+     * @var  int 
+     */
     protected $uid;
-    /** varchar(13) */
+    /**
+     * 用户名 
+     * @var  string 
+     */
     protected $name;
-    /** varchar(60) */
+    /**
+     * 密码HASH 
+     * @var  string 
+     */
     protected $password;
-    /** bigint(20) */
+    /**
+     * 分组ID 
+     * @var  int 
+     */
     protected $groupid;
 
-    public function setUid(int $uid){
+
+
+    /**
+     * @return  User   
+     */
+    public function setUid(int $uid) {
         $this->uid=$uid;
         return $this;
     }
-    public function setName(string $name){
+
+    /**
+     * @return  int   
+     */
+    public function getUid() : int {
+        return $this->uid;
+    }
+
+
+    /**
+     * @return  User   
+     */
+    public function setName(string $name) {
         $this->name=$name;
         return $this;
     }
-    public function setPassword(string $password){
+
+    /**
+     * @return  string   
+     */
+    public function getName() : string {
+        return $this->name;
+    }
+
+
+    /**
+     * @return  User   
+     */
+    public function setPassword(string $password) {
         $this->password=$password;
         return $this;
     }
-    public function setGroupid(int $groupid){
+
+    /**
+     * @return  string   
+     */
+    public function getPassword() : string {
+        return $this->password;
+    }
+
+
+    /**
+     * @return  User   
+     */
+    public function setGroupid(int $groupid) {
         $this->groupid=$groupid;
         return $this;
+    }
+
+    /**
+     * @return  int   
+     */
+    public function getGroupid() : int {
+        return $this->groupid;
     }
 }
