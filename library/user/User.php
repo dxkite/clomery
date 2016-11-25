@@ -87,3 +87,12 @@ class User {
         return $this->groupid;
     }
 }
+
+/**
+* DTA FILE:
+; 用户表
+uid bigint(20) auto comment="用户ID" primary 
+name varchar(13) unique comment="用户名"
+password varchar(60) comment="密码HASH"
+groupid bigint(20) key  default=0 comment="分组ID"
+*/

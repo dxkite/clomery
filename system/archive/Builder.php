@@ -11,18 +11,20 @@ class Builder
     protected $auto;
     protected $namespace;
     protected $name;
+    protected $file;
 
     public function export(string $template,string $path){
         ob_start();
         $_SQL=new Value(['fields'=>$this->fields,'sets'=>$this->sets,'name'=>$this->name,'namespace'=>$this->namespace]);
         require $template;
         $class=ob_get_clean();
-        file_put_contents($path,"<?php\r\n".$class);
+        file_put_contents($path,"<?php\r\n".$class."\r\n\r\n/**\r\n* DTA FILE:\r\n".$this->file."\r\n*/");
     }
 
     public function load(string $path)
     {
         if (file_exists($path)) {
+            $this->file=file_get_contents($path);
             $file=file($path);
             foreach ($file as $line) {
                 if (preg_match('/^(?:\s*)(?!;)(\w+)\s+(\S+)(?:\s+(.+))?$/', $line, $match)) {

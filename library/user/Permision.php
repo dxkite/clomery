@@ -87,3 +87,12 @@ class Permision {
         return $this->upload;
     }
 }
+
+/**
+* DTA FILE:
+; 权限表
+pid bigint(20) auto primary comment="权限ID"
+uid bigint(20) unique  comment="用户ID"
+gid bigint(20) unique  comment="分组ID"
+upload enum('Y','N') default='N' comment="上传文件"
+*/

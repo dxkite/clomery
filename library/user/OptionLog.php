@@ -129,3 +129,14 @@ class OptionLog {
         return $this->time;
     }
 }
+
+/**
+* DTA FILE:
+; 操作日志
+oid bigint(20) primary auto comment="日志ID"
+uid bigint(20) key comment="使用的用户"
+name varchar(80) key comment="操作名"
+sketch varchar(255) comment="操作附加描述"
+ip varchar(32) comment="使用令牌的ID"
+time int(11) comment="使用的时间"
+*/
