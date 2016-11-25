@@ -1,6 +1,7 @@
 <?php
 namespace user; 
 class User {
+    protected static $_fields=['uid','name','password','groupid'];
     /**
      * 用户ID 
      * @var  int 

@@ -1,6 +1,7 @@
 <?php
 namespace user; 
 class Token {
+    protected static $_fields=['tid','uid','name','ip','time','expire','value'];
     /**
      * 令牌ID 
      * @var  int 

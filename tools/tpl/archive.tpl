@@ -1,6 +1,7 @@
 <?php if($_SQL->namespace): ?>namespace <?php template\Builder::echo($_SQL->namespace) ?>; 
 <?php endif; ?>
 class <?php template\Builder::echo($_SQL->name) ?> {
+    protected static $_fields=<?php template\Builder::echo($this->getFieldsStr()) ?>;
 <?php foreach($_SQL->fields as $name => $field): ?>
 <?php  $comment =isset($this->sets[$name]['comment'])? $this->sets[$name]['comment'] :$field; ?>
 <?php  $type = preg_match('/int/i',$field)?'int':'string'; ?>

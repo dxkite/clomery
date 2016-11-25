@@ -20,7 +20,9 @@ class Builder
         $class=ob_get_clean();
         file_put_contents($path,"<?php\r\n".$class."\r\n\r\n/**\r\n* DTA FILE:\r\n".$this->file."\r\n*/");
     }
-
+    public function getFieldsStr(){
+        return '[\''.implode('\',\'',array_keys($this->fields)).'\']';
+    }
     public function load(string $path)
     {
         if (file_exists($path)) {

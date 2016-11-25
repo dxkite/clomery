@@ -1,6 +1,7 @@
 <?php
 namespace user; 
 class OptionLog {
+    protected static $_fields=['oid','uid','name','sketch','ip','time'];
     /**
      * 日志ID 
      * @var  int 

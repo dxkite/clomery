@@ -1,4 +1,4 @@
--- 1480062838
+-- 1480063332
 
 CREATE TABLE `user_option_log` (
 	`oid` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '日志ID',

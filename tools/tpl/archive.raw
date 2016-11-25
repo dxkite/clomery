@@ -1,6 +1,7 @@
 @if ($_SQL->namespace)namespace {{$_SQL->namespace}}; 
 @endif
 class {{ $_SQL->name }} {
+    protected static $_fields={{ $this->getFieldsStr() }};
 @foreach($_SQL->fields as $name => $field)
 <?php  $comment =isset($this->sets[$name]['comment'])? $this->sets[$name]['comment'] :$field; ?>
 <?php  $type = preg_match('/int/i',$field)?'int':'string'; ?>

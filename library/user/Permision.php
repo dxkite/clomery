@@ -1,6 +1,7 @@
 <?php
 namespace user; 
 class Permision {
+    protected static $_fields=['pid','uid','gid','upload'];
     /**
      * 权限ID 
      * @var  int 
