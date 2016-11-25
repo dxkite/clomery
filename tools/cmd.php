@@ -8,10 +8,10 @@ if (isset($argv[1])) {
     print "\033[33m-----------------------------------\033[0m\r\n";
     print "\033[33m# Function echo\033[0m\r\n";
     print "\033[33m-----------------------------------\033[0m\r\n";
-    $return=(new server\Command($argv[1]))->call($params);
+    $return=(new server\Command($argv[1]))->exec($params);
     print "\033[33m# return value\033[0m\r\n";
     print "\033[33m-----------------------------------\033[0m\r\n";
-    print_r($return);
+    var_dump($return);
 } else {
     print "\033[31mplease enter caller string\r\n\033[0m";
 }

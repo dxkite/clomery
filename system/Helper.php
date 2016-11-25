@@ -11,5 +11,4 @@ final class Helper
         }
         return self::$mailer;
     }
-    
 }
