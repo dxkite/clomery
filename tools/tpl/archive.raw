@@ -1,3 +1,4 @@
+<?php
 @if ($_SQL->namespace)namespace {{$_SQL->namespace}}; 
 @endif
 
@@ -36,11 +37,11 @@ class {{ $_SQL->name }} implements Archive {
         return $this->{{$name}};
     }
 @endforeach
-    function getFeilds():array
+    public function getFeilds():array
     {
         return self::$_fields;
     }
-    function getAvailableFields():array
+    public function getAvailableFields():array
     {
         $available=[];
         foreach (self::$_fields as $name){
@@ -50,9 +51,31 @@ class {{ $_SQL->name }} implements Archive {
         }
         return $available;
     }
-    function tableCreator():string{}
-    function sqlCreate():Statement{}
-    function sqlRetrieve(Condition $condition):Statement{}
-    function sqlUpdate():Statement{}
-    function sqlDelete():Statement{}
+    public function tableCreator():string{
+        return '{{addslashes($this->getCreateSQL())}}';
+    }
+    public function sqlCreate():Statement{
+		$values=self::getAvailableFields();
+		$param=[];
+		$bind='';
+		$names='';
+		foreach ($values as $name)
+		{
+			$bind.=':'.$name.',';
+			$names.='`'.$name.'`,';
+			$param[$name]=$this->{$name};
+		}
+		$sql='INSERT INTO `{{$this->getTableName()}}` ('.trim($names,',').') VALUES ('.trim($bind,',').');';
+		return new Statement($sql,$param);
+    }
+    public function sqlRetrieve(Condition $condition):Statement{
+		
+	}
+    public function sqlUpdate(Condition $condition):Statement{
+		
+	}
+    public function sqlDelete(Condition $condition):Statement
+	{
+		
+	}
 }

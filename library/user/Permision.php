@@ -1,4 +1,5 @@
 <?php
+
 namespace user; 
 
 use archive\Archive;
@@ -106,9 +107,34 @@ class Permision implements Archive {
         }
         return $available;
     }
-    function tableCreator():string{}
-    function sqlCreate():Statement{}
-    function sqlRetrieve(Condition $condition):Statement{}
+    function tableCreator():string{
+        return 'CREATE TABLE `user_permision` (
+	`pid` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT \'权限ID\',
+	`uid` bigint(20) NOT NULL   COMMENT \'用户ID\',
+	`gid` bigint(20) NOT NULL   COMMENT \'分组ID\',
+	`upload` enum(\'Y\',\'N\') NOT NULL DEFAULT \'N\'  COMMENT \'上传文件\',
+	PRIMARY KEY (`pid`),
+	UNIQUE KEY `uid` (`uid`),
+	UNIQUE KEY `gid` (`gid`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;';
+    }
+    function sqlCreate():Statement{
+		$values=self::getAvailableFields();
+		$param=[];
+		$bind='';
+		$names='';
+		foreach ($values as $name)
+		{
+			$bind.=':'.$name.',';
+			$names.='`'.$name.'`,';
+			$param[$name]=$this->{$name};
+		}
+		$sql='INSERT INTO `user_permision` ('.trim($names,',').') VALUES ('.trim($bind,',').');';
+		return new Statement($sql,$param);
+    }
+    function sqlRetrieve(Condition $condition):Statement{
+		
+	}
     function sqlUpdate():Statement{}
     function sqlDelete():Statement{}
 }

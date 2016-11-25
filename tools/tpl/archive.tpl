@@ -1,3 +1,4 @@
+
 <?php if($_SQL->namespace): ?>namespace <?php template\Builder::echo($_SQL->namespace) ?>; 
 <?php endif; ?>
 
@@ -50,9 +51,26 @@ class <?php template\Builder::echo($_SQL->name) ?> implements Archive {
         }
         return $available;
     }
-    function tableCreator():string{}
-    function sqlCreate():Statement{}
-    function sqlRetrieve(Condition $condition):Statement{}
+    function tableCreator():string{
+        return '<?php template\Builder::echo(addslashes($this->getCreateSQL())) ?>';
+    }
+    function sqlCreate():Statement{
+		$values=self::getAvailableFields();
+		$param=[];
+		$bind='';
+		$names='';
+		foreach ($values as $name)
+		{
+			$bind.=':'.$name.',';
+			$names.='`'.$name.'`,';
+			$param[$name]=$this->{$name};
+		}
+		$sql='INSERT INTO `<?php template\Builder::echo($this->getTableName()) ?>` ('.trim($names,',').') VALUES ('.trim($bind,',').');';
+		return new Statement($sql,$param);
+    }
+    function sqlRetrieve(Condition $condition):Statement{
+		
+	}
     function sqlUpdate():Statement{}
     function sqlDelete():Statement{}
 }

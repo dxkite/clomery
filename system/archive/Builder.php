@@ -12,7 +12,8 @@ class Builder
     protected $namespace;
     protected $name;
     protected $file;
-
+    protected $tableName;
+    
     public function export(string $template,string $path){
         ob_start();
         $_SQL=new Value(['fields'=>$this->fields,'sets'=>$this->sets,'name'=>$this->name,'namespace'=>$this->namespace]);
@@ -38,9 +39,6 @@ class Builder
                 }
             }
         }
-        $sql=self::getCreateSQL('user');
-        Storage::mkdirs(SITE_TEMP);
-        file_put_contents(SITE_TEMP.'/user.sql',$sql);
     }
 
     protected static function parser_str(string $sets)
@@ -61,7 +59,7 @@ class Builder
         return $values;
     }
 
-    public function getCreateSQL(string $tablename):string
+    public function getCreateSQL():string
     {
         $create=[];
         $sets=[];
@@ -81,7 +79,7 @@ class Builder
                 $sets[]="KEY `{$name}` (`{$name}`)";
             }
         }
-        $sql="CREATE TABLE `{$tablename}` (\r\n\t";
+        $sql="CREATE TABLE `{$this->tableName}` (\r\n\t";
         $sql.=implode(",\r\n\t",array_merge($create,$sets));
         $auto=$this->auto?'AUTO_INCREMENT=0':''; 
         $sql.="\r\n) ENGINE=InnoDB {$auto} DEFAULT CHARSET=utf8;";
@@ -94,6 +92,22 @@ class Builder
     public function getFields()
     {
         return $this->fields;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTableName()
+    {
+        return $this->tableName;
+    }
+
+    /**
+     * @param mixed $tableName
+     */
+    public function setTableName($tableName)
+    {
+        $this->tableName = $tableName;
     }
 
     /**

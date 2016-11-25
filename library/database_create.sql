@@ -1,4 +1,4 @@
--- create:2016-11-25 18:30:42
+-- create:2016-11-25 20:19:28
 
 CREATE TABLE `user_option_log` (
 	`oid` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '日志ID',

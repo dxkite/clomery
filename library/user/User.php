@@ -1,4 +1,5 @@
 <?php
+
 namespace user; 
 
 use archive\Archive;
@@ -106,9 +107,34 @@ class User implements Archive {
         }
         return $available;
     }
-    function tableCreator():string{}
-    function sqlCreate():Statement{}
-    function sqlRetrieve(Condition $condition):Statement{}
+    function tableCreator():string{
+        return 'CREATE TABLE `user` (
+	`uid` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT \'用户ID\',
+	`name` varchar(13) NOT NULL   COMMENT \'用户名\',
+	`password` varchar(60) NOT NULL   COMMENT \'密码HASH\',
+	`groupid` bigint(20) NOT NULL DEFAULT \'0\'  COMMENT \'分组ID\',
+	PRIMARY KEY (`uid`),
+	UNIQUE KEY `name` (`name`),
+	KEY `groupid` (`groupid`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;';
+    }
+    function sqlCreate():Statement{
+		$values=self::getAvailableFields();
+		$param=[];
+		$bind='';
+		$names='';
+		foreach ($values as $name)
+		{
+			$bind.=':'.$name.',';
+			$names.='`'.$name.'`,';
+			$param[$name]=$this->{$name};
+		}
+		$sql='INSERT INTO `user` ('.trim($names,',').') VALUES ('.trim($bind,',').');';
+		return new Statement($sql,$param);
+    }
+    function sqlRetrieve(Condition $condition):Statement{
+		
+	}
     function sqlUpdate():Statement{}
     function sqlDelete():Statement{}
 }

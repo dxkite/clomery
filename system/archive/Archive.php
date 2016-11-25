@@ -8,6 +8,6 @@ interface Archive
     function tableCreator():string;
     function sqlCreate():Statement;
     function sqlRetrieve(Condition $condition):Statement;
-    function sqlUpdate():Statement;
-    function sqlDelete():Statement;
+    function sqlUpdate(Condition $condition):Statement;
+    function sqlDelete(Condition $condition):Statement;
 }
