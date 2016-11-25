@@ -2,8 +2,10 @@
 namespace user; 
 
 use archive\Archive;
+use archive\Condition;
+use archive\Statement;
 
-class User implements Arichive {
+class User implements Archive {
     protected static $_fields=['uid','name','password','groupid'];
     /**
      * 用户ID 
@@ -90,6 +92,25 @@ class User implements Arichive {
     public function getGroupid() : int {
         return $this->groupid;
     }
+    function getFeilds():array
+    {
+        return self::$_fields;
+    }
+    function getAvailableFields():array
+    {
+        $available=[];
+        foreach (self::$_fields as $name){
+            if (isset($this->{$name})){
+                $available[]=$name;
+            }
+        }
+        return $available;
+    }
+    function tableCreator():string{}
+    function sqlCreate():Statement{}
+    function sqlRetrieve(Condition $condition):Statement{}
+    function sqlUpdate():Statement{}
+    function sqlDelete():Statement{}
 }
 
 /**

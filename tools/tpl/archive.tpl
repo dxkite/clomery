@@ -2,8 +2,10 @@
 <?php endif; ?>
 
 use archive\Archive;
+use archive\Condition;
+use archive\Statement;
 
-class <?php template\Builder::echo($_SQL->name) ?> implements Arichive {
+class <?php template\Builder::echo($_SQL->name) ?> implements Archive {
     protected static $_fields=<?php template\Builder::echo($this->getFieldsStr()) ?>;
 <?php foreach($_SQL->fields as $name => $field): ?>
 <?php  $comment =isset($this->sets[$name]['comment'])? $this->sets[$name]['comment'] :$field; ?>
@@ -34,4 +36,23 @@ class <?php template\Builder::echo($_SQL->name) ?> implements Arichive {
         return $this-><?php template\Builder::echo($name) ?>;
     }
 <?php endforeach; ?>
+    function getFeilds():array
+    {
+        return self::$_fields;
+    }
+    function getAvailableFields():array
+    {
+        $available=[];
+        foreach (self::$_fields as $name){
+            if (isset($this->{$name})){
+                $available[]=$name;
+            }
+        }
+        return $available;
+    }
+    function tableCreator():string{}
+    function sqlCreate():Statement{}
+    function sqlRetrieve(Condition $condition):Statement{}
+    function sqlUpdate():Statement{}
+    function sqlDelete():Statement{}
 }

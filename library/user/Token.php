@@ -2,8 +2,10 @@
 namespace user; 
 
 use archive\Archive;
+use archive\Condition;
+use archive\Statement;
 
-class Token implements Arichive {
+class Token implements Archive {
     protected static $_fields=['tid','uid','name','ip','time','expire','value'];
     /**
      * 令牌ID 
@@ -153,6 +155,25 @@ class Token implements Arichive {
     public function getValue() : string {
         return $this->value;
     }
+    function getFeilds():array
+    {
+        return self::$_fields;
+    }
+    function getAvailableFields():array
+    {
+        $available=[];
+        foreach (self::$_fields as $name){
+            if (isset($this->{$name})){
+                $available[]=$name;
+            }
+        }
+        return $available;
+    }
+    function tableCreator():string{}
+    function sqlCreate():Statement{}
+    function sqlRetrieve(Condition $condition):Statement{}
+    function sqlUpdate():Statement{}
+    function sqlDelete():Statement{}
 }
 
 /**

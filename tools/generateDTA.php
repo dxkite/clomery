@@ -48,3 +48,7 @@ foreach ($tables as $table) {
     $sql=$builder->getCreateSQL($table_name);
     file_put_contents($outsql, "\r\n".$sql."\r\n\r\n", FILE_APPEND);
 }
+
+$p=new user\Permision;
+$p->setUid(2323);
+var_dump($p->getAvailableFields());

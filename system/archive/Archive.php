@@ -4,10 +4,10 @@ namespace archive;
 interface Archive
 {
     function getFeilds():array;
-    function getAvaiableFields():array;
+    function getAvailableFields():array;
     function tableCreator():string;
-    function sqlCreate():string;
-    function sqlRetrieve(Condition $condition):string;
-    function sqlUpdate();
-    function sqlDelete();
+    function sqlCreate():Statement;
+    function sqlRetrieve(Condition $condition):Statement;
+    function sqlUpdate():Statement;
+    function sqlDelete():Statement;
 }

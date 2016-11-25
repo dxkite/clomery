@@ -2,8 +2,10 @@
 namespace user; 
 
 use archive\Archive;
+use archive\Condition;
+use archive\Statement;
 
-class Permision implements Arichive {
+class Permision implements Archive {
     protected static $_fields=['pid','uid','gid','upload'];
     /**
      * 权限ID 
@@ -90,6 +92,25 @@ class Permision implements Arichive {
     public function getUpload() : string {
         return $this->upload;
     }
+    function getFeilds():array
+    {
+        return self::$_fields;
+    }
+    function getAvailableFields():array
+    {
+        $available=[];
+        foreach (self::$_fields as $name){
+            if (isset($this->{$name})){
+                $available[]=$name;
+            }
+        }
+        return $available;
+    }
+    function tableCreator():string{}
+    function sqlCreate():Statement{}
+    function sqlRetrieve(Condition $condition):Statement{}
+    function sqlUpdate():Statement{}
+    function sqlDelete():Statement{}
 }
 
 /**

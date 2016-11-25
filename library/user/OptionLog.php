@@ -2,8 +2,10 @@
 namespace user; 
 
 use archive\Archive;
+use archive\Condition;
+use archive\Statement;
 
-class OptionLog implements Arichive {
+class OptionLog implements Archive {
     protected static $_fields=['oid','uid','name','sketch','ip','time'];
     /**
      * 日志ID 
@@ -132,6 +134,25 @@ class OptionLog implements Arichive {
     public function getTime() : int {
         return $this->time;
     }
+    function getFeilds():array
+    {
+        return self::$_fields;
+    }
+    function getAvailableFields():array
+    {
+        $available=[];
+        foreach (self::$_fields as $name){
+            if (isset($this->{$name})){
+                $available[]=$name;
+            }
+        }
+        return $available;
+    }
+    function tableCreator():string{}
+    function sqlCreate():Statement{}
+    function sqlRetrieve(Condition $condition):Statement{}
+    function sqlUpdate():Statement{}
+    function sqlDelete():Statement{}
 }
 
 /**
