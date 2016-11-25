@@ -1,0 +1,5 @@
+; 用户表
+uid int(20) auto comment="用户ID" primary 
+name varchar(13) unique
+password varchar(60) 
+groupid int(20) key  default=0

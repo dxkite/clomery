@@ -7,7 +7,7 @@ define('SITE_VIEW', SITE_RESOURCE.'/view');
 define('SITE_VERSION', '2.0.0');
 define('SITE_CONFIG', SITE_RESOURCE.'/config.php');
 define('SITE_LIB', __DIR__.'/../library');
-
+define('SITE_TEMP', SITE_RESOURCE.'/tmp');
 spl_autoload_register('__autoload');
 
 function __autoload(string $name)

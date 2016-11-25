@@ -16,9 +16,10 @@ class Storage
         return true;
     }
 
-    public static function readDirFiles(string $dirs,  bool $repeat=false, string $preg='/^.+$/'):array
+    public static function readDirFiles(string $dirs,  bool $repeat=false, string $preg='/^.+$/',bool $cut=false):array
     {
         $file_totu=[];
+        $dirs=realpath($dirs);
         if (self::isDir($dirs)) {
             $hd=opendir($dirs);
             while ($file=readdir($hd)) {
@@ -34,8 +35,16 @@ class Storage
                 }
             }
         }
+        if ($cut){
+            $cutfile=[];
+            foreach ($file_totu as $file){
+                $cutfile[]=ltrim(preg_replace('/^'.preg_quote($dirs).'/','',$file),'\\/');
+            }
+            return $cutfile;
+        }
         return $file_totu;
     }
+
     public static function readDirs(string $dirs, bool $repeat=false, string $preg='/^.+$/'):array
     {
         $reads=[];

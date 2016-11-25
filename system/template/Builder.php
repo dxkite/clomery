@@ -79,9 +79,6 @@ class Builder
     }
     public function tplRoot()
     {
-        if (self::$theme==='spider') {
-            return SITE_TEMPLATE.'/spider';
-        }
         return SITE_TEMPLATE.'/'.self::$theme;
     }
 
