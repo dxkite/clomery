@@ -1,7 +1,7 @@
 <?php
 namespace archive;
 
-class Page extends Condition
+class Sort
 {
     
 }
