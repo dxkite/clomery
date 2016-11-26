@@ -1,6 +1,6 @@
 <?php
 
-namespace user; 
+namespace dto\user; 
 
 use archive\Archive;
 use archive\Condition;

@@ -27,7 +27,7 @@ function tablename($namespace, $name)
 compileAll();
 
 $params=array_slice($argv, 1);
-$src=isset($params[0])?$params[0]:SITE_LIB.'/dta';
+$src=isset($params[0])?$params[0]:SITE_RESOURCE.'/dto';
 $dist=isset($params[1])?$params[1]:SITE_LIB;
 $outsql=isset($params[2])?$params[2]:$dist.'/database_create.sql';
 $tables=Storage::readDirFiles($src, true, '/\.dto$/', true);
@@ -37,8 +37,9 @@ foreach ($tables as $table) {
     $name=pathinfo($table, PATHINFO_FILENAME);
     $namespace=preg_replace('/\\\\\//', '\\', dirname($table));
     $table_name=tablename($namespace, $name);
+    $namespace='dto\\'.$namespace;
     $name=ucfirst($name);
-    $builder=new DTAReader;
+    $builder=new DTOReader;
     $builder->load($src.'/'.$table);
     $builder->setName($name);
     $builder->setNamespace($namespace);
