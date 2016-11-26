@@ -149,10 +149,10 @@ class Query
     protected function connectPdo()
     {
         if (!self::$pdo) {
-            $pdo='mysql:host='.conf('Database.host', 'localhost').';charset='.conf('Database.charset', 'utf8');
-            self::$prefix=conf('Database.prefix','');
+            $pdo='mysql:host='.conf('db.host', 'localhost').';charset='.conf('db.charset', 'utf8');
+            self::$prefix=conf('db.prefix','');
             try {
-                self::$pdo = new PDO($pdo, conf('Database.user','root'), conf('Database.passwd','root'));
+                self::$pdo = new PDO($pdo, conf('db.user','root'), conf('db.passwd','root'));
             } catch (Exception $e) {
                 $this->good=false;
             }

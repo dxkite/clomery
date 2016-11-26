@@ -2,5 +2,5 @@
 namespace api;
 class Permision 
 {
-
+    
 }

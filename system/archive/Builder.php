@@ -15,7 +15,8 @@ class Builder
     protected $file;
     protected $tableName;
     protected $exset=[];
-    
+    protected $unique=[];
+
     public function export(string $template, string $path)
     {
         ob_start();
@@ -77,8 +78,10 @@ class Builder
             $create[]=trim("`{$name}` {$type} {$null} {$default} {$auto} {$comment}");
             if (isset($this->sets[$name]['primary'])) {
                 $sets[]="PRIMARY KEY (`{$name}`)";
+                $this->unique[]=$name;
             } elseif (isset($this->sets[$name]['unique'])) {
                 $sets[]="UNIQUE KEY `{$name}` (`{$name}`)";
+                $this->unique[]=$name;
             } elseif (isset($this->sets[$name]['key'])) {
                 $sets[]="KEY `{$name}` (`{$name}`)";
             }

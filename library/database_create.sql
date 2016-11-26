@@ -1,4 +1,4 @@
--- create:2016-11-26 13:21:36
+-- create:2016-11-26 16:22:36
 
 CREATE TABLE `user_option_log` (
 	`oid` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '日志ID',
@@ -29,6 +29,7 @@ CREATE TABLE `user_permision` (
 CREATE TABLE `user_token` (
 	`tid` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '令牌ID',
 	`uid` bigint(20) NOT NULL   COMMENT '使用的用户',
+	`token` varchar(32) NOT NULL   COMMENT '令牌',
 	`name` varchar(80) NOT NULL   COMMENT '命令名',
 	`ip` varchar(32) NOT NULL   COMMENT '使用令牌的ID',
 	`time` int(11) NOT NULL   COMMENT '使用的时间',
@@ -36,6 +37,7 @@ CREATE TABLE `user_token` (
 	`value` varchar(255) NOT NULL   COMMENT '附加值',
 	PRIMARY KEY (`tid`),
 	KEY `uid` (`uid`),
+	KEY `token` (`token`),
 	KEY `name` (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
@@ -43,10 +45,12 @@ CREATE TABLE `user_token` (
 CREATE TABLE `user` (
 	`uid` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '用户ID',
 	`name` varchar(13) NOT NULL   COMMENT '用户名',
+	`email` varchar(50) NOT NULL   COMMENT '邮箱',
 	`password` varchar(60) NOT NULL   COMMENT '密码HASH',
 	`groupid` bigint(20) NOT NULL DEFAULT '0'  COMMENT '分组ID',
 	PRIMARY KEY (`uid`),
 	UNIQUE KEY `name` (`name`),
+	UNIQUE KEY `email` (`email`),
 	KEY `groupid` (`groupid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
