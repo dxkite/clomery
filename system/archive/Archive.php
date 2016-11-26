@@ -1,13 +1,24 @@
 <?php
 namespace archive;
 
-interface Archive
+abstract class Archive extends \helper\Value
 {
-    function getFeilds():array;
-    function getAvailableFields():array;
-    function tableCreator():string;
-    function sqlCreate():Statement;
-    function sqlRetrieve(Condition $condition):Statement;
-    function sqlUpdate(Condition $condition):Statement;
-    function sqlDelete(Condition $condition):Statement;
+    /**
+     * @param string $name
+     * @param $value
+     * @return mixed
+     */
+    public function __set(string $name, $value)
+    {
+        if ($this->_isField($name))
+        {
+            $this->var[$name]=$value;
+        }
+        else{
+            throw new \Exception("Unknown Field $name From Table {$this->getTableName()}");
+        }
+    }
+    // 是否为可用字段
+    abstract protected function _isField($name);
+    abstract public function getTableName();
 }

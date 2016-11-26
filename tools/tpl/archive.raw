@@ -1,4 +1,4 @@
-<?php
+
 @if ($_SQL->namespace)namespace {{$_SQL->namespace}}; 
 @endif
 
@@ -6,76 +6,15 @@ use archive\Archive;
 use archive\Condition;
 use archive\Statement;
 
-class {{ $_SQL->name }} implements Archive {
+class {{ $_SQL->name }} extends Archive {
     protected static $_fields={{ $this->getFieldsStr() }};
-@foreach($_SQL->fields as $name => $field)
-<?php  $comment =isset($this->sets[$name]['comment'])? $this->sets[$name]['comment'] :$field; ?>
-<?php  $type = preg_match('/int/i',$field)?'int':'string'; ?>
-    /**
-     * {{$comment}} 
-     * @var {{$type}} 
-     */
-    protected ${{$name}};
-@endforeach
-
-@foreach($_SQL->fields as $name => $field)
-<?php  $type = preg_match('/int/i',$field)?'int':'string'; ?>
-
-
-    /**
-     * @return {{$_SQL->name}}   
-     */
-    public function set{{ucfirst($name)}}({{$type}} ${{$name}}) {
-        $this->{{$name}}=${{$name}};
-        return $this;
+    // 是否为可用字段
+    protected function _isField($name){
+        return in_array($name,self::$_fields);
     }
-
-    /**
-     * @return {{$type}}   
-     */
-    public function get{{ucfirst($name)}}() : {{$type}} {
-        return $this->{{$name}};
-    }
-@endforeach
-    public function getFeilds():array
+    public function getTableName():string
     {
-        return self::$_fields;
+        return '{{$this->getTableName()}}';
     }
-    public function getAvailableFields():array
-    {
-        $available=[];
-        foreach (self::$_fields as $name){
-            if (isset($this->{$name})){
-                $available[]=$name;
-            }
-        }
-        return $available;
-    }
-    public function tableCreator():string{
-        return '{{addslashes($this->getCreateSQL())}}';
-    }
-    public function sqlCreate():Statement{
-		$values=self::getAvailableFields();
-		$param=[];
-		$bind='';
-		$names='';
-		foreach ($values as $name)
-		{
-			$bind.=':'.$name.',';
-			$names.='`'.$name.'`,';
-			$param[$name]=$this->{$name};
-		}
-		$sql='INSERT INTO `{{$this->getTableName()}}` ('.trim($names,',').') VALUES ('.trim($bind,',').');';
-		return new Statement($sql,$param);
-    }
-    public function sqlRetrieve(Condition $condition):Statement{
-		
-	}
-    public function sqlUpdate(Condition $condition):Statement{
-		
-	}
-    public function sqlDelete(Condition $condition):Statement
-	{
-		
-	}
+
 }

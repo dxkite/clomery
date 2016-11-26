@@ -1,5 +1,7 @@
 ; 权限表
-pid bigint(20) auto primary comment="权限ID"
+gid int(11) auto primary  comment="分组ID"
 uid bigint(20) unique  comment="用户ID"
-gid bigint(20) unique  comment="分组ID"
+name varchar(80) key comment="分组名"
+sort int(11) key comment="排序索引"
+; 权限设置
 upload enum('Y','N') default='N' comment="上传文件"

@@ -16,7 +16,7 @@ class Value implements \Iterator
      * Value constructor.
      * @param $var
      */
-    public function __construct($var=null)
+    public function __construct($var=[])
     {
         $this->var=$var;
     }
@@ -24,7 +24,7 @@ class Value implements \Iterator
     /**
      * @return mixed
      */
-    public function getVar()
+    public function _getVar()
     {
         return $this->var;
     }
@@ -32,7 +32,7 @@ class Value implements \Iterator
     /**
      * @param mixed $var
      */
-    public function setVar($var)
+    public function _setVar($var)
     {
         $this->var = $var;
     }

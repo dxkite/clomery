@@ -3,6 +3,7 @@
 final class Helper
 {
     private static $mailer= null;
+
     public static function mailer()
     {
         if (is_null(self::$mailer)) {

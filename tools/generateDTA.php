@@ -52,5 +52,10 @@ foreach ($tables as $table) {
 }
 
 $test=new user\Permision;
-$test->setUid(10);
-var_dump($test->sqlCreate());
+$test->uid=2;
+$test->upload='Y';
+$manager=new archive\Manager($test);
+$manager->where(['uid'=>['<',10],'upload'=>'N'],['uid'=>['>',6],'upload'=>'Y']);
+var_dump($manager);
+$return=$manager->delete();
+var_dump($return);

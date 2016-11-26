@@ -1,4 +1,4 @@
--- create:2016-11-25 20:19:28
+-- create:2016-11-26 11:23:31
 
 CREATE TABLE `user_option_log` (
 	`oid` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '日志ID',
@@ -14,13 +14,15 @@ CREATE TABLE `user_option_log` (
 
 
 CREATE TABLE `user_permision` (
-	`pid` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '权限ID',
+	`gid` int(11) NOT NULL  AUTO_INCREMENT COMMENT '分组ID',
 	`uid` bigint(20) NOT NULL   COMMENT '用户ID',
-	`gid` bigint(20) NOT NULL   COMMENT '分组ID',
+	`name` varchar(80) NOT NULL   COMMENT '分组名',
+	`sort` int(11) NOT NULL   COMMENT '排序索引',
 	`upload` enum('Y','N') NOT NULL DEFAULT 'N'  COMMENT '上传文件',
-	PRIMARY KEY (`pid`),
+	PRIMARY KEY (`gid`),
 	UNIQUE KEY `uid` (`uid`),
-	UNIQUE KEY `gid` (`gid`)
+	KEY `name` (`name`),
+	KEY `sort` (`sort`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 
