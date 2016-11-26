@@ -5,7 +5,7 @@ namespace helper;
  * Class Value
  * @package Core
  */
-class Value implements \Iterator
+class Value implements \Iterator,\JsonSerializable
 {
     /**
      * @var
@@ -104,5 +104,13 @@ class Value implements \Iterator
     public function valid()
     {
         return isset($this->var[$this->key]);
+    }
+    public function jsonSerialize()
+    {
+        return $this->var;
+    }
+    public function __toString()
+    {
+        return json_encode($this);
     }
 }

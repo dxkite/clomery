@@ -50,14 +50,3 @@ foreach ($tables as $table) {
     $sql=$builder->getCreateSQL();
     file_put_contents($outsql, "\r\n".$sql."\r\n\r\n", FILE_APPEND);
 }
-
-$test=new user\Permision;
-$test->uid=2;
-$test->upload='Y';
-$manager=new archive\Manager($test);
-$manager->where(['uid'=>['<',10]])->where(['uid'=>['>',5]]);
-
-$return=$manager->retrieve();
-var_dump($return);
-var_dump($manager);
-var_dump($return->fetchAll());
