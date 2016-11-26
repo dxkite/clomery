@@ -1,4 +1,4 @@
--- create:2016-11-26 18:00:55
+-- create:2016-11-26 18:31:44
 
 CREATE TABLE `upload` (
 	`fid` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '文件ID',

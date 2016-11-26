@@ -1,7 +1,7 @@
 <?php
 namespace user;
 
-use dto\user\User;
+use dto\User;
 use archive\Manager as AManager;
 
 class Manager

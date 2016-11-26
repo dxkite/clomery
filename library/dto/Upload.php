@@ -1,6 +1,6 @@
 <?php
 
-namespace dto\upload; 
+namespace dto; 
 
 use archive\Archive;
 use archive\Condition;

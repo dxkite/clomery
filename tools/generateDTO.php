@@ -37,7 +37,12 @@ foreach ($tables as $table) {
     $name=pathinfo($table, PATHINFO_FILENAME);
     $namespace=preg_replace('/\\\\\//', '\\', dirname($table));
     $table_name=tablename($namespace, $name);
-    $namespace='dto\\'.$namespace;
+    if ($namespace!==$name) {
+        $namespace='dto\\'.$namespace;
+    } else {
+        $namespace='dto';
+    }
+    
     $name=ucfirst($name);
     $builder=new DTOReader;
     $builder->load($src.'/'.$table);
