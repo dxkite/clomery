@@ -107,17 +107,9 @@ class Command
         if ($name) {
             $fname=preg_replace('/[\\\\_\/.]/', DIRECTORY_SEPARATOR, $name);
             $paths=[__DIR__,SITE_LIB]; // 搜索目录
-            $command=[SITE_CMD];
             // 普通
             foreach ($paths as $root) {
                 if (file_exists($require=$root.'/'.$fname.'.php')) {
-                    $imported[$name]=$require;
-                    return require_once $require;
-                }
-            }
-            // 运行时命令
-            foreach ($command as $root) {
-                if (file_exists($require=$root.'/'.$fname.'.cmd.php')) {
                     $imported[$name]=$require;
                     return require_once $require;
                 }

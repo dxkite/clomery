@@ -19,6 +19,8 @@ class Router
     {
         $this->request=$request;
         self::loadConfig();
+        spl_autoload_register([$this, 'autoRuningCommand']);
+        Event::listen('404_error', 'Router::_error404');
     }
 
     protected function loadConfig()
@@ -109,13 +111,17 @@ class Router
                 }
             }
         }
+
         // 路由找不到则使用自动加载
-        $rawcmd=SITE_CMD.'/'.$this->request->url().'.auto.php';
+        $rawcmd=SITE_CMD.'/'.$this->request->url().'.'.strtolower($this->request->getMethod()).'.php';
+        // strtolower($this->request->getMethod())
         if (realpath($rawcmd)) {
             if (preg_match('/^'.preg_quote(SITE_CMD, '/').'/', $rawcmd)) {
-                return require $rawcmd;
+                require $rawcmd;
+                return;
             }
         }
+        
         // 啥都找不到
         Event::only('404_error')->args($this->request->url());
     }
@@ -134,5 +140,22 @@ class Router
             self::$router=new Router($request);
         }
         return self::$router->buildUrl($id, $values);
+    }
+
+    public function autoRuningCommand($name)
+    {
+        if ($name) {
+            $fname=preg_replace('/[\\\\_\/.]/', DIRECTORY_SEPARATOR, $name);
+            if (file_exists($require=SITE_CMD.'/'.$fname.'.'.strtolower($this->request->getMethod()).'.php')) {
+                return require_once $require;
+            } elseif (file_exists($require=SITE_CMD.'/'.$fname.'.cmd.php')) {
+                return require_once $require;
+            }
+        }
+    }
+    
+    public static function _error404($url)
+    {
+        echo $url.' -- 404';
     }
 }
