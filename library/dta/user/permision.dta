@@ -1,4 +1,4 @@
-; 权限表
+; 权限分组表
 ; C 插入 U 更新 D 删除 R 查看
 ; API权限组
 ; 权限 Admin > Owner > Member > Guest

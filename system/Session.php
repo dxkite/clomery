@@ -10,10 +10,10 @@ class Session
     ];
     public static function start()
     {
-        $path=APP_RES.'/'.conf('session.save_path');
+        $path=APP_RESOURCE.'/'.conf('session.save_path','session');
         Storage::mkdirs($path);
         session_save_path($path);
-        session_name(conf('session.name', 'atd_sid'));
+        session_name(conf('session.name', 'session'));
         session_cache_limiter(conf('session.limiter', 'private'));
         session_cache_expire(conf('session.expire', '60'));
         /**
