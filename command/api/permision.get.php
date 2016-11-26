@@ -1,9 +1,11 @@
 <?php
 namespace api;
 
-class Permision
+class Permision  implements \Entrance
 {
-    public static function main($request)
+    public static function beforeRun(\Request $request){}
+    public static function afterRun($return){}
+    public static function main(\Request $request)
     {
         echo 'get';
     }

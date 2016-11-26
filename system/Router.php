@@ -124,7 +124,8 @@ class Router
             if (preg_match('/^'.preg_quote(SITE_CMD, '/').'/', $rawcmd)) {
                 require $rawcmd;
                 if (class_exists($class)) {
-                    $class::main($this->request);
+                    $class::beforeRun($this->request);
+                    $class::afterRun($class::main($this->request));
                 }
                 return;
             }

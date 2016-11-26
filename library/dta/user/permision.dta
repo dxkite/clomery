@@ -1,4 +1,8 @@
 ; 权限表
+; C 插入 U 更新 D 删除 R 查看
+; API权限组
+; 权限 Admin > Owner > Member > Guest
+# api=CRUD C=Admin R=Guest U=Admin D=Admin
 gid int(11) auto primary  comment="分组ID"
 uid bigint(20) unique  comment="用户ID"
 name varchar(80) key comment="分组名"

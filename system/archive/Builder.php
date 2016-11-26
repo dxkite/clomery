@@ -1,5 +1,6 @@
 <?php
 namespace archive;
+
 use Storage;
 use helper\Value;
 
@@ -13,16 +14,19 @@ class Builder
     protected $name;
     protected $file;
     protected $tableName;
+    protected $exset=[];
     
-    public function export(string $template,string $path){
+    public function export(string $template, string $path)
+    {
         ob_start();
-        $_SQL=new Value(['fields'=>$this->fields,'sets'=>$this->sets,'name'=>$this->name,'namespace'=>$this->namespace]);
+        $_SQL=new Value(['fields'=>$this->fields, 'sets'=>$this->sets, 'name'=>$this->name, 'namespace'=>$this->namespace]);
         require $template;
         $class=ob_get_clean();
-        file_put_contents($path,"<?php\r\n".$class."\r\n\r\n/**\r\n* DTA FILE:\r\n".$this->file."\r\n*/");
+        file_put_contents($path, "<?php\r\n".$class."\r\n\r\n/**\r\n* DTA FILE:\r\n".$this->file."\r\n*/");
     }
-    public function getFieldsStr(){
-        return '[\''.implode('\',\'',array_keys($this->fields)).'\']';
+    public function getFieldsStr()
+    {
+        return '[\''.implode('\',\'', array_keys($this->fields)).'\']';
     }
     public function load(string $path)
     {
@@ -30,12 +34,14 @@ class Builder
             $this->file=file_get_contents($path);
             $file=file($path);
             foreach ($file as $line) {
-                if (preg_match('/^(?:\s*)(?!;)(\w+)\s+(\S+)(?:\s+(.+))?$/', $line, $match)) {
+                if (preg_match('/^(?:\s*)(?!;)(\w+)\s+(\S+)(?:\s+(.+?))?(;(.*))?$/', $line, $match)) {
                     $this->fields[$match[1]]=$match[2];
                     $this->sets[$match[1]]=self::parser_str($match[3]);
                     if (isset($this->sets[$match[1]]['auto'])) {
                         $this->auto=$match[1];
                     }
+                } elseif (preg_match('/^#\s*(.+)\s*$/', $line, $exset)) {
+                    $this->exset=array_merge($this->exset, self::parser_str($exset[1]));
                 }
             }
         }
@@ -67,21 +73,19 @@ class Builder
             $auto=isset($this->sets[$name]['auto'])?'AUTO_INCREMENT':'';
             $null=isset($this->sets[$name]['null'])?'NULL':'NOT NULL';
             $comment=isset($this->sets[$name]['comment'])?('COMMENT \''.$this->sets[$name]['comment'].'\''):'';
-            $default=isset($this->sets[$name]['default'])?'DEFAULT \''.addcslashes($this->sets[$name]['default'],'\'').'\'':'';
+            $default=isset($this->sets[$name]['default'])?'DEFAULT \''.addcslashes($this->sets[$name]['default'], '\'').'\'':'';
             $create[]=trim("`{$name}` {$type} {$null} {$default} {$auto} {$comment}");
             if (isset($this->sets[$name]['primary'])) {
                 $sets[]="PRIMARY KEY (`{$name}`)";
-            }
-            elseif (isset($this->sets[$name]['unique'])) {
+            } elseif (isset($this->sets[$name]['unique'])) {
                 $sets[]="UNIQUE KEY `{$name}` (`{$name}`)";
-            }
-            else if (isset($this->sets[$name]['key'])) {
+            } elseif (isset($this->sets[$name]['key'])) {
                 $sets[]="KEY `{$name}` (`{$name}`)";
             }
         }
         $sql="CREATE TABLE `{$this->tableName}` (\r\n\t";
-        $sql.=implode(",\r\n\t",array_merge($create,$sets));
-        $auto=$this->auto?'AUTO_INCREMENT=0':''; 
+        $sql.=implode(",\r\n\t", array_merge($create, $sets));
+        $auto=$this->auto?'AUTO_INCREMENT=0':'';
         $sql.="\r\n) ENGINE=InnoDB {$auto} DEFAULT CHARSET=utf8;";
         return $sql;
     }
@@ -157,5 +161,12 @@ class Builder
     {
         $this->name = $name;
     }
-
+    
+    /**
+     * @return mixed
+     */
+    public function getExset():array
+    {
+        return $this->exset;
+    }
 }

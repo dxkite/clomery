@@ -4,13 +4,6 @@ defined('DTA_TPL') or define('DTA_TPL', __DIR__ .'/tpl');
 use template\Builder as TplBuilder;
 use archive\Builder  as Builder;
 
-$params=array_slice($argv, 1);
-$src=isset($params[0])?$params[0]:SITE_LIB.'/dta';
-$dist=isset($params[1])?$params[1]:SITE_LIB;
-$outsql=isset($params[2])?$params[2]:$dist.'/database_create.sql';
-
-$tables=Storage::readDirFiles($src, true, '/\.dta$/', true);
-
 function compileAll()
 {
     $files=Storage::readDirFiles(DTA_TPL, true, '/\.raw$/');
@@ -20,6 +13,7 @@ function compileAll()
         file_put_contents($to, $text);
     }
 }
+
 function tablename($namespace, $name)
 {
     return ($name===$namespace?$name:preg_replace_callback('/(\\\\|[A-Z])/', function ($match) {
@@ -30,8 +24,13 @@ function tablename($namespace, $name)
         }
     }, $namespace.'\\'.$name));
 }
-
 compileAll();
+
+$params=array_slice($argv, 1);
+$src=isset($params[0])?$params[0]:SITE_LIB.'/dta';
+$dist=isset($params[1])?$params[1]:SITE_LIB;
+$outsql=isset($params[2])?$params[2]:$dist.'/database_create.sql';
+$tables=Storage::readDirFiles($src, true, '/\.dta$/', true);
 file_put_contents($outsql, '-- create:'.date('Y-m-d H:i:s')."\r\n");
 foreach ($tables as $table) {
     $name=pathinfo($table, PATHINFO_FILENAME);
@@ -49,4 +48,5 @@ foreach ($tables as $table) {
     $builder->export(DTA_TPL.'/archive.tpl', $output);
     $sql=$builder->getCreateSQL();
     file_put_contents($outsql, "\r\n".$sql."\r\n\r\n", FILE_APPEND);
+    var_dump($builder->getExset());
 }
