@@ -113,24 +113,25 @@ class Router
         }
 
         // 路由找不到则使用自动加载
-        $rawcmd=SITE_CMD.'/'.$this->request->url().'.'.strtolower($this->request->method()).'.php';
-
-        // strtolower($this->request->getMethod())
-        if (realpath($rawcmd)) {
-            $name=ucfirst(pathinfo($this->request->url(), PATHINFO_FILENAME));
-            $namespace=preg_replace('/\//', '\\', trim(dirname($this->request->url()), '/'));
-            $class=$namespace!==''?$namespace.'\\'.$name:$name;
-
-            if (preg_match('/^'.preg_quote(SITE_CMD, '/').'/', $rawcmd)) {
+        $rawcmds=[
+                    SITE_CMD.'/'.$this->request->url().'/index.auto.php', // 目录
+                    SITE_CMD.'/'.$this->request->url().'.'.strtolower($this->request->method()).'.php' //请求
+                ];
+        foreach ($rawcmds as $rawcmd) {
+            if (realpath($rawcmd)) {
                 require $rawcmd;
-                if (class_exists($class)) {
-                    $class::beforeRun($this->request);
-                    $class::afterRun($class::main($this->request));
+                $name=ucfirst(pathinfo($this->request->url(), PATHINFO_FILENAME));
+                $namespace=preg_replace('/\//', '\\', trim(dirname($this->request->url()), '/'));
+                $class=$namespace!==''?$namespace.'\\'.$name:$name;
+                if (preg_match('/^'.preg_quote(SITE_CMD, '/').'/', $rawcmd)) {
+                    if (class_exists($class)) {
+                        $class::beforeRun($this->request);
+                        $class::afterRun($class::main($this->request));
+                    }
                 }
                 return;
             }
         }
-        
         // 啥都找不到
         Event::only('404_error')->args($this->request->url());
     }
