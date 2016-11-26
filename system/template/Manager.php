@@ -74,7 +74,7 @@ class Manager
         if (self::$compiler) {
             $theme=self::$compiler->getTheme();
         }
-        $files=Storage::readDirFiles(SITE_TEMPLATE.'/'.$theme, true, '/\.tpl\.html$/');
+        $files=Storage::readDirFiles(SITE_TEMPLATE.'/'.$theme, true, '/\.tpl\.html$/',true);
         foreach ($files as $file) {
             self::compile($file);
         }

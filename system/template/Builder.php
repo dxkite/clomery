@@ -29,10 +29,10 @@ class Builder
     // 编译单文件
     public function compileFile(string $filename)
     {
-        $file=preg_replace('/^'.preg_quote(SITE_TEMPLATE.'/'.self::$theme.'/', '/').'/', '', $filename);
-        $output=SITE_VIEW.'/'.preg_replace('/'.preg_quote(self::$extRaw).'$/', self::$extCpl, $file);
-        if (Storage::exist($filename)) {
-            $content= self::compileText(Storage::get($filename));
+        $output=SITE_VIEW.'/'.preg_replace('/'.preg_quote(self::$extRaw).'$/', self::$extCpl,$filename);
+        $path=realpath(self::tplRoot().'/'.$filename);
+        if ($path) {
+            $content= self::compileText(Storage::get($path));
             if (!Storage::isDir($dir=dirname($output))) {
                 Storage::mkdirs(dirname($output));
             }
@@ -43,6 +43,7 @@ class Builder
         self::$error=sprintf(self::$errorInfo[1], $filename);
         return false;
     }
+
     public function compileName(string $name)
     {
         $file=preg_replace('/[.|\\\\|\/]+/', DIRECTORY_SEPARATOR, $name);
