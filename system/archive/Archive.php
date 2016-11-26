@@ -3,6 +3,25 @@ namespace archive;
 
 abstract class Archive extends \helper\Value
 {
+    protected $want=[];
+    
+    public function setWants($name)
+    {
+        if (func_num_args() === 1){
+            $name=func_get_args()[0];
+        }
+        else {
+            $name=func_get_args();
+        }
+        $this->want=$name;
+        return $this;
+    }
+
+    public function getWants():array
+    {
+        return $this->want;
+    }
+    
     /**
      * @param string $name
      * @param $value

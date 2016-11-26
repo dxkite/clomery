@@ -1,6 +1,5 @@
 <?php
 namespace archive;
-
 /**
 *   储存管理器
 */
@@ -10,6 +9,7 @@ class Manager
     protected $where=[];
     protected $wparam=[];
     protected $names=[];
+    protected $sort;
 
     public function __construct(Archive $archive)
     {
@@ -33,9 +33,10 @@ class Manager
         return 0;
     }
     
-    public function update(array  $wants, int $limit=1)
+    public function update(int $limit=1)
     {
         $values=$this->archive->_getVar();
+        $wants=$this->archive->getWants();
         $param=[];
         $sets=[];
         $where=[];
@@ -64,7 +65,6 @@ class Manager
             $wants[]=[$where];
         }
         $or=[];
-        $names=[];
         $param=[];
         foreach ($wants as $want) {
             $and=[];
@@ -82,7 +82,7 @@ class Manager
             $or[]='('.implode(' AND ', $and).')';
         }
         $this->where[]=implode(' OR ', $or);
-        $this->wparam=$param;
+        $this->wparam=array_merge($this->wparam,$param);
         return $this;
     }
 
@@ -90,7 +90,6 @@ class Manager
     {
         $param=[];
         $where=[];
-        $names=[];
         $values=$this->archive->_getVar();
         foreach ($values as $name=>$value) {
             $this->names[]=$name;
@@ -102,5 +101,32 @@ class Manager
         return (new Query($sql, $param))->exec();
     }
 
-    
+    public function sort(string $field, $sort=SORT_ASC)
+    {
+        $order='ORDER BY `'.$field.'` ';
+        if ($sort===SORT_ASC) {
+            $order.=' ASC';
+        } else {
+            $order.=' DISC';
+        }
+        $this->sort=$order;
+        return $this;
+    }
+    public function retrieve(array $wants=[], int $limit=1, int $offset=0)
+    {
+        $values=$this->archive->_getVar();
+        if (count($wants)===0) {
+            $fields='*';
+        } else {
+            $field=[];
+            foreach ($wants as $want) {
+                $field[]="`$want`";
+            }
+            $fields=implode(',', $field);
+        }
+
+        $where=isset($this->where)?' WHERE '.implode(' OR ', $this->where):'';
+        $sql='SELECT '.$fields.' FROM `'.$this->archive->getTableName()."` {$where} {$this->sort} LIMIT {$offset},{$limit};";
+        return new Query($sql, $this->wparam);
+    }
 }

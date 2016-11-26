@@ -29,7 +29,7 @@ class Query
         $this->scroll=$scroll;
     }
 
-    public function fetch(int $fetch_style = query::FETCH_ASSOC)
+    public function fetch(int $fetch_style = PDO::FETCH_ASSOC)
     {
         if ($this->stmt) {
             return $this->stmt->fetch($fetch_style);
@@ -41,7 +41,7 @@ class Query
         return false;
     }
 
-    public function fetchAll(int $fetch_style = query::FETCH_ASSOC)
+    public function fetchAll(int $fetch_style = PDO::FETCH_ASSOC)
     {
         if (self::lazyQuery($this->query, $this->values)) {
             return $this->stmt->fetchAll($fetch_style);

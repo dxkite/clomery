@@ -55,7 +55,9 @@ $test=new user\Permision;
 $test->uid=2;
 $test->upload='Y';
 $manager=new archive\Manager($test);
-$manager->where(['uid'=>['<',10],'upload'=>'N'],['uid'=>['>',6],'upload'=>'Y']);
-var_dump($manager);
-$return=$manager->delete();
+$manager->where(['uid'=>['<',10]])->where(['uid'=>['>',5]]);
+
+$return=$manager->retrieve();
 var_dump($return);
+var_dump($manager);
+var_dump($return->fetchAll());
