@@ -113,11 +113,19 @@ class Router
         }
 
         // 路由找不到则使用自动加载
-        $rawcmd=SITE_CMD.'/'.$this->request->url().'.'.strtolower($this->request->getMethod()).'.php';
+        $rawcmd=SITE_CMD.'/'.$this->request->url().'.'.strtolower($this->request->method()).'.php';
+
         // strtolower($this->request->getMethod())
         if (realpath($rawcmd)) {
+            $name=ucfirst(pathinfo($this->request->url(), PATHINFO_FILENAME));
+            $namespace=preg_replace('/\//', '\\', trim(dirname($this->request->url()), '/'));
+            $class=$namespace!==''?$namespace.'\\'.$name:$name;
+
             if (preg_match('/^'.preg_quote(SITE_CMD, '/').'/', $rawcmd)) {
                 require $rawcmd;
+                if (class_exists($class)) {
+                    $class::main($this->request);
+                }
                 return;
             }
         }
@@ -156,6 +164,6 @@ class Router
     
     public static function _error404($url)
     {
-        echo $url.' -- 404';
+        echo ';-- '.$url.' ;-- 404';
     }
 }
