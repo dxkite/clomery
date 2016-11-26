@@ -64,11 +64,14 @@ class Manager
         } else {
             $wants[]=[$where];
         }
+
         $or=[];
         $param=[];
         foreach ($wants as $want) {
             $and=[];
+            if (!is_array($want)) throw new \Exception('Unsupport Where Clouse:'.json_encode($where));
             foreach ($want as $name => $value) {
+                if(!$this->archive->_isField($name)) throw new \Exception("Unknown Field $name From Table {$this->archive->getTableName()}");
                 $this->names[]=$name;
                 $bname=$name.'_'.count($this->names);
                 if (is_array($value) && count($value)===2) {
@@ -103,6 +106,7 @@ class Manager
 
     public function sort(string $field, $sort=SORT_ASC)
     {
+        if(!$this->archive->_isField($name)) throw new \Exception("Unknown Field $name From Table {$this->archive->getTableName()}");
         $order='ORDER BY `'.$field.'` ';
         if ($sort===SORT_ASC) {
             $order.=' ASC';
