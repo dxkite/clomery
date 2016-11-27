@@ -24,12 +24,10 @@ class Page
     public function assign(array $values)
     {
         self::$values=array_merge(self::$values, $values);
-        return $this;
     }
     public function set(string $name, $value)
     {
         self::$values=core\ArrayHelper::set(self::$values, $name, $value);
-        return $this;
     }
     /**
      * @return int
@@ -45,7 +43,6 @@ class Page
     public function setAge($age)
     {
         self::$age = $age;
-        return $this;
     }
 
     /**
@@ -62,7 +59,6 @@ class Page
     public function setClose($close)
     {
         self::$close = $close;
-        return $this;
     }
 
     public function setOptions($options)
@@ -73,7 +69,6 @@ class Page
                 self::$$method($value);
             }
         }
-        return $this;
     }
 
     public function display(array $values=[])
@@ -136,7 +131,27 @@ class Page
     {
         self::$template = $template;
     }
+    /**
+     * @param string $template
+     */
+    public function use($template)
+    {
+        self::$template = $template;
+    }
 
+    public function raw()
+    {
+        self::$template=null;
+    }
+    
+    /**
+     * @param mixed $type
+     */
+    public function type($type)
+    {
+        self::$type = $type;
+    }
+    
     /**
      * @return mixed
      */
@@ -224,5 +239,4 @@ class Page
             self::$cache = $cache;
         }
     }
-
 }
