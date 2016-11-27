@@ -58,4 +58,3 @@ function mime(string $name='')
 set_time_limit(conf('timelimit', 0));
 // 设置时区
 date_default_timezone_set(conf('timezone', 'PRC'));
-

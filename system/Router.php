@@ -88,8 +88,13 @@ class Router
         }
         return $url;
     }
-
     protected function display()
+    {
+        self::runCommand();
+        Page::display();
+    }
+    
+    protected function runCommand()
     {
         // mapper
         foreach ($this->matchs as $name=>$preg) {
@@ -104,7 +109,6 @@ class Router
                 }
                 if (isset($this->mapper[$name]['options']['noOb'])) {
                     $render=(new Command($this->mapper[$name]['cmd']))->args($this->request);
-                    return (new Render($render))->render($this->mapper[$name]['options']);
                 } else {
                     ob_start();
                     $render=(new Command($this->mapper[$name]['cmd']))->args($this->request);
@@ -112,8 +116,9 @@ class Router
                     if ($content) {
                         $this->mapper[$name]['options']['content']=$content;
                     }
-                    return (new Render($render))->render($this->mapper[$name]['options']);
                 }
+                Page::setOptions($this->mapper[$name]['options']);
+                return true;
             }
         }
         // auto
@@ -123,6 +128,7 @@ class Router
                     SITE_CMD.'/'.$this->request->url().'.php', // 文件
                     SITE_CMD.'/'.$this->request->url().'/index.php', // 目录
                 ];
+        
         foreach ($rawcmds as $rawcmd) {
             if (realpath($rawcmd)) {
                 $render=require $rawcmd;
@@ -131,11 +137,17 @@ class Router
                 $class=$namespace!==''?$namespace.'\\'.$name:$name;
                 if (preg_match('/^'.preg_quote(SITE_CMD, '/').'/', $rawcmd)) {
                     if (class_exists($class)) {
-                        $class::beforeRun($this->request);
-                        $render=$class::afterRun($class::main($this->request));
+                        if (method_exists($class, 'beforRun')) {
+                            $class::beforeRun($this->request);
+                        }
+                        if (method_exists($class, 'afterRun')) {
+                            $class::afterRun($class::main($this->request));
+                        } else {
+                            $class::main($this->request);
+                        }
                     }
                 }
-                return  (new Render($render))->render([]);
+                return true;
             }
         }
         // 啥都找不到
