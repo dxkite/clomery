@@ -65,6 +65,7 @@ class User
         return Token::verifyToken($id, $token);
     }
 
+    // 心跳刷新
     public function heartBeat(int $id,string $token)
     {
         return Token::refreshToken($id, $token);
@@ -73,5 +74,10 @@ class User
     public function setAvatar(int $id,int $resource_id)
     {
         return Query::update('user',['avatar'=>$resource_id],['id'=>$id]);
+    }
+
+    public function setGroup(int $id,int $group_id)
+    {
+        return Query::update('user',['group_id'=>$group_id],['id'=>$id]);
     }
 }
