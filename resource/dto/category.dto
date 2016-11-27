@@ -1,0 +1,9 @@
+; 分类
+cid bigint(20) auto primary comment="分类ID"
+icon bigint(20) key comment="分类图标资源"
+name varchar(20) key comment="分类名"
+slug varchar(20) key comment="英文缩写"
+discription varchar(255) comment="分类描述"
+sort   int(11) key comment="排序"
+count int(11) comment="分类下的文章"
+parent bigint(20) key comment="父分类"

@@ -16,6 +16,7 @@ function compileAll()
 
 function tablename($namespace, $name)
 {
+    if ($namespace==='.') return $name;
     return ($name===$namespace?$name:preg_replace_callback('/(\\\\|[A-Z])/', function ($match) {
         if ($match[0]==='\\') {
             return '_';

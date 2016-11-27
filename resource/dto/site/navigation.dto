@@ -1,0 +1,6 @@
+; 导航栏
+navid  bigint(20) auto primary comment="导航ID"
+name   varchar(80) key comment="导航名"
+url    varchar(255) comment="导航URL"
+sort   int(11) key comment="排序"
+parent bigint(20) comment="父导航"
