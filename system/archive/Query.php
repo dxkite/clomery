@@ -124,8 +124,8 @@ class Query
                 die('Could not select database:'.$this->database);
             }
         } elseif (is_null($this->database)) {
-            if (self::$pdo->query('USE '.conf('Database.dbname', 'test'))) {
-                $this->database=conf('Database.dbname', 'test');
+            if (self::$pdo->query('USE '.conf('db.dbname', 'test'))) {
+                $this->database=conf('db.dbname', 'test');
             }
         }
 
