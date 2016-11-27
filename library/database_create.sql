@@ -1,4 +1,15 @@
--- create:2016-11-26 18:31:44
+-- create:2016-11-27 12:05:18
+
+CREATE TABLE `site_setting` (
+	`sid` int(11) NOT NULL  AUTO_INCREMENT COMMENT '设置ID',
+	`name` varchar(80) NOT NULL   COMMENT '设置KEY',
+	`type` varchar(10) NOT NULL   COMMENT '数据类型',
+	`value` varchar(255) NOT NULL   COMMENT '设置数据',
+	PRIMARY KEY (`sid`),
+	UNIQUE KEY `name` (`name`),
+	KEY `type` (`type`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
 
 CREATE TABLE `upload` (
 	`fid` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '文件ID',

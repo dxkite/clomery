@@ -49,9 +49,9 @@ foreach ($tables as $table) {
     $builder->setName($name);
     $builder->setNamespace($namespace);
     $builder->setTableName($table_name);
-    $output=$dist.'/'.preg_replace('/\\\\/', DIRECTORY_SEPARATOR, $namespace).'/'.$name.'.php';
-    Storage::mkdirs(dirname($output));
-    $builder->export(DTA_TPL.'/archive.tpl', $output);
+    // $output=$dist.'/'.preg_replace('/\\\\/', DIRECTORY_SEPARATOR, $namespace).'/'.$name.'.php';
+    // Storage::mkdirs(dirname($output));
+    // $builder->export(DTA_TPL.'/archive.tpl', $output);
     $sql=$builder->getCreateSQL();
     file_put_contents($outsql, "\r\n".$sql."\r\n\r\n", FILE_APPEND);
 }
