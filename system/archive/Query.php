@@ -142,6 +142,7 @@ class Query
             Storage::put($path.'/query_'.date('Y-m-d').'_query', date('Y-m-d H:i:s ').$stmt->queryString.' '.$stmt->errorInfo()[2]."\r\n", FILE_APPEND);
         } else {
             Storage::put($path.'/query_'.date('Y-m-d').'_error', date('Y-m-d H:i:s ').$stmt->queryString.' '.$stmt->errorInfo()[2]."\r\n", FILE_APPEND);
+            throw new \Exception($stmt->queryString.'-->'.$stmt->errorInfo()[2]);
         }
         $this->stmt=$stmt;
         return $return;
