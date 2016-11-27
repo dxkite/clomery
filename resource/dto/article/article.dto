@@ -1,5 +1,5 @@
 ; 文章表
-aid     bigint(20) auto primary comment="文章ID"
+id     bigint(20) auto primary comment="文章ID"
 author  bigint(20) key comment="作者"
 categroy int(11) key comment="文章分类"
 title   varchar(255) key comment="文章标题"

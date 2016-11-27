@@ -1,5 +1,5 @@
 ; 回复
-reply_id bigint(20) auto primary comment="回复ID"
+id bigint(20) auto primary comment="回复ID"
 aritcle  bigint(20) key comment="回复的文章"
 reply    bigint(20) key comment="回复回复"
 count    int(11) key comment="被回复数"

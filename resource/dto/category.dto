@@ -1,5 +1,5 @@
 ; 分类
-category_id bigint(20) auto primary comment="分类ID"
+id bigint(20) auto primary comment="分类ID"
 icon bigint(20) key comment="分类图标资源"
 name varchar(20) key comment="分类名"
 slug varchar(20) key comment="英文缩写"

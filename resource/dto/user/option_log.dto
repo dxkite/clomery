@@ -1,6 +1,6 @@
 ; 操作日志
-log_id bigint(20) primary auto comment="日志ID"
-uid bigint(20) key comment="使用的用户"
+id bigint(20) primary auto comment="日志ID"
+user_id bigint(20) key comment="使用的用户"
 name varchar(80) key comment="操作名"
 sketch varchar(255) comment="操作附加描述"
 ip varchar(32) comment="使用令牌的ID"

@@ -8,12 +8,12 @@ class User
 {
     public function checkEmail(string $email):bool
     {
-        return Query::where('user', 'uid', 'LOWER(email) = LOWER(:email)', ['email'=>$email])->fetch()?true:false;
+        return Query::where('user', 'id', 'LOWER(email) = LOWER(:email)', ['email'=>$email])->fetch()?true:false;
     }
 
     public function checkName(string $name):bool
     {
-        return Query::where('user', 'uid', 'LOWER(name) = LOWER(:name)', ['name'=>$name])->fetch()?true:false;
+        return Query::where('user', 'id', 'LOWER(name) = LOWER(:name)', ['name'=>$name])->fetch()?true:false;
     }
     
     public function count()
@@ -25,8 +25,8 @@ class User
     {
         try {
             Query::begin();
-            $uid=Query::insert('user', ['name'=>$name, 'password'=>password_hash($password, PASSWORD_DEFAULT), 'email'=>$email]);
-            $token=Token::createToken($uid, $usage);
+            $id=Query::insert('user', ['name'=>$name, 'password'=>password_hash($password, PASSWORD_DEFAULT), 'email'=>$email]);
+            $token=Token::createToken($id, $usage);
             Query::commit();
         } catch (\Exception $e) {
             Query::rollBack();
@@ -40,9 +40,9 @@ class User
         $token=false;
         try {
             Query::begin();
-            if ($fetch=Query::where('user', ['password', 'uid'], ['name'=>$name])->fetch()) {
+            if ($fetch=Query::where('user', ['password', 'id'], ['name'=>$name])->fetch()) {
                 if (password_verify($password, $fetch['password'])) {
-                    $token=Token::createToken($fetch['uid'], $usage);
+                    $token=Token::createToken($fetch['id'], $usage);
                 }
             }
             Query::commit();
@@ -53,13 +53,17 @@ class User
         return $token;
     }
 
-    public function signOut(int $uid, string $token)
+    public function signOut(int $id, string $token)
     {
-        return Token::deleteToken($uid, $token);
+        return Token::deleteToken($id, $token);
     }
     
-    public function isSignin(int $uid, string $token)
+    public function isSignin(int $id, string $token)
     {
-        return Token::verifyToken($uid, $token);
+        return Token::verifyToken($id, $token);
+    }
+    public function setAvatar(int $id,int $resource_id)
+    {
+        return Query::update('user',['avatar'=>$resource_id],['id'=>$id]);
     }
 }

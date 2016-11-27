@@ -1,8 +1,8 @@
 ; 通知表
-nid bigint(20) auto primary comment="通知ID"
+id bigint(20) auto primary comment="通知ID"
 send_id bigint(20) key comment="发送人"
 recv_id bigint(20) key comment="接受人"
 type int(11) comment="通知类型"
 time int(11) comment="通知时间"
 state tinyint(1) comment="状态"
-date bigint(20) comment="通知内容"
+data_id bigint(20) comment="通知内容"

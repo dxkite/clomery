@@ -1,5 +1,5 @@
 ; 设置表单
-set_id int(11) primary auto comment="设置ID"
+id int(11) primary auto comment="设置ID"
 name varchar(80) unique comment="设置KEY"
 type varchar(10) key comment="数据类型"
 value varchar(255) comment="设置数据"

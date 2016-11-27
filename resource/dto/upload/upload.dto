@@ -1,5 +1,5 @@
 ; 上传的文件
-fid bigint(20) primary  auto comment="文件ID"
+id bigint(20) primary  auto comment="文件ID"
 type varchar(10) key comment="扩展名"
 hash varchar(32) key comment="MD5哈希"
 ref  int(11) comment="引用计数"  

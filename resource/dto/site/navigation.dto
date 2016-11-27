@@ -1,5 +1,5 @@
 ; 导航栏
-nav_id  bigint(20) auto primary comment="导航ID"
+id  bigint(20) auto primary comment="导航ID"
 name   varchar(80) key comment="导航名"
 url    varchar(255) comment="导航URL"
 sort   int(11) key comment="排序"
