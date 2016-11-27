@@ -19,7 +19,7 @@ class Query extends AQuery
         return -1;
     }
 
-    public function where(string $table, array $wants=[], string $condithon='1', array $binds=[])
+    public function where(string $table, array $wants=[], string $condithon='1', array $binds=[],bool $scroll=false)
     {
         if (count($wants)===0) {
             $fields='*';
@@ -31,9 +31,9 @@ class Query extends AQuery
             $fields=implode(',', $field);
         }
         $sql='SELECT '.$fields.' FROM `'.$table.'` WHERE '.rtrim($condithon,';').';';
-        return new AQuery($sql, $binds);
+        return new AQuery($sql, $binds,$scroll);
     }
-    
+
     public function update(string $table, array $set_fields, string $where='1', array $binds=[]):int
     {
         $param=[];

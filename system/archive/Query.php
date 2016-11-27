@@ -1,5 +1,6 @@
 <?php
 namespace archive;
+
 use PDO;
 use Storage;
 
@@ -41,6 +42,17 @@ class Query
         return false;
     }
 
+    public function fetchObject(string $class='stdClass')
+    {
+        if ($this->stmt) {
+            return $this->stmt->fetchObject($class);
+        } else {
+            if (self::lazyQuery($this->query, $this->values)) {
+                return $this->stmt->fetchObject($class);
+            }
+        }
+        return false;
+    }
     public function fetchAll(int $fetch_style = PDO::FETCH_ASSOC)
     {
         if (self::lazyQuery($this->query, $this->values)) {
@@ -111,9 +123,9 @@ class Query
                 die('Could not select database:'.$this->database);
             }
         } elseif (is_null($this->database)) {
-            if (self::$pdo->query('USE '.conf('Database.dbname','test'))) {
-                $this->database=conf('Database.dbname','test');
-            } 
+            if (self::$pdo->query('USE '.conf('Database.dbname', 'test'))) {
+                $this->database=conf('Database.dbname', 'test');
+            }
         }
 
         if ($this->scroll) {
@@ -151,9 +163,9 @@ class Query
     {
         if (!self::$pdo) {
             $pdo='mysql:host='.conf('db.host', 'localhost').';charset='.conf('db.charset', 'utf8');
-            self::$prefix=conf('db.prefix','');
+            self::$prefix=conf('db.prefix', '');
             try {
-                self::$pdo = new PDO($pdo, conf('db.user','root'), conf('db.passwd','root'));
+                self::$pdo = new PDO($pdo, conf('db.user', 'root'), conf('db.passwd', 'root'));
             } catch (Exception $e) {
                 $this->good=false;
             }
