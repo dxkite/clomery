@@ -1,5 +1,5 @@
 <?php
-namespace api;
+namespace model;
 
 use Query;
 use Request;
@@ -15,7 +15,7 @@ class User
     {
         return Query::where('user', 'uid', 'LOWER(name) = LOWER(:name)', ['name'=>$name])->fetch()?true:false;
     }
-
+    
     public function count()
     {
         return Query::count('user');

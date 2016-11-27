@@ -1,5 +1,5 @@
 <?php
-namespace api;
+namespace model;
 
 class APIError extends \helper\Value
 {

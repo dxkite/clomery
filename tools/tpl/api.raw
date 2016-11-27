@@ -1,5 +1,5 @@
 <?php
-namespace api;
+namespace model;
 class Permision 
 {
     
