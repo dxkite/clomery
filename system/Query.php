@@ -20,13 +20,13 @@ class Query extends AQuery
         return -1;
     }
 
-    public function where(string $table, $wants='*', string $condithon='1', array $binds=[], bool $scroll=false):AQuery
+    public function where(string $table, $wants='*', string $condithon='1', array $binds=[], array $page=[0,1] , bool $scroll=false):AQuery
     {
         $table=self::$table($name);
-        return self::select($table, $wants, ' WHERE '.rtrim($condithon, ';').';', $binds, $scroll);
+        return self::select($table, $wants, ' WHERE '.trim($condithon, ';').';', $binds, $page,$scroll);
     }
 
-    public function select(string $table, $wants ='*', string $conditions, array $binds, bool $scroll=false)
+    public function select(string $table, $wants ='*', string $conditions, array $binds, array $page=[0,1],bool $scroll=false)
     {
         $table=self::$table($name);
         if (is_string($wants)) {
@@ -38,7 +38,7 @@ class Query extends AQuery
             }
             $fields=implode(',', $field);
         }
-        return new AQuery('SELECT '.$fields.' FROM `'.$table.'` '.$conditions, $binds, $scroll);
+        return new AQuery('SELECT '.$fields.' FROM `'.$table.'` '.trim($conditions,';').' LIMIT '.self::page($page[0],$page[1]) .';', $binds, $scroll);
     }
 
     public function update(string $table, $set_fields, string $where='1', array $binds=[]):int
@@ -80,5 +80,16 @@ class Query extends AQuery
     protected function table(string $name)
     {
         return conf('db.perfix', '').$name;
+    }
+
+    protected function page(int $page=0, int $percount=1)
+    {
+        if ($percount<1) {
+            $percount=1;
+        }
+        if ($page < 1) {
+            $page = 1;
+        }
+        return ((intval($page) - 1) * intval($percount)) . ', ' . intval($percount);
     }
 }

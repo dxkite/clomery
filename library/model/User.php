@@ -21,62 +21,39 @@ class User
         return Query::count('user');
     }
 
-    public function signUp(string $name, string $email, string $password, string $usage='sign')
+    public function signUp(string $name, string $email, string $password, string $usage='web-signup')
     {
         try {
             Query::begin();
             $uid=Query::insert('user', ['name'=>$name, 'password'=>password_hash($password, PASSWORD_DEFAULT), 'email'=>$email]);
-            $token=self::createToken($uid, $usage);
+            $token=Token::createToken($uid, $usage);
             Query::commit();
         } catch (\Exception $e) {
             Query::rollBack();
-            $message=$e->getMessage();
-            if ($e->getCode()===23000) {
-                preg_match('/key \'(\w+)\'/', $e->getMessage(), $match);
-                $message='Duplicate user '.$match[1];
+            return false;
+        }
+        return $token;
+    }
+
+    public function signIn(string $name, string $password, string $usage='web-signin')
+    {
+        $token=false;
+        try {
+            Query::begin();
+            if ($fetch=Query::where('user', ['password', 'uid'], ['name'=>$name])->fetch()) {
+                if (password_verify($password, $fetch['password'])) {
+                    $token=Token::createToken($fetch['uid'], $usage);
+                }
             }
-            return new APIError('signUpError', $message);
+            Query::commit();
+        } catch (\Exception $e) {
+            Query::rollBack();
+            return false;
         }
-        return new APIResult(true, $token);
+        return $token;
     }
 
-    protected function createToken(string $uid, string $usage)
-    {
-        $verify=self::tokenString($uid);
-        $time=time();
-        $token=Query::insert('user_token', ['uid'=>$uid, 'token'=>$verify, 'time'=>$time, 'ip'=>Request::ip(), 'name'=>$usage, 'expire'=>$time+3600]);
-        return ['tid'=>$token,'token'=>$verify,'time'=>$time];
-    }
-    
-    protected function tokenString($id)
-    {
-        static $mis='5246-687261-5852-6C';
-        return md5('DXCore-'.SITE_VERSION.'-'.$id.'-'.microtime(true).'-'.$mis);
-    }
-
-    public function refreshToken(int $tid, string $token)
-    {
-        $time=time()+3600;
-        $new =self::tokenString($tid);
-        if (Query::update('user_token',
-        'expire ='.$time.', token=:new_token',
-        'tid=:tid AND token = :token ',
-        ['tid'=>$tid, 'token'=>$token, 'new_token'=>$new])) {
-            return new APIResult(true, ['tid'=>$tid, 'token'=>$new, 'time'=>$time]);
-        }
-        return new APIError('tokenRefreshError', ['tid'=>$tid, 'token'=>$token]);
-    }
-
-    public function verifyTokenByToken(string $token)
-    {
-        return Query::where('user_token', 'uid', 'LOWER(token) = LOWER(:token) AND `name` =:name', ['token'=>$token])->fetch()?true:false;
-    }
-
-    public function verifyTokenByValue(int $tid, string $token, string $value)
-    {
-        return Query::where('user_token', 'uid',
-        '`tid` =:tid AND `token`=:token and `value`=:value',
-        ['token'=>$token, 'value'=>$value, 'tid'=>$tid]
-        )->fetch()?true:false;
+    public function signOut(int $uid,string $token){
+        return Token::deleteToken($uid,$token);
     }
 }
