@@ -1,4 +1,4 @@
 ; 文章标签
-tid bigint(20) auto primary comment="分类标签"
+tid bigint(20)   auto primary comment="分类标签"
 name varchar(20) key comment="标签名"
-count int(11) comment="标签下的内容"
+count int(11)   comment="标签下的内容"

@@ -30,7 +30,7 @@ compileAll();
 $params=array_slice($argv, 1);
 $src=isset($params[0])?$params[0]:SITE_RESOURCE.'/dto';
 $dist=isset($params[1])?$params[1]:SITE_LIB;
-$outsql=isset($params[2])?$params[2]:$dist.'/database_create.sql';
+$outsql=isset($params[2])?$params[2]:SITE_RESOURCE.'/database_create.sql';
 $tables=Storage::readDirFiles($src, true, '/\.dto$/', true);
 file_put_contents($outsql, '-- create:'.date('Y-m-d H:i:s')."\r\n");
 

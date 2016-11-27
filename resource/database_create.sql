@@ -1,4 +1,4 @@
--- create:2016-11-27 14:22:08
+-- create:2016-11-27 14:28:33
 
 CREATE TABLE `article` (
 	`aid` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '文章ID',
@@ -44,11 +44,13 @@ CREATE TABLE `article_reply` (
 
 
 CREATE TABLE `article_tag` (
-	`id` auto NOT NULL   COMMENT '索引',
-	`aid` key NOT NULL   COMMENT '文章ID',
-	`tid` key NOT NULL   COMMENT '标签ID',
-	PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+	`id` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '索引',
+	`aid` bigint(20) NOT NULL   COMMENT '文章ID',
+	`tid` bigint(20) NOT NULL   COMMENT '标签ID',
+	PRIMARY KEY (`id`),
+	KEY `aid` (`aid`),
+	KEY `tid` (`tid`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE `category` (
@@ -69,14 +71,14 @@ CREATE TABLE `category` (
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `notifcation_data` (
+CREATE TABLE `notification_data` (
 	`nid` bigint(20) NOT NULL   COMMENT '通知ID',
 	`data` text NOT NULL   COMMENT '通知数据',
 	PRIMARY KEY (`nid`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `notifcation_notification` (
+CREATE TABLE `notification` (
 	`nid` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '通知ID',
 	`send_id` bigint(20) NOT NULL   COMMENT '发送人',
 	`recv_id` bigint(20) NOT NULL   COMMENT '接受人',

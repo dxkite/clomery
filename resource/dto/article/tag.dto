@@ -1,4 +1,4 @@
 ; 文章分类
-id auto primary comment="索引"
-aid key comment="文章ID"
-tid key comment="标签ID"
+id bigint(20) auto primary comment="索引"
+aid bigint(20) key comment="文章ID"
+tid bigint(20) key comment="标签ID"
