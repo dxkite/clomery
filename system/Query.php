@@ -19,32 +19,41 @@ class Query extends AQuery
         return -1;
     }
 
-    public function where(string $table, array $wants=[], string $condithon='1', array $binds=[], bool $scroll=false):AQuery
+    public function where(string $table, $wants='*', string $condithon='1', array $binds=[], bool $scroll=false):AQuery
     {
-        if (count($wants)===0) {
-            $fields='*';
+        return self::select($table,$wants,' WHERE '.rtrim($condithon, ';').';',$binds,$scroll);
+    }
+
+    public function select(string $table, $wants ='*',string $conditions,array $binds,bool $scroll=false)
+    {
+        if (is_string($wants)){
+            $fields=$wants;
         } else {
             $field=[];
             foreach ($wants as $want) {
                 $field[]="`$want`";
             }
             $fields=implode(',', $field);
-        }
-        $sql='SELECT '.$fields.' FROM `'.$table.'` WHERE '.rtrim($condithon, ';').';';
-        return new AQuery($sql, $binds, $scroll);
+        } 
+        return new AQuery('SELECT '.$fields.' FROM `'.$table.'` '.$conditions,$binds,$scroll);
     }
 
-    public function update(string $table, array $set_fields, string $where='1', array $binds=[]):int
+    public function update(string $table, $set_fields, string $where='1', array $binds=[]):int
     {
         $param=[];
         $count=0;
-        $sets=[];
-        foreach ($set_fields as $name=>$value) {
-            $bname=$name.'_'.($count++);
-            $sets[]="`{$name}`=:{$bname}";
-            $param[$bname]=$value;
+        if (is_array($set_fields)) {
+            $sets=[];
+            foreach ($set_fields as $name=>$value) {
+                $bname=$name.'_'.($count++);
+                $sets[]="`{$name}`=:{$bname}";
+                $param[$bname]=$value;
+            }
+            $sql='UPDATE `'.$table.'` SET '.implode(',', $sets).' WHERE ' .rtrim($where, ';').';';
+        } else {
+            $sql='UPDATE `'.$table.'` SET '.$set_fields.' WHERE ' .rtrim($where, ';').';';
         }
-        $sql='UPDATE `'.$table.'` SET '.implode(',', $sets).' WHERE ' .rtrim($where, ';').';';
+        
         return (new Query($sql, array_merge($param, $binds)))->exec();
     }
 

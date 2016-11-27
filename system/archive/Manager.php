@@ -1,5 +1,6 @@
 <?php
 namespace archive;
+use Query as XQuery;
 /**
 *   储存管理器
 */
@@ -150,5 +151,9 @@ class Manager
     public function findAll(array $wants=[], int $limit=1, int $offset=0)
     {
         return self::retrieve($wants,$limit,$offset)->fetchAll();
+    }
+    public function count()
+    {
+        return XQuery::count($this->archive->getTableName());
     }
 }
