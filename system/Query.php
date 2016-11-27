@@ -62,10 +62,4 @@ class Query extends AQuery
         }
         return 0;
     }
-
-    public function exec(string $query, array $binds=[], bool $scroll=false)
-    {
-        return new AQuery($query,$binds,$scroll);
-    }
-    
 }
