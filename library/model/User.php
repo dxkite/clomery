@@ -64,6 +64,12 @@ class User
     {
         return Token::verifyToken($id, $token);
     }
+
+    public function heartBeat(int $id,string $token)
+    {
+        return Token::refreshToken($id, $token);
+    }
+    
     public function setAvatar(int $id,int $resource_id)
     {
         return Query::update('user',['avatar'=>$resource_id],['id'=>$id]);
