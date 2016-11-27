@@ -103,7 +103,7 @@ class Query
         }
         return false;
     }
-    public static function lastInsertId()
+    public static function lastInsertId():int
     {
         return self::$pdo->lastInsertId();
     }
@@ -154,7 +154,7 @@ class Query
             Storage::put($path.'/query_'.date('Y-m-d').'_query', date('Y-m-d H:i:s ').$stmt->queryString.' '.$stmt->errorInfo()[2]."\r\n", FILE_APPEND);
         } else {
             Storage::put($path.'/query_'.date('Y-m-d').'_error', date('Y-m-d H:i:s ').$stmt->queryString.' '.$stmt->errorInfo()[2]."\r\n", FILE_APPEND);
-            throw new \Exception($stmt->queryString.'-->'.$stmt->errorInfo()[2]);
+            throw new \Exception($stmt->errorInfo()[2]);
         }
         $this->stmt=$stmt;
         return $return;
@@ -176,12 +176,16 @@ class Query
         return $this->good;
     }
     // 事务系列
+    public static function begin()
+    {
+        return self::beginTransaction();
+    }
+    // 事务系列
     public static function beginTransaction()
     {
         self::connectPdo();
         return self::$pdo->beginTransaction();
     }
-    
     public static function commit()
     {
         self::connectPdo();

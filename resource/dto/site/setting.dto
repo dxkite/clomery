@@ -1,0 +1,3 @@
+; 设置表单
+sid int(11) primary auto comment="设置ID"
+name varchar(80) unique comment="设置KEY"

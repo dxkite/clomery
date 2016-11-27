@@ -17,7 +17,7 @@ class Manager
         $this->archive=$archive;
     }
 
-    public function insert()
+    public function insert():int
     {
         $values=$this->archive->_getVar();
         $bind='';
@@ -34,7 +34,7 @@ class Manager
         return 0;
     }
     
-    public function update(int $limit=1)
+    public function update(int $limit=0)
     {
         $values=$this->archive->_getVar();
         $wants=$this->archive->getWants();
@@ -51,7 +51,7 @@ class Manager
             }
             $param[$bname]=$value;
         }
-        $sql='UPDATE `'.$this->archive->getTableName().'` SET '.implode(',', $sets).' WHERE ' .implode(' AND ', $where).' LIMIT '.$limit.';';
+        $sql='UPDATE `'.$this->archive->getTableName().'` SET '.implode(',', $sets).' WHERE ' .implode(' AND ', $where).($limit?';':' LIMIT '.$limit.';');
         return (new Query($sql, $param))->exec();
     }
 
@@ -94,7 +94,7 @@ class Manager
         return $this;
     }
 
-    public function delete(int $limit=1)
+    public function delete(int $limit=1):int
     {
         $param=[];
         $where=[];
@@ -105,7 +105,7 @@ class Manager
             $where[]="`{$name}`=:{$bname}";
             $param[$bname]=$value;
         }
-        $sql='DELETE FROM `'.$this->archive->getTableName().'` WHERE ' .implode(' AND ', $where). ' LIMIT '.$limit.';';
+        $sql='DELETE FROM `'.$this->archive->getTableName().'` WHERE ' .implode(' AND ', $where).($limit?';':' LIMIT '.$limit.';');
         return (new Query($sql, $param))->exec();
     }
 
@@ -123,6 +123,7 @@ class Manager
         $this->sort=$order;
         return $this;
     }
+
     public function retrieve(array $wants=[], int $limit=1, int $offset=0)
     {
         $values=$this->archive->_getVar();
