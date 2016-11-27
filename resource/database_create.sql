@@ -1,4 +1,4 @@
--- create:2016-11-27 20:45:23
+-- create:2016-11-27 23:18:43
 
 CREATE TABLE `article` (
 	`id` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '文章ID',
@@ -50,19 +50,6 @@ CREATE TABLE `article_tag` (
 	PRIMARY KEY (`id`),
 	KEY `article_id` (`article_id`),
 	KEY `tag_id` (`tag_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
-
-
-CREATE TABLE `article_vote` (
-	`id` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT 'ID',
-	`article_id` bigint(20) NOT NULL   COMMENT '文章ID',
-	`user_id` bigint(20) NOT NULL   COMMENT '用户ID',
-	`score` int(1) NOT NULL   COMMENT '正赞负踩',
-	`time` int(11) NOT NULL   COMMENT '操作时间',
-	`ip` varchar(32) NOT NULL   COMMENT '操作IP',
-	PRIMARY KEY (`id`),
-	KEY `article_id` (`article_id`),
-	KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 
@@ -219,5 +206,20 @@ CREATE TABLE `user` (
 	KEY `group_id` (`group_id`),
 	KEY `verify_email` (`verify_email`),
 	KEY `avatar` (`avatar`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `vote_reply` (
+	`id` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT 'ID',
+	`article_id` bigint(20) NOT NULL   COMMENT '文章ID',
+	`reply_id` bigint(20) NOT NULL   COMMENT '回复ID',
+	`user_id` bigint(20) NOT NULL   COMMENT '用户ID',
+	`score` int(1) NOT NULL   COMMENT '正赞负踩',
+	`time` int(11) NOT NULL   COMMENT '操作时间',
+	`ip` varchar(32) NOT NULL   COMMENT '操作IP',
+	PRIMARY KEY (`id`),
+	KEY `article_id` (`article_id`),
+	KEY `reply_id` (`reply_id`),
+	KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
