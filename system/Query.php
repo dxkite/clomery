@@ -5,7 +5,7 @@ class Query extends AQuery
 {
     public function insert(string $table, array $values):int
     {
-        $table=self::$table($name);
+        $table=self::table($table);
         $bind='';
         $names='';
         foreach ($values as $name => $value) {
@@ -20,15 +20,30 @@ class Query extends AQuery
         return -1;
     }
 
-    public function where(string $table, $wants='*', string $condithon='1', array $binds=[], array $page=[0,1] , bool $scroll=false):AQuery
+    public function where(string $table, $wants='*', $condithon='1', array $binds=[], array $page=[0, 1], bool $scroll=false):AQuery
     {
-        $table=self::$table($name);
-        return self::select($table, $wants, ' WHERE '.trim($condithon, ';').';', $binds, $page,$scroll);
+        $table=self::table($table);
+
+        if (is_array($condithon)) {
+            $count=0;
+            $and=[];
+            foreach ($condithon as $name => $value) {
+                $bname=$name.'_'.($count++);
+                $and[]="`{$name}`=:{$bname}";
+                $param[$bname]=$value;
+            }
+            $condithon=implode(' AND ', $and);
+            $binds=array_merge($binds, $param);
+        }
+
+        return self::select($table, $wants, ' WHERE '.trim($condithon, ';').';', $binds, $page, $scroll);
     }
 
-    public function select(string $table, $wants ='*', string $conditions, array $binds, array $page=[0,1],bool $scroll=false)
+    public function select(string $table, $wants ='*',  $conditions, array $binds, array $page=[0, 1], bool $scroll=false)
     {
-        $table=self::$table($name);
+        $table=self::table($table);
+
+        
         if (is_string($wants)) {
             $fields=$wants;
         } else {
@@ -38,14 +53,26 @@ class Query extends AQuery
             }
             $fields=implode(',', $field);
         }
-        return new AQuery('SELECT '.$fields.' FROM `'.$table.'` '.trim($conditions,';').' LIMIT '.self::page($page[0],$page[1]) .';', $binds, $scroll);
+
+        return new AQuery('SELECT '.$fields.' FROM `'.$table.'` '.trim($conditions, ';').' LIMIT '.self::page($page[0], $page[1]) .';', $binds, $scroll);
     }
 
-    public function update(string $table, $set_fields, string $where='1', array $binds=[]):int
+    public function update(string $table, $set_fields,  $where='1', array $binds=[]):int
     {
-        $table=self::$table($name);
+        $table=self::table($table);
         $param=[];
         $count=0;
+        if (is_array($where)) {
+            $count=0;
+            $and=[];
+            foreach ($where as $name => $value) {
+                $bname=$name.'_'.($count++);
+                $and[]="`{$name}`=:{$bname}";
+                $param[$bname]=$value;
+            }
+            $where=implode(' AND ', $and);
+            $binds=array_merge($binds, $param);
+        }
         if (is_array($set_fields)) {
             $sets=[];
             foreach ($set_fields as $name=>$value) {
@@ -63,14 +90,14 @@ class Query extends AQuery
 
     public function delete(string $table, string $where='1', array $binds=[]):int
     {
-        $table=self::$table($name);
+        $table=self::table($table);
         $sql='DELETE FROM `'.$table.'` WHERE '.rtrim($where, ';').';';
         return (new AQuery($sql, $binds))->exec();
     }
 
     public function count(string $table, string $where='1', array $binds=[]):int
     {
-        $table=self::$table($name);
+        $table=self::table($table);
         $sql='SELECT count(*) as `count` FROM `'.$table.'` WHERE '.rtrim($where, ';').';';
         if ($query=(new AQuery($sql, $binds))->fetch()) {
             return intval($query['count']);

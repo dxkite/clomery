@@ -1,6 +1,9 @@
 <?php
 namespace model;
 
+use Query;
+use Request;
+
 class Token
 {
     protected function getAliveTime()
@@ -11,7 +14,7 @@ class Token
     protected function generateToken(int $user_id, string $tokenname)
     {
         static $mis='5246-687261-5852-6C';
-        return md5('DXCore-'.SITE_VERSION.'-'.$id.'-'.microtime(true).'-'.$mis);
+        return md5('DXCore-'.SITE_VERSION.'-'.$user_id.'-'.microtime(true).'-'.$mis);
     }
 
     // 创建令牌
@@ -32,9 +35,9 @@ class Token
     public function refreshToken(int $user_id, string $token)
     {
         $time=time()+self::getAliveTime();
-        $new =self::generateToken($id, $token);
+        $new =self::generateToken($user_id, $token);
         if (Query::update('user_token', 'expire ='.$time.', token=:new_token', 'user_id=:user_id AND token = :token ', ['user_id'=>$user_id, 'token'=>$token, 'new_token'=>$new])) {
-            return  ['id'=>$id, 'token'=>$new, 'time'=>$time];
+            return  ['id'=>$user_id, 'token'=>$new, 'time'=>$time];
         }
         return false;
     }

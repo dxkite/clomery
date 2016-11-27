@@ -27,6 +27,7 @@ class User
             Query::begin();
             $id=Query::insert('user', ['name'=>$name, 'password'=>password_hash($password, PASSWORD_DEFAULT), 'email'=>$email]);
             $token=Token::createToken($id, $usage);
+            $token['user_id']=$id;
             Query::commit();
         } catch (\Exception $e) {
             Query::rollBack();
@@ -43,6 +44,7 @@ class User
             if ($fetch=Query::where('user', ['password', 'id'], ['name'=>$name])->fetch()) {
                 if (password_verify($password, $fetch['password'])) {
                     $token=Token::createToken($fetch['id'], $usage);
+                    $token['user_id']=$fetch['id'];
                 }
             }
             Query::commit();
