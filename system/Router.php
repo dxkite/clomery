@@ -114,7 +114,7 @@ class Router
 
         // 路由找不到则使用自动加载
         $rawcmds=[
-                    SITE_CMD.'/'.$this->request->url().'/index.auto.php', // 目录
+                    SITE_CMD.'/'.$this->request->url().'/index.php', // 目录
                     SITE_CMD.'/'.$this->request->url().'.'.strtolower($this->request->method()).'.php' //请求
                 ];
         foreach ($rawcmds as $rawcmd) {
