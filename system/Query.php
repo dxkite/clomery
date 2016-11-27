@@ -19,7 +19,7 @@ class Query extends AQuery
         return -1;
     }
 
-    public function where(string $table, array $wants=[], string $condithon='1', array $binds=[],bool $scroll=false)
+    public function where(string $table, array $wants=[], string $condithon='1', array $binds=[], bool $scroll=false):AQuery
     {
         if (count($wants)===0) {
             $fields='*';
@@ -30,8 +30,8 @@ class Query extends AQuery
             }
             $fields=implode(',', $field);
         }
-        $sql='SELECT '.$fields.' FROM `'.$table.'` WHERE '.rtrim($condithon,';').';';
-        return new AQuery($sql, $binds,$scroll);
+        $sql='SELECT '.$fields.' FROM `'.$table.'` WHERE '.rtrim($condithon, ';').';';
+        return new AQuery($sql, $binds, $scroll);
     }
 
     public function update(string $table, array $set_fields, string $where='1', array $binds=[]):int
@@ -44,13 +44,28 @@ class Query extends AQuery
             $sets[]="`{$name}`=:{$bname}";
             $param[$bname]=$value;
         }
-        $sql='UPDATE `'.$table.'` SET '.implode(',', $sets).' WHERE ' .rtrim($where,';').';';
+        $sql='UPDATE `'.$table.'` SET '.implode(',', $sets).' WHERE ' .rtrim($where, ';').';';
         return (new Query($sql, array_merge($param, $binds)))->exec();
     }
 
     public function delete(string $table, string $where='1', array $binds=[]):int
     {
-        $sql='DELETE FROM `'.$table.'` WHERE '.rtrim($where,';').';';
+        $sql='DELETE FROM `'.$table.'` WHERE '.rtrim($where, ';').';';
         return (new AQuery($sql, $binds))->exec();
     }
+
+    public function count(string $table, string $where='1', array $binds=[]):int
+    {
+        $sql='SELECT count(*) as `count` FROM `'.$table.'` WHERE '.rtrim($where, ';').';';
+        if ($query=(new AQuery($sql, $binds))->fetch()) {
+            return intval($query['count']);
+        }
+        return 0;
+    }
+
+    public function exec(string $query, array $binds=[], bool $scroll=false)
+    {
+        return new AQuery($query,$binds,$scroll);
+    }
+    
 }
