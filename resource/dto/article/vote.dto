@@ -1,0 +1,7 @@
+; 文章/评论-踩|赞
+vote_id bigint(20) auto primary comment="ID"
+aid bigint(20) key comment="文章ID"
+uid bigint(20) key comment="用户ID"
+score int(1) comment="正赞负踩"
+time int(11) comment="操作时间"
+ip   varchar(32) comment="操作IP"

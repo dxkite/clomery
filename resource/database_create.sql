@@ -1,4 +1,4 @@
--- create:2016-11-27 14:28:33
+-- create:2016-11-27 20:25:01
 
 CREATE TABLE `article` (
 	`aid` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '文章ID',
@@ -46,15 +46,28 @@ CREATE TABLE `article_reply` (
 CREATE TABLE `article_tag` (
 	`id` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '索引',
 	`aid` bigint(20) NOT NULL   COMMENT '文章ID',
-	`tid` bigint(20) NOT NULL   COMMENT '标签ID',
+	`tag_id` bigint(20) NOT NULL   COMMENT '标签ID',
 	PRIMARY KEY (`id`),
 	KEY `aid` (`aid`),
-	KEY `tid` (`tid`)
+	KEY `tag_id` (`tag_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `article_vote` (
+	`vote_id` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT 'ID',
+	`aid` bigint(20) NOT NULL   COMMENT '文章ID',
+	`uid` bigint(20) NOT NULL   COMMENT '用户ID',
+	`score` int(1) NOT NULL   COMMENT '正赞负踩',
+	`time` int(11) NOT NULL   COMMENT '操作时间',
+	`ip` varchar(32) NOT NULL   COMMENT '操作IP',
+	PRIMARY KEY (`vote_id`),
+	KEY `aid` (`aid`),
+	KEY `uid` (`uid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE `category` (
-	`cid` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '分类ID',
+	`category_id` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '分类ID',
 	`icon` bigint(20) NOT NULL   COMMENT '分类图标资源',
 	`name` varchar(20) NOT NULL   COMMENT '分类名',
 	`slug` varchar(20) NOT NULL   COMMENT '英文缩写',
@@ -62,7 +75,7 @@ CREATE TABLE `category` (
 	`sort` int(11) NOT NULL   COMMENT '排序',
 	`count` int(11) NOT NULL   COMMENT '分类下的文章',
 	`parent` bigint(20) NOT NULL   COMMENT '父分类',
-	PRIMARY KEY (`cid`),
+	PRIMARY KEY (`category_id`),
 	KEY `icon` (`icon`),
 	KEY `name` (`name`),
 	KEY `slug` (`slug`),
@@ -93,33 +106,33 @@ CREATE TABLE `notification` (
 
 
 CREATE TABLE `site_navigation` (
-	`navid` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '导航ID',
+	`nav_id` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '导航ID',
 	`name` varchar(80) NOT NULL   COMMENT '导航名',
 	`url` varchar(255) NOT NULL   COMMENT '导航URL',
 	`sort` int(11) NOT NULL   COMMENT '排序',
 	`parent` bigint(20) NOT NULL   COMMENT '父导航',
-	PRIMARY KEY (`navid`),
+	PRIMARY KEY (`nav_id`),
 	KEY `name` (`name`),
 	KEY `sort` (`sort`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE `site_setting` (
-	`sid` int(11) NOT NULL  AUTO_INCREMENT COMMENT '设置ID',
+	`set_id` int(11) NOT NULL  AUTO_INCREMENT COMMENT '设置ID',
 	`name` varchar(80) NOT NULL   COMMENT '设置KEY',
 	`type` varchar(10) NOT NULL   COMMENT '数据类型',
 	`value` varchar(255) NOT NULL   COMMENT '设置数据',
-	PRIMARY KEY (`sid`),
+	PRIMARY KEY (`set_id`),
 	UNIQUE KEY `name` (`name`),
 	KEY `type` (`type`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE `tag` (
-	`tid` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '分类标签',
+	`tag_id` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '分类标签',
 	`name` varchar(20) NOT NULL   COMMENT '标签名',
 	`count` int(11) NOT NULL   COMMENT '标签下的内容',
-	PRIMARY KEY (`tid`),
+	PRIMARY KEY (`tag_id`),
 	KEY `name` (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
@@ -151,13 +164,13 @@ CREATE TABLE `upload_usage` (
 
 
 CREATE TABLE `user_option_log` (
-	`oid` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '日志ID',
+	`log_id` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '日志ID',
 	`uid` bigint(20) NOT NULL   COMMENT '使用的用户',
 	`name` varchar(80) NOT NULL   COMMENT '操作名',
 	`sketch` varchar(255) NOT NULL   COMMENT '操作附加描述',
 	`ip` varchar(32) NOT NULL   COMMENT '使用令牌的ID',
 	`time` int(11) NOT NULL   COMMENT '使用的时间',
-	PRIMARY KEY (`oid`),
+	PRIMARY KEY (`log_id`),
 	KEY `uid` (`uid`),
 	KEY `name` (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
@@ -180,7 +193,7 @@ CREATE TABLE `user_token` (
 	`tid` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '令牌ID',
 	`uid` bigint(20) NOT NULL   COMMENT '使用的用户',
 	`token` varchar(32) NOT NULL   COMMENT '令牌',
-	`name` varchar(80) NOT NULL   COMMENT '命令名',
+	`name` varchar(80) NOT NULL   COMMENT '令牌名',
 	`ip` varchar(32) NOT NULL   COMMENT '使用令牌的ID',
 	`time` int(11) NOT NULL   COMMENT '使用的时间',
 	`expire` int(11) NOT NULL   COMMENT '过期时间',

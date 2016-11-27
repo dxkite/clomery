@@ -53,7 +53,13 @@ class User
         return $token;
     }
 
-    public function signOut(int $uid,string $token){
-        return Token::deleteToken($uid,$token);
+    public function signOut(int $uid, string $token)
+    {
+        return Token::deleteToken($uid, $token);
+    }
+    
+    public function isSignin(int $uid, string $token)
+    {
+        return Token::verifyToken($uid, $token);
     }
 }
