@@ -1,4 +1,4 @@
--- create:2016-11-27 20:25:01
+-- create:2016-11-27 20:28:29
 
 CREATE TABLE `article` (
 	`aid` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '文章ID',
@@ -212,10 +212,12 @@ CREATE TABLE `user` (
 	`password` varchar(60) NOT NULL   COMMENT '密码HASH',
 	`groupid` bigint(20) NOT NULL DEFAULT '0'  COMMENT '分组ID',
 	`verify_email` int(1) NOT NULL DEFAULT '0'  COMMENT '邮箱验证',
+	`avatar` bigint(20) NOT NULL DEFAULT '0'  COMMENT '头像ID',
 	PRIMARY KEY (`uid`),
 	UNIQUE KEY `name` (`name`),
 	UNIQUE KEY `email` (`email`),
 	KEY `groupid` (`groupid`),
-	KEY `verify_email` (`verify_email`)
+	KEY `verify_email` (`verify_email`),
+	KEY `avatar` (`avatar`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
