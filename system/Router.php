@@ -69,24 +69,29 @@ class Router
 
     protected function buildUrl(string $name, array $values)
     {
-        $url=$this->mapper[$name]['url'];
-        $url=preg_replace_callback('/\{(?:(\w+)(?::(\w+)))\}/', function ($match) use ($name, $values) {
-            $param_name=$match[1];
-            $param_type=isset($match[2])?$match[2]:'url';
-            if (isset($values[$param_name])) {
-                if ($param_type==='int') {
-                    return intval($values[$param_name]);
+        $url=DIRECTORY_SEPARATOR === '/'?'/':'/?/';
+        if (isset($this->mapper[$name])) {
+            $url=preg_replace_callback('/\{(?:(\w+)(?::(\w+)))\}/', function ($match) use ($name, $values) {
+                $param_name=$match[1];
+                $param_type=isset($match[2])?$match[2]:'url';
+                if (isset($values[$param_name])) {
+                    if ($param_type==='int') {
+                        return intval($values[$param_name]);
+                    }
+                    return $values[$param_name];
+                } else {
+                    return '';
                 }
-                return $values[$param_name];
-            } else {
-                return '';
-            }
-        }, $url);
+            }, $this->mapper[$name]['url']);
+        } elseif (realpath(SITE_CMD.'/'.$name) ||  realpath(SITE_CMD.'/'.$name.'.php')) {
+            $url.=trim($name, '/').'?'.http_build_query($values);
+        }
         return $url;
     }
 
     protected function display()
     {
+        // mapper
         foreach ($this->matchs as $name=>$preg) {
             if (preg_match('/^'.$preg.'$/', $this->request->url(), $match) && $this->mapper[$name]['method'] === $this->request->method()) {
                 array_shift($match);
@@ -111,25 +116,26 @@ class Router
                 }
             }
         }
-
+        // auto
         // 路由找不到则使用自动加载
         $rawcmds=[
                     SITE_CMD.'/'.$this->request->url().'/index.php', // 目录
+                    SITE_CMD.'/'.$this->request->url().'.php', // 文件
                     SITE_CMD.'/'.$this->request->url().'.'.strtolower($this->request->method()).'.php' //请求
                 ];
         foreach ($rawcmds as $rawcmd) {
             if (realpath($rawcmd)) {
-                require $rawcmd;
+                $render=require $rawcmd;
                 $name=ucfirst(pathinfo($this->request->url(), PATHINFO_FILENAME));
                 $namespace=preg_replace('/\//', '\\', trim(dirname($this->request->url()), '/'));
                 $class=$namespace!==''?$namespace.'\\'.$name:$name;
                 if (preg_match('/^'.preg_quote(SITE_CMD, '/').'/', $rawcmd)) {
                     if (class_exists($class)) {
                         $class::beforeRun($this->request);
-                        $class::afterRun($class::main($this->request));
+                        $render=$class::afterRun($class::main($this->request));
                     }
                 }
-                return;
+                return  (new Render($render))->render([]);
             }
         }
         // 啥都找不到
