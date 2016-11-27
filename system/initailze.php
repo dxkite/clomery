@@ -8,9 +8,10 @@ define('SITE_VERSION', '2.0.0');
 define('SITE_CONFIG', SITE_RESOURCE.'/config.php');
 define('SITE_LIB', __DIR__.'/../library');
 define('SITE_TEMP', SITE_RESOURCE.'/tmp');
-spl_autoload_register('__autoload');
 
-function __autoload(string $name)
+spl_autoload_register('import');
+
+function import(string $name)
 {
     static $imported=[];
     if (isset($imported[$name])) {
@@ -58,5 +59,3 @@ set_time_limit(conf('timelimit', 0));
 // 设置时区
 date_default_timezone_set(conf('timezone', 'PRC'));
 
-template\Manager::loadCompile();
-template\Manager::compileAll();

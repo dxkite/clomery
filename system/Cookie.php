@@ -58,3 +58,5 @@ class Cookie
         }
     }
 }
+
+register_shutdown_function(['Cookie','write']);
