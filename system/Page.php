@@ -27,7 +27,7 @@ class Page
     }
     public function set(string $name, $value)
     {
-        self::$values=core\ArrayHelper::set(self::$values, $name, $value);
+        self::$values=helper\ArrayHelper::set(self::$values, $name, $value);
     }
     /**
      * @return int
@@ -151,7 +151,13 @@ class Page
     {
         self::$type = $type;
     }
-    
+        /**
+     * @param mixed $type
+     */
+    public function json()
+    {
+        self::type('json');
+    }
     /**
      * @return mixed
      */

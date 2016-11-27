@@ -5,6 +5,7 @@ class Query extends AQuery
 {
     public function insert(string $table, array $values):int
     {
+        $table=self::$table($name);
         $bind='';
         $names='';
         foreach ($values as $name => $value) {
@@ -21,12 +22,14 @@ class Query extends AQuery
 
     public function where(string $table, $wants='*', string $condithon='1', array $binds=[], bool $scroll=false):AQuery
     {
-        return self::select($table,$wants,' WHERE '.rtrim($condithon, ';').';',$binds,$scroll);
+        $table=self::$table($name);
+        return self::select($table, $wants, ' WHERE '.rtrim($condithon, ';').';', $binds, $scroll);
     }
 
-    public function select(string $table, $wants ='*',string $conditions,array $binds,bool $scroll=false)
+    public function select(string $table, $wants ='*', string $conditions, array $binds, bool $scroll=false)
     {
-        if (is_string($wants)){
+        $table=self::$table($name);
+        if (is_string($wants)) {
             $fields=$wants;
         } else {
             $field=[];
@@ -34,12 +37,13 @@ class Query extends AQuery
                 $field[]="`$want`";
             }
             $fields=implode(',', $field);
-        } 
-        return new AQuery('SELECT '.$fields.' FROM `'.$table.'` '.$conditions,$binds,$scroll);
+        }
+        return new AQuery('SELECT '.$fields.' FROM `'.$table.'` '.$conditions, $binds, $scroll);
     }
 
     public function update(string $table, $set_fields, string $where='1', array $binds=[]):int
     {
+        $table=self::$table($name);
         $param=[];
         $count=0;
         if (is_array($set_fields)) {
@@ -59,16 +63,22 @@ class Query extends AQuery
 
     public function delete(string $table, string $where='1', array $binds=[]):int
     {
+        $table=self::$table($name);
         $sql='DELETE FROM `'.$table.'` WHERE '.rtrim($where, ';').';';
         return (new AQuery($sql, $binds))->exec();
     }
 
     public function count(string $table, string $where='1', array $binds=[]):int
     {
+        $table=self::$table($name);
         $sql='SELECT count(*) as `count` FROM `'.$table.'` WHERE '.rtrim($where, ';').';';
         if ($query=(new AQuery($sql, $binds))->fetch()) {
             return intval($query['count']);
         }
         return 0;
+    }
+    protected function table(string $name)
+    {
+        return conf('db.perfix', '').$name;
     }
 }
