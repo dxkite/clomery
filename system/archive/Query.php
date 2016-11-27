@@ -53,6 +53,7 @@ class Query
         }
         return false;
     }
+    
     public function fetchAll(int $fetch_style = PDO::FETCH_ASSOC)
     {
         if (self::lazyQuery($this->query, $this->values)) {

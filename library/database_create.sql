@@ -1,4 +1,4 @@
--- create:2016-11-27 12:05:18
+-- create:2016-11-27 13:26:09
 
 CREATE TABLE `site_setting` (
 	`sid` int(11) NOT NULL  AUTO_INCREMENT COMMENT '设置ID',
@@ -85,9 +85,11 @@ CREATE TABLE `user` (
 	`email` varchar(50) NOT NULL   COMMENT '邮箱',
 	`password` varchar(60) NOT NULL   COMMENT '密码HASH',
 	`groupid` bigint(20) NOT NULL DEFAULT '0'  COMMENT '分组ID',
+	`verify_email` int(1) NOT NULL DEFAULT '0'  COMMENT '邮箱验证',
 	PRIMARY KEY (`uid`),
 	UNIQUE KEY `name` (`name`),
 	UNIQUE KEY `email` (`email`),
-	KEY `groupid` (`groupid`)
+	KEY `groupid` (`groupid`),
+	KEY `verify_email` (`verify_email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
