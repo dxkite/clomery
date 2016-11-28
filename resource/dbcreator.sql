@@ -1,4 +1,4 @@
--- create:2016-11-28 21:21:13
+-- create:2016-11-28 21:30:20
 
 CREATE TABLE `article` (
 	`id` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '文章ID',
