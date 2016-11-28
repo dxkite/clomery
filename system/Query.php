@@ -27,7 +27,7 @@ class Query extends AQuery
         return -1;
     }
 
-    public function where(string $table, $wants='*', $condithon='1', array $binds=[], array $page=[0, 1], bool $scroll=false):AQuery
+    public function where(string $table, $wants='*', $condithon='1', array $binds=[], array $page=null, bool $scroll=false):AQuery
     {
         $table=self::table($table);
 
@@ -46,7 +46,7 @@ class Query extends AQuery
         return self::select($table, $wants, ' WHERE '.trim($condithon, ';').';', $binds, $page, $scroll);
     }
 
-    public function select(string $table, $wants ='*',  $conditions, array $binds, array $page=[0, 1], bool $scroll=false)
+    public function select(string $table, $wants ='*',  $conditions, array $binds, array $page=null, bool $scroll=false)
     {
         $table=self::table($table);
 
@@ -60,8 +60,8 @@ class Query extends AQuery
             }
             $fields=implode(',', $field);
         }
-
-        return new AQuery('SELECT '.$fields.' FROM `'.$table.'` '.trim($conditions, ';').' LIMIT '.self::page($page[0], $page[1]) .';', $binds, $scroll);
+        $limit=is_null($page)?'': ' LIMIT '.self::page($page[0], $page[1]);
+        return new AQuery('SELECT '.$fields.' FROM `'.$table.'` '.trim($conditions, ';').$limit.';', $binds, $scroll);
     }
 
     public function update(string $table, $set_fields,  $where='1', array $binds=[]):int
@@ -101,17 +101,17 @@ class Query extends AQuery
         $sql='DELETE FROM `'.$table.'` WHERE '.rtrim($where, ';').';';
         return (new AQuery($sql, $binds))->exec();
     }
-    public function prepareIn(string $name, array $invalues, string $perfix='IN_')
+    public function prepareIn(string $name, array $invalues, string $perfix='in_')
     {
         $count=0;
         $names=[];
         $param=[];
         foreach ($invalues as $key=>$value) {
-            $bname=$perfix.$name.$key.($count++);
+            $bname=$perfix. preg_replace('/[_]+/','_',preg_replace('/[`.{}#]/','_',$name)).$key.($count++);
             $param[$bname]=$value;
             $names[]=':'.$bname;
         }
-        $sql='`'.$name.'` IN ('.implode(',', $names).')';
+        $sql=$name.' IN ('.implode(',', $names).')';
         return ['sql'=>$sql,'param'=>$param];
     }
     public function count(string $table, string $where='1', array $binds=[]):int
