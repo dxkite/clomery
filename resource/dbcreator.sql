@@ -1,4 +1,4 @@
--- create:2016-11-28 21:30:20
+-- create:2016-11-28 22:01:30
 
 CREATE TABLE `article` (
 	`id` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '文章ID',
@@ -22,20 +22,20 @@ CREATE TABLE `article` (
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `article_reply` (
-	`id` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '回复ID',
-	`aritcle` bigint(20) NOT NULL   COMMENT '回复的文章',
-	`reply` bigint(20) NOT NULL   COMMENT '回复回复',
-	`count` int(11) NOT NULL   COMMENT '被回复数',
-	`author` bigint(20) NOT NULL   COMMENT '回复的人',
-	`text` varchar(500) NOT NULL   COMMENT '回复内容',
-	`time` int(11) NOT NULL   COMMENT '回复的时间',
-	`ip` varchar(20) NOT NULL   COMMENT '回复IP',
-	`state` tinyint(1) NOT NULL DEFAULT '1'  COMMENT '状态',
+CREATE TABLE `article_comment` (
+	`id` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '评论ID',
+	`aritcle` bigint(20) NOT NULL   COMMENT '评论的文章',
+	`count` int(11) NOT NULL   COMMENT '评论计数',
+	`replys` bigint(20) NOT NULL   COMMENT '被评论数',
+	`author` bigint(20) NOT NULL   COMMENT '评论的人',
+	`text` varchar(500) NOT NULL   COMMENT '评论内容',
+	`time` int(11) NOT NULL   COMMENT '评论的时间',
+	`ip` varchar(20) NOT NULL   COMMENT '评论IP',
+	`state` tinyint(1) NOT NULL   COMMENT '状态',
 	PRIMARY KEY (`id`),
 	KEY `aritcle` (`aritcle`),
-	KEY `reply` (`reply`),
 	KEY `count` (`count`),
+	KEY `replys` (`replys`),
 	KEY `author` (`author`),
 	KEY `state` (`state`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;

@@ -1,0 +1,10 @@
+; 评论
+id bigint(20) auto primary comment="评论ID"
+aritcle  bigint(20) key comment="评论的文章"
+count    int(11) key comment="评论计数"
+replys    bigint(20) key comment="被评论数"
+author   bigint(20) key comment="评论的人"
+text     varchar(500)  comment="评论内容"
+time     int(11)    comment="评论的时间"
+ip       varchar(20) comment="评论IP"
+state    tinyint(1)  key comment="状态"
