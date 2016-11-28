@@ -3,18 +3,23 @@ use archive\Query as AQuery;
 
 class Query extends AQuery
 {
-    public function insert(string $table, array $values):int
+    public function insert(string $table, $values, array $binds=[]):int
     {
         $table=self::table($table);
-        $bind='';
-        $names='';
-        foreach ($values as $name => $value) {
-            $bind.=':'.$name.',';
-            $names.='`'.$name.'`,';
-            $param[$name]=$value;
+        if (is_string($values)) {
+            $sql=$sql='INSERT INTO `'.$table.'` '.trim($values,';').' ;';
+        } elseif (is_array($values)) {
+            $bind='';
+            $names='';
+            foreach ($values as $name => $value) {
+                $bind.=':'.$name.',';
+                $names.='`'.$name.'`,';
+                $param[$name]=$value;
+            }
+            $binds=$values;
+            $sql='INSERT INTO `'.$table.'` ('.trim($names, ',').') VALUES ('.trim($bind, ',').');';
         }
-        $sql='INSERT INTO `'.$table.'` ('.trim($names, ',').') VALUES ('.trim($bind, ',').');';
-        if ((new AQuery($sql, $values))->exec()) {
+        if ((new AQuery($sql,$binds))->exec()) {
             return AQuery::lastInsertId();
         }
         return -1;

@@ -1,4 +1,4 @@
--- create:2016-11-28 12:34:00
+-- create:2016-11-28 12:57:59
 
 CREATE TABLE `article` (
 	`id` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '文章ID',
@@ -80,15 +80,15 @@ CREATE TABLE `notification_data` (
 
 CREATE TABLE `notification` (
 	`id` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '通知ID',
-	`send_id` bigint(20) NOT NULL   COMMENT '发送人',
-	`recv_id` bigint(20) NOT NULL   COMMENT '接受人',
+	`send` bigint(20) NOT NULL   COMMENT '发送人',
+	`recv` bigint(20) NOT NULL   COMMENT '接受人',
 	`type` int(11) NOT NULL   COMMENT '通知类型',
 	`time` int(11) NOT NULL   COMMENT '通知时间',
 	`state` tinyint(1) NOT NULL   COMMENT '状态',
-	`data_id` bigint(20) NOT NULL   COMMENT '通知内容',
+	`data` bigint(20) NOT NULL   COMMENT '通知内容',
 	PRIMARY KEY (`id`),
-	KEY `send_id` (`send_id`),
-	KEY `recv_id` (`recv_id`)
+	KEY `send` (`send`),
+	KEY `recv` (`recv`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 
