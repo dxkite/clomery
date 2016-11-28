@@ -7,7 +7,7 @@ class Query extends AQuery
     {
         $table=self::table($table);
         if (is_string($values)) {
-            $sql=$sql='INSERT INTO `'.$table.'` '.trim($values,';').' ;';
+            $sql=$sql='INSERT INTO `'.$table.'` '.trim($values, ';').' ;';
         } elseif (is_array($values)) {
             $bind='';
             $names='';
@@ -19,8 +19,10 @@ class Query extends AQuery
             $binds=$values;
             $sql='INSERT INTO `'.$table.'` ('.trim($names, ',').') VALUES ('.trim($bind, ',').');';
         }
-        if ((new AQuery($sql,$binds))->exec()) {
+        if (($count=(new AQuery($sql, $binds))->exec()) === 1) {
             return AQuery::lastInsertId();
+        } else {
+            return $count;
         }
         return -1;
     }
@@ -99,7 +101,19 @@ class Query extends AQuery
         $sql='DELETE FROM `'.$table.'` WHERE '.rtrim($where, ';').';';
         return (new AQuery($sql, $binds))->exec();
     }
-
+    public function prepareIn(string $name, array $invalues, string $perfix='IN_')
+    {
+        $count=0;
+        $names=[];
+        $param=[];
+        foreach ($invalues as $key=>$value) {
+            $bname=$perfix.$name.$key.($count++);
+            $param[$bname]=$value;
+            $names[]=':'.$bname;
+        }
+        $sql='`'.$name.'` IN ('.implode(',', $names).')';
+        return ['sql'=>$sql,'param'=>$param];
+    }
     public function count(string $table, string $where='1', array $binds=[]):int
     {
         $table=self::table($table);

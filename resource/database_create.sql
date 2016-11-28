@@ -1,4 +1,4 @@
--- create:2016-11-28 12:57:59
+-- create:2016-11-28 13:23:08
 
 CREATE TABLE `article` (
 	`id` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '文章ID',
@@ -72,10 +72,10 @@ CREATE TABLE `category` (
 
 
 CREATE TABLE `notification_data` (
-	`id` bigint(20) NOT NULL   COMMENT '通知ID',
+	`id` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '通知ID',
 	`data` text NOT NULL   COMMENT '通知数据',
 	PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE `notification` (
