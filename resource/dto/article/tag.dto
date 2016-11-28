@@ -1,4 +1,4 @@
 ; 文章分类
 id bigint(20) auto primary comment="索引"
-article_id bigint(20) key comment="文章ID"
-tag_id bigint(20) key comment="标签ID"
+article bigint(20) key comment="文章ID"
+tag bigint(20) unique comment="标签ID"

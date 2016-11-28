@@ -34,6 +34,7 @@ class Query extends AQuery
         if (is_array($condithon)) {
             $count=0;
             $and=[];
+            $param=[];
             foreach ($condithon as $name => $value) {
                 $bname=$name.'_'.($count++);
                 $and[]="`{$name}`=:{$bname}";
@@ -95,9 +96,21 @@ class Query extends AQuery
         return (new Query($sql, array_merge($param, $binds)))->exec();
     }
 
-    public function delete(string $table, string $where='1', array $binds=[]):int
+    public function delete(string $table, $where='1', array $binds=[]):int
     {
         $table=self::table($table);
+         if (is_array($where)) {
+            $count=0;
+            $and=[];
+            $param=[];
+            foreach ($where as $name => $value) {
+                $bname=$name.'_'.($count++);
+                $and[]="`{$name}`=:{$bname}";
+                $param[$bname]=$value;
+            }
+            $where=implode(' AND ', $and);
+            $binds=array_merge($binds, $param);
+        }
         $sql='DELETE FROM `'.$table.'` WHERE '.rtrim($where, ';').';';
         return (new AQuery($sql, $binds))->exec();
     }

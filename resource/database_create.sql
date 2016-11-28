@@ -1,4 +1,4 @@
--- create:2016-11-28 13:23:08
+-- create:2016-11-28 21:21:13
 
 CREATE TABLE `article` (
 	`id` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '文章ID',
@@ -7,20 +7,18 @@ CREATE TABLE `article` (
 	`title` varchar(255) NOT NULL   COMMENT '文章标题',
 	`abstract` varchar(255) NOT NULL   COMMENT '摘要',
 	`content` text NOT NULL   COMMENT '文章内容',
-	`ctype` tinyint(1) NOT NULL   COMMENT '内容类型',
+	`type` tinyint(1) NOT NULL   COMMENT '内容类型',
 	`view` int(11) NOT NULL   COMMENT '阅读',
 	`create` int(11) NOT NULL   COMMENT '创建时间',
 	`update` int(11) NOT NULL   COMMENT '最后更新',
 	`replys` int(11) NOT NULL   COMMENT '回复',
 	`allow_reply` tinyint(1) NOT NULL DEFAULT '1'  COMMENT '可回复',
-	`verify` tinyint(1) NOT NULL DEFAULT '0'  COMMENT '文章审核',
-	`publish` tinyint(1) NOT NULL DEFAULT '1'  COMMENT '发布',
+	`state` tinyint(1) NOT NULL DEFAULT '1'  COMMENT '文章状态',
 	PRIMARY KEY (`id`),
 	KEY `author` (`author`),
 	KEY `categroy` (`categroy`),
 	KEY `title` (`title`),
-	KEY `verify` (`verify`),
-	KEY `publish` (`publish`)
+	KEY `state` (`state`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 
@@ -45,15 +43,15 @@ CREATE TABLE `article_reply` (
 
 CREATE TABLE `article_tag` (
 	`id` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '索引',
-	`article_id` bigint(20) NOT NULL   COMMENT '文章ID',
-	`tag_id` bigint(20) NOT NULL   COMMENT '标签ID',
+	`article` bigint(20) NOT NULL   COMMENT '文章ID',
+	`tag` bigint(20) NOT NULL   COMMENT '标签ID',
 	PRIMARY KEY (`id`),
-	KEY `article_id` (`article_id`),
-	KEY `tag_id` (`tag_id`)
+	KEY `article` (`article`),
+	UNIQUE KEY `tag` (`tag`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `category` (
+CREATE TABLE `categroy` (
 	`id` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '分类ID',
 	`icon` bigint(20) NOT NULL   COMMENT '分类图标资源',
 	`name` varchar(20) NOT NULL   COMMENT '分类名',
