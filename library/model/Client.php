@@ -13,18 +13,18 @@ class Client
         $id=Query::insert('token_client', ['name'=>$name, 'description'=>$description, 'time'=>time(), 'token'=>$token, 'state'=>$state]);
         return ['id'=>$id,'token'=>$token];
     }
-    
+
     public function setState(int $id, int $state)
     {
         return Query::update('token_client', ['state'=>$state], ['id'=>$id]);
     }
 
-    public function list(int $state=null)
+    public function list(int $state=null,int $page=1,int $per_page=10)
     {
         if (is_null($state)) {
             return Query::where('token_client')->fetchAll();
         }
-        return Query::where('token_client', '*', ['state'=>$state])->fetchAll();
+        return Query::where('token_client', '*', ['state'=>$state],[$page,$per_page])->fetchAll();
     }
 
     public function check(int $id, string $token)
