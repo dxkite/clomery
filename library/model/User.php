@@ -21,12 +21,12 @@ class User
         return Query::count('user');
     }
 
-    public function signUp(string $name, string $email, string $password, string $usage='web-signup')
+    public function signUp(string $name, string $email, string $password, int $client,string $client_token)
     {
         try {
             Query::begin();
             $id=Query::insert('user', ['name'=>$name, 'password'=>password_hash($password, PASSWORD_DEFAULT), 'email'=>$email]);
-            $token=Token::createToken($id, $usage);
+            $token=Token::create($id, $client,$client_token);
             $token['user_id']=$id;
             Query::commit();
         } catch (\Exception $e) {
@@ -36,14 +36,14 @@ class User
         return $token;
     }
 
-    public function signIn(string $name, string $password, string $usage='web-signin')
+    public function signIn(string $name, string $password, int $client,string $client_token)
     {
         $token=false;
         try {
             Query::begin();
             if ($fetch=Query::where('user', ['password', 'id'], ['name'=>$name])->fetch()) {
                 if (password_verify($password, $fetch['password'])) {
-                    $token=Token::createToken($fetch['id'], $usage);
+                    $token=Token::create($fetch['id'], $client,$client_token);
                     $token['user_id']=$fetch['id'];
                 }
             }
@@ -55,20 +55,20 @@ class User
         return $token;
     }
 
-    public function signOut(int $id, string $token)
+    public function signOut(int $token_id, string $token)
     {
-        return Token::deleteToken($id, $token);
+        return Token::delete($token_id, $token);
     }
     
-    public function isSignin(int $id, string $token)
+    public function isSignin(int $token_id, string $token)
     {
-        return Token::verifyToken($id, $token);
+        return Token::verify($token_id, $token);
     }
 
     // 心跳刷新
-    public function heartBeat(int $id,string $token)
+    public function heartBeat(int $token_id,string $token)
     {
-        return Token::refreshToken($id, $token);
+        return Token::refresh($token_id, $token);
     }
     
     public function setAvatar(int $id,int $resource_id)

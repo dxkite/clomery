@@ -1,4 +1,4 @@
--- create:2016-11-27 23:18:43
+-- create:2016-11-28 12:34:00
 
 CREATE TABLE `article` (
 	`id` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '文章ID',
@@ -124,6 +124,36 @@ CREATE TABLE `tag` (
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 
+CREATE TABLE `token_client` (
+	`id` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '客户端ID',
+	`name` varchar(80) NOT NULL   COMMENT '客户端名',
+	`description` varchar(255) NOT NULL   COMMENT '客户端描述',
+	`token` varchar(32) NOT NULL   COMMENT '客户端识别码',
+	`time` int(11) NOT NULL   COMMENT '创建时间',
+	`state` int(1) NOT NULL   COMMENT '客户端状态',
+	PRIMARY KEY (`id`),
+	KEY `name` (`name`),
+	KEY `token` (`token`),
+	KEY `state` (`state`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `token` (
+	`id` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '令牌ID',
+	`user` bigint(20) NOT NULL   COMMENT '使用的用户',
+	`token` varchar(32) NOT NULL   COMMENT '令牌',
+	`client` bigint(20) NOT NULL   COMMENT '客户端',
+	`ip` varchar(32) NOT NULL   COMMENT '使用令牌的ID',
+	`time` int(11) NOT NULL   COMMENT '使用的时间',
+	`expire` int(11) NOT NULL   COMMENT '过期时间',
+	`value` varchar(255) NOT NULL   COMMENT '附加值',
+	PRIMARY KEY (`id`),
+	KEY `user` (`user`),
+	KEY `token` (`token`),
+	KEY `client` (`client`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
+
 CREATE TABLE `upload` (
 	`id` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '文件ID',
 	`type` varchar(10) NOT NULL   COMMENT '扩展名',
@@ -172,22 +202,6 @@ CREATE TABLE `user_option_log` (
 	`time` int(11) NOT NULL   COMMENT '使用的时间',
 	PRIMARY KEY (`id`),
 	KEY `user_id` (`user_id`),
-	KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
-
-
-CREATE TABLE `user_token` (
-	`id` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '令牌ID',
-	`user_id` bigint(20) NOT NULL   COMMENT '使用的用户',
-	`token` varchar(32) NOT NULL   COMMENT '令牌',
-	`name` varchar(80) NOT NULL   COMMENT '令牌名',
-	`ip` varchar(32) NOT NULL   COMMENT '使用令牌的ID',
-	`time` int(11) NOT NULL   COMMENT '使用的时间',
-	`expire` int(11) NOT NULL   COMMENT '过期时间',
-	`value` varchar(255) NOT NULL   COMMENT '附加值',
-	PRIMARY KEY (`id`),
-	KEY `user_id` (`user_id`),
-	KEY `token` (`token`),
 	KEY `name` (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 

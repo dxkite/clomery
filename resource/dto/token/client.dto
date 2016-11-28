@@ -1,0 +1,7 @@
+; 客户端
+id bigint(20) auto primary comment="客户端ID"
+name varchar(80) key comment="客户端名"
+description varchar(255) comment="客户端描述"
+token varchar(32) key comment="客户端识别码"
+time  int(11) comment="创建时间"
+state int(1) key comment="客户端状态"
