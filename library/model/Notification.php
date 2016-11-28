@@ -110,7 +110,7 @@ class Notification
     
     public function listBroadcast(int $type, int $page=1, int $count=10)
     {
-        if ($fetch=Query::where('notification', ['send', 'data'], ' type = :type AND state != ' .self::STATE_DELETE .' group by data', ['type'=>$type], [$page, $count])->fetchAll()) {
+        if ($fetch=Query::where('notification', ['send', 'data'], ' type = :type AND state != ' .self::STATE_DELETE .' GROUP BY `data` ', ['type'=>$type], [$page, $count])->fetchAll()) {
             return $fetch;
         }
         return false;

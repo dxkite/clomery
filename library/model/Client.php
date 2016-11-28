@@ -13,10 +13,12 @@ class Client
         $id=Query::insert('token_client', ['name'=>$name, 'description'=>$description, 'time'=>time(), 'token'=>$token, 'state'=>$state]);
         return ['id'=>$id,'token'=>$token];
     }
+    
     public function setState(int $id, int $state)
     {
         return Query::update('token_client', ['state'=>$state], ['id'=>$id]);
     }
+
     public function list(int $state=null)
     {
         if (is_null($state)) {
@@ -24,6 +26,7 @@ class Client
         }
         return Query::where('token_client', '*', ['state'=>$state])->fetchAll();
     }
+
     public function check(int $id, string $token)
     {
         return Query::where('token_client', 'id', ['id'=>$id, 'token'=>$token, 'state'=>self::ACTIVE])->fetch()?true:false;
