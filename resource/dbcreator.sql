@@ -1,4 +1,4 @@
--- create:2016-11-29 09:43:06
+-- create:2016-11-29 11:40:56
 
 CREATE TABLE `article` (
 	`id` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '文章ID',
@@ -171,29 +171,31 @@ CREATE TABLE `token` (
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `upload` (
+CREATE TABLE `upload_data` (
 	`id` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '文件ID',
-	`type` varchar(10) NOT NULL   COMMENT '扩展名',
 	`hash` varchar(32) NOT NULL   COMMENT 'MD5哈希',
 	`ref` int(11) NOT NULL   COMMENT '引用计数',
 	PRIMARY KEY (`id`),
-	KEY `type` (`type`),
 	KEY `hash` (`hash`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 
-CREATE TABLE `upload_usage` (
+CREATE TABLE `upload` (
 	`id` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '文件ID',
-	`upload_id` bigint(20) NOT NULL   COMMENT '文件资源',
 	`uid` bigint(20) NOT NULL   COMMENT '使用用户',
 	`name` varchar(80) NOT NULL   COMMENT '文件名',
+	`size` int(11) NOT NULL   COMMENT '文件大小',
+	`time` int(11) NOT NULL   COMMENT '上传时间',
 	`type` varchar(10) NOT NULL   COMMENT '扩展名',
-	`time` int(11) NOT NULL   COMMENT '时间',
-	`publish` int(1) NOT NULL DEFAULT '1'  COMMENT '是否公开',
+	`data` bigint(20) NOT NULL   COMMENT '文件数据',
+	`use` int(11) NOT NULL   COMMENT '使用次数',
+	`state` tinyint(1) NOT NULL   COMMENT '状态',
 	PRIMARY KEY (`id`),
-	KEY `upload_id` (`upload_id`),
 	KEY `uid` (`uid`),
-	KEY `type` (`type`)
+	KEY `type` (`type`),
+	KEY `data` (`data`),
+	KEY `use` (`use`),
+	KEY `state` (`state`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 

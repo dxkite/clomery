@@ -1,5 +1,10 @@
-; 上传的文件
-id bigint(20) primary  auto comment="文件ID"
+; 文件上传记录
+id bigint(20) primary auto comment="文件ID"
+uid bigint(20) key comment="使用用户"
+name varchar(80) comment="文件名" 
+size int(11) comment="文件大小"
+time int(11) comment="上传时间"
 type varchar(10) key comment="扩展名"
-hash varchar(32) key comment="MD5哈希"
-ref  int(11) comment="引用计数"  
+data bigint(20) key comment="文件数据"
+use  int(11) key comment="是否使用"
+state tinyint(1) key comment="状态"

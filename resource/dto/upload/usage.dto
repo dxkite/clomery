@@ -1,8 +1,0 @@
-; 文件使用记录
-id bigint(20) primary auto comment="文件ID"
-upload_id bigint(20) key comment="文件资源"
-uid bigint(20) key comment="使用用户"
-name varchar(80) comment="文件名" 
-type varchar(10) key comment="扩展名"
-time int(11) comment="时间"
-publish int(1) default=1 comment="是否公开"
