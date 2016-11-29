@@ -15,6 +15,7 @@ class Kite
         self::$request=new Request();
         self::setClient(); // 设置客户端验证
         Router::dispatch(self::$request);
+        register_shutdown_function(['Kite','shutdown']);
     }
 
     public function setClient()
@@ -39,10 +40,7 @@ class Kite
     {
         return base64_encode($token.$id);
     }
-    
-    public function getSigninUser(){
-        
-    }
+
     public function decodeClient(string $code)
     {
         $code=base64_decode($code);
@@ -75,7 +73,9 @@ class Kite
         self::setSeting('client_id', 1);
     }
 
-
+    public  function shutdown(){
+        Cache::gc();
+    }
     public function request()
     {
         return self::$request;

@@ -3,3 +3,4 @@ resource/view
 resource/tmp
 resource/logs
 resource/uploads
+resource/cache

@@ -20,7 +20,7 @@ class Token
         if ($get=Client::check($client, $client_token)) {
             // 存在同名Token则更新
             if ($fetch=Query::where('token', ['id', 'value'], '`user`=:user AND `client`=:client AND `expire` > UNIX_TIMESTAMP()', ['user'=>$user, 'client'=>$client])->fetch()) {
-                return self::refresh($fetch['id'], $fetch['value']);
+                return self::refresh($fetch['id'], $client,$client_token,$fetch['value']);
             } else { // 创建新Token
                 $verify=self::generate($user, $client);
                 if (!$value) {
@@ -56,7 +56,7 @@ class Token
     // 验证令牌是否过期
     public function verify(int $id, string $token)
     {
-        return Query::where('token', 'user', 'id =:id AND `expire` > UNIX_TIMESTAMP() AND LOWER(token) = LOWER(:token) ', ['id'=>$id, 'token'=>$token ])->fetch()?true:false;
+        return ($user=Query::where('token', 'user', 'id =:id AND `expire` > UNIX_TIMESTAMP() AND LOWER(token) = LOWER(:token) ', ['id'=>$id, 'token'=>$token ])->fetch())?$user['user']:false;
     }
     
     // 删除令牌

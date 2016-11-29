@@ -20,6 +20,7 @@
 </head>
 
 <body>
+    <?php var_dump(User::getSignInUserId()) ?>
     <span class="signin" style="cursor:pointer;">登陆</span>
     <span class="signup" style="cursor:pointer;">注册</span>
 </body>
@@ -46,6 +47,7 @@ window.addEventListener('load', function () {
                 }
             ]] 
         }]});
+
 
 
     var win = new DxUI.Window({ title: '登陆窗口', content: form, btn: [
