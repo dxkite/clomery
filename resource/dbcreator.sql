@@ -1,4 +1,4 @@
--- create:2016-11-28 23:54:58
+-- create:2016-11-29 09:08:41
 
 CREATE TABLE `article` (
 	`id` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '文章ID',
@@ -111,10 +111,12 @@ CREATE TABLE `site_navigation` (
 	`id` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '导航ID',
 	`name` varchar(80) NOT NULL   COMMENT '导航名',
 	`url` varchar(255) NOT NULL   COMMENT '导航URL',
+	`state` tinyint(1) NOT NULL   COMMENT '状态',
 	`sort` int(11) NOT NULL   COMMENT '排序',
 	`parent` bigint(20) NOT NULL   COMMENT '父导航',
 	PRIMARY KEY (`id`),
 	KEY `name` (`name`),
+	KEY `state` (`state`),
 	KEY `sort` (`sort`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
