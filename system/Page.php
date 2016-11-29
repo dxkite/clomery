@@ -71,7 +71,7 @@ class Page
         }
     }
 
-    public function display(array $values=[])
+    public function display($return)
     {
         header('X-Powered-By: DxSite/'.SITE_VERSION, true, self::$status);
         // 缓存控制
@@ -90,13 +90,13 @@ class Page
 
         if (self::$template) {
             $set=[];
-            if (is_array($values)) {
-                $set=$values;
+            if (is_array($return)) {
+                $set=$return;
             }
             self::renderTemplate($set);
             echo self::$content;
         } elseif (self::$type==='json') {
-            echo json_encode($values);
+            echo json_encode($return);
         } else {
             echo self::$content;
         }

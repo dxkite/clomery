@@ -92,11 +92,7 @@ class Router
     protected function display()
     {
         $return=self::runCommand();
-        if (is_array($return)) {
-            Page::display($return);
-        } else {
-            Page::display();
-        }
+        Page::display($return);
     }
     
     protected function runCommand()
@@ -123,6 +119,7 @@ class Router
                         $this->mapper[$name]['options']['content']=$content;
                     }
                 }
+                
                 Page::setOptions($this->mapper[$name]['options']);
                 return $render;
             }

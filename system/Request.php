@@ -31,6 +31,7 @@ final class Request extends Value
         if (!isset($_SERVER['PATH_INFO'])) {
             $_SERVER['PATH_INFO']=$this->url;
         }
+       
         if (is_null($this->post)) {
             $this->post=new Value($_POST);
         }

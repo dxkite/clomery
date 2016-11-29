@@ -5,6 +5,7 @@ use model\Upload as MUpload;
 use Storage;
 use Request;
 use Page;
+use api\Error as  ApiError;
 
 class Upload
 {
@@ -21,7 +22,7 @@ class Upload
                 echo Storage::get($path);
             } else {
                 Page::json();
-                return ['id'=>$id,'state'=>false];
+                return new ApiError('uploadNoFind','upload id : '.$id);
             }
         }
     }
