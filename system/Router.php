@@ -88,10 +88,15 @@ class Router
         }
         return $url;
     }
+    
     protected function display()
     {
-        self::runCommand();
-        Page::display();
+        $return=self::runCommand();
+        if (is_array($return)) {
+            Page::display($return);
+        } else {
+            Page::display();
+        }
     }
     
     protected function runCommand()
@@ -118,7 +123,7 @@ class Router
                     }
                 }
                 Page::setOptions($this->mapper[$name]['options']);
-                return true;
+                return $render;
             }
         }
         // auto
@@ -137,17 +142,18 @@ class Router
                 $class=$namespace!==''?$namespace.'\\'.$name:$name;
                 if (preg_match('/^'.preg_quote(SITE_CMD, '/').'/', $rawcmd)) {
                     if (class_exists($class)) {
+                        $class=new $class($this->request);
                         if (method_exists($class, 'beforRun')) {
-                            $class::beforeRun($this->request);
+                            $class->beforeRun($this->request);
                         }
                         if (method_exists($class, 'afterRun')) {
-                            $class::afterRun($class::main($this->request));
+                            $render=$class->afterRun($class->main($this->request));
                         } else {
-                            $class::main($this->request);
+                            $render=$class->main($this->request);
                         }
                     }
                 }
-                return true;
+                return  $render;
             }
         }
         // 啥都找不到

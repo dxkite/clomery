@@ -42,7 +42,7 @@ final class Request extends Value
     public function json()
     {
         $str=file_get_contents('php://input');
-        return core\Json::decode($str, true);
+        return helper\Json::decode($str, true);
     }
     public function method()
     {
