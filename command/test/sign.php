@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
     <title>Demo DxUI</title>
-    <script src="/static/dxui.min.js"></script>
+    <script src="/static/dxui.js"></script>
 
     <script id="login_form" type="application/DxTPL">
         <form id="login-form" > 
@@ -25,7 +25,7 @@
     <span class="signup" style="cursor:pointer;">注册</span>
 </body>
 <script>
-DxUI.loadCss('/static/theme/dxui.min.css'); //加载自己要用的CSS
+DxUI.loadCss('/static/theme/dxui.css'); //加载自己要用的CSS
 window.addEventListener('load', function () {
     window.$ = DxDOM;
     DxUI.Toast('窗口加载成功', 1000).show();

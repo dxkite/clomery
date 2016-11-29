@@ -1,0 +1,84 @@
+/*! dxui.css by DXkite 2016-11-29 */
+.btn 
+{
+	display: inline-block;
+	margin: 0.5em;
+	padding: 1em 2em;
+	border: 1px solid #C9C9C9;
+    background-color: #fff;
+    color: #333;
+	position: relative;
+    transition: 0.3s;
+	z-index: 1;
+    outline: none;
+}
+.btn:hover
+{
+    border-color: #009688;
+    color: #000;
+}
+.btn--min  {
+	margin: 0.5em;
+	padding: 0.5em 1em;
+}
+.form-input {
+    display: block;
+    height: 1.5em;
+    padding: 0.3em 0.5em;
+    color: #333333;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+}
+.toast
+{
+    background-color: rgba(0, 0, 0, 0.7); 
+    color: white; 
+    display: inline-block; 
+    padding: 0.8em; 
+    cursor: pointer; 
+    opacity: 1; 
+    border: 0px; 
+}
+.win {
+    padding: 0;
+    display: inline-block;
+    opacity: 1;
+    position: fixed;
+    box-shadow: 0 0 0.2em 0 #ccc;
+    min-width: 10em;
+    background-color: #fff;
+}
+
+.win-head {
+    margin: 0;
+    padding: 0.5em;
+    cursor: move;
+    opacity: 1;
+    background-color: #eee;
+    border-bottom: 1px #ccc solid;
+}
+
+.win-head-btn {
+    float: right;
+    width: 1em;
+    cursor: pointer;
+    display: block;
+    height: 1em;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.win-body {
+    margin: 0;
+    background-color: #fff;
+    padding: 0.5em;
+}
+
+.win-btns {
+    padding: 0.5em;
+    float: right;
+}
+
+.icon-close {
+    background-image: url("ic_close_24px.svg");
+}
