@@ -10,17 +10,18 @@
 
     <script id="login_form" type="application/DxTPL">
         <form id="login-form" > 
-        <div><!--#login--><input name="username" class="form-input" type="text" value="DXkite" pattern="[A-z]{3}" /></div>
+        <div><!--#login--><input name="name" class="form-input" type="text" value="DXkite" /></div>
+        <!--#if email  -->
+        <div><!--#email--><input name="email" class="form-input" type="email" value="DXkite@atd3.com" /></div>
+        <!--#/if-->
         <div><!--#passwd--><input name="password" class="form-input" type="password" value="DXkite"/></div>
         </form>
     </script>
 </head>
 
 <body>
-    <span class="popwindow" style="cursor:pointer;">Click Me</span>
-    <span class="popwindow" style="cursor:pointer;">Click Me</span>
-    <span class="popwindow" style="cursor:pointer;">Click Me</span>
-    <span class="popwindow" style="cursor:pointer;">Click Me</span>
+    <span class="signin" style="cursor:pointer;">登陆</span>
+    <span class="signup" style="cursor:pointer;">注册</span>
 </body>
 <script>
 DxUI.loadCss('/static/theme/dxui.min.css'); //加载自己要用的CSS
@@ -28,14 +29,31 @@ window.addEventListener('load', function () {
     window.$ = DxDOM;
     DxUI.Toast('窗口加载成功', 1000).show();
     DxTPL.config({tags:["<!--#","-->"]});
+    var form = DxTPL.template('login_form', { login: '登陆',email:false, passwd: '密码' });
+    var form2 = DxTPL.template('login_form', { login: '登陆',email:'邮箱', passwd: '密码' });
 
-    var form = DxTPL.template('login_form', { login: '登陆', passwd: '密码' });
+    var win2= new DxUI.Window({ title: '注册窗口', content: form2, btn: [
+        'close',
+        {
+            text:'注册',
+            class:"btn btn--min",
+            action:'/user/ajax?type=signup',
+            'data-form':'login-form',
+            type:'AjaxButton',
+            on:[
+                ['message', function (event) {
+                   console.log(event.detail.json);
+                }
+            ]] 
+        }]});
+
+
     var win = new DxUI.Window({ title: '登陆窗口', content: form, btn: [
         'close',
         {
             text:'登陆按钮',
             class:"btn btn--min",
-            action:'/api/user/signin',
+            action:'/user/ajax?type=signin',
             'data-form':'login-form',
             type:'AjaxButton',
             on:[
@@ -54,25 +72,16 @@ window.addEventListener('load', function () {
                     }
                 }
             ]] 
-        },
-        {
-            text:'注册按钮',
-            class:"btn btn--min",
-            on:[
-                ['click', function (event) {
-                    DxUI.Toast('注册功能未完成！', 1000).show();
-                }
-            ]] 
         }]});
 
-    win.addEventListener('close', function (event) {
-        // 阻止关闭
-        // event.preventDefault();
-        console.log('close_window:' + this.index);
+
+
+    $('.signin').on('click', function () {
+        win.open();
     });
 
-    $('.popwindow').on('click', function () {
-        win.open();
+     $('.signup').on('click', function () {
+        win2.open();
     });
 
 });

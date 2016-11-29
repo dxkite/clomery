@@ -18,7 +18,9 @@ class Client
     {
         return Query::update('token_client', ['state'=>$state], ['id'=>$id]);
     }
-
+    public function get(int $id){
+        return ($get=Query::where('token_client', '*', ['id'=>$id])->fetch())?$get:false;
+    }
     public function list(int $state=null,int $page=1,int $per_page=10)
     {
         if (is_null($state)) {

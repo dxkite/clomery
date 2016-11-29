@@ -3,6 +3,9 @@ namespace api\user;
 
 use api\Visitor;
 use api\Param;
+use model\User;
+use Request;
+use Kite;
 
 class Signup extends Visitor
 {
@@ -11,6 +14,6 @@ class Signup extends Visitor
 
     public function apiMain(Param $param)
     {
-        return ['hello'];
+        return $param;
     }
 }

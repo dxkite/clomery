@@ -53,11 +53,13 @@ final class Request extends Value
     {
         return $this->url;
     }
+    
     public function set(string $name, $value)
     {
         $this->get->$name=$value;
         return $this;
     }
+
     public function get(string $name='')
     {
         if ($name) {
@@ -108,5 +110,8 @@ final class Request extends Value
     public function hasGet()
     {
         return count($_GET);
+    }
+    public function isJson(){
+        return isset($_SERVER['CONTENT_TYPE']) && preg_match('/json/i',$_SERVER['CONTENT_TYPE']);
     }
 }

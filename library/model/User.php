@@ -21,12 +21,12 @@ class User
         return Query::count('user');
     }
 
-    public function signUp(string $name, string $email, string $password, int $client,string $client_token)
+    public function signUp(string $name, string $email, string $password, int $client,string $client_token,int $value=null)
     {
         try {
             Query::begin();
             $id=Query::insert('user', ['name'=>$name, 'password'=>password_hash($password, PASSWORD_DEFAULT), 'email'=>$email]);
-            $token=Token::create($id, $client,$client_token);
+            $token=Token::create($id, $client,$client_token,$value);
             $token['user_id']=$id;
             Query::commit();
         } catch (\Exception $e) {
