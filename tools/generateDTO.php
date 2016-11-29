@@ -52,7 +52,7 @@ foreach ($tables as $table) {
     $builder->setTableName($table_name);
     $output=SITE_TEMP.'/'.preg_replace('/\\\\/', DIRECTORY_SEPARATOR, $namespace).'/'.$name.'.php';
     Storage::mkdirs(dirname($output));
-   $builder->export(DTA_TPL.'/api.tpl', $output);
+    $builder->export(DTA_TPL.'/api.tpl', $output);
     $sql=$builder->getCreateSQL();
     file_put_contents($outsql, "\r\n".$sql."\r\n\r\n", FILE_APPEND);
 }

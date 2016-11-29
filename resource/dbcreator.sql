@@ -1,4 +1,4 @@
--- create:2016-11-28 22:01:30
+-- create:2016-11-28 23:54:58
 
 CREATE TABLE `article` (
 	`id` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '文章ID',
@@ -11,7 +11,7 @@ CREATE TABLE `article` (
 	`view` int(11) NOT NULL   COMMENT '阅读',
 	`create` int(11) NOT NULL   COMMENT '创建时间',
 	`update` int(11) NOT NULL   COMMENT '最后更新',
-	`replys` int(11) NOT NULL   COMMENT '回复',
+	`reply` int(11) NOT NULL   COMMENT '回复',
 	`allow_reply` tinyint(1) NOT NULL DEFAULT '1'  COMMENT '可回复',
 	`state` tinyint(1) NOT NULL DEFAULT '1'  COMMENT '文章状态',
 	PRIMARY KEY (`id`),
@@ -24,18 +24,35 @@ CREATE TABLE `article` (
 
 CREATE TABLE `article_comment` (
 	`id` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '评论ID',
-	`aritcle` bigint(20) NOT NULL   COMMENT '评论的文章',
+	`article` bigint(20) NOT NULL   COMMENT '评论的文章',
 	`count` int(11) NOT NULL   COMMENT '评论计数',
-	`replys` bigint(20) NOT NULL   COMMENT '被评论数',
+	`reply` bigint(20) NOT NULL   COMMENT '被评论数',
 	`author` bigint(20) NOT NULL   COMMENT '评论的人',
 	`text` varchar(500) NOT NULL   COMMENT '评论内容',
 	`time` int(11) NOT NULL   COMMENT '评论的时间',
 	`ip` varchar(20) NOT NULL   COMMENT '评论IP',
 	`state` tinyint(1) NOT NULL   COMMENT '状态',
 	PRIMARY KEY (`id`),
-	KEY `aritcle` (`aritcle`),
+	KEY `article` (`article`),
 	KEY `count` (`count`),
-	KEY `replys` (`replys`),
+	KEY `reply` (`reply`),
+	KEY `author` (`author`),
+	KEY `state` (`state`)
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `article_reply` (
+	`id` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '回复ID',
+	`reply` bigint(20) NOT NULL   COMMENT '回复的回复',
+	`comment` bigint(20) NOT NULL   COMMENT '回复的评论',
+	`author` bigint(20) NOT NULL   COMMENT '回复的人',
+	`text` varchar(500) NOT NULL   COMMENT '回复内容',
+	`time` int(11) NOT NULL   COMMENT '回复的时间',
+	`ip` varchar(20) NOT NULL   COMMENT '回复IP',
+	`state` tinyint(1) NOT NULL   COMMENT '状态',
+	PRIMARY KEY (`id`),
+	KEY `reply` (`reply`),
+	KEY `comment` (`comment`),
 	KEY `author` (`author`),
 	KEY `state` (`state`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;

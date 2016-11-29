@@ -51,7 +51,7 @@ class Article
 
     public function list(int $page=1, int $count=10)
     {
-        return Query::where('article', ['id', 'categroy', 'title', 'abstract', 'update', 'allow_reply', 'view'], ['state'=>self::STATE_PUBLISH], [], [$page, $count])->fetchAll();
+        return Query::where('article', ['id', 'categroy', 'title', 'abstract', 'update', 'allow_reply', 'view', 'reply'], ['state'=>self::STATE_PUBLISH], [], [$page, $count])->fetchAll();
     }
 
     public function listSort(string $field, int $type=SORT_ASC, int $page=1, int $count=10)
@@ -60,7 +60,7 @@ class Article
             $field='update';
         }
         $order=$type===SORT_ASC?'ASC':'DESC';
-        return Query::where('article', ['id', 'categroy', 'title', 'abstract', 'update', 'allow_reply', 'view'], 'state =:state ORDER BY `'.$field.'` '.$order, ['state'=>self::STATE_PUBLISH], [$page, $count])->fetchAll();
+        return Query::where('article', ['id', 'categroy', 'title', 'abstract', 'update', 'allow_reply', 'view', 'reply'], 'state =:state ORDER BY `'.$field.'` '.$order, ['state'=>self::STATE_PUBLISH], [$page, $count])->fetchAll();
     }
 
     public function setState(int $id, int $state)
@@ -87,10 +87,20 @@ class Article
         return true;
     }
 
+    public function viewCount(int $id)
+    {
+        return Query::update('article', 'view = view +1', ['id'=>$id]);
+    }
+
+    public function replyCount(int $id)
+    {
+        return Query::update('article', 'reply = reply +1', ['id'=>$id]);
+    }
+    
     public function addTag(int $article, string $name)
     {
         if (($tag=Tag::getId($name)) || ($tag=Tag::create($name))) {
-            if (Query::insert('article_tag',' (`article`,`tag`) SELECT :article,:tag FROM DUAL WHERE NOT EXISTS (SELECT `article`,`tag` FROM `#{article_tag}` WHERE article=:article AND tag=:tag ) ', ['article'=>$article, 'tag'=>$tag])) {
+            if (Query::insert('article_tag', ' (`article`,`tag`) SELECT :article,:tag FROM DUAL WHERE NOT EXISTS (SELECT `article`,`tag` FROM `#{article_tag}` WHERE article=:article AND tag=:tag ) ', ['article'=>$article, 'tag'=>$tag])) {
                 return Tag::countAdd($tag);
             }
             return true;
