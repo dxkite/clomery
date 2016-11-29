@@ -112,7 +112,8 @@ class Router
                     }
                     $this->request->set($param_name, $value);
                 }
-                if (isset($this->mapper[$name]['options']['flush'])) {
+
+                if (isset($this->mapper[$name]['options']['flush']) && $this->mapper[$name]['options']['flush'] == false ) {
                     $render=(new Command($this->mapper[$name]['cmd']))->args($this->request);
                 } else {
                     ob_start();
@@ -147,10 +148,11 @@ class Router
                 if (preg_match('/^'.preg_quote(SITE_CMD, '/').'/', $rawcmd)) {
                     if (class_exists($class)) {
                         $class=new $class($this->request);
+
                         if (method_exists($class, 'beforRun')) {
                             $class->beforeRun($this->request);
                         }
-                        if (Page::setFlush()) {
+                        if (Page::getFlush()) {
                             ob_start();
                             if (method_exists($class, 'afterRun')) {
                                 $render=$class->afterRun($class->main($this->request));

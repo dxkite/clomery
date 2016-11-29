@@ -150,8 +150,7 @@ class Page
      */
     public function type($type)
     {
-        header('Content-Type:'.mime($type));
-        self::$type = $type;
+       self::setType($type);
     }
         /**
      * @param mixed $type
@@ -173,6 +172,7 @@ class Page
      */
     public function setType($type)
     {
+        header('Content-Type:'.mime($type));
         self::$type = $type;
     }
 
