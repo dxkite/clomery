@@ -21,7 +21,7 @@ class Navigation
 
     public function update(int $id, string $name, string $url, int $sort, int $parent)
     {
-        return Query::update('site_navigation', ['id'=>$id, 'name'=>$name, 'url'=>$url, 'sort'=>$sort, 'parent'=>$parent]);
+        return Query::update('site_navigation', ['name'=>$name, 'url'=>$url, 'sort'=>$sort, 'parent'=>$parent], ['id'=>$id ]);
     }
     
     public function list()

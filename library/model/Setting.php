@@ -6,21 +6,35 @@ use Query;
 
 class Setting
 {
-                                                                                                                
-    public function create(string $name,string $type,string $value)
+    public function set(string $name, string $value)
     {
-        return Query::insert('site_setting',['name'=>$name,'type'=>$type,'value'=>$value]);
+        try {
+            if (!self::update($name, $value)) {
+                return Query::insert('site_setting', ['name'=>$name, 'value'=>$value]);
+            }
+        } catch (\Exception $e) {
+            return true;
+        }
+        return true;
     }
 
-    public function delete(int $id){
-        return Query::delete('site_setting',['id'=>$id]);
+    public function delete(int $id)
+    {
+        return Query::delete('site_setting', ['id'=>$id]);
     }
 
-    public function update(int $id,string $name,string $type,string $value){
-       return Query::update('site_setting',['id'=>$id,'name'=>$name,'type'=>$type,'value'=>$value]); 
+    protected function update(string $name, string $value)
+    {
+        return Query::update('site_setting', ['value'=>$value], ['name'=>$name]);
     }
 
-    public function get(){
-        return Query::where('site_setting', ['id','name','type','value'], '1')->fetchAll();
+    public function get(string $name)
+    {
+        return Query::where('site_setting', ['id', 'name', 'value'], ['name'=>$name])->fetch();
+    }
+
+    public function getAll()
+    {
+        return Query::where('site_setting', ['id', 'name', 'value'])->fetchAll();
     }
 }

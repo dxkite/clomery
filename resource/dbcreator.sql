@@ -1,4 +1,4 @@
--- create:2016-11-29 09:08:41
+-- create:2016-11-29 09:43:06
 
 CREATE TABLE `article` (
 	`id` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '文章ID',
@@ -124,11 +124,9 @@ CREATE TABLE `site_navigation` (
 CREATE TABLE `site_setting` (
 	`id` int(11) NOT NULL  AUTO_INCREMENT COMMENT '设置ID',
 	`name` varchar(80) NOT NULL   COMMENT '设置KEY',
-	`type` varchar(10) NOT NULL   COMMENT '数据类型',
 	`value` varchar(255) NOT NULL   COMMENT '设置数据',
 	PRIMARY KEY (`id`),
-	UNIQUE KEY `name` (`name`),
-	KEY `type` (`type`)
+	UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 
@@ -147,6 +145,8 @@ CREATE TABLE `token_client` (
 	`description` varchar(255) NOT NULL   COMMENT '客户端描述',
 	`token` varchar(32) NOT NULL   COMMENT '客户端识别码',
 	`time` int(11) NOT NULL   COMMENT '创建时间',
+	`beat` int(11) NOT NULL   COMMENT '最低心跳',
+	`alive` int(11) NOT NULL   COMMENT '登陆超时',
 	`state` int(1) NOT NULL   COMMENT '客户端状态',
 	PRIMARY KEY (`id`),
 	KEY `name` (`name`),

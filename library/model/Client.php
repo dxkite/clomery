@@ -7,10 +7,10 @@ class Client
 {
     const ACTIVE=1;//可活动的
     const FREEZE=0;//禁用的
-    public function create(string  $name, string $description='官方令牌', int $state=self::ACTIVE)
+    public function create(string  $name, string $description='官方令牌',int $beat=60,int $alive=3600, int $state=self::ACTIVE)
     {
         $token=md5(microtime(true));
-        $id=Query::insert('token_client', ['name'=>$name, 'description'=>$description, 'time'=>time(), 'token'=>$token, 'state'=>$state]);
+        $id=Query::insert('token_client', ['name'=>$name, 'description'=>$description, 'time'=>time(),'beat'=>$beat,'alive'=>$alive,'token'=>$token, 'state'=>$state]);
         return ['id'=>$id,'token'=>$token];
     }
 
@@ -29,6 +29,6 @@ class Client
 
     public function check(int $id, string $token)
     {
-        return Query::where('token_client', 'id', ['id'=>$id, 'token'=>$token, 'state'=>self::ACTIVE])->fetch()?true:false;
+        return Query::where('token_client', ['id','alive','beat'], ['id'=>$id, 'token'=>$token, 'state'=>self::ACTIVE])->fetch();
     }
 }
