@@ -34,4 +34,7 @@ class Kite
         // 超时登陆 (超时多久后不活动则重新登陆)
         self::setSeting('token_alive',4800); // 7天
     }
+    public function request(){
+        return self::$request;
+    }
 }

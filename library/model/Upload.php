@@ -52,15 +52,15 @@ class Upload
 
     public function get(int $id)
     {
-        if ($select=Query::select('upload', ['uid', 'name', 'size', 'time', 'type', 'hash', 'use', 'state'], ' JOIN `#{upload_data}` ON `#{upload_data}`.`id` = `data`', ['id'=>$id])->fetch()) {
+        if ($select=Query::select('upload', ['uid', 'name', 'size', 'time', 'type', 'hash', 'use', 'state'], ' JOIN `#{upload_data}` ON `#{upload_data}`.`id` = `data` WHERE `#{upload}`.`id`=:id AND `state`=:state ', ['id'=>$id])->fetch()) {
             return $select;
         }
         return false;
     }
 
-    public function getWhen(int $id, int $state)
+    public function getWhen(int $id, int $state=self::STATE_PUBLISH)
     {
-        if ($select=Query::select('upload', ['uid', 'name', 'size', 'time', 'type', 'hash', 'use'], ' JOIN `#{upload_data}` ON `#{upload_data}`.`id` = `data`', ['id'=>$id, 'state'=> $state])->fetch()) {
+        if ($select=Query::select('upload', ['uid', 'name', 'size', 'time', 'type', 'hash', 'use'], ' JOIN `#{upload_data}` ON `#{upload_data}`.`id` = `data` WHERE `#{upload}`.`id`=:id AND `state`=:state ',['id'=>$id, 'state'=> $state])->fetch()) {
             return $select;
         }
         return false;

@@ -19,7 +19,7 @@ class Router
     {
         $this->request=$request;
         self::loadConfig();
-        spl_autoload_register([$this, 'autoRuningCommand']);
+        spl_autoload_register(['Router', 'autoRuningCommand']);
         Event::listen('404_error', 'Router::_error404');
     }
 
@@ -112,7 +112,7 @@ class Router
                     }
                     $this->request->set($param_name, $value);
                 }
-                if (isset($this->mapper[$name]['options']['noOb'])) {
+                if (isset($this->mapper[$name]['options']['flush'])) {
                     $render=(new Command($this->mapper[$name]['cmd']))->args($this->request);
                 } else {
                     ob_start();
@@ -126,6 +126,7 @@ class Router
                 return $render;
             }
         }
+
         // auto
         // 路由找不到则使用自动加载
         $rawcmds=[
@@ -137,25 +138,41 @@ class Router
         foreach ($rawcmds as $rawcmd) {
             if (realpath($rawcmd)) {
                 $render=require $rawcmd;
+
                 $name=ucfirst(pathinfo($this->request->url(), PATHINFO_FILENAME));
                 $namespace=preg_replace('/\//', '\\', trim(dirname($this->request->url()), '/'));
                 $class=$namespace!==''?$namespace.'\\'.$name:$name;
+
+                
                 if (preg_match('/^'.preg_quote(SITE_CMD, '/').'/', $rawcmd)) {
                     if (class_exists($class)) {
                         $class=new $class($this->request);
                         if (method_exists($class, 'beforRun')) {
                             $class->beforeRun($this->request);
                         }
-                        if (method_exists($class, 'afterRun')) {
-                            $render=$class->afterRun($class->main($this->request));
+                        if (Page::setFlush()) {
+                            ob_start();
+                            if (method_exists($class, 'afterRun')) {
+                                $render=$class->afterRun($class->main($this->request));
+                            } else {
+                                $render=$class->main($this->request);
+                            }
+                            $content=ob_get_clean();
+                            Page::setContent($content);
                         } else {
-                            $render=$class->main($this->request);
+                            if (method_exists($class, 'afterRun')) {
+                                $render=$class->afterRun($class->main($this->request));
+                            } else {
+                                $render=$class->main($this->request);
+                            }
                         }
                     }
                 }
+                
                 return  $render;
             }
         }
+         
         // 啥都找不到
         Event::only('404_error')->args($this->request->url());
     }
@@ -180,8 +197,11 @@ class Router
     {
         if ($name) {
             $fname=preg_replace('/[\\\\_\/.]/', DIRECTORY_SEPARATOR, $name);
-            if (file_exists($require=SITE_CMD.'/'.$fname.'.'.strtolower($this->request->getMethod()).'.php')) {
-                return require_once $require;
+            // 自动加载的情况
+            if (file_exists($auto=SITE_CMD.'/'.$fname.'.'.strtolower($this->request->method()).'.php')) {
+                return require_once $auto;
+            } elseif (file_exists($auto=SITE_CMD.'/'.$fname.'.php')) {
+                return require_once $auto;
             } elseif (file_exists($require=SITE_CMD.'/'.$fname.'.cmd.php')) {
                 return require_once $require;
             }

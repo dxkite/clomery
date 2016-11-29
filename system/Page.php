@@ -13,7 +13,7 @@ class Page
     protected static $status=200;
     protected static $id;
     protected static $content;
-
+    protected static $flush=false;
 
     public function __construct(string $template=null, array $values=[])
     {
@@ -65,8 +65,8 @@ class Page
     {
         foreach ($options as $name=>$value) {
             $method='set'.ucfirst($name);
-            if (method_exists($this, $method)) {
-                self::$$method($value);
+            if (method_exists('Page', $method)) {
+                self::$method($value);
             }
         }
     }
@@ -244,5 +244,11 @@ class Page
         } else {
             self::$cache = $cache;
         }
+    }
+    public function setFlush(bool $flush=true){
+        return self::$flush=$flush;
+    }
+    public function getFlush(){
+        return self::$flush;
     }
 }
