@@ -83,9 +83,10 @@ class Page
         if (self::$close) {
             header('Connection:close');
         }
-        if (self::$type) {
-            header('Content-Type:'.mime(self::$type));
-        }
+
+        // if (self::$type) {
+        //     header('Content-Type:'.mime(self::$type));
+        // }
 
         if (self::$template) {
             $set=[];
@@ -149,6 +150,7 @@ class Page
      */
     public function type($type)
     {
+        header('Content-Type:'.mime($type));
         self::$type = $type;
     }
         /**
