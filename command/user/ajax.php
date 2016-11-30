@@ -8,7 +8,7 @@ switch ($_GET['type'])
     echo json_encode(['uid'=>$uid]);
     break;
     case 'signin':
-    $uid=User::signIn($_POST['name'],$_POST['password']);
+    $uid=User::signIn($_POST['name'],$_POST['password'], ( isset($_POST['session']) && $_POST['session'] =='on' ));
     echo json_encode(['uid'=>$uid]);
     
 }

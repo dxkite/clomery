@@ -15,12 +15,12 @@ class User
         return false;
     }
 
-    public function signIn(string $name, string $passwd,bool $session=true)
+    public function signIn(string $name, string $passwd,bool $remember=false)
     {
         // 获取网站操作权限
         $client=Three::getClient();
         if ($get=model\User::signIn($name, $passwd, $client['id'], $client['token'])) {
-            Cookie::set('user_token', base64_encode($get['id'].'.'.$get['token'].'.'.$get['value']), 3600)->session($session)->httpOnly();
+            Cookie::set('user_token', base64_encode($get['id'].'.'.$get['token'].'.'.$get['value']), 3600)->session(!$remember)->httpOnly();
             return $get['user_id'];
         }
         return false;

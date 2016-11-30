@@ -15,6 +15,12 @@
         <div><!--#email--><input name="email" class="form-input" type="email" value="DXkite@atd3.com" /></div>
         <!--#/if-->
         <div><!--#passwd--><input name="password" class="form-input" type="password" value="DXkite"/></div>
+        <!--#if !email  -->
+        <div>
+            <input id="session" name="session" class="form-input" type="checkbox" /> 
+            <label for="session"> 记住登陆 </label>
+          </div>
+        <!--#/if-->
         </form>
     </script>
 </head>
