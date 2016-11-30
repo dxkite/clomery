@@ -1,8 +1,8 @@
-; 文章回复 -踩|赞
+; 投票回复 -踩|赞
 id bigint(20) auto primary comment="ID"
-article_id bigint(20) key  comment="文章ID"
-reply_id bigint(20) key  comment="回复ID"
-user_id bigint(20) key comment="用户ID"
+root bigint(20) key  comment="文章ID"
+item bigint(20) key  comment="回复ID"
+user  bigint(20) key comment="用户ID"
 score int(1) comment="正赞负踩"
 time int(11) comment="操作时间"
 ip   varchar(32) comment="操作IP"

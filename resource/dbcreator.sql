@@ -1,4 +1,4 @@
--- create:2016-11-29 11:40:56
+-- create:2016-11-30 13:35:20
 
 CREATE TABLE `article` (
 	`id` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '文章ID',
@@ -188,7 +188,7 @@ CREATE TABLE `upload` (
 	`time` int(11) NOT NULL   COMMENT '上传时间',
 	`type` varchar(10) NOT NULL   COMMENT '扩展名',
 	`data` bigint(20) NOT NULL   COMMENT '文件数据',
-	`use` int(11) NOT NULL   COMMENT '使用次数',
+	`use` int(11) NOT NULL   COMMENT '是否使用',
 	`state` tinyint(1) NOT NULL   COMMENT '状态',
 	PRIMARY KEY (`id`),
 	KEY `uid` (`uid`),
@@ -244,15 +244,15 @@ CREATE TABLE `user` (
 
 CREATE TABLE `vote_reply` (
 	`id` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT 'ID',
-	`article_id` bigint(20) NOT NULL   COMMENT '文章ID',
-	`reply_id` bigint(20) NOT NULL   COMMENT '回复ID',
-	`user_id` bigint(20) NOT NULL   COMMENT '用户ID',
+	`root` bigint(20) NOT NULL   COMMENT '文章ID',
+	`item` bigint(20) NOT NULL   COMMENT '回复ID',
+	`user` bigint(20) NOT NULL   COMMENT '用户ID',
 	`score` int(1) NOT NULL   COMMENT '正赞负踩',
 	`time` int(11) NOT NULL   COMMENT '操作时间',
 	`ip` varchar(32) NOT NULL   COMMENT '操作IP',
 	PRIMARY KEY (`id`),
-	KEY `article_id` (`article_id`),
-	KEY `reply_id` (`reply_id`),
-	KEY `user_id` (`user_id`)
+	KEY `root` (`root`),
+	KEY `item` (`item`),
+	KEY `user` (`user`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
