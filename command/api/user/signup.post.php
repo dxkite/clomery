@@ -5,7 +5,7 @@ use api\Visitor;
 use api\Param;
 use model\User;
 use Request;
-use Kite;
+use Three;
 
 class Signup extends Visitor
 {

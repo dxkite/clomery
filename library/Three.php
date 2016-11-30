@@ -3,7 +3,7 @@ require_once __DIR__.'/../system/initailze.php';
 
 use model\Setting;
 
-class Kite
+class Three
 {
     public static $request;
     public static $page;
@@ -15,7 +15,7 @@ class Kite
         self::$request=new Request();
         self::setClient(); // 设置客户端验证
         Router::dispatch(self::$request);
-        register_shutdown_function(['Kite','shutdown']);
+        register_shutdown_function(['Three','shutdown']);
     }
 
     public function setClient()

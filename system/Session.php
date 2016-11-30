@@ -10,7 +10,7 @@ class Session
     ];
     public static function start()
     {
-        $path=APP_RESOURCE.'/'.conf('session.save_path','session');
+        $path=SITE_RESOURCE.'/'.conf('session.save_path','session');
         Storage::mkdirs($path);
         session_save_path($path);
         session_name(conf('session.name', 'session'));

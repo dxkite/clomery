@@ -10,6 +10,8 @@ class CookieSetter
     public $domain=null;
     public $expire=0;
     public $secure=false;
+    public $session=false;
+
     public function __construct(string $name, string $value, int $expire=0)
     {
         $this->name=$name;
@@ -45,8 +47,13 @@ class CookieSetter
     {
         return $this->value;
     }
+    public function session()
+    {
+        $this->session=true;
+        return $this;
+    }
     public function set()
     {
-        return setcookie($this->name, $this->value, time()+$this->expire, $this->path, $this->domain, $this->secure, $this->httponly);
+        return setcookie($this->name, $this->value, $this->session ? 0: time()+$this->expire, $this->path, $this->domain, $this->secure, $this->httponly);
     }
 }

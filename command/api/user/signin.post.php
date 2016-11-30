@@ -3,7 +3,7 @@ namespace api\user;
 
 use api\Visitor;
 use api\Param;
-use Kite;
+use Three;
 
 class Signin extends Visitor
 {
@@ -12,6 +12,6 @@ class Signin extends Visitor
 
     public function apiMain(Param $param)
     {
-        return Kite::request()->post();
+        return Three::request()->post();
     }
 }
