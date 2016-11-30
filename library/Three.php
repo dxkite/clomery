@@ -27,7 +27,7 @@ class Three
                 $token=self::encodeClient($get['token'],$get['id']);
                 Cookie::set('client_id', $token, 3600)->httpOnly();
             } else {
-                die('no app id set');
+                die('App is not available');
             }
         }
     }
