@@ -49,7 +49,13 @@ window.addEventListener('load', function () {
             type:'AjaxButton',
             on:[
                 ['message', function (event) {
-                   console.log(event.detail.json);
+                   if (event.detail.json.name == 'success') {
+                        DxUI.Toast('注册成功，窗口将在1S后关闭！', 1000).show();
+                         win2.close(1000);
+                    }
+                    else{
+                        DxUI.Toast('注册失败('+event.detail.json.message+')请重试！', 1000).show();
+                    }
                 }
             ]] 
         }]});
@@ -67,16 +73,12 @@ window.addEventListener('load', function () {
             on:[
                 ['message', function (event) {
                     console.log('a new message!');
-                    if (event.detail.json.name == 'signinSuccess') {
+                    if (event.detail.json.name == 'success') {
                         DxUI.Toast('登陆成功，窗口将在1S后关闭！', 1000).show();
                         win.close(1000);
                     }
-                    else if (event.detail.json.name='signed') {
-                        DxUI.Toast('用户已经登陆！', 1000).show();
-                        win.close(1000);
-                    }
                     else{
-                        DxUI.Toast('登陆失败，请重试！', 1000).show();
+                        DxUI.Toast('登陆失败('+event.detail.json.message+')请重试！', 1000).show();
                     }
                 }
             ]] 

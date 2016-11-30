@@ -1,15 +1,20 @@
 <?php
-
-
-switch ($_GET['type'])
-{
+Page::json();
+switch ($_GET['type']) {
     case 'signup':
-    $uid=User::signUp($_POST['name'],$_POST['email'],$_POST['password']);
-    echo json_encode(['uid'=>$uid]);
-    break;
+    return api_check_values($_POST, ['name', 'email', 'password'], function ($name, $email, $password) {
+        $uid=User::signUp($name, $email, $password);
+        if ($uid){
+            return  ['uid'=>$uid] ;
+        }
+        return new api\Error('signupError','name or email is duplicate!');
+    });
     case 'signin':
-    $uid=User::signIn($_POST['name'],$_POST['password'], ( isset($_POST['session']) && $_POST['session'] =='on' ));
-    echo json_encode(['uid'=>$uid]);
-    
+    return api_check_values($_POST, ['name', 'password', 'string'=>['session','off'] ], function ($name, $email, $session) {
+        $uid=User::signIn($name, $email, $session =='on');
+        if ($uid){
+            return  ['uid'=>$uid] ;
+        }
+        return new api\Error('passwordError','password error!');
+    });
 }
-

@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__.'/../system/initailze.php';
+require_once __DIR__.'/function.php';
 
 use model\Setting;
 
