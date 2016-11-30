@@ -19,6 +19,9 @@ class Upload
             $path=SITE_RESOURCE.'/uploads/'.$file['hash'];
             if (Storage::exist($path)) {
                 Page::setType($file['type']);
+                if (isset($_GET['download'])) {
+                    header('Content-Disposition:attachment;filename='.$file['name']);
+                }
                 echo Storage::get($path);
             } else {
                 Page::json();
