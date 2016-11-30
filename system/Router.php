@@ -136,12 +136,9 @@ class Router
         foreach ($rawcmds as $rawcmd) {
             if (realpath($rawcmd)) {
                 $render=require $rawcmd;
-
                 $name=ucfirst(pathinfo($this->request->url(), PATHINFO_FILENAME));
                 $namespace=preg_replace('/\//', '\\', trim(dirname($this->request->url()), '/'));
                 $class=$namespace!==''?$namespace.'\\'.$name:$name;
-
-                
                 if (preg_match('/^'.preg_quote(SITE_CMD, '/').'/', $rawcmd)) {
                     if (class_exists($class)) {
                         $class=new $class($this->request);

@@ -87,7 +87,7 @@ class Page
         // if (self::$type) {
         //     header('Content-Type:'.mime(self::$type));
         // }
-
+        
         if (self::$template) {
             $set=[];
             if (is_array($return)) {

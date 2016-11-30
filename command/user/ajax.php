@@ -12,3 +12,4 @@ switch ($_GET['type'])
     echo json_encode(['uid'=>$uid]);
     
 }
+
