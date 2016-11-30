@@ -19,7 +19,7 @@ class Token
         // 客户端可用
         if ($get=Client::check($client, $client_token)) {
             // 存在同名Token则更新
-            if ($fetch=Query::where('token', ['id', 'value'], '`user`=:user AND `client`=:client AND `expire` > UNIX_TIMESTAMP()', ['user'=>$user, 'client'=>$client])->fetch()) {
+            if ($fetch=Query::where('token', ['id', 'value'], '`user`=:user AND `client`=:client AND `expire` > UNIX_TIMESTAMP()  AND LENGTH(`value`) = 32', ['user'=>$user, 'client'=>$client])->fetch()) {
                 return self::refresh($fetch['id'], $client,$client_token,$fetch['value']);
             } else { // 创建新Token
                 $verify=self::generate($user, $client);
