@@ -27,7 +27,14 @@ class User
     }
     public function signOut() 
     {
-
+        if (Cookie::has('user_token')) {
+            $token=base64_decode(Cookie::get('user_token'));
+            if (preg_match('/^(\d+)[.]([a-zA-Z0-9]{32})(?:[.]([a-zA-Z0-9]{32}))?$/', $token, $match)) {
+                model\User::signOut(intval($match[0]),$match[1]);
+                Cookie::set('user_token','',0);
+            }
+        }
+        return true;
     }
     public function getSignInUserId()
     {
