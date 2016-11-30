@@ -21,7 +21,7 @@ class User
         return Query::count('user');
     }
 
-    public function signUp(string $name, string $email, string $password, int $client, string $client_token, string $value=null)
+    public function signUp(string $name, string $email, string $password, int $client, string $client_token, string $value='')
     {
         try {
             Query::begin();

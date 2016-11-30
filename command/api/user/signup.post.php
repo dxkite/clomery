@@ -14,6 +14,6 @@ class Signup extends Visitor
 
     public function apiMain(Param $param)
     {
-        return $param;
+         return api_check_values($param,['user','email','password','client_id','client_token'],'model\User::signUp');
     }
 }

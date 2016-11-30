@@ -14,7 +14,7 @@ class Token
     }
 
     // 创建令牌
-    public function create(int $user, int $client, string $client_token, string $value=null)
+    public function create(int $user, int $client, string $client_token, string $value='')
     {
         // 客户端可用
         if ($get=Client::check($client, $client_token)) {
