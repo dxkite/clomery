@@ -47,9 +47,9 @@ class CookieSetter
     {
         return $this->value;
     }
-    public function session()
+    public function session(bool $session=true)
     {
-        $this->session=true;
+        $this->session= $session;
         return $this;
     }
     public function set()

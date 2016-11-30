@@ -9,18 +9,18 @@ class User
         // 生成6位邮箱验证码 
         $code=substr(base64_encode(md5('5246-687261-5852-6C'+time())), 0, 6);
         if ($get=model\User::signUp($name, $email, $passwd, $client['id'], $client['token'], $code)) {
-            Cookie::set('user_token', base64_encode($get['id'].'.'.$get['token']), 3600)->httpOnly();
+            Cookie::set('user_token', base64_encode($get['id'].'.'.$get['token']), 3600)->httpOnly()->session();
             return $get['user_id'];
         }
         return false;
     }
 
-    public function signIn(string $name, string $passwd)
+    public function signIn(string $name, string $passwd,bool $session=true)
     {
         // 获取网站操作权限
         $client=Three::getClient();
         if ($get=model\User::signIn($name, $passwd, $client['id'], $client['token'])) {
-            Cookie::set('user_token', base64_encode($get['id'].'.'.$get['token'].'.'.$get['value']), 3600)->httpOnly();
+            Cookie::set('user_token', base64_encode($get['id'].'.'.$get['token'].'.'.$get['value']), 3600)->session($session)->httpOnly();
             return $get['user_id'];
         }
         return false;
