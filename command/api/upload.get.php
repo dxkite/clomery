@@ -6,7 +6,7 @@ use Storage;
 use Request;
 use Page;
 use api\Error as  ApiError;
-use User;
+
 
 class Upload
 {

@@ -1,4 +1,4 @@
--- create:2016-11-30 13:35:20
+-- create:2016-11-30 20:45:34
 
 CREATE TABLE `article` (
 	`id` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '文章ID',
@@ -201,12 +201,12 @@ CREATE TABLE `upload` (
 
 CREATE TABLE `user_group` (
 	`id` int(11) NOT NULL  AUTO_INCREMENT COMMENT '分组ID',
-	`user_id` bigint(20) NOT NULL   COMMENT '用户ID',
+	`user` bigint(20) NOT NULL   COMMENT '用户ID',
 	`name` varchar(80) NOT NULL   COMMENT '分组名',
 	`sort` int(11) NOT NULL   COMMENT '排序索引',
 	`upload` enum('Y','N') NOT NULL DEFAULT 'N'  COMMENT '上传文件',
 	PRIMARY KEY (`id`),
-	UNIQUE KEY `user_id` (`user_id`),
+	UNIQUE KEY `user` (`user`),
 	KEY `name` (`name`),
 	KEY `sort` (`sort`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
@@ -230,13 +230,13 @@ CREATE TABLE `user` (
 	`name` varchar(13) NOT NULL   COMMENT '用户名',
 	`email` varchar(50) NOT NULL   COMMENT '邮箱',
 	`password` varchar(60) NOT NULL   COMMENT '密码HASH',
-	`group_id` bigint(20) NOT NULL DEFAULT '0'  COMMENT '分组ID',
+	`group` bigint(20) NOT NULL DEFAULT '0'  COMMENT '分组ID',
 	`verify_email` int(1) NOT NULL DEFAULT '0'  COMMENT '邮箱验证',
 	`avatar` bigint(20) NOT NULL DEFAULT '0'  COMMENT '头像ID',
 	PRIMARY KEY (`id`),
 	UNIQUE KEY `name` (`name`),
 	UNIQUE KEY `email` (`email`),
-	KEY `group_id` (`group_id`),
+	KEY `group` (`group`),
 	KEY `verify_email` (`verify_email`),
 	KEY `avatar` (`avatar`)
 ) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;

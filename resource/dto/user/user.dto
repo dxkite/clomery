@@ -3,6 +3,6 @@ id bigint(20) auto comment="用户ID" primary
 name varchar(13) unique comment="用户名"
 email varchar(50) unique comment="邮箱"
 password varchar(60) comment="密码HASH"
-group_id bigint(20) key default=0 comment="分组ID"
+group bigint(20) key default=0 comment="分组ID"
 verify_email int(1) key default=0 comment="邮箱验证"
 avatar  bigint(20) key default=0 comment="头像ID"

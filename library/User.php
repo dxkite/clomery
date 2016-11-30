@@ -25,6 +25,7 @@ class User
         }
         return false;
     }
+
     public function signOut() 
     {
         if (Cookie::has('user_token')) {
@@ -35,6 +36,9 @@ class User
             }
         }
         return true;
+    }
+    public function hasPermision(int $id,string $name){
+        return model\User::hasPermision($id,$name);
     }
     public function getSignInUserId()
     {

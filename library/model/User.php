@@ -21,12 +21,12 @@ class User
         return Query::count('user');
     }
 
-    public function signUp(string $name, string $email, string $password, int $client,string $client_token,string $value=null)
+    public function signUp(string $name, string $email, string $password, int $client, string $client_token, string $value=null)
     {
         try {
             Query::begin();
             $id=Query::insert('user', ['name'=>$name, 'password'=>password_hash($password, PASSWORD_DEFAULT), 'email'=>$email]);
-            $token=Token::create($id, $client,$client_token,$value);
+            $token=Token::create($id, $client, $client_token, $value);
             $token['user_id']=$id;
             Query::commit();
         } catch (\Exception $e) {
@@ -36,14 +36,14 @@ class User
         return $token;
     }
 
-    public function signIn(string $name, string $password, int $client,string $client_token)
+    public function signIn(string $name, string $password, int $client, string $client_token)
     {
         $token=false;
         try {
             Query::begin();
             if ($fetch=Query::where('user', ['password', 'id'], ['name'=>$name])->fetch()) {
                 if (password_verify($password, $fetch['password'])) {
-                    $token=Token::create($fetch['id'], $client,$client_token);
+                    $token=Token::create($fetch['id'], $client, $client_token);
                     $token['user_id']=$fetch['id'];
                 }
             }
@@ -66,18 +66,28 @@ class User
     }
 
     // 心跳刷新
-    public function heartBeat(int $token_id,string $token)
+    public function heartBeat(int $token_id, string $token)
     {
         return Token::refresh($token_id, $token);
     }
     
-    public function setAvatar(int $id,int $resource_id)
+    public function setAvatar(int $id, int $resource_id)
     {
-        return Query::update('user',['avatar'=>$resource_id],['id'=>$id]);
+        return Query::update('user', ['avatar'=>$resource_id], ['id'=>$id]);
     }
 
-    public function setGroup(int $id,int $group_id)
+    public function setGroup(int $id, int $group)
     {
-        return Query::update('user',['group_id'=>$group_id],['id'=>$id]);
+        return Query::update('user', ['group'=>$group], ['id'=>$id]);
+    }
+
+    public function hasPermision(int $id, string $name)
+    {
+        // TODO :  list - permision
+        try {
+            return Query::select('user_group', $name, ' JOIN `#{user}` ON `#{user}`.`id` = :id  WHERE `user` = :id  or `#{user_group}`.`id` =`#{user}`.`group` LIMIT 1;', ['id'=>$id])->fetch()?true:false;
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 }
