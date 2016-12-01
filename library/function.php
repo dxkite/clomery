@@ -19,6 +19,8 @@ function api_permission(string $permissions, $callback)
             } else {
                 return new api\Error('hasNoUserInfo', 'need user_id use_token to check permission');
             }
+        } else {
+            return new api\Error('hasNoUserInfo', 'need user_id use_token to check permission');
         }
         // 检查权限
         if (is_string($permissions)) {
