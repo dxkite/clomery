@@ -2,11 +2,11 @@
 /* ------------------------------------------------------ *\
    ------------------------------------------------------
    PHP Simple Library XCore 2.0.0 Database Backup File
-        Create On: 2016-12-01 13:14:21
+        Create On: 2016-12-01 14:09:15
         SQL Server version: 10.1.10-MariaDB
         Host: localhost   
-        Database: 
-        Tables: 18
+        Database: test_hello
+        Tables: 17
    ------------------------------------------------------
 \* ------------------------------------------------------ */
 
@@ -24,6 +24,7 @@ if ($create->erron()==0){
     }
  (new Query('DROP TABLE IF EXISTS #{article}'))->exec();
 
+        flush();
         $effect=($query_article=new Query('CREATE TABLE `#{article}` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT \'文章ID\',
   `author` bigint(20) NOT NULL COMMENT \'作者\',
@@ -49,14 +50,10 @@ if ($create->erron()==0){
         }
         else{
              echo 'Create Table:'.conf('db.prefix').'article Error!,effect '.$effect.' rows'."\r\n";   
-        }        $effect=($query_article_insert=new Query('INSERT INTO  `#{article}` (`id`,`author`,`categroy`,`title`,`abstract`,`content`,`type`,`view`,`create`,`update`,`reply`,`allow_reply`,`state`) VALUES '))->exec();
-        if ($query_article_insert->erron()==0){
-            echo 'Insert Table:'.conf('db.prefix').'article Data Ok!,effect '.$effect.' rows'."\r\n";
         }
-        else{
-             echo 'Insert Table:'.conf('db.prefix').'article Data  Error!,effect '.$effect.' rows'."\r\n";   
-        } (new Query('DROP TABLE IF EXISTS #{article_comment}'))->exec();
+        ob_flush();/* Table article's Values Cann't Get */ (new Query('DROP TABLE IF EXISTS #{article_comment}'))->exec();
 
+        flush();
         $effect=($query_article_comment=new Query('CREATE TABLE `#{article_comment}` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT \'评论ID\',
   `article` bigint(20) NOT NULL COMMENT \'评论的文章\',
@@ -79,14 +76,10 @@ if ($create->erron()==0){
         }
         else{
              echo 'Create Table:'.conf('db.prefix').'article_comment Error!,effect '.$effect.' rows'."\r\n";   
-        }        $effect=($query_article_comment_insert=new Query('INSERT INTO  `#{article_comment}` (`id`,`article`,`count`,`reply`,`author`,`text`,`time`,`ip`,`state`) VALUES '))->exec();
-        if ($query_article_comment_insert->erron()==0){
-            echo 'Insert Table:'.conf('db.prefix').'article_comment Data Ok!,effect '.$effect.' rows'."\r\n";
         }
-        else{
-             echo 'Insert Table:'.conf('db.prefix').'article_comment Data  Error!,effect '.$effect.' rows'."\r\n";   
-        } (new Query('DROP TABLE IF EXISTS #{article_reply}'))->exec();
+        ob_flush();/* Table article_comment's Values Cann't Get */ (new Query('DROP TABLE IF EXISTS #{article_reply}'))->exec();
 
+        flush();
         $effect=($query_article_reply=new Query('CREATE TABLE `#{article_reply}` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT \'回复ID\',
   `reply` bigint(20) NOT NULL COMMENT \'回复的回复\',
@@ -107,14 +100,10 @@ if ($create->erron()==0){
         }
         else{
              echo 'Create Table:'.conf('db.prefix').'article_reply Error!,effect '.$effect.' rows'."\r\n";   
-        }        $effect=($query_article_reply_insert=new Query('INSERT INTO  `#{article_reply}` (`id`,`reply`,`comment`,`author`,`text`,`time`,`ip`,`state`) VALUES '))->exec();
-        if ($query_article_reply_insert->erron()==0){
-            echo 'Insert Table:'.conf('db.prefix').'article_reply Data Ok!,effect '.$effect.' rows'."\r\n";
         }
-        else{
-             echo 'Insert Table:'.conf('db.prefix').'article_reply Data  Error!,effect '.$effect.' rows'."\r\n";   
-        } (new Query('DROP TABLE IF EXISTS #{article_tag}'))->exec();
+        ob_flush();/* Table article_reply's Values Cann't Get */ (new Query('DROP TABLE IF EXISTS #{article_tag}'))->exec();
 
+        flush();
         $effect=($query_article_tag=new Query('CREATE TABLE `#{article_tag}` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT \'索引\',
   `article` bigint(20) NOT NULL COMMENT \'文章ID\',
@@ -128,43 +117,10 @@ if ($create->erron()==0){
         }
         else{
              echo 'Create Table:'.conf('db.prefix').'article_tag Error!,effect '.$effect.' rows'."\r\n";   
-        }        $effect=($query_article_tag_insert=new Query('INSERT INTO  `#{article_tag}` (`id`,`article`,`tag`) VALUES '))->exec();
-        if ($query_article_tag_insert->erron()==0){
-            echo 'Insert Table:'.conf('db.prefix').'article_tag Data Ok!,effect '.$effect.' rows'."\r\n";
         }
-        else{
-             echo 'Insert Table:'.conf('db.prefix').'article_tag Data  Error!,effect '.$effect.' rows'."\r\n";   
-        } (new Query('DROP TABLE IF EXISTS #{categroy}'))->exec();
+        ob_flush();/* Table article_tag's Values Cann't Get */ (new Query('DROP TABLE IF EXISTS #{notification}'))->exec();
 
-        $effect=($query_categroy=new Query('CREATE TABLE `#{categroy}` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT \'分类ID\',
-  `icon` bigint(20) NOT NULL COMMENT \'分类图标资源\',
-  `name` varchar(20) NOT NULL COMMENT \'分类名\',
-  `slug` varchar(20) NOT NULL COMMENT \'英文缩写\',
-  `discription` varchar(255) NOT NULL COMMENT \'分类描述\',
-  `sort` int(11) NOT NULL COMMENT \'排序\',
-  `count` int(11) NOT NULL COMMENT \'分类下的文章\',
-  `parent` bigint(20) NOT NULL COMMENT \'父分类\',
-  PRIMARY KEY (`id`),
-  KEY `icon` (`icon`),
-  KEY `name` (`name`),
-  KEY `slug` (`slug`),
-  KEY `sort` (`sort`),
-  KEY `parent` (`parent`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8'))->exec();
-        if ($query_categroy->erron()==0){
-            echo 'Create Table:'.conf('db.prefix').'categroy Ok,effect '.$effect.' rows'."\r\n";
-        }
-        else{
-             echo 'Create Table:'.conf('db.prefix').'categroy Error!,effect '.$effect.' rows'."\r\n";   
-        }        $effect=($query_categroy_insert=new Query('INSERT INTO  `#{categroy}` (`id`,`icon`,`name`,`slug`,`discription`,`sort`,`count`,`parent`) VALUES '))->exec();
-        if ($query_categroy_insert->erron()==0){
-            echo 'Insert Table:'.conf('db.prefix').'categroy Data Ok!,effect '.$effect.' rows'."\r\n";
-        }
-        else{
-             echo 'Insert Table:'.conf('db.prefix').'categroy Data  Error!,effect '.$effect.' rows'."\r\n";   
-        } (new Query('DROP TABLE IF EXISTS #{notification}'))->exec();
-
+        flush();
         $effect=($query_notification=new Query('CREATE TABLE `#{notification}` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT \'通知ID\',
   `send` bigint(20) NOT NULL COMMENT \'发送人\',
@@ -182,14 +138,10 @@ if ($create->erron()==0){
         }
         else{
              echo 'Create Table:'.conf('db.prefix').'notification Error!,effect '.$effect.' rows'."\r\n";   
-        }        $effect=($query_notification_insert=new Query('INSERT INTO  `#{notification}` (`id`,`send`,`recv`,`type`,`time`,`state`,`data`) VALUES '))->exec();
-        if ($query_notification_insert->erron()==0){
-            echo 'Insert Table:'.conf('db.prefix').'notification Data Ok!,effect '.$effect.' rows'."\r\n";
         }
-        else{
-             echo 'Insert Table:'.conf('db.prefix').'notification Data  Error!,effect '.$effect.' rows'."\r\n";   
-        } (new Query('DROP TABLE IF EXISTS #{notification_data}'))->exec();
+        ob_flush();/* Table notification's Values Cann't Get */ (new Query('DROP TABLE IF EXISTS #{notification_data}'))->exec();
 
+        flush();
         $effect=($query_notification_data=new Query('CREATE TABLE `#{notification_data}` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT \'通知ID\',
   `data` text NOT NULL COMMENT \'通知数据\',
@@ -200,14 +152,10 @@ if ($create->erron()==0){
         }
         else{
              echo 'Create Table:'.conf('db.prefix').'notification_data Error!,effect '.$effect.' rows'."\r\n";   
-        }        $effect=($query_notification_data_insert=new Query('INSERT INTO  `#{notification_data}` (`id`,`data`) VALUES '))->exec();
-        if ($query_notification_data_insert->erron()==0){
-            echo 'Insert Table:'.conf('db.prefix').'notification_data Data Ok!,effect '.$effect.' rows'."\r\n";
         }
-        else{
-             echo 'Insert Table:'.conf('db.prefix').'notification_data Data  Error!,effect '.$effect.' rows'."\r\n";   
-        } (new Query('DROP TABLE IF EXISTS #{site_navigation}'))->exec();
+        ob_flush();/* Table notification_data's Values Cann't Get */ (new Query('DROP TABLE IF EXISTS #{site_navigation}'))->exec();
 
+        flush();
         $effect=($query_site_navigation=new Query('CREATE TABLE `#{site_navigation}` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT \'导航ID\',
   `name` varchar(80) NOT NULL COMMENT \'导航名\',
@@ -225,14 +173,10 @@ if ($create->erron()==0){
         }
         else{
              echo 'Create Table:'.conf('db.prefix').'site_navigation Error!,effect '.$effect.' rows'."\r\n";   
-        }        $effect=($query_site_navigation_insert=new Query('INSERT INTO  `#{site_navigation}` (`id`,`name`,`url`,`state`,`sort`,`parent`) VALUES '))->exec();
-        if ($query_site_navigation_insert->erron()==0){
-            echo 'Insert Table:'.conf('db.prefix').'site_navigation Data Ok!,effect '.$effect.' rows'."\r\n";
         }
-        else{
-             echo 'Insert Table:'.conf('db.prefix').'site_navigation Data  Error!,effect '.$effect.' rows'."\r\n";   
-        } (new Query('DROP TABLE IF EXISTS #{site_setting}'))->exec();
+        ob_flush();/* Table site_navigation's Values Cann't Get */ (new Query('DROP TABLE IF EXISTS #{site_setting}'))->exec();
 
+        flush();
         $effect=($query_site_setting=new Query('CREATE TABLE `#{site_setting}` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT \'设置ID\',
   `name` varchar(80) NOT NULL COMMENT \'设置KEY\',
@@ -245,14 +189,10 @@ if ($create->erron()==0){
         }
         else{
              echo 'Create Table:'.conf('db.prefix').'site_setting Error!,effect '.$effect.' rows'."\r\n";   
-        }        $effect=($query_site_setting_insert=new Query('INSERT INTO  `#{site_setting}` (`id`,`name`,`value`) VALUES '))->exec();
-        if ($query_site_setting_insert->erron()==0){
-            echo 'Insert Table:'.conf('db.prefix').'site_setting Data Ok!,effect '.$effect.' rows'."\r\n";
         }
-        else{
-             echo 'Insert Table:'.conf('db.prefix').'site_setting Data  Error!,effect '.$effect.' rows'."\r\n";   
-        } (new Query('DROP TABLE IF EXISTS #{tag}'))->exec();
+        ob_flush();/* Table site_setting's Values Cann't Get */ (new Query('DROP TABLE IF EXISTS #{tag}'))->exec();
 
+        flush();
         $effect=($query_tag=new Query('CREATE TABLE `#{tag}` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT \'分类标签\',
   `name` varchar(20) NOT NULL COMMENT \'标签名\',
@@ -265,14 +205,10 @@ if ($create->erron()==0){
         }
         else{
              echo 'Create Table:'.conf('db.prefix').'tag Error!,effect '.$effect.' rows'."\r\n";   
-        }        $effect=($query_tag_insert=new Query('INSERT INTO  `#{tag}` (`id`,`name`,`count`) VALUES '))->exec();
-        if ($query_tag_insert->erron()==0){
-            echo 'Insert Table:'.conf('db.prefix').'tag Data Ok!,effect '.$effect.' rows'."\r\n";
         }
-        else{
-             echo 'Insert Table:'.conf('db.prefix').'tag Data  Error!,effect '.$effect.' rows'."\r\n";   
-        } (new Query('DROP TABLE IF EXISTS #{token}'))->exec();
+        ob_flush();/* Table tag's Values Cann't Get */ (new Query('DROP TABLE IF EXISTS #{token}'))->exec();
 
+        flush();
         $effect=($query_token=new Query('CREATE TABLE `#{token}` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT \'令牌ID\',
   `user` bigint(20) NOT NULL COMMENT \'使用的用户\',
@@ -286,20 +222,16 @@ if ($create->erron()==0){
   KEY `user` (`user`),
   KEY `token` (`token`),
   KEY `client` (`client`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8'))->exec();
+) ENGINE=InnoDB DEFAULT CHARSET=utf8'))->exec();
         if ($query_token->erron()==0){
             echo 'Create Table:'.conf('db.prefix').'token Ok,effect '.$effect.' rows'."\r\n";
         }
         else{
              echo 'Create Table:'.conf('db.prefix').'token Error!,effect '.$effect.' rows'."\r\n";   
-        }        $effect=($query_token_insert=new Query('INSERT INTO  `#{token}` (`id`,`user`,`token`,`client`,`ip`,`time`,`expire`,`value`) VALUES (\'1\',\'1\',\'353a67e9e501f94d8cc56e4e24d35ede\',\'1\',\'127.0.0.1\',\'1480517970\',\'1480518030\',\'Y2VjNz\'),(\'2\',\'1\',\'40f7bfaa29872c34a3a3bbed1ae0d2a6\',\'1\',\'127.0.0.1\',\'1480517975\',\'1480518035\',\'3532ffc502c1b95f161aba3ea22a8c89\'),(\'3\',\'6\',\'4e84194f39ef6984312ab21dc8666c1a\',\'1\',\'127.0.0.1\',\'1480518696\',\'1480518756\',\'a68d2398db3c2cfa8c73e9b14d0f1fd5\'),(\'4\',\'7\',\'4a91c357ea2155a603a428743c5919b6\',\'1\',\'127.0.0.1\',\'1480518827\',\'1480518887\',\'d60813ff9f598c7f364c03565dd479f1\'),(\'5\',\'1\',\'9089b839ee00726f1f6510cd43712073\',\'1\',\'127.0.0.1\',\'1480520677\',\'1480520737\',\'37da29a3431d25cbfa3e4ea4d23d054d\'),(\'6\',\'8\',\'f5a9ecdd93b8ca9fc714c78f14ec600b\',\'1\',\'127.0.0.1\',\'1480520689\',\'1480520749\',\'d98a4e23a0445c92a3f35e76c4efe2f5\'),(\'7\',\'9\',\'b6117518ac13a285b763fd790e5823dd\',\'2\',\'127.0.0.1\',\'1480563151\',\'1480563211\',\'b392b238652b9a9c92c864b70128b9a5\'),(\'8\',\'1\',\'86cb97627589ba0cef9e779fbadf813c\',\'1\',\'127.0.0.1\',\'1480564711\',\'1480566686\',\'f873745a20c018fbf3d569a165ce2a0a\')'))->exec();
-        if ($query_token_insert->erron()==0){
-            echo 'Insert Table:'.conf('db.prefix').'token Data Ok!,effect '.$effect.' rows'."\r\n";
         }
-        else{
-             echo 'Insert Table:'.conf('db.prefix').'token Data  Error!,effect '.$effect.' rows'."\r\n";   
-        } (new Query('DROP TABLE IF EXISTS #{token_client}'))->exec();
+        ob_flush();/* Table token's Values Cann't Get */ (new Query('DROP TABLE IF EXISTS #{token_client}'))->exec();
 
+        flush();
         $effect=($query_token_client=new Query('CREATE TABLE `#{token_client}` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT \'客户端ID\',
   `name` varchar(80) NOT NULL COMMENT \'客户端名\',
@@ -319,7 +251,9 @@ if ($create->erron()==0){
         }
         else{
              echo 'Create Table:'.conf('db.prefix').'token_client Error!,effect '.$effect.' rows'."\r\n";   
-        }        $effect=($query_token_client_insert=new Query('INSERT INTO  `#{token_client}` (`id`,`name`,`description`,`token`,`time`,`beat`,`alive`,`state`) VALUES (\'1\',\'WebSite\',\'官方令牌\',\'539055e0d532c34e1a9dc14fe5a3708b\',\'1480511719\',\'60\',\'3600\',\'1\'),(\'2\',\'Test\',\'官方令牌\',\'906c5bf396571717b8bbb1288d0cd535\',\'1480563107\',\'60\',\'3600\',\'1\')'))->exec();
+        }
+        ob_flush();        // ob_flush();
+        $effect=($query_token_client_insert=new Query('INSERT INTO  `#{token_client}` (`id`,`name`,`description`,`token`,`time`,`beat`,`alive`,`state`) VALUES (\'1\',\'WebSite\',\'官方令牌\',\'290defae4fb69a6c23656c5b6a242b33\',\'1480571793\',\'60\',\'3600\',\'1\')'))->exec();
         if ($query_token_client_insert->erron()==0){
             echo 'Insert Table:'.conf('db.prefix').'token_client Data Ok!,effect '.$effect.' rows'."\r\n";
         }
@@ -327,6 +261,7 @@ if ($create->erron()==0){
              echo 'Insert Table:'.conf('db.prefix').'token_client Data  Error!,effect '.$effect.' rows'."\r\n";   
         } (new Query('DROP TABLE IF EXISTS #{upload}'))->exec();
 
+        flush();
         $effect=($query_upload=new Query('CREATE TABLE `#{upload}` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT \'文件ID\',
   `uid` bigint(20) NOT NULL COMMENT \'使用用户\',
@@ -343,40 +278,32 @@ if ($create->erron()==0){
   KEY `data` (`data`),
   KEY `use` (`use`),
   KEY `state` (`state`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8'))->exec();
+) ENGINE=InnoDB DEFAULT CHARSET=utf8'))->exec();
         if ($query_upload->erron()==0){
             echo 'Create Table:'.conf('db.prefix').'upload Ok,effect '.$effect.' rows'."\r\n";
         }
         else{
              echo 'Create Table:'.conf('db.prefix').'upload Error!,effect '.$effect.' rows'."\r\n";   
-        }        $effect=($query_upload_insert=new Query('INSERT INTO  `#{upload}` (`id`,`uid`,`name`,`size`,`time`,`type`,`data`,`use`,`state`) VALUES (\'1\',\'0\',\'dbcreator.sql\',\'9794\',\'1480564414\',\'sql\',\'1\',\'0\',\'1\'),(\'2\',\'1\',\'install.php\',\'26795\',\'1480566627\',\'php\',\'2\',\'0\',\'1\')'))->exec();
-        if ($query_upload_insert->erron()==0){
-            echo 'Insert Table:'.conf('db.prefix').'upload Data Ok!,effect '.$effect.' rows'."\r\n";
         }
-        else{
-             echo 'Insert Table:'.conf('db.prefix').'upload Data  Error!,effect '.$effect.' rows'."\r\n";   
-        } (new Query('DROP TABLE IF EXISTS #{upload_data}'))->exec();
+        ob_flush();/* Table upload's Values Cann't Get */ (new Query('DROP TABLE IF EXISTS #{upload_data}'))->exec();
 
+        flush();
         $effect=($query_upload_data=new Query('CREATE TABLE `#{upload_data}` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT \'文件ID\',
   `hash` varchar(32) NOT NULL COMMENT \'MD5哈希\',
   `ref` int(11) NOT NULL COMMENT \'引用计数\',
   PRIMARY KEY (`id`),
   KEY `hash` (`hash`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8'))->exec();
+) ENGINE=InnoDB DEFAULT CHARSET=utf8'))->exec();
         if ($query_upload_data->erron()==0){
             echo 'Create Table:'.conf('db.prefix').'upload_data Ok,effect '.$effect.' rows'."\r\n";
         }
         else{
              echo 'Create Table:'.conf('db.prefix').'upload_data Error!,effect '.$effect.' rows'."\r\n";   
-        }        $effect=($query_upload_data_insert=new Query('INSERT INTO  `#{upload_data}` (`id`,`hash`,`ref`) VALUES (\'1\',\'ef9bfb2299c6a55a24c391abbcab446b\',\'2\'),(\'2\',\'ce3bcc28354346aca6d462e343e846cb\',\'1\')'))->exec();
-        if ($query_upload_data_insert->erron()==0){
-            echo 'Insert Table:'.conf('db.prefix').'upload_data Data Ok!,effect '.$effect.' rows'."\r\n";
         }
-        else{
-             echo 'Insert Table:'.conf('db.prefix').'upload_data Data  Error!,effect '.$effect.' rows'."\r\n";   
-        } (new Query('DROP TABLE IF EXISTS #{user}'))->exec();
+        ob_flush();/* Table upload_data's Values Cann't Get */ (new Query('DROP TABLE IF EXISTS #{user}'))->exec();
 
+        flush();
         $effect=($query_user=new Query('CREATE TABLE `#{user}` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT \'用户ID\',
   `name` varchar(13) NOT NULL COMMENT \'用户名\',
@@ -391,20 +318,16 @@ if ($create->erron()==0){
   KEY `group` (`group`),
   KEY `verify_email` (`verify_email`),
   KEY `avatar` (`avatar`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8'))->exec();
+) ENGINE=InnoDB DEFAULT CHARSET=utf8'))->exec();
         if ($query_user->erron()==0){
             echo 'Create Table:'.conf('db.prefix').'user Ok,effect '.$effect.' rows'."\r\n";
         }
         else{
              echo 'Create Table:'.conf('db.prefix').'user Error!,effect '.$effect.' rows'."\r\n";   
-        }        $effect=($query_user_insert=new Query('INSERT INTO  `#{user}` (`id`,`name`,`email`,`password`,`group`,`verify_email`,`avatar`) VALUES (\'1\',\'DXkite\',\'DXkite@atd3.com\',\'$2y$10$62nnJZUI3c5jBivF.dHUYuIPeRNYY78TFFpgA8tDCD.HUbe9LPM.6\',\'0\',\'0\',\'0\'),(\'6\',\'DXaaakite\',\'DxKaITE@ATDx3.cn\',\'$2y$10$JY61x8pF6T3jACfnrq3exutFhltwEZZY.kqxZ675sYxueIpTliCJa\',\'0\',\'0\',\'0\'),(\'7\',\'DXaaaaakite\',\'DxKaaaITE@ATDx3.cn\',\'$2y$10$et0wyi6feG0AMO2pd.g56OnC1ovDwP11oCOCB63NksHEdYAZY0oPS\',\'0\',\'0\',\'0\'),(\'8\',\'DXaxaaaaakite\',\'DxKaaxxaITE@ATDx3.cn\',\'$2y$10$NKwZ3LrevblxXdgzmf3nS.mpboQQ3X6JbctC52T4fA4dVbhMz4sF.\',\'0\',\'0\',\'0\'),(\'9\',\'TTHHR\',\'TTHHR\',\'$2y$10$TZlYXwwyIOOSCkN2NhPQ9uKsT31rQHHsRzTGLeGTdHd4a9LB1Wczi\',\'0\',\'0\',\'0\')'))->exec();
-        if ($query_user_insert->erron()==0){
-            echo 'Insert Table:'.conf('db.prefix').'user Data Ok!,effect '.$effect.' rows'."\r\n";
         }
-        else{
-             echo 'Insert Table:'.conf('db.prefix').'user Data  Error!,effect '.$effect.' rows'."\r\n";   
-        } (new Query('DROP TABLE IF EXISTS #{user_group}'))->exec();
+        ob_flush();/* Table user's Values Cann't Get */ (new Query('DROP TABLE IF EXISTS #{user_group}'))->exec();
 
+        flush();
         $effect=($query_user_group=new Query('CREATE TABLE `#{user_group}` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT \'分组ID\',
   `user` bigint(20) NOT NULL COMMENT \'用户ID\',
@@ -422,14 +345,10 @@ if ($create->erron()==0){
         }
         else{
              echo 'Create Table:'.conf('db.prefix').'user_group Error!,effect '.$effect.' rows'."\r\n";   
-        }        $effect=($query_user_group_insert=new Query('INSERT INTO  `#{user_group}` (`id`,`user`,`name`,`sort`,`admin`,`upload`) VALUES '))->exec();
-        if ($query_user_group_insert->erron()==0){
-            echo 'Insert Table:'.conf('db.prefix').'user_group Data Ok!,effect '.$effect.' rows'."\r\n";
         }
-        else{
-             echo 'Insert Table:'.conf('db.prefix').'user_group Data  Error!,effect '.$effect.' rows'."\r\n";   
-        } (new Query('DROP TABLE IF EXISTS #{user_option_log}'))->exec();
+        ob_flush();/* Table user_group's Values Cann't Get */ (new Query('DROP TABLE IF EXISTS #{user_option_log}'))->exec();
 
+        flush();
         $effect=($query_user_option_log=new Query('CREATE TABLE `#{user_option_log}` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT \'日志ID\',
   `user_id` bigint(20) NOT NULL COMMENT \'使用的用户\',
@@ -446,14 +365,10 @@ if ($create->erron()==0){
         }
         else{
              echo 'Create Table:'.conf('db.prefix').'user_option_log Error!,effect '.$effect.' rows'."\r\n";   
-        }        $effect=($query_user_option_log_insert=new Query('INSERT INTO  `#{user_option_log}` (`id`,`user_id`,`name`,`sketch`,`ip`,`time`) VALUES '))->exec();
-        if ($query_user_option_log_insert->erron()==0){
-            echo 'Insert Table:'.conf('db.prefix').'user_option_log Data Ok!,effect '.$effect.' rows'."\r\n";
         }
-        else{
-             echo 'Insert Table:'.conf('db.prefix').'user_option_log Data  Error!,effect '.$effect.' rows'."\r\n";   
-        } (new Query('DROP TABLE IF EXISTS #{vote_reply}'))->exec();
+        ob_flush();/* Table user_option_log's Values Cann't Get */ (new Query('DROP TABLE IF EXISTS #{vote_reply}'))->exec();
 
+        flush();
         $effect=($query_vote_reply=new Query('CREATE TABLE `#{vote_reply}` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT \'ID\',
   `root` bigint(20) NOT NULL COMMENT \'文章ID\',
@@ -472,13 +387,8 @@ if ($create->erron()==0){
         }
         else{
              echo 'Create Table:'.conf('db.prefix').'vote_reply Error!,effect '.$effect.' rows'."\r\n";   
-        }        $effect=($query_vote_reply_insert=new Query('INSERT INTO  `#{vote_reply}` (`id`,`root`,`item`,`user`,`score`,`time`,`ip`) VALUES '))->exec();
-        if ($query_vote_reply_insert->erron()==0){
-            echo 'Insert Table:'.conf('db.prefix').'vote_reply Data Ok!,effect '.$effect.' rows'."\r\n";
         }
-        else{
-             echo 'Insert Table:'.conf('db.prefix').'vote_reply Data  Error!,effect '.$effect.' rows'."\r\n";   
-        }/** End Querys **/
+        ob_flush();/* Table vote_reply's Values Cann't Get *//** End Querys **/
 Query::commit();
 return true;
 } 

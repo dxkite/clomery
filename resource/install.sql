@@ -1,7 +1,7 @@
 -- ----------------------------------------------------------
 -- PHP Simple Library XCore 2.0.0 Database Backup File
--- Create On 2016-12-01 13:14:21
--- Host: localhost   Database: 
+-- Create On 2016-12-01 14:09:15
+-- Host: localhost   Database: test_hello
 -- Server version	10.1.10-MariaDB
 -- ------------------------------------------------------
 /*!40101 SET NAMES utf8 */;
@@ -112,34 +112,6 @@ CREATE TABLE `article_tag` (
 
 
 INSERT INTO `article_tag` (`id`,`article`,`tag`) VALUES ;
-
-
---
--- Create Table categroy
---
-
-DROP TABLE IF EXISTS `categroy`;
-CREATE TABLE `categroy` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '分类ID',
-  `icon` bigint(20) NOT NULL COMMENT '分类图标资源',
-  `name` varchar(20) NOT NULL COMMENT '分类名',
-  `slug` varchar(20) NOT NULL COMMENT '英文缩写',
-  `discription` varchar(255) NOT NULL COMMENT '分类描述',
-  `sort` int(11) NOT NULL COMMENT '排序',
-  `count` int(11) NOT NULL COMMENT '分类下的文章',
-  `parent` bigint(20) NOT NULL COMMENT '父分类',
-  PRIMARY KEY (`id`),
-  KEY `icon` (`icon`),
-  KEY `name` (`name`),
-  KEY `slug` (`slug`),
-  KEY `sort` (`sort`),
-  KEY `parent` (`parent`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-
-
-INSERT INTO `categroy` (`id`,`icon`,`name`,`slug`,`discription`,`sort`,`count`,`parent`) VALUES ;
 
 
 --
@@ -263,12 +235,12 @@ CREATE TABLE `token` (
   KEY `user` (`user`),
   KEY `token` (`token`),
   KEY `client` (`client`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 
 
-INSERT INTO `token` (`id`,`user`,`token`,`client`,`ip`,`time`,`expire`,`value`) VALUES ('1','1','353a67e9e501f94d8cc56e4e24d35ede','1','127.0.0.1','1480517970','1480518030','Y2VjNz'),('2','1','40f7bfaa29872c34a3a3bbed1ae0d2a6','1','127.0.0.1','1480517975','1480518035','3532ffc502c1b95f161aba3ea22a8c89'),('3','6','4e84194f39ef6984312ab21dc8666c1a','1','127.0.0.1','1480518696','1480518756','a68d2398db3c2cfa8c73e9b14d0f1fd5'),('4','7','4a91c357ea2155a603a428743c5919b6','1','127.0.0.1','1480518827','1480518887','d60813ff9f598c7f364c03565dd479f1'),('5','1','9089b839ee00726f1f6510cd43712073','1','127.0.0.1','1480520677','1480520737','37da29a3431d25cbfa3e4ea4d23d054d'),('6','8','f5a9ecdd93b8ca9fc714c78f14ec600b','1','127.0.0.1','1480520689','1480520749','d98a4e23a0445c92a3f35e76c4efe2f5'),('7','9','b6117518ac13a285b763fd790e5823dd','2','127.0.0.1','1480563151','1480563211','b392b238652b9a9c92c864b70128b9a5'),('8','1','86cb97627589ba0cef9e779fbadf813c','1','127.0.0.1','1480564711','1480566686','f873745a20c018fbf3d569a165ce2a0a');
+INSERT INTO `token` (`id`,`user`,`token`,`client`,`ip`,`time`,`expire`,`value`) VALUES ;
 
 
 --
@@ -294,7 +266,7 @@ CREATE TABLE `token_client` (
 
 
 
-INSERT INTO `token_client` (`id`,`name`,`description`,`token`,`time`,`beat`,`alive`,`state`) VALUES ('1','WebSite','官方令牌','539055e0d532c34e1a9dc14fe5a3708b','1480511719','60','3600','1'),('2','Test','官方令牌','906c5bf396571717b8bbb1288d0cd535','1480563107','60','3600','1');
+INSERT INTO `token_client` (`id`,`name`,`description`,`token`,`time`,`beat`,`alive`,`state`) VALUES ('1','WebSite','官方令牌','290defae4fb69a6c23656c5b6a242b33','1480571793','60','3600','1');
 
 
 --
@@ -318,12 +290,12 @@ CREATE TABLE `upload` (
   KEY `data` (`data`),
   KEY `use` (`use`),
   KEY `state` (`state`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 
 
-INSERT INTO `upload` (`id`,`uid`,`name`,`size`,`time`,`type`,`data`,`use`,`state`) VALUES ('1','0','dbcreator.sql','9794','1480564414','sql','1','0','1'),('2','1','install.php','26795','1480566627','php','2','0','1');
+INSERT INTO `upload` (`id`,`uid`,`name`,`size`,`time`,`type`,`data`,`use`,`state`) VALUES ;
 
 
 --
@@ -337,12 +309,12 @@ CREATE TABLE `upload_data` (
   `ref` int(11) NOT NULL COMMENT '引用计数',
   PRIMARY KEY (`id`),
   KEY `hash` (`hash`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 
 
-INSERT INTO `upload_data` (`id`,`hash`,`ref`) VALUES ('1','ef9bfb2299c6a55a24c391abbcab446b','2'),('2','ce3bcc28354346aca6d462e343e846cb','1');
+INSERT INTO `upload_data` (`id`,`hash`,`ref`) VALUES ;
 
 
 --
@@ -364,12 +336,12 @@ CREATE TABLE `user` (
   KEY `group` (`group`),
   KEY `verify_email` (`verify_email`),
   KEY `avatar` (`avatar`)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 
 
-INSERT INTO `user` (`id`,`name`,`email`,`password`,`group`,`verify_email`,`avatar`) VALUES ('1','DXkite','DXkite@atd3.com','$2y$10$62nnJZUI3c5jBivF.dHUYuIPeRNYY78TFFpgA8tDCD.HUbe9LPM.6','0','0','0'),('6','DXaaakite','DxKaITE@ATDx3.cn','$2y$10$JY61x8pF6T3jACfnrq3exutFhltwEZZY.kqxZ675sYxueIpTliCJa','0','0','0'),('7','DXaaaaakite','DxKaaaITE@ATDx3.cn','$2y$10$et0wyi6feG0AMO2pd.g56OnC1ovDwP11oCOCB63NksHEdYAZY0oPS','0','0','0'),('8','DXaxaaaaakite','DxKaaxxaITE@ATDx3.cn','$2y$10$NKwZ3LrevblxXdgzmf3nS.mpboQQ3X6JbctC52T4fA4dVbhMz4sF.','0','0','0'),('9','TTHHR','TTHHR','$2y$10$TZlYXwwyIOOSCkN2NhPQ9uKsT31rQHHsRzTGLeGTdHd4a9LB1Wczi','0','0','0');
+INSERT INTO `user` (`id`,`name`,`email`,`password`,`group`,`verify_email`,`avatar`) VALUES ;
 
 
 --

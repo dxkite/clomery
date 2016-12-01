@@ -122,6 +122,7 @@ Table;
         $table=preg_replace('/^'.conf('db.prefix').'/', '', $table);
         $sql=addslashes($sql);
         $create=<<< queryCreateTable
+        /// flush();
         \$effect=(\$query_{$table}=new Query('$sql'))->exec();
         if (\$query_{$table}->erron()==0){
             echo 'Create Table:'.conf('db.prefix').'$table Ok,effect '.\$effect.' rows'."\\r\\n";
@@ -129,6 +130,7 @@ Table;
         else{
              echo 'Create Table:'.conf('db.prefix').'$table Error!,effect '.\$effect.' rows'."\\r\\n";   
         }
+        // ob_flush();
 queryCreateTable;
         return $create;
     }
@@ -139,6 +141,7 @@ queryCreateTable;
         $table=preg_replace('/^'.conf('db.prefix').'/', '', $table);
         $sql=addslashes($sql);
         $insert=<<< queryInsertTable
+        // ob_flush();
         \$effect=(\$query_{$table}_insert=new Query('$sql'))->exec();
         if (\$query_{$table}_insert->erron()==0){
             echo 'Insert Table:'.conf('db.prefix').'{$table} Data Ok!,effect '.\$effect.' rows'."\\r\\n";
@@ -255,6 +258,7 @@ Table;
                 $sql.=')';
                 $sqlout.=$sql;
             }
+            if ($first) return false;
             return $sqlout;
         }
         return false;
