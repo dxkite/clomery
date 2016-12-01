@@ -1,5 +1,7 @@
 <?php
-
+/**
+* 网站的用户操作接口
+*/
 class User
 {
     public function signUp(string $name, string $email, string $passwd)

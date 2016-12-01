@@ -1,18 +1,8 @@
-namespace api<? echo $namespace ?>;
-
-use api\Visitor;
-use api\Param;
-
-<?php echo $comment;?>
+<? echo $comment ?>
 
 
-class <?php echo ucfirst($name) ?> extends Visitor
-{
-    public $auth='<?php echo addslashes($permission) ?>';
-    public $class=__CLASS__;
 
-    public function apiMain(Param $param)
-    {
-       <?php echo $interface ?>
-    }
-}
+return api_permision('<?php echo addslashes($permission) ?>', function ( $param) {
+    <?php echo $interface ?>
+});
+

@@ -1,0 +1,18 @@
+<?php
+
+
+
+return api_permision('', function ( $param) {
+    return api_check_callback($param,array (
+  'name' => 'string',
+  'email' => 'string',
+  'password' => 'string',
+  'client' => 'int',
+  'client_token' => 'string',
+  'value' => 
+  array (
+    0 => 'string',
+    1 => '',
+  ),
+),'model\User::signUp');});
+
