@@ -39,9 +39,9 @@ class User
         }
         return true;
     }
-    public function hasPermision(int $id, string $name)
+    public function hasPermission(int $id, string $name)
     {
-        return model\User::hasPermision($id, $name);
+        return model\User::hasPermission($id, $name);
     }
 
     public function getSignInUserId()

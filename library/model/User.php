@@ -29,7 +29,7 @@ class User
         try {
             Query::begin();
             $id=Query::insert('user', ['name'=>$name, 'password'=>password_hash($password, PASSWORD_DEFAULT), 'email'=>$email]);
-            $token=Token::create($id,$client_id, $client_token, $value);
+            $token=Token::create($id, $client_id, $client_token, $value);
             $token['user_id']=$id;
             Query::commit();
         } catch (\Exception $e) {
@@ -84,13 +84,16 @@ class User
         return Query::update('user', ['group'=>$group], ['id'=>$id]);
     }
 
-    public function hasPermision(int $id, string $name)
+    public function hasPermission(int $id, string $name)
     {
         // TODO :  list - permission
         try {
-            return Query::select('user_group', $name, ' JOIN `#{user}` ON `#{user}`.`id` = :id  WHERE `user` = :id  or `#{user_group}`.`id` =`#{user}`.`group` LIMIT 1;', ['id'=>$id])->fetch()?true:false;
+            if ($fetch=Query::select('user_group', $name, ' JOIN `#{user}` ON `#{user}`.`id` = :id  WHERE `user` = :id  or `#{user_group}`.`id` =`#{user}`.`group` LIMIT 1;', ['id'=>$id])->fetch()) {
+                return $fetch[$name]=='Y';
+            }
         } catch (\Exception $e) {
             return false;
         }
+        return false;
     }
 }
