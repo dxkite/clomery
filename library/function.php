@@ -69,7 +69,7 @@ function api_check_values($value_input, array $checks)
                 return new api\Error('paramError', 'need '.$name);
             } else {
                 $val=isset($value_input[$name])?$value_input[$name]:$default;
-                if (settype($val, $type)) {
+                if (@settype($val, $type)) {
                     $param[$name]=$val;
                 } else {
                     return new api\Error('paramTypeCastError', $name .' cannot be '.$type);
@@ -80,8 +80,7 @@ function api_check_values($value_input, array $checks)
                 return new api\Error('paramError', 'need '.$name);
             } else {
                 $val=isset($value_input->$name)?$value_input->$name:$default;
-
-                if (settype($val, $type)) {
+                if (@settype($val, $type)) {
                     $param[$name]=$val;
                 } else {
                     return new api\Error('paramTypeCastError', $name .' cannot be '.$type);
@@ -100,5 +99,9 @@ function api_check_callback($value_input, array $checks, $callback)
         return $param;
     }
     $return = (new server\Command($callback))->exec($param);
-    return $return;
+    if ( $return instanceof api\Error) {
+        return $return;
+    }else{
+        return ['return'=> $return];
+    }
 }
