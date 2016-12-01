@@ -73,12 +73,16 @@ class User
     {
         return Token::refresh($token_id, $token);
     }
-    
+    /**
+    * @self:id
+    */
     public function setAvatar(int $id, int $resource_id)
     {
         return Query::update('user', ['avatar'=>$resource_id], ['id'=>$id]);
     }
-
+    /**
+    * @Auth:admin
+    */
     public function setGroup(int $id, int $group)
     {
         return Query::update('user', ['group'=>$group], ['id'=>$id]);

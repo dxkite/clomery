@@ -1,6 +1,6 @@
 <?php
 /* 接口权限检查 */
-function api_permision(string $permissions, $callback)
+function api_permission(string $permissions, $callback)
 {
     Page::json();
     if (Request::isJson()) {
@@ -12,10 +12,8 @@ function api_permision(string $permissions, $callback)
     // 开启权限检查
     if ($permissions) {
         $permissions=explode(',', trim(',', $permissions));
-
         if ($uid=User::getSignInUserId()) {
             // 单个权限
-            // TODO:多个权限检查
             foreach ($permissions as $permission) {
                 if (!User::hasPermission($uid, $permission)) {
                     return new api\Error('permissionDenied', $permission .':permission denied');
@@ -24,8 +22,14 @@ function api_permision(string $permissions, $callback)
             
             $param['user_id']=$uid;
         } elseif (isset($param['user_id']) && isset($param['user_token'])) {
-            if (!model\Token::verify($param['user_id'], $param['user_token']) && User::hasPermission($param['user_id'], $permission)) {
-                return new api\Error('permissionDenied', 'permission denied');
+            if (model\Token::verify($param['user_id'], $param['user_token'])) {
+                foreach ($permissions as $permission) {
+                if (!User::hasPermission($param['user_id'], $permission)) {
+                    return new api\Error('permissionDenied', $permission .':permission denied');
+                }
+            }
+            } else {
+                return new api\Error('hasNoUserInfo', 'need user_id use_token to check permission');
             }
         } else {
             return new api\Error('hasNoUserInfo', 'permission denied : hasNoUserInfo');

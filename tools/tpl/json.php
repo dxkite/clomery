@@ -1,8 +1,6 @@
 <? echo $comment ?>
 
-
-
-return api_permision('<?php echo addslashes($permission) ?>', function ( $param) {
+return api_permission('<?php echo addslashes($permission) ?>', function ( $param) {
     <?php echo $interface ?>
 });
 

@@ -7,7 +7,7 @@ function generateApiClass(string $name, string $interface, string $namespace, st
     $pathnam=preg_replace_callback('/[A-Z]/', function ($match) {
         return '_'.strtolower($match[0]);
     }, $name);
-    $path=SITE_CMD.'/api/'.str_replace('\\', '/', $namespace).'/'.strtolower($pathnam).'.post.php';
+    $path=SITE_TEMP.'/api/'.str_replace('\\', '/', $namespace).'/'.strtolower($pathnam).'.post.php';
     $path=preg_replace('/\\\\+|\/+/', DIRECTORY_SEPARATOR, $path);
     ob_start();
     include __DIR__ .'/tpl/json.php';
