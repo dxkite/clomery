@@ -39,20 +39,21 @@ function api_check_values($value_input, array $checks)
     $param=[];
     foreach ($checks as $key=>$value) {
         // ['name']
-        // ['type'=>'name']
-        // ['type'=>['name','default']]
+        // ['name'=>'type']
+        // ['name'=>['type','default']]
+
         if (is_numeric($key)) {
             $name=$value;
             $type='string';
             $has_default=false;
         } else {
-            $type=$key;
+            $name=$key;
             if (is_array($value)) {
-                $name=$value[0];
+                $type=$value[0];
                 $default=$value[1];
                 $has_default=true;
             } else {
-                $name=$value[0];
+                $type=$value;
                 $has_default=false;
             }
         }
@@ -93,11 +94,5 @@ function api_check_callback($value_input, array $checks, $callback)
         return $param;
     }
     $return = (new server\Command($callback))->exec($param);
-    if ($return instanceof api\Error) {
-        return $return;
-    } elseif ($return === false) {
-        return new api\Error('returnFalse', 'method return false,please check the percondition of use this api!');
-    } else {
-        return new api\Success($return);
-    }
+    return $return;
 }

@@ -24,12 +24,12 @@ class User
         return Query::count('user');
     }
 
-    public function signUp(string $name, string $email, string $password, int $client, string $client_token, string $value='')
+    public function signUp(string $name, string $email, string $password, int $client_id, string $client_token, string $value='')
     {
         try {
             Query::begin();
             $id=Query::insert('user', ['name'=>$name, 'password'=>password_hash($password, PASSWORD_DEFAULT), 'email'=>$email]);
-            $token=Token::create($id, $client, $client_token, $value);
+            $token=Token::create($id,$client_id, $client_token, $value);
             $token['user_id']=$id;
             Query::commit();
         } catch (\Exception $e) {
@@ -39,14 +39,14 @@ class User
         return $token;
     }
 
-    public function signIn(string $name, string $password, int $client, string $client_token)
+    public function signIn(string $name, string $password, int $client_id, string $client_token)
     {
         $token=false;
         try {
             Query::begin();
             if ($fetch=Query::where('user', ['password', 'id'], ['name'=>$name])->fetch()) {
                 if (password_verify($password, $fetch['password'])) {
-                    $token=Token::create($fetch['id'], $client, $client_token);
+                    $token=Token::create($fetch['id'], $client_id, $client_token);
                     $token['user_id']=$fetch['id'];
                 }
             }

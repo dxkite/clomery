@@ -7,7 +7,7 @@ return api_permision('', function ( $param) {
   'name' => 'string',
   'email' => 'string',
   'password' => 'string',
-  'client' => 'int',
+  'client_id' => 'int',
   'client_token' => 'string',
   'value' => 
   array (
