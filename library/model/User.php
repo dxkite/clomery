@@ -6,6 +6,9 @@ use Request;
 
 class User
 {
+    /**
+     * 验证邮箱
+     */
     public function checkEmail(string $email):bool
     {
         return Query::where('user', 'id', 'LOWER(email) = LOWER(:email)', ['email'=>$email])->fetch()?true:false;

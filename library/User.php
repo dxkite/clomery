@@ -6,7 +6,7 @@ class User
     {
         // 获取网站操作权限
         $client=Three::getClient();
-        // 生成6位邮箱验证码 
+        // 生成6位邮箱验证码
         $code=substr(base64_encode(md5('5246-687261-5852-6C'+time())), 0, 6);
         if ($get=model\User::signUp($name, $email, $passwd, $client['id'], $client['token'], $code)) {
             Cookie::set('user_token', base64_encode($get['id'].'.'.$get['token']), 3600)->httpOnly()->session();
@@ -15,7 +15,7 @@ class User
         return false;
     }
 
-    public function signIn(string $name, string $passwd,bool $remember=false)
+    public function signIn(string $name, string $passwd, bool $remember=false)
     {
         // 获取网站操作权限
         $client=Three::getClient();
@@ -26,20 +26,22 @@ class User
         return false;
     }
 
-    public function signOut() 
+    public function signOut()
     {
         if (Cookie::has('user_token')) {
             $token=base64_decode(Cookie::get('user_token'));
             if (preg_match('/^(\d+)[.]([a-zA-Z0-9]{32})(?:[.]([a-zA-Z0-9]{32}))?$/', $token, $match)) {
-                model\User::signOut(intval($match[0]),$match[1]);
-                Cookie::set('user_token','',0);
+                model\User::signOut(intval($match[0]), $match[1]);
+                Cookie::set('user_token', '', 0);
             }
         }
         return true;
     }
-    public function hasPermision(int $id,string $name){
-        return model\User::hasPermision($id,$name);
+    public function hasPermision(int $id, string $name)
+    {
+        return model\User::hasPermision($id, $name);
     }
+
     public function getSignInUserId()
     {
         if (Cookie::has('user_token')) {
@@ -51,10 +53,9 @@ class User
                     // 获取网站操作权限
                     $client=Three::getClient();
                     // 一次心跳
-                    if ($get=model\Token::refresh(intval($match[1]), intval($client['id']), $client['token'], $match[3]))
-                    {
-                         Cookie::set('user_token', base64_encode($get['id'].'.'.$get['token'].'.'.$get['value']), 3600)->httpOnly();
-                         return intval(model\Token::verify($get['id'],$get['token']));
+                    if ($get=model\Token::refresh(intval($match[1]), intval($client['id']), $client['token'], $match[3])) {
+                        Cookie::set('user_token', base64_encode($get['id'].'.'.$get['token'].'.'.$get['value']), 3600)->httpOnly();
+                        return intval(model\Token::verify($get['id'], $get['token']));
                     }
                 }
             }

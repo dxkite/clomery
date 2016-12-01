@@ -158,7 +158,7 @@ class Router
                         } else {
                             if (method_exists($class, 'afterRun')) {
                                 $render=$class->afterRun($class->main($this->request));
-                            } else {
+                            } else if (method_exists($class, 'main')) {
                                 $render=$class->main($this->request);
                             }
                         }

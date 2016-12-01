@@ -1,3 +1,3 @@
 ; method urlmap command[template:type] options
 GET /article-{id:int} Article->getById[test] id=view-article
-GET /upload/{id:int}  api\Upload->main id=upload
+GET /upload/{id:int}  api\Upload::mapperGet id=upload

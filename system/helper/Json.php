@@ -20,7 +20,7 @@ class Json
     }
     public static function error():string
     {
-        return isset($this->error[json_last_error()])?$this->error[json_last_error()]:'Unknown error';
+        return isset(self::$error[json_last_error()])?self::$error[json_last_error()]:'Unknown error';
     }
     public static function erron():int
     {
