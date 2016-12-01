@@ -86,7 +86,7 @@ class User
 
     public function hasPermision(int $id, string $name)
     {
-        // TODO :  list - permision
+        // TODO :  list - permission
         try {
             return Query::select('user_group', $name, ' JOIN `#{user}` ON `#{user}`.`id` = :id  WHERE `user` = :id  or `#{user_group}`.`id` =`#{user}`.`group` LIMIT 1;', ['id'=>$id])->fetch()?true:false;
         } catch (\Exception $e) {
