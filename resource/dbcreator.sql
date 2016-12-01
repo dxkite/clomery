@@ -1,4 +1,4 @@
--- create:2016-11-30 21:13:05
+-- create:2016-12-01 12:49:13
 
 CREATE TABLE `article` (
 	`id` bigint(20) NOT NULL  AUTO_INCREMENT COMMENT '文章ID',
@@ -204,6 +204,7 @@ CREATE TABLE `user_group` (
 	`user` bigint(20) NOT NULL   COMMENT '用户ID',
 	`name` varchar(80) NOT NULL   COMMENT '分组名',
 	`sort` int(11) NOT NULL   COMMENT '排序索引',
+	`admin` enum('Y','N') NOT NULL DEFAULT 'N'  COMMENT '管理网站',
 	`upload` enum('Y','N') NOT NULL DEFAULT 'N'  COMMENT '上传文件',
 	PRIMARY KEY (`id`),
 	UNIQUE KEY `user` (`user`),
