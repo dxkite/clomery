@@ -19,7 +19,7 @@ function import(string $name)
     }
 
     $fname=preg_replace('/[\\\\_\/.]/', DIRECTORY_SEPARATOR, $name);
-    $paths=[__DIR__,SITE_LIB]; // 搜索目录
+    $paths=[SITE_LIB,__DIR__]; // 搜索目录
 
     foreach ($paths as $root) {
         // 优先查找文件

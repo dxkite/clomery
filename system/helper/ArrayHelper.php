@@ -19,7 +19,7 @@ class ArrayHelper
     * @param  $array 查询的数组
     * @return mixed 查询的值
     */
-    public static function get($array, string $name, $def = null)
+    public static function get(array $array, string $name, $def = null)
     {
         $path = explode('.', $name);
         // 二级数组
@@ -70,7 +70,7 @@ class ArrayHelper
         return $value;
     }
 
-    public static function set(&$array, $name, $value, $def=null)
+    public static function set(array &$array, string $name, $value, $def=null)
     {
         if (strpos($name, '.')) {
             $pos = explode('.', $name);
