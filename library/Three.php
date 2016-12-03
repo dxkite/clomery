@@ -2,6 +2,8 @@
 require_once __DIR__.'/../system/initailze.php';
 require_once __DIR__.'/function.php';
 
+defined('SITE_PLUGIN') or define('SITE_PLUGIN', SITE_RESOURCE.'/plugin');
+
 use model\Setting;
 
 class Three
@@ -16,7 +18,9 @@ class Three
         self::$request=new Request();
         self::setClient(); // 设置客户端验证
         Router::dispatch(self::$request);
-        register_shutdown_function(['Three','shutdown']);
+        register_shutdown_function(['Three', 'shutdown']);
+        // Three::setSetting('mounted_plugin', ['HelloWorld']);
+        Plugin::boot();
     }
 
     public function setClient()
@@ -24,7 +28,7 @@ class Three
         if (!Cookie::has('client_id')) {
             $appid=self::getSetting('client_id', 1);
             if ($get=model\Client::get($appid)) {
-                $token=self::encodeClient($get['token'],$get['id']);
+                $token=self::encodeClient($get['token'], $get['id']);
                 Cookie::set('client_id', $token, 3600)->httpOnly();
             } else {
                 die('App is not available');
@@ -37,7 +41,7 @@ class Three
         return self::decodeClient(Cookie::get('client_id'));
     }
 
-    public function encodeClient(string $token,int $id)
+    public function encodeClient(string $token, int $id)
     {
         return base64_encode($token.$id);
     }
@@ -57,7 +61,7 @@ class Three
         return $default;
     }
 
-    public function setSeting(string $name, $value)
+    public function setSetting(string $name, $value)
     {
         return Setting::set($name, serialize($value));
     }
@@ -74,7 +78,9 @@ class Three
         self::setSeting('client_id', 1);
     }
 
-    public  function shutdown(){
+    public function shutdown()
+    {
+        Event::pop('system_shutdown')->exec();
         Cache::gc();
     }
     public function request()

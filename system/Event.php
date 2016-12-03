@@ -16,6 +16,7 @@ class Event
         }
         return self::$events[$name]->add(new Caller($callback));
     }
+    
     public static function pop(string $name, bool $break=false)
     {
         $type=EventCaller::EVENT_POP;

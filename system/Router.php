@@ -30,7 +30,6 @@ class Router
             foreach ($file as $line) {
                 if (preg_match('/^(?:\s*)(?!;)(\w+)\s+(\S+)\s+(\S+)(?:\s+(.+))?$/', $line, $match)) {
                     preg_match('/^([^[]+)(?:\[(?:(\w+)?(?::(\w+))?)\])?/', $match[3], $duri);
-                    $mapper=['method'=>$match[1],'url'=>$match[2],'cmd'=>$duri[1]];
                     $value=preg_replace('/\s+/', '&', trim(isset($match[4])?$match[4]:''));
                     parse_str($value, $options);
                     if (isset($duri[2])) {
@@ -39,13 +38,20 @@ class Router
                     if (isset($duri[3])) {
                         $options['type']=$duri[3];
                     }
-                    $mapper['options']=$options;
-                    $id=isset($mapper['options']['id'])?$mapper['options']['id']:count($this->mapper);
-                    $this->mapper[$id]=$mapper;
-                    $this->matchs[$id]=self::buildMatch($id, $match[2]);
+                    self::addWatch($match[1],$match[2],$duri[1],$options);
                 }
             }
         }
+    }
+    
+
+    public function addWatch(string $method,string $url,string $cmd,array $options=[])
+    {
+        $mapper=['method'=>$method,'url'=>$url,'cmd'=>$cmd];
+        $mapper['options']=$options;
+        $name=isset($options['id'])?$options['id']:count($this->mapper);
+        $this->mapper[$name]=$mapper;
+        $this->matchs[$name]=self::buildMatch($name,$url);
     }
 
     protected function buildMatch(string $name, string $url)
