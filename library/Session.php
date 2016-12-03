@@ -13,8 +13,11 @@ class Session
      */
     public static function set(string $name, $value, int $expire=86400):bool
     {
-        self::$session=Three::getClient();
-        $session='session'.self::$session['id'].'_'.self::$session['token'];
+        if ($id =User::getSignInUserId()) {
+            $session='session_user_'.$id;
+        } else {
+            return  false;
+        }
         $path=SITE_RESOURCE.'/session/'.$session;
         self::$session[$name]=$value;
         Storage::mkdirs(dirname($path));
@@ -34,9 +37,13 @@ class Session
             $value=self::$session[$name];
             return $value;
         }
-
-        self::$session=Three::getClient();
-        $session='session'.self::$session['id'].'_'.self::$session['token'];
+        if ($id =User::getSignInUserId()) {
+            $session='session_user_'.$id;
+        } else {
+            return  $defalut;
+        }
+       
+        
         // 没值就在session文件中查找
         $path=SITE_RESOURCE.'/session/'. $session;
         if (Storage::exist($path)) {
