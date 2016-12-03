@@ -13,12 +13,7 @@ class Session
      */
     public static function set(string $name, $value, int $expire=86400):bool
     {
-        if ($id =User::getSignInUserId()) {
-            $session='session_user_'.$id;
-        } else {
-            return  false;
-        }
-        $path=SITE_RESOURCE.'/session/'.$session;
+        $path=SITE_RESOURCE.'/session/'. self::generateName();
         self::$session[$name]=$value;
         Storage::mkdirs(dirname($path));
         $value=serialize($value);
@@ -37,15 +32,9 @@ class Session
             $value=self::$session[$name];
             return $value;
         }
-        if ($id =User::getSignInUserId()) {
-            $session='session_user_'.$id;
-        } else {
-            return  $defalut;
-        }
-       
         
         // 没值就在session文件中查找
-        $path=SITE_RESOURCE.'/session/'. $session;
+        $path=SITE_RESOURCE.'/session/'. self::generateName();
         if (Storage::exist($path)) {
             $value=Storage::get($path);
             $time=explode('|', $value, 2);
@@ -97,5 +86,24 @@ class Session
                 }
             }
         }
+    }
+
+    public function generateName()
+    {
+        // 已经登陆
+        if ($id =User::getSignInUserId()) {
+            $session='user_'.md5($id);
+        } else {
+            // 匿名游客
+            if (Cookie::has('visitor')) {
+                // MD5避免路径注入
+                $session='visitor_'.md5(Cookie::get('visitor'));
+            } else {
+                $time=microtime(true);
+                Cookie::set('visitor', $time)->session();
+                $session='visitor_'.md5($time);
+            }
+        }
+        return  $session;
     }
 }

@@ -4,3 +4,4 @@ resource/tmp
 resource/logs
 resource/uploads
 resource/cache
+resource/session
