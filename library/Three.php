@@ -21,7 +21,6 @@ class Three
         Router::dispatch(self::$request);
         register_shutdown_function(['Three', 'shutdown']);
         Plugin::boot();
-        Session::set('hell0','00000');
     }
 
     public function setClient()
@@ -89,27 +88,4 @@ class Three
     {
         return self::$request;
     }
-
-    // public function set(string $name, $value)
-    // {
-    //     self::$session=self::getClient();
-    //     $session='session'.self::$session['token'];
-    //     $cache=[];
-    //     if (Cache::has($session)) {
-    //         $cache=Cache::get($session);
-    //     }
-    //     $cache=helper\ArrayHelper::set($cache, $name, $value);
-    //     Cache::set($session, $cache, time()+86400);
-    // }
-
-    // public function get(string $name, $default=null)
-    // {
-    //     self::$session=self::getClient();
-    //     $session='session'.self::$session['token'];
-    //     $cache=Cache::get($session);
-    //     if (is_array($cache)) {
-    //         return helper\ArrayHelper::get($cache, $name, $default);
-    //     }
-    //     return $cache;
-    // }
 }
