@@ -4,9 +4,11 @@
         "admin": "core-admin",
         "upload": "core-upload",
         "blog": "blog-dev",
-        "api": "core-api"
+        "api": "core-api",
+        "lost_found":"lost_found_v1"
     },
     "router-prefix": {
-        "api": "/api"
+        "api": "/api",
+        "lost_found":"/lost-found"
     }
 }

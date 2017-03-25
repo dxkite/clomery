@@ -1,0 +1,50 @@
+@StartInsert('footer')
+<script>
+    layui.use(['form','element',], function () {
+        var form = layui.form();
+        var element = layui.element();
+    });
+</script>
+@EndInsert
+@startInsert('admin_body')
+@if ( $:founds && count($:founds) > 0)
+<div class="content">
+    <table class="layui-table">
+        <thead>
+            <tr>
+                <th>名称</th>
+                <th>地点</th>
+                <th>发布时间</th>
+                <th>QQ</th>
+                <th>手机</th>
+                <th>类型</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($:founds  as $id=>$found)
+            <tr>
+                <td>{{$found['name']}}</td>
+                <td>{{$found['where']}}</td>
+                <td>{{ date('Y-m-d H:m:s',$found['time']) }}</td>
+                <td>{{$found['qq']}}</td>
+                <td>{{$found['phone']}}</td>
+                <td>{{ $found['type']==1?'物品招领':'丢失物品' }}</td>
+                <td>
+                   <div class="layui-btn-group">
+                        <button class="layui-btn layui-btn-normal  layui-btn-small">设置为{{$found['type']==1?'已认领':'已找回'}}</button>
+                        <button class="layui-btn layui-btn-danger layui-btn-small"> 删除</button>
+                    </div>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+@else
+<div> 没有任何东西！！</div>
+@endif
+@EndInsert
+@include('lost_found:admin/side')
+@include('lost_found:admin/admin')
+@include('lost_found:footer')

@@ -1,0 +1,18 @@
+@startInsert('admin_side')
+@data('Dataset->sidebanner')
+<ul class="layui-nav layui-nav-tree">
+    @foreach( $:site:barlist as $pid=>$items)
+    <li class="layui-nav-item @if (count($items['child'] ?? [] ) >0 ) layui-nav-itemed @endif">
+        <a href="{{$items['url']}}" @if ($pid==$:site:selectid)class="layui-this"@endif>{{$items['name']}}</a>
+        @if ( count($items['child'] ?? [] ) >0 )
+        <dl class="layui-nav-child">
+            @foreach($items['child'] as $id=>$child)
+            <dd @if ( $id == $:site:selectid ) class="layui-this"@endif ><a href="{{$child['url']}}">{{$child['name']}}</a></dd>
+            @endforeach
+        </dl>
+        @endif
+    </li>
+    @endforeach
+    <li class="layui-nav-item"><a href="">关于</a></li>
+</ul>
+@endInsert

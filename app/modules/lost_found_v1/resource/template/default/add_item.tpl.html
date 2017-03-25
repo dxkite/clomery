@@ -1,0 +1,70 @@
+@include('lost_found:header')
+<div class="content">
+    <form class="layui-form layui-form-pane" action="@u('add_result')" method="POST">
+        <div class="layui-form-item">
+            <label class="layui-form-label">名称</label>
+            <div class="layui-input-block">
+                <input type="text" name="name" lay-verify="title" required placeholder="请输入名称" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">哪里丢失的</label>
+            <div class="layui-input-block">
+                <input type="text" name="where" required placeholder="请输入地点" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">手机号</label>
+                <div class="layui-input-inline">
+                    <input type="tel" name="phone" lay-verify="phone" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">QQ号</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="qq" autocomplete="off" required class="layui-input">
+                </div>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">发布类型</label>
+            <div class="layui-input-block">
+                <input type="radio" name="type" value="1" title="物品招领" checked>
+                <input type="radio" name="type" value="2" title="丢失物品">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <textarea name="info" id="info" class="layui-hide">
+         </textarea>
+        </div>
+        <button class="layui-btn">提交信息</button>
+    </form>
+</div>
+@StartInsert('footer')
+<script>
+    layui.use(['form', 'layedit','element',], function () {
+        var form = layui.form();
+        var layedit = layui.layedit;
+        var element = layui.element();
+        //自定义验证规则
+        form.verify({
+            title: function (value) {
+                if (value.length < 5) {
+                    return '标题也太短了吧';
+                }
+            }
+        });
+
+        var index = layedit.build('info', {
+            uploadImage: {
+                url: "@u('lf_image_upload')",
+                type: 'post',
+                height: 100
+            }
+        });
+    });
+</script>
+@EndInsert
+@include('lost_found:footer')

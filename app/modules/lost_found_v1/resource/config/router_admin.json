@@ -1,0 +1,26 @@
+{
+    "admin_index": {
+        "class": "cn\\atd3\\response\\admin\\Index",
+        "visit": "\/"
+    },
+    "admin_check": {
+        "class": "cn\\atd3\\response\\admin\\Check",
+        "visit": "\/check"
+    },
+    "admin_add": {
+        "class": "cn\\atd3\\response\\admin\\Add",
+        "visit": "\/add"
+    },
+    "admin_list": {
+        "class": "cn\\atd3\\response\\admin\\ListAll",
+        "visit": "\/list"
+    },
+    "admin_delete_item": {
+        "class": "cn\\atd3\\response\\admin\\ItemDelete",
+        "visit": "\/item\/{id:int}\/delete"
+    },
+    "test": {
+        "class": "cn\\atd3\\response\\test\\Admin",
+        "visit": "\/test"
+    }
+}

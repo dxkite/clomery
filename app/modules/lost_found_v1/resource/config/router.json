@@ -1,0 +1,30 @@
+{
+    "index": {
+        "class": "cn\\atd3\\response\\Index",
+        "visit": "\/"
+    },
+    "found_list": {
+        "class": "cn\\atd3\\response\\FoundList",
+        "visit": "\/founds"
+    },
+    "lost_list": {
+        "class": "cn\\atd3\\response\\LostList",
+        "visit": "\/losts"
+    },
+    "add_item": {
+        "class": "cn\\atd3\\response\\AddItem",
+        "visit": "\/add"
+    },
+    "add_result": {
+        "class": "cn\\atd3\\response\\AddResult",
+        "visit": "\/add\/result"
+    },
+    "user_signin": {
+        "class": "cn\\atd3\\response\\user\\Signin",
+        "visit": "\/user\/signin"
+    },
+    "test": {
+        "class": "cn\\atd3\\response\\test\\Response",
+        "visit": "\/test"
+    }
+}
