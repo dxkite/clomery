@@ -1,14 +1,3 @@
 {
-    "debug":true,
-    "timelimit":0,
-    "timezone":"PRC",
-    "database":{
-        "prefix":"dx_", // 数据库前缀
-        "name":"test_module_blog",
-        "passwd":"root",
-        "user":"root",
-        "charset":"utf8",
-        "host":"localhost"
-    },
-    "non-static":"php"
+    
 }
