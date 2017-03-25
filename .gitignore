@@ -1,19 +1,2 @@
-.idea/*
-# 编译后的模板
-res/view/*
-# 文件上传的目录
-res/uploads/*
-# 临时文件
-res/tmp/*
-# 独立项配置文件
-res/.conf
-# 安装锁
-res/install.lock
-# 调试用
-res/.conf.ignore
-# 回收站
-res/recycle_bin/*
-# 日志
-res/logs/*
-# 忽略开发中的blog样式
-res/tpl/blog/*
+app/data
+*_creator.*

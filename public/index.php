@@ -1,3 +1,4 @@
-<?php
-    define('WEB_ROOT',__DIR__);
-    require_once '../lib/appLoader.php';
+<?php    
+    define('APP_DIR',__DIR__.'/../app');
+    define('DEBUG',true);
+    require_once __DIR__."/../suda/system/suda.php";
