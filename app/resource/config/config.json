@@ -9,6 +9,6 @@
     },
     "router-prefix": {
         "api": "/api",
-        "lost_found":"/lost-found"
+        "lost_found":["-lost-found","/lost-found"]
     }
 }
