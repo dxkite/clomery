@@ -1,3 +1,4 @@
 app/data
 *_creator.*
 app/resource/config/config.sys.json
+app/resource/config/config.dev.json
