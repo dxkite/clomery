@@ -2,6 +2,11 @@
     "module-dirs": {
         "user": "core-user",
         "admin": "core-admin",
-        "upload": "core-upload"
+        "upload": "core-upload",
+        "blog": "blog-dev",
+        "api": "core-api"
+    },
+    "router-prefix": {
+        "api": "/api"
     }
 }
