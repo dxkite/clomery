@@ -27,7 +27,7 @@ class Index extends \suda\core\Response
         // param values array
         $value=array();
         // display template
-        $this->display('default:index', ['helloworld'=>'Hello,World!', 'value'=>$value]);
+        $this->display('user:index', ['helloworld'=>'Hello,World!', 'value'=>$value]);
     }
 
     // pretest router 
