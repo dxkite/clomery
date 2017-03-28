@@ -1,3 +1,6 @@
 {
-    "name":"api"
+    "name":"api",
+    "response": {
+        "normal": "cn\\atd3\\ApiAction"
+    }
 }

@@ -55,12 +55,15 @@ class User
     {
         $permissions=is_array($permissions)?$permissions:[$permissions];
         $needs=UserCenter::getUserPermission($uid);
-        foreach ($needs as $need) {
-            if (!in_array($need, $permissions)) {
-                return false;
+        if (count($needs)>0) {
+            foreach ($needs as $need) {
+                if (!in_array($need, $permissions)) {
+                    return false;
+                }
             }
+            return true;
         }
-        return true;
+        return false;
     }
 
     public function checkPermission($permissions)

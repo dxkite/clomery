@@ -1,0 +1,9 @@
+; 文章表
+id     bigint(20) auto primary comment="文章ID"
+author  bigint(20) key comment="作者"
+index   varchar(128)  key comment="文章索引"
+title   varchar(255) key comment="文章标题"
+abstract varchar(255) comment="摘要" 
+content text comment="文章内容"
+marked tinyint(1) comment="是否使用标记语言"
+cover bigint(20) comment="封面图"

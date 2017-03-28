@@ -54,13 +54,14 @@
             name: function (value) {
                 var check=false;
                 $.ajax({
-                    url:"@u('api:user_api',['action'=>'checkname'])",
+                    url:"@u('api:user_api',['action'=>'checkNameExist'])",
                     async:false,
                     type: 'POST',
                     dataType:'json',
                     data: {name:value},
                     success:function(data){
-                        check=data.return;
+                        console.log(data);
+                        check=data.data;
                     }
                 });
                 if (!check){
@@ -72,7 +73,7 @@
         //监听提交
         form.on('submit(signin)', function (data) {
             $.post("@u('api:user_api',['action'=>'signin'])", data.field, function (res) {
-                if(res.return){
+                if(res.data){
                     layer.msg("登陆成功");
                     window.location.href="@u('admin_index')";
                 }else{

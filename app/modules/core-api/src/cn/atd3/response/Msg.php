@@ -26,80 +26,45 @@ use suda\tool\Value;
 * @url: /v1/msg[/{action}]
 * @param: action:string,
 */
-class Msg extends \suda\core\Response
+class Msg extends \cn\atd3\ApiAction
 {
     protected $mc;
-    protected $uc;
     protected $uid;
-    protected $request;
-    public function onRequest(Request $request)
+
+    public function action(string $action, Value $data)
     {
-        $this->mc=new MsgCenter;
-        $this->uc=new UserCenter;
-       
-        $this->client=$request->getHeader('API-Client', $request->cookie('client', $request->get()->client(null)));
-        $this->token=$request->getHeader('API-Token', $request->cookie('token', $request->get()->token(null)));
-
-
-        $this->request=$request;
-        
-        if ($this->client && $this->token) {
-            if (!$this->uc->checkClient(intval($this->client), $this->token)) {
-                return $this->json(['error'=>'client is not available!']);
+        if ($action)
+        {
+            $this->uid = User::getUserId();
+            if (!$this->uid) {
+                throw new ApiException('permissionDenied', '用户没登陆！');
             }
-        } else {
-            return $this->json(['error'=>'no api client!']);
+            $this->mc= new MsgCenter;
         }
+        parent::action($action,$data);
+    }
 
+    /**
+    * 收信箱
+    */
+    public function actionInbox(int $type=MsgCenter::TYPE_MESSAGE, int $page=1, int $count=10)
+    {
+        return $this->mc->inbox($this->uid, $type,  $page, $count);
+    }
 
-        $this->uid=(new User($this->uc))->getUserId();
+    /**
+    * 发送邮件
+    */
+    public function actionSend(int $to, string $message, int $type=MsgCenter::TYPE_MESSAGE)
+    {
+        return $this->mc->send($this->uid, $to, $type, $message);
+    }
 
-        $action=$request->get()->action;
-        $help=array(
-            'send'=>[
-                'params'=> ['message', 'to'=>'int', 'type'=>['int', MsgCenter::TYPE_MESSAGE]],
-                'comments'=>'发送私信消息',
-            ] ,
-            'inbox'=>[
-                'params'=> ['type'=>['int', MsgCenter::TYPE_MESSAGE],'page'=>['int',1], 'count'=>['int',10]],
-                'comments'=>'获取消息列表',
-            ] ,
-            'delete'=>[
-                'params'=> ['ids'=>'array'],
-                'comments'=>'删除消息列表',
-            ] ,
-        );
-
-        try {
-            // param values array
-            $data=$request->isJson()?new Value($request->json()):($request->isPost()?$request->post():$request->get());
-            
-            switch ($action) {
-                case 'inbox':
-                    if (!$this->uid) {
-                        throw new ApiException('NoUserException', 'please Login');
-                    }
-                    return $this->json(['return'=>$this->mc->inbox($this->uid, $data->type(MsgCenter::TYPE_MESSAGE), $data->page(1), $data->count(10))]);
-                case 'send':
-                   // todo ：发送信息的类型修改
-                    if (!$this->uid) {
-                        throw new ApiException('NoUserException', 'please Login');
-                    }
-                    Api::check($data, ['message', 'to'=>'int', 'type'=>['int', MsgCenter::TYPE_MESSAGE]]);
-                    return $this->json(['return'=>$this->mc->send($this->uid, $data->to, $data->type, $data->message)]);
-                case 'delete':
-                    if (!$this->uid) {
-                        throw new ApiException('NoUserException', 'please Login');
-                    }
-                    Api::check($data, ['ids'=>'array']);
-                    return $this->json(['return'=>$this->mc->delete($this->uid, $data->ids)]);
-                default:return $this->json($help);
-            }
-        } catch (ApiException $e) {
-            return $this->json($e);
-        } catch (\Exception $e) {
-            return $this->json([ 'Exception'=>$e->getMessage()]);
-        }
-        return $this->json($help);
+    /**
+    * 删除邮件
+    */
+    public function actionDelete(array $ids)
+    {
+        return $this->mc->delete($this->uid, $ids);
     }
 }
