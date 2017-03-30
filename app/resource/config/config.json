@@ -5,7 +5,8 @@
         "upload": "core-upload",
         "blog": "blog-dev",
         "api": "core-api",
-        "lost_found":"lost_found_v1"
+        "lost_found":"lost_found_v1",
+        "code":"code-dev"
     },
     "router-prefix": {
         "api": "/api",
