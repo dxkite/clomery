@@ -152,9 +152,9 @@ class User extends \cn\atd3\ApiAction
     /**
     * 用户登陆
     */
-    public function actionSignin(string $name, string $passwd, string $code=null, bool $remember=false)
+    public function actionSignin(string $name, string $passwd, string $code=null/*, bool $remember=false*/)
     {
-
+        $remember=false;
         // 验证用户名格式
         if (!$this->uc->checkNameFormat($name)) {
             throw new ApiException('nameFormatError', _T('用户名格式错误') );
