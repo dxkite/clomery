@@ -51,6 +51,26 @@ class User
         }
         return 0;
     }
+    
+    /**
+    * 在Token可用的情况下刷新Token
+    */
+    public static function refreshToken()
+    {
+        $token=base64_decode(Token::get('user'));
+        if (preg_match('/^(\d+)[.]([a-zA-Z0-9]{32})(?:[.]([a-zA-Z0-9]{32}))?$/', $token, $match)) {
+            if (!isset($match[3])) {
+                return false;
+            }
+            if ($get=$this->uc->refreshToken(intval($match[1]), $this->client, $this->token, $match[3])) {
+                Token::set('user', $token= base64_encode($get['id'].'.'.$get['token'].'.'.$get['value']));
+                return  true;
+            } else {
+                return false;
+            }
+        }
+        return false;
+    }
     public static function hasPermission(int $uid, $permissions)
     {
         $permissions=is_array($permissions)?$permissions:[$permissions];

@@ -8,6 +8,8 @@ use suda\core\Query;
 // 用于适配其他用户中心的操作（exp:dz）
 // TODO  删除某权限
 // TODO  验证Token的时候验证IP
+// TODO  隐式心跳
+
 class UserCenter
 {
     const REG_EMAIL='/^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/';
@@ -348,7 +350,7 @@ class UserCenter
     }
 
 
-    public static function createToken(int $user, int $client, string $client_token, string $ip, string $value=null)
+    public static function createToken(int $user, int $client, string $client_token, string $ip, string $value=null,int $settime=0)
     {
         // 客户端可用
         if ($get=self::checkClient($client, $client_token)) {
@@ -361,14 +363,14 @@ class UserCenter
                     $value=self::generate($user, $verify);
                 }
                 $time=time();
-                $token=Query::insert('user_token', ['user'=>$user, 'token'=>$verify, 'time'=>$time, 'ip'=>$ip, 'client'=>$client, 'expire'=>$time + $get['beat'], 'value'=>$value]);
+                $token=Query::insert('user_token', ['user'=>$user, 'token'=>$verify, 'time'=>$time, 'ip'=>$ip, 'client'=>$client, 'expire'=>$time + ($settime?:$get['beat']), 'value'=>$value]);
                 return ['id'=>$token,'token'=>$verify,'time'=>$time,'value'=>$value];
             }
         }
         return false;
     }
     // 刷新过期时间
-    public static function refreshToken(int $id, int $client, string $client_token, string $value, string $refresh=null)
+    public static function refreshToken(int $id, int $client, string $client_token, string $value, string $refresh=null,int $settime=0)
     {
         if ($get=self::checkClient($client, $client_token)) {
             $new =self::generate($id, $value);
@@ -376,7 +378,7 @@ class UserCenter
                 $refresh=self::generate($id, $new);
             }
             if (Query::update('user_token', 'expire = :time , token=:new_token,value=:refresh', 'id=:id AND UNIX_TIMESTAMP() < `time` + :alive AND value = :value ', ['id'=>$id, 'value'=>$value, 'new_token'=>$new, 'refresh'=>$refresh, 'time'=>time() + $get['beat'], 'alive'=>$get['alive']])) {
-                return  ['id'=>$id, 'token'=>$new, 'time'=>time() + $get['beat'] ,'value'=>$refresh];
+                return  ['id'=>$id, 'token'=>$new, 'time'=>time() + ($settime?:$get['beat']) ,'value'=>$refresh];
             }
         }
         return false;

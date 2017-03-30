@@ -1,19 +1,8 @@
 <?php
 namespace cn\atd3\response;
 
-// use namespace
-use suda\core\Request;
-// database query
-use suda\core\Query;
-// site cookie
-use suda\core\Cookie;
-// site session
 use cn\atd3\Session;
-
-use cn\atd3\UserCenter;
-use cn\atd3\Api;
-use cn\atd3\ApiException;
-use cn\atd3\Token;
+use cn\atd3\ApiException,Token;
 use suda\tool\Value;
 
 /**
@@ -26,6 +15,7 @@ use suda\tool\Value;
 */
 class User extends \cn\atd3\ApiAction
 {
+    // 记住登陆时间30天
     /**
     * 注册是否需要验证码
     */
@@ -79,6 +69,7 @@ class User extends \cn\atd3\ApiAction
 
     /**
     *  ID转换成用户名
+    * @auths
     */
     public function actionId2name(array $uids)
     {
@@ -87,6 +78,7 @@ class User extends \cn\atd3\ApiAction
 
     /**
     * 获取指定ID的用户公开信息
+    * @auths
     */
     public function actionPublicInfo(array $uids)
     {
@@ -95,10 +87,11 @@ class User extends \cn\atd3\ApiAction
 
     /**
     * 获取当前用户登陆ID
+    * @auths
     */
     public function actionId()
     {
-        return (new \cn\atd3\User($this->uc))->getUserId();
+        return \cn\atd3\User::getUserId();
     }
 
     /**
@@ -108,17 +101,18 @@ class User extends \cn\atd3\ApiAction
     {
         // 用户名格式错误
         if (!$this->uc->checkNameFormat($name)) {
-            throw new ApiException('nameFormatError', 'You need a right format');
+            throw new ApiException('nameFormatError', _T('用户名格式错误') );
         }
         // 邮箱格式错误
         if (!$this->uc->checkEmailFormat($email)) {
-            throw new ApiException('emailFormatError', 'You need a right format');
+            throw new ApiException('emailFormatError', _T('邮箱格式错误') );
         }
         // 需要验证码却未设置
         if (is_null($code) &&Session::get('signupcode', false)) {
-            throw new ApiException('lackCodeError', 'You need send a  code');
+            throw new ApiException('lackCodeError', _T('需要验证码') );
         }
-
+        
+        // 邮箱验证码
         $emailcode= rand(1000, 9999);
         // ip首次注册不需要验证码
         if (!Session::get('signupcode', false)) {
@@ -141,44 +135,40 @@ class User extends \cn\atd3\ApiAction
             return ['uid'=>$id,'token'=>$token,'email_token'=>$get['token']];
         } else {
             Session::set('signupcode', true);
-            throw new ApiException('codeError', 'You send a error human code');
+            throw new ApiException('codeError', _T('验证码错误') );
         }
     }
     
     /**
     * 设置用户头像
+    * @auths
     */
     public function actionAvatar(int $id)
     {
-        $uid=(new \cn\atd3\User($this->uc))->getUserId();
-        if ($uid) {
-            return $this->uc->setUserAvatar($uid, $id);
-        } else {
-            throw new ApiException('userNoSignin', 'You need signin:'.$uid);
-        }
-        return false;
+        $uid=\cn\atd3\User::getUserId();
+        return $this->uc->setUserAvatar($uid, $id);
     }
 
     /**
     * 用户登陆
     */
-    public function actionSignin(string $name, string $passwd, string $code, bool $remember=false)
+    public function actionSignin(string $name, string $passwd, string $code=null, bool $remember=false)
     {
 
         // 验证用户名格式
         if (!$this->uc->checkNameFormat($name)) {
-            throw new ApiException('nameFormatError', 'You need a right format');
+            throw new ApiException('nameFormatError', _T('用户名格式错误') );
         }
         
         // 验证码检查
         if (Session::get('signincode', false)) {
             if (is_null($code)) {
                 _D()->d('lackCodeError');
-                throw new ApiException('lackCodeError', 'You need send a code');
+                throw new ApiException('lackCodeError', _T('需要验证码') );
             }
             // 验证验证码
             elseif (!\cn\atd3\VerifyImage::checkCode($code)) {
-                throw new ApiException('codeError', 'You send a error human code');
+                throw new ApiException('codeError',_T('验证码错误') );
             }
         }
 
@@ -187,13 +177,12 @@ class User extends \cn\atd3\ApiAction
         if (Session::get('faild_times', 0)>3) {
             Session::set('signincode', true);
         }
-    
 
         // 检测密码
         if ($id=$this->uc->checkPassword($name, $passwd)) {
             // 登陆成功
-            $get=$this->uc->createToken($id, $this->client, $this->token, $this->request->ip());
-            Token::set('user', base64_encode($get['id'].'.'.$get['token'].'.'.$get['value']), 3600)->session(!$remember)->httpOnly();
+            $get=$this->uc->createToken($id, $this->client, $this->token, $this->request->ip(),$remember?‪2592000‬:0);
+            Token::set('user', base64_encode($get['id'].'.'.$get['token'].'.'.$get['value']), $remember?‪2592000‬:3600)->session(!$remember)->httpOnly();
             // 清空验登陆失败次数
             Session::set('faild_times', 0);
             // 取消验证码需求
@@ -208,6 +197,7 @@ class User extends \cn\atd3\ApiAction
 
     /**
     * 获取登陆的用户信息
+    * @auths
     */
     public function actionInfo()
     {
@@ -216,7 +206,7 @@ class User extends \cn\atd3\ApiAction
             if (preg_match('/^(\d+)[.]([a-zA-Z0-9]{32})(?:[.]([a-zA-Z0-9]{32}))?$/', $token, $match)) {
                 // var_dump($match);
                 if ($uid=$this->uc->tokenAvailable(intval($match[1]), $match[2])) {
-                    return $this->uc->getUserById([intval($uid['user'])]);
+                    return ($this->uc->getUserById([intval($uid['user'])])[intval($uid['user'])]);
                 }
             }
         }
@@ -225,6 +215,7 @@ class User extends \cn\atd3\ApiAction
 
     /**
     * 退出登陆
+    * @auths
     */
     public function actionSignout()
     {
@@ -233,26 +224,28 @@ class User extends \cn\atd3\ApiAction
 
     /**
     * 心跳包
+    * @auths
     */
-    public function actionBeat(string $token)
+    public function actionBeat()
     {
-        $token=base64_decode($token);
+        $token=base64_decode(Token::get('user'));
         if (preg_match('/^(\d+)[.]([a-zA-Z0-9]{32})(?:[.]([a-zA-Z0-9]{32}))?$/', $token, $match)) {
             if (!isset($match[3])) {
-                throw new ApiException('lackTokenString', '心跳包不完整', $match);
+                throw new ApiException('lackTokenString', _T('心跳包不完整'), $match);
             }
             if ($get=$this->uc->refreshToken(intval($match[1]), $this->client, $this->token, $match[3])) {
-                $token=base64_encode($get['id'].'.'.$get['token'].'.'.$get['value']);
-                return  ['token'=>$token, 'time'=>$get['time']];
+                Token::set('user', $token= base64_encode($get['id'].'.'.$get['token'].'.'.$get['value']));
+                return  true;
             } else {
-                throw new ApiException('refreshTokenError', '心跳包更新失败', $match);
+                throw new ApiException('refreshTokenError', _T('心跳包更新失败') , $match);
             }
         }
-        throw new ApiException('unknownError', '心跳包未知错误', $token);
+        throw new ApiException('unknownError', _T('心跳包未知错误') , $token);
     }
 
    /**
     * 验证用户邮箱
+    * @auths
     */
     public function actionCheckUserEmail(string $token, string $value)
     {
@@ -267,11 +260,12 @@ class User extends \cn\atd3\ApiAction
 
     /**
     * 设置用户邮箱
+    * @auths
     */
     public function actionSetUserEmail(string $email)
     {
         if ($email && !$this->uc->checkEmailFormat($email)) {
-            throw new ApiException('emailFormatError', '输入邮件格式错误！');
+            throw new ApiException('emailFormatError', _T('邮箱格式错误') );
         }
         if ($user=self::getUserInfo()) {
             $user=array_shift($user);
@@ -284,11 +278,12 @@ class User extends \cn\atd3\ApiAction
 
     /**
     * 设置用户头像
+    * @auths
     */
     public function actionSetUserAvatar(int  $avatar)
     {
         if ($email && !$this->uc->checkEmailFormat($email)) {
-            throw new ApiException('emailFormatError', '输入邮件格式错误！');
+            throw new ApiException('emailFormatError', _T('邮箱格式错误') );
         }
         if ($user=self::getUserInfo()) {
             $user=array_shift($user);

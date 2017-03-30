@@ -1,21 +1,9 @@
 <?php
 namespace cn\atd3\response;
 
-// use namespace
-use suda\core\Request;
-// database query
-use suda\core\Query;
-// site cookie
-use suda\core\Cookie;
-
-
-use cn\atd3\Session;
 use cn\atd3\MsgCenter;
-use cn\atd3\UserCenter;
 use cn\atd3\User;
-use cn\atd3\Api;
 use cn\atd3\ApiException;
-use cn\atd3\Token;
 use suda\tool\Value;
 
 /**

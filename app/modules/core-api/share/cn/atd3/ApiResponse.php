@@ -16,20 +16,29 @@ abstract class ApiResponse extends \suda\core\Response
     {
         $this->client=$request->getHeader('API-Client', $request->cookie('client', $request->get()->client('')));
         $this->token=$request->getHeader('API-Token', $request->cookie('token', $request->get()->token('')));
+        
         $this->request=$request;
         $this->uc=new UserCenter;
+
         if ($this->client && $this->token) {
             if (!$this->uc->checkClient(intval($this->client), $this->token)) {
-                return $this->data(null, 'unknownClient', 'API授权不可用！');
+                return $this->data(null, 'unknownClient', _T('API授权不可用！') );
             }
         } else {
-            return $this->data(null, 'unknownClient', 'API授权信息丢失！');
+            return $this->data(null, 'unknownClient', _T('API授权信息丢失！') );
         }
 
         $action=$request->get()->action;
         try {
-            // param values array
-            $data=$request->isJson()?new Value($request->json()):($request->isPost()?$request->post():$request->get());
+            if ($request->isGet()) {
+                $data=$request->get();
+            } elseif ($request->isPost()) {
+                if ($request->isJson()) {
+                    $data=new Value($request->json());
+                } else {
+                    $data=$request->post();
+                }
+            }
             if ($action) {
                 $this->action($action, $data);
             } else {
@@ -43,15 +52,15 @@ abstract class ApiResponse extends \suda\core\Response
     }
 
 
-    public function check($permissions)
+    public function check($permissions=null)
     {
         $id=User::getUserId();
-        if ($id && $permissions) {
-            if (!User::hasPermission($id, $permissions)) {
-                throw new ApiException('permissionDenied', '权限不足！', ['id'=>$id, 'permissions'=>$permissions]);
+        if ($id) {
+            if ($permissions && !User::hasPermission($id, $permissions)) {
+                throw new ApiException('permissionDenied', _T('权限不足！'), ['id'=>$id, 'permissions'=>$permissions]);
             }
         } else {
-            throw new ApiException('permissionDenied', '用户未登录！');
+            throw new ApiException('permissionDenied', _T('用户未登录！'));
         }
         return true;
     }

@@ -22,19 +22,22 @@ class ApiAction extends ApiResponse
                         if (@settype($val, $param->getType()->__toString())) {
                             $args[$pos]=$val;
                         } else {
-                            return $this->data('paramTypeCastException', '参数 '.$name .' 无法转化成 '.$param->getType().' 类型！');
+                            return $this->data('paramTypeCastException', _T('参数 %s 无法转化成 %s 类型！',$name,$param->getType()->__toString()) );
                         }
                     } else {
                         $args[$pos]=$data->$name;
                     }
                 } elseif (!$param->isDefaultValueAvailable()) {
-                    return $this->data(['name'=>$name, 'pos'=>$pos], 'paramError', '参数错误，需要参数:'.$name);
+                    return $this->data(['name'=>$name, 'pos'=>$pos], 'paramError', _T('参数错误，需要参数: %s',$name));
                 }
             }
             // 检查权限
             $docs=$method->getDocComment();
-            if ($docs && preg_match('/@auths\s*:\s*([\w,]+)\s*$/im',$docs,$match)){
-                $auths=explode(',',trim($match[1]??'',','));
+            if ($docs && preg_match('/@auths(?:\s*:\s*([\w,]+))?\s*$/im',$docs,$match)){
+                $auths=null;
+                if (isset($match[1])){
+                    $auths=explode(',',trim($match[1],','));
+                }
                 $this->check($auths);
             }
             // 调用接口
