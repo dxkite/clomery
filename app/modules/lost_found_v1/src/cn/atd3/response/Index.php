@@ -16,7 +16,7 @@ class Index extends \cn\atd3\BaseResponse
     public function onRequest(Request $request)
     {
         // params if had
-        ;
+        throw new \Exception('Some Exception');
         // param values array
         $value=array();
         // display template

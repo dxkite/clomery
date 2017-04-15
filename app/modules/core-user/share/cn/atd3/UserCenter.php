@@ -53,6 +53,17 @@ class UserCenter
         return false;
     }
 
+    // 修改密码
+    public static function changePassword(int $id, string $oldpasswd,string $password):bool
+    {
+        if ($fetch=Query::where('user', ['password'], ['id'=>$id])->fetch()) {
+            if (password_verify($oldpasswd, $fetch['password'])) {
+                 return Query::update('user', ['password'=>password_hash($password, PASSWORD_DEFAULT)], ['id'=>$id]);
+            }
+        }
+        return false;
+    }
+
     public static function checkEmailavailable(int $uid):bool
     {
         return Query::where('user', 'id', ['id'=>$uid, 'available'=>true])->fetch()?true:false;

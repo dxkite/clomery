@@ -14,8 +14,8 @@ abstract class ApiResponse extends \suda\core\Response
     
     public function onRequest(Request $request)
     {
-        $this->client=$request->getHeader('API-Client', $request->cookie('client', $request->get()->client('')));
-        $this->token=$request->getHeader('API-Token', $request->cookie('token', $request->get()->token('')));
+        $this->client=$request->getHeader('API-Client', $request->cookie('client', $request->get('token','')));
+        $this->token=$request->getHeader('API-Token', $request->cookie('token', $request->get('token','')));
         
         $this->request=$request;
         $this->uc=new UserCenter;

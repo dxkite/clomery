@@ -12,7 +12,9 @@ class Session
     public static function start()
     {
         $path=DATA_DIR.'/session';
-        $id=md5(Request::signature().Request::getHeader('API-Token',Request::get()->token(null)));
+        $request=Request::getInstance();
+        $token=$request->getHeader('API-Token', $request->cookie('token', $request->get('token','')));
+        $id=md5(Request::signature().$token);
         _D()->i('id:'.$id.';','Session');
         Storage::mkdirs($path);
         session_id($id);

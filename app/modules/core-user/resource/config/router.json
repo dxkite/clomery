@@ -1,1 +1,1 @@
-{"default":{"class":"cn\\atd3\\response\\Index","visit":"\/"},"signin":{"class":"cn\\atd3\\response\\Signin","visit":"\/signin"}}
+{"default":{"class":"cn\\atd3\\response\\Index","visit":"\/"},"signin":{"class":"cn\\atd3\\response\\Signin","visit":"\/signin"},"profile":{"class":"cn\\atd3\\response\\Profile","visit":"\/profile"},"signup":{"class":"cn\\atd3\\response\\Signup","visit":"\/signup"},"setpasswd":{"class":"cn\\atd3\\response\\Setpasswd","visit":"\/set-passsword\/{id:int}\/{token}"}}

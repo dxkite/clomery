@@ -19,10 +19,6 @@
         "class": "cn\\atd3\\response\\AddResult",
         "visit": "\/add\/result"
     },
-    "user_signin": {
-        "class": "cn\\atd3\\response\\user\\Signin",
-        "visit": "\/user\/signin"
-    },
     "test": {
         "class": "cn\\atd3\\response\\test\\Response",
         "visit": "\/test"

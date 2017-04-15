@@ -1,0 +1,61 @@
+@set('title',_T('用户注册页面')) @set('lang','Zh-cn') @startInsert('bs-head')
+<link href="@static/sign.css" rel="stylesheet"> @endInsert @startInsert('bs-content')
+<div class="container">
+    <form class="form-sign" id="form-signup">
+        <h2 class="form-sign-heading"> {{ _T('用户注册') }}</h2>
+        <div class="form-group">
+            <label for="username" class="sr-only">{{ _T('用户名') }}</label>
+            <input type="text" name="username" id="username" class="form-control" placeholder="{{ _T('用户名') }}" required autofocus>
+            <small id="nameHelpInline" class="form-text text-muted"> {{ _T('用户名可以为中文、英文、数字、下划线，长度在4~13个字符之间。') }} </small>
+            <div id="name_error" class="form-control-feedback" style="display:none"> {{ _T("用户名已经存在") }}</div>
+        </div>
+        <div class="form-group">
+            <label for="email" class="sr-only">{{ _T('邮箱') }}</label>
+            <input type="email" name="email" id="passwd" class="form-control" placeholder="{{ _T('邮箱') }}" required>
+            <div id="email_error" class="form-control-feedback" style="display:none"> {{ _T("邮箱已经存在") }}</div>
+        </div>
+        <div class="form-group" id="verify-image" style="display:none">
+            <div class="input-group">
+                <div class="input-group-addon verify-image">
+                    <img src="@u('api:verify_image')" class="img-fluid" alt="verfiy">
+                </div>
+                <input type="text" class="form-control" id="verifycode" placeholder="{{ _T('验证码') }}">
+            </div>
+        </div>
+        <button id="signup-button" class="btn btn-lg btn-primary btn-block" type="submit"> {{ _T('注册') }} </button>
+        <a href="@u('user:signin')"> {{ _T('登陆账号') }}</a> 
+    </form>
+</div>
+
+@endInsert @startInsert('bs-footer')
+<script>
+    $(document).ready(function () {
+
+        $.get("@u('api:user_api',['action'=>'signupCodeIfy'])", function (data, status) {
+            if(data.data){
+                $('#verify-image').show();
+            }
+        });
+
+        $('#username').change(function () {
+            var that = $(this);
+            $.post("@u('api:user_api',['action'=>'checkNameExist'])", {
+                name: $(this).val()
+            }, function (data, status) {
+                if (data.data) {
+                    $('#name_error').show();
+                    namecheck = false;
+                    that.parent().addClass('has-danger').removeClass('has-success');
+                    that.addClass('form-control-danger').removeClass('form-control-success');
+
+                } else {
+                    namecheck = true;
+                    that.parent().addClass('has-success').removeClass('has-danger');
+                    $('#name_error').hide();
+                    that.addClass('form-control-success').removeClass('form-control-danger');
+                }
+            });
+        });
+    });
+</script>
+@endInsert @include('suda:bootstrap')

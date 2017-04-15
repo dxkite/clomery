@@ -1,0 +1,4 @@
+; 系统表
+id int auto primary comment="ID"
+name varchar(80) key comment="设置名"
+value text comment="设置值"

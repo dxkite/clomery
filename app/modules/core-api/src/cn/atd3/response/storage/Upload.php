@@ -3,8 +3,7 @@ namespace cn\atd3\response\storage;
 
 use suda\core\Request;
 use suda\tool\Value;
-use cn\atd3\ApiResponse;
-use cn\atd3\User;
+use cn\atd3\ApiResponse,User,ApiException;
 
 /**
 * visit url /v1.0/storage/upload as POST method to run this class.
@@ -20,7 +19,7 @@ class Upload extends ApiResponse
     {
         $this->uid = User::getUserId();
         if (!$this->uid) {
-            throw new ApiException('permissionDenied', '用户没登陆！');
+            return $this->data(null,'permissionDenied', '用户没登陆！');
         }
         parent::onRequest($request);
         $return=[];

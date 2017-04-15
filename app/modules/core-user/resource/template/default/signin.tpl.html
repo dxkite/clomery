@@ -1,18 +1,106 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>{{ $:title }}</title>
-    </head>
-    <body>
-        <div> {{ _T($:helloworld) }}@/signin </div>
-        @if (count($_GET))
-        <table>
-            @foreach ($_GET as $name => $value)
-            <tr><th>{{$name}}</th><td>{{$value}}</td></tr>
-            @endforeach
-        </table>
-        @else
-        <div>No GET value</div>
-        @endif
-    </body>
-</html>
+@set('title',_T('用户登陆页面')) @set('lang','Zh-cn') @startInsert('bs-head')
+<link href="@static/sign.css" rel="stylesheet"> @endInsert @startInsert('bs-content')
+<div class="container">
+    <form class="form-sign" id="form-signin">
+        <h2 class="form-sign-heading"> {{ _T('用户登陆') }}</h2>
+        <div class="form-group">
+            <label for="username" class="sr-only">{{ _T('用户名') }}</label>
+            <input type="text" name="username" id="username" class="form-control" placeholder="{{ _T('用户名') }}" required autofocus>
+            <div id="name_error" class="form-control-feedback" style="display:none"> {{ _T("用户名不存在") }}</div>
+        </div>
+        <div class="form-group">
+            <label for="passwd" class="sr-only">{{ _T('密码') }}</label>
+            <input type="password" name="passwd" id="passwd" class="form-control" placeholder="{{ _T('密码') }}" required>
+            <div id="passwd_error" class="form-control-feedback" style="display:none"> {{ _T("密码错误") }}</div>
+        </div>
+        <div class="form-group" id="verify-image" style="display:none">
+            <div class="input-group">
+                <div class="input-group-addon verify-image">
+                    <img src="@u('api:verify_image')" class="img-fluid" alt="verfiy">
+                </div>
+                <input type="text" class="form-control" id="verifycode" placeholder="{{ _T('验证码') }}">
+            </div>
+        </div>
+        <div class="checkbox">
+            <label>
+            <input id="remember" name="remember" type="checkbox" value="true"> {{ _T('记住登陆') }}
+          </label>
+        </div>
+        <button id="sigin-button" class="btn btn-lg btn-primary btn-block" type="submit"> {{ _T('登陆') }} </button>
+        <a href="@u('user:signup')"> {{ _T('注册账号') }}</a> <a href="#"> {{ _T('忘记密码') }}</a>
+    </form>
+</div>
+
+@endInsert @startInsert('bs-footer')
+<script>
+    $(document).ready(function () {
+        $.get("@u('api:user_api',['action'=>'signinCodeIfy'])", function (data,
+            status) {
+            if (data.data) {
+                $('#verify-image').show();
+            }
+        });
+        var error;
+        var namecheck = false;
+        $('#username').change(function () {
+            var that = $(this);
+            $.post("@u('api:user_api',['action'=>'checkNameExist'])", {
+                name: $(this).val()
+            }, function (data, status) {
+                if (data.error) {
+                    error = $('<div class="alert alert-success" role="alert"><strong>' + data.error +
+                        '</strong>' + data.message + '</div>');
+                    $('#form-signin').insertBefore(error);
+                } else if (data.data) {
+                    namecheck = true;
+                    that.parent().addClass('has-success').removeClass('has-danger');
+                    $('#name_error').hide();
+                    that.addClass('form-control-success').removeClass('form-control-danger');
+                } else {
+                    $('#name_error').show();
+                    namecheck = false;
+                    that.parent().addClass('has-danger').removeClass('has-success');
+                    that.addClass('form-control-danger').removeClass('form-control-success');
+                }
+            });
+        });
+
+        $('#form-signin').submit(function () {
+            console.log('touch me');
+            $.get("@u('api:user_api',['action'=>'signinCodeIfy'])", function (data,
+                status) {
+                if (data.data) {
+                    $('#verify-image').show();
+                }
+            });
+
+            $.post("@u('api:user_api',['action'=>'signin'])", {
+                name: $('#username').val(),
+                passwd: $('#passwd').val(),
+                remember: $('#remember').val(),
+                code: $('#verifycode').val()
+            }, function (data, status) {
+                if (data.data) {
+                    if (document.referrer) {
+                        location.href = document.referrer;
+                    } else {
+                        location.href = "@u('user:profile')";
+                    }
+                } else {
+                    $('#passwd_error').show();
+                    $('#passwd').addClass('form-control-danger')
+                        .removeClass('form-control-success')
+                        .parent().addClass('has-danger').removeClass('has-success');
+                }
+            });
+            return false;
+        });
+
+        $('#form-signin').keydown(function (e) {
+            if (e.keyCode == 13) {
+                $("#sigin-button").click();
+            }
+        });
+    });
+</script>
+@endInsert @include('suda:bootstrap')

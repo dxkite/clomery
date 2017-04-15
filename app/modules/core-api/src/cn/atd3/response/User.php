@@ -138,7 +138,73 @@ class User extends \cn\atd3\ApiAction
             throw new ApiException('codeError', _T('验证码错误') );
         }
     }
-    
+
+    /**
+    * 用户注册
+    */
+    public function actionSignupWithoutPasswd(string $name, string $email,string $code=null){
+        // 用户名格式错误
+        if (!$this->uc->checkNameFormat($name)) {
+            throw new ApiException('nameFormatError', _T('用户名格式错误') );
+        }
+        // 邮箱格式错误
+        if (!$this->uc->checkEmailFormat($email)) {
+            throw new ApiException('emailFormatError', _T('邮箱格式错误') );
+        }
+        // 需要验证码却未设置
+        if (is_null($code) &&Session::get('signupcode', false)) {
+            throw new ApiException('lackCodeError', _T('需要验证码') );
+        }
+        
+        // 邮箱验证码
+        $passwd= md5(microtime(true));
+        // ip首次注册不需要验证码
+        if (!Session::get('signupcode', false)) {
+            $id=$this->uc->addUser($name,$passwd,$email, 0, $this->request->ip());
+            if ($id) {
+                Session::set('signupcode', true);
+            }
+            $get=$this->uc->createToken($id, $this->client, $this->token, $this->request->ip(), $passwd);
+            \cn\atd3\Mail::sendCheckMail($email, $passwd);
+            Token::set('user', $token= base64_encode($get['id'].'.'.$get['token']));
+            return ['uid'=>$id,'token'=>$token];
+        }
+        // 二次注册需要验证码
+        elseif (Session::get('signupcode', false)&& \cn\atd3\VerifyImage::checkCode($code)) {
+            $id=$this->uc->addUser($name, $passwd, $email, 0, $this->request->ip());
+            $get=$this->uc->createToken($id, $this->client, $this->token, $this->request->ip(), $passwd);
+            Token::set('user', $token= base64_encode($get['id'].'.'.$get['token']));
+            \cn\atd3\Mail::sendCheckMail($email, $passwd);
+            return ['uid'=>$id,'token'=>$token];
+        } else {
+            Session::set('signupcode', true);
+            throw new ApiException('codeError', _T('验证码错误') );
+        }
+    }
+
+    /**
+    * 修改密码
+    * @auths
+    */
+    public function actionChangePasswd(string $oldpasswd, string $passwd,string $code=null){
+        $uid=\cn\atd3\User::getUserId();
+        if (!Session::get('changepasswdcode', false)) {
+            Session::set('changepasswdcode', false);
+            $this->uc->deleteToken($this->client, $this->token);
+            return $this->uc->changePassword($uid,$oldpasswd,$passwd);
+        }
+        elseif (Session::get('changepasswdcode', false) && \cn\atd3\VerifyImage::checkCode($code)) {
+            Session::set('changepasswdcode', false);
+            $this->uc->deleteToken($this->client, $this->token);
+            return $this->uc->changePassword($uid,$oldpasswd,$passwd);
+        } else {
+            Session::set('changepasswdfaild', Session::get('changepasswdfaild') +1);
+            if (Session::get('changepasswdfaild')>3){
+                Session::set('changepasswdcode', true);
+            }
+            throw new ApiException('codeError', _T('验证码错误') );
+        }
+    }
     /**
     * 设置用户头像
     * @auths

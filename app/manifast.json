@@ -1,8 +1,7 @@
 {
     "namespace":"cn\\atd3",
     "version":"1.0-dev",
-    "application":"suda\\core\\Application",
-    // 系统加载模块
-    "modules":["suda","user","upload","admin","api","blog","code","lost_found"],
-    "language":"zh-CN"
+    "modules":["suda","lost_found","user","api"],
+    "language":"zh-CN",
+    "admin":"/admin"
 }
