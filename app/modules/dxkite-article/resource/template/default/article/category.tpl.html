@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>{{ $:title }}</title>
+    {:head}
+</head>
+
+<body>
+    <ol>
+        @foreach ($:categorys as $category)
+        <li> <a href="{{ $category['link'] }}"> {{ $category['name'] }}</a> @if(isset($category['childs']))
+            <ol>
+                @foreach ($category['childs'] as $child)
+                <li> <a href="{{ $child['link'] }}"> {{ $child['name'] }}</a>
+                </li>
+                @endforeach
+            </ol>
+            @endif
+        </li>
+        @endforeach
+    </ol>
+    <!-- body hook -->
+    {:body}
+</body>
+{:script}
+
+</html>

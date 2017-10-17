@@ -1,0 +1,24 @@
+{
+    "name": "dxkite\/user",
+    "homepage": "http:\/\/atd3.cn",
+    "version": "1.0.4",
+    "locale": "zh-CN",
+    "namespace": "cn\\atd3",
+    "discription": "用户邮箱注册模块，包括权限组控制",
+    "install": "cn.atd3.user.Install::create",
+    "table": [
+        "cn.atd3.user.dao.GroupDAO",
+        "cn.atd3.user.dao.UserDAO"
+    ],
+    "prefix": [
+        "/user",
+        "/user"
+    ],
+    "require": {
+        "dxkite/view": "*"
+    },
+    "authors": [{
+        "name": "dxkite",
+        "email": "dxkite@qq.com"
+    }]
+}

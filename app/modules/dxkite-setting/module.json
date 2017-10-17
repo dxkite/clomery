@@ -1,0 +1,18 @@
+{
+    "name": "dxkite\/setting",
+    "homepage": "http:\/\/atd3.cn",
+    "version": "1.0.0",
+    "locale": "zh-CN",
+    "namespace": "cn\\atd3",
+    "discription": "通用设置模块",
+    "table":[
+        "cn.atd3.dao.SettingDAO"
+    ],
+    "require": {
+
+    },
+    "authors": [{
+        "name": "dxkite",
+        "email": "dxkite@qq.com"
+    }]
+}

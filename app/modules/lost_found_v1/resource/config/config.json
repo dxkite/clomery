@@ -1,7 +1,0 @@
-{
-    "name":"lost_found",
-    "response": {
-        "normal": "cn\\atd3\\BaseResponse",
-        "admin": "cn\\atd3\\Adminstrator"
-    }
-}

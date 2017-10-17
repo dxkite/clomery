@@ -1,0 +1,58 @@
+{
+    "admin_list": {
+        "class": "cn\\atd3\\response\\admin\\ListResponse",
+        "visit": "\/list[\/{page:int=1}]",
+        "method": [
+            "GET",
+            "POST"
+        ]
+    },
+    "admin_index": {
+        "class": "cn\\atd3\\response\\admin\\ListResponse",
+        "visit": "\/",
+        "method": [
+            "GET",
+            "POST"
+        ]
+    },
+    "admin_add": {
+        "class": "cn\\atd3\\response\\admin\\AddResponse",
+        "visit": "\/add",
+        "method": [
+            "GET",
+            "POST"
+        ]
+    },
+    "admin_edit": {
+        "class": "cn\\atd3\\response\\admin\\EditResponse",
+        "visit": "\/{id:int=0}\/edit",
+        "method": [
+            "GET",
+            "POST"
+        ]
+    },
+    "admin_group_list": {
+        "class": "cn\\atd3\\response\\admin\\group\\ListResponse",
+        "visit": "\/group\/list[\/{page:int=1}]",
+        "method": [
+            "GET",
+            "POST"
+        ]
+    },
+    "admin_group_edit": {
+        "class": "cn\\atd3\\response\\admin\\group\\EditResponse",
+        "visit": "\/group\/{id:int=1}\/edit",
+        "method": [
+            "GET",
+            "POST"
+        ]
+    },
+    "admin_group_add": {
+        "class": "cn\\atd3\\response\\admin\\group\\AddResponse",
+        "visit": "\/group\/add",
+        "method": [
+            "GET",
+            "POST"
+        ]
+    }
+}

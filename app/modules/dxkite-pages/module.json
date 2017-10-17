@@ -1,0 +1,19 @@
+{
+    "name": "dxkite\/pages",
+    "homepage": "http:\/\/atd3.cn",
+    "version": "1.0.0",
+    "locale": "zh-CN",
+    "namespace": "cn\\atd3",
+    "discription": "\u9759\u6001\u9875\u9762\u751f\u6210\u7ba1\u7406\u6a21\u5757",
+    "table": ["cn.atd3.dao.PagesDAO"],
+    "require": {
+        "dxkite/user": "*"
+    },
+    "prefix": {
+        "admin": "/pages"
+    },
+    "authors": [{
+        "name": "dxkite",
+        "email": "dxkite@qq.com"
+    }]
+}

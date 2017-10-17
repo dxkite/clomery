@@ -1,0 +1,12 @@
+{
+    "admin:pages": {
+        "name": "管理页面",
+        "childs": {
+            "list_page": "列出页面",
+            "edit_page": "编辑页面",
+            "delete_page": "删除页面",
+            "add_page": "添加页面",
+            "gen_html":"生成HTML"
+        }
+    }
+}

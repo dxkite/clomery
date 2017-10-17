@@ -1,0 +1,81 @@
+body {
+  padding-top: 50px;
+}
+
+.sidebar{
+    padding: 1em 0 ;
+}
+
+.content {
+  padding: 1em;
+}
+.navbar a {
+  color: white;
+}
+.navbar-right a {
+  color: white;
+  transition: ease-in-out  0.2s;
+  border-bottom: 1px solid rgba(0, 0, 0, 0);
+}
+
+.sidebar .active 
+{
+  background-color: #f7f7f9;
+}
+
+.sidebar .dropdown-item {
+    padding: 0;
+}
+
+.sidebar .dropdown {
+      border-left: 4px solid #00AAFF
+}
+.sidebar .dropdown-menu {
+    border: none;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    border-radius: initial;
+}
+
+.tags span {
+  position: relative;
+	padding: 2px 4px;
+  color: black;
+	margin: 2px 5px;
+	border-radius: 2px;
+	display: inline-block;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.tags span:nth-child(5n) {
+	border: 1px #4A4A4A solid;
+}
+.tags span:nth-child(5n)::before  {
+  color: #4A4A4A;
+}
+.tags span:nth-child(5n+1) {
+  border: 1px #ff5e5c solid;
+}
+.tags span:nth-child(5n+1)::before  {
+  color: #ff5e5c ;
+}
+.tags span:nth-child(5n+2) {
+  border: 1px #ffbb50 solid;
+}
+.tags span:nth-child(5n+2)::before {
+  color: #ffbb50;
+}
+.tags span:nth-child(5n+3) {
+  border: 1px #1ac756 solid;
+}
+.tags span:nth-child(5n+3)::before {
+  color: #1ac756;
+}
+.tags span:nth-child(5n+4) {
+  border: 1px #19B5FE solid;
+}
+.tags span:nth-child(5n+4)::before {
+   color :#19B5FE ;
+}

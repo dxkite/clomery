@@ -1,0 +1,4 @@
+{
+     "Router:prepareRouterInfo":["cn\\atd3\\Pages->init"],
+     "template:SudaCompiler:init":["cn\\atd3\\Pages::template"]
+}

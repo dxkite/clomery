@@ -1,0 +1,15 @@
+@startInsert('bs-head')
+<link href="@static('user')/user.css" rel="stylesheet"> 
+<link href="@static('setting')/accordion.css" rel="stylesheet"> 
+@endInsert 
+@startInsert('bs-content')
+@include('user:admin/header')
+<div class="container-fluid">
+    <div class="row">
+        @include('dxkite/setting:sidebar')
+        <div class="col-10 offset-2 content">
+            @insert('admin-content')
+        </div>
+    </div>
+</div>
+@endInsert @include('suda:bootstrap')

@@ -1,0 +1,56 @@
+<header class="navbar navbar-dark navbar-toggleable-md fixed-top bg-dark">
+    <nav class="container justify-content-between">
+        <div class="navbar-brand my-1 my-lg-0" href="#">
+            <a href="@u('user:admin_index')">管理主页</a>
+        </div>
+        <div class="nav navbar-right">
+            <div class="nav-item">
+                <a id="upload-template" class="nav-link" href="#">上传模板</a>
+            </div>
+            <div class="nav-item">
+                <a class="nav-link" href="/">网站首页</a>
+            </div>
+            <div class="nav-item">
+                <a class="nav-link" href="@u('user:signout')">退出登陆</a>
+            </div>
+        </div>
+    </nav>
+</header>
+
+@startInsert('bs-footer')
+<div class="modal fade" id="info-upload" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="title">@_('上传模板')</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input id="upload-file-input" type="file" name="zip" accept="application/zip">
+                <button id="upload-file" class="btn btn-primary">{=上传文件}</button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="ok" data-dismiss="modal">@_('确认')</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(function () {
+        $('#upload-template').on('click', function () {
+            $('#info-upload').modal('show');
+            $('#upload-file').on('click', function () {
+                var file = document.getElementById('upload-file-input').files[0];
+                var form=new FormData();
+                form.append('zip',file);
+                remote('uploadTheme').call(form).result(function (result) {
+                    console.log(result);
+                    $('#info-upload').modal('hide');
+                });
+            });
+        });
+    });
+</script>
+@endinsert

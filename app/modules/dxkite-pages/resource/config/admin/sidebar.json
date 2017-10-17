@@ -1,0 +1,13 @@
+{
+    "pages:admin_add":{
+        "name":"页面管理",
+        "child":{
+            "pages:admin_add":{
+                "name":"添加页面"
+            },
+            "pages:admin_list":{
+                "name":"页面列表"
+            }
+        }
+    }
+}

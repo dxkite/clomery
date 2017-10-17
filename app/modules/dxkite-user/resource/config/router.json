@@ -1,0 +1,32 @@
+{
+    "index": {
+        "class": "cn\\atd3\\response\\user\\HomeResponse",
+        "visit": "\/",
+        "method": ["GET", "POST"]
+    },
+    "signup": {
+        "class": "cn\\atd3\\response\\user\\SignupResponse",
+        "visit": "\/signup",
+        "method": ["GET", "POST"]
+    },
+    "signin": {
+        "class": "cn\\atd3\\response\\user\\SigninResponse",
+        "visit": "\/signin",
+        "method": ["GET", "POST"]
+    },
+    "signout": {
+        "class": "cn\\atd3\\response\\user\\SignoutResponse",
+        "visit": "\/signout",
+        "method": ["GET"]
+    },
+    "verify": {
+        "class": "cn\\atd3\\response\\user\\VerifyResponse",
+        "visit": "\/verify",
+        "method": ["GET"]
+    },
+    "avatar": {
+        "class": "cn\\atd3\\response\\AvatarResponse",
+        "visit": "\/avatar[\/{id:int}]",
+        "method": ["GET"]
+    }
+}

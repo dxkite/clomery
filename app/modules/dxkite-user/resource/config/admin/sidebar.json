@@ -1,0 +1,38 @@
+{
+    "user:admin_list": {
+        // 分类名
+        "name": "用户模块",
+        "icon": "user",
+        "sort": 1,
+        "child": {
+            "user:admin_list": {
+                "icon": "list",
+                "name": "用户列表",
+                "sort": 0
+            },
+            "user:admin_add": {
+                "icon": "list",
+                "name": "添加用户",
+                "sort": 0
+            }
+        }
+    },
+    // 路由名 说明
+    "user:admin_group_list": {
+        "icon": "add",
+        "name": "分组管理",
+        "sort": 1,
+        "child": {
+            "user:admin_group_list": {
+                "icon": "list",
+                "name": "分组列表",
+                "sort": 0
+            },
+            "user:admin_group_add": {
+                "icon": "list",
+                "name": "添加分组",
+                "sort": 0
+            }
+        }
+    }
+}

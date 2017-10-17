@@ -1,4 +1,0 @@
-{
-    // TODO:监听事件
-    "Application:init": ["cn\\atd3\\Session::start"]
-}

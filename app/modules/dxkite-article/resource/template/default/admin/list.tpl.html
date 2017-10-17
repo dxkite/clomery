@@ -1,0 +1,47 @@
+@startInsert('admin-content')
+<div class="row justify-content-between">
+    <div class="col">
+        <a href="@u('article:admin_add')" class="btn btn-success">添加文章</a>
+    </div>
+    <div class="col col-md-auto">
+        <form class="form-inline" method="get" action="@u">
+            <div class="form-group mx-sm-3">
+                <input type="text" name="search" class="form-control" id="searchbox" placeholder="搜索文章..."  value="{{$:search('')}}">
+            </div>
+            <button type="submit" class="btn btn-primary">搜索</button>
+        </form>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>标题</th>
+                <th>作者</th>
+                <th>分类</th>
+                <th>创建时间</th>
+                <th>最后修改</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($:article([]) as $item)
+            <tr>
+                <td>{{ $item['id'] }}</td>
+                <td>{{ $item['title'] }}<span class="badge badge-info">{{ $item['views'] }}</span></td>
+                <td>@_id2name($item['user'])</td>
+                <td>@_cate2name($item['category'])</td>
+                <td>{{ date('Y-m-d H:i:s',$item['create']) }} </td>
+                <td>{{ date('Y-m-d H:i:s',$item['modify']) }}</td>
+                <td> <a href="@u('article:admin_edit',$item['id'])">编辑</a> @if($item['status']==2)
+                    <a href="@u(['status'=>1,'id'=>$item['id']])">设为草稿</a> @else
+                    <a href="@u(['status'=>2,'id'=>$item['id']])">发布</a> @endif
+                    <a href="@u(['status'=>0,'id'=>$item['id']])">删除</a> </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+@data('bootstrap\View::page') @endinsert @include ('article:admin/layout')

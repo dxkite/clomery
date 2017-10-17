@@ -1,0 +1,18 @@
+{
+    "admin_add": {
+        "class": "cn\\atd3\\response\\admin\\AddResponse",
+        "visit": "\/add"
+    },
+    "admin_list": {
+        "class": "cn\\atd3\\response\\admin\\ListResponse",
+        "visit": "\/list[\/{page:int=1}]"
+    },
+    "admin_edit": {
+        "class": "cn\\atd3\\response\\admin\\EditResponse",
+        "visit": "\/{id:int=1}\/edit"
+    },
+    "admin_ajax": {
+        "class": "cn\\atd3\\response\\admin\\AjaxResponse",
+        "visit": "\/ajax"
+    }
+}

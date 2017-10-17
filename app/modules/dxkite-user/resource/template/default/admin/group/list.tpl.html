@@ -1,0 +1,33 @@
+@startInsert('admin-content')
+
+<div class="row">
+    <a href="@u('user:admin_group_add')" class="btn btn-primary">添加分组</a>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>组名</th>
+                <th>权限</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($:group.list([]) as $item)
+            <tr>
+                <td>{{ $item['id'] }}</td>
+                <td>{{ $item['name'] }}</td>
+                <td class="tags">
+                    @foreach($item['permissions']??[] as $id)
+                    <span title="{{$id}}">{{ $:auths[$id]??$id }}</span> @endforeach
+                </td>
+                <td><a href="@u('user:admin_group_edit',$item['id'])">编辑</a> <a href="@u(['delete'=>$item['id']])">删除</a> </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+
+@data('bootstrap\View::page') @endinsert @include('user:admin/layout')

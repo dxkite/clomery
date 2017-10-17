@@ -1,0 +1,9 @@
+{
+    "admin:website": {
+        "name": "管理网站",
+        "childs": {
+            "list_setting": "列出设置",
+            "edit_setting": "编辑设置"
+        }
+    }
+}

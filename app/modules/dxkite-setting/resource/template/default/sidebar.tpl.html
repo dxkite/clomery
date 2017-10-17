@@ -1,0 +1,20 @@
+{:admin:sidebar.list}
+<div class="col-2  sidebar ">
+    <div class="accordion">
+        @foreach($:admin.sidebar as $id=>$item)
+        <div class="section">
+            <input type="radio" name="accordion" id="section-{{$id}}" @isChild($item['id'],$this->responseName(),'checked="checked"') />
+            <label for="section-{{$id}}"><a href="{{$item['href']}}">{{$item['text']}}</a></label>
+            @if(isset($item['child']))
+            <div class="content">
+                <ul>
+                @foreach($item['child'] as $subitem)
+                    <a href="{{$subitem['href']}}"><li @b($this->isMe($subitem['id']),'class="checked"')>{{$subitem['text']}}</li></a>
+                @endforeach
+                </ul>
+            </div>
+            @endif
+        </div>
+        @endforeach
+    </div>
+</div>

@@ -1,0 +1,6 @@
+{
+    "tables":{
+        "user":"user",
+        "group":"user_group"
+    }
+}

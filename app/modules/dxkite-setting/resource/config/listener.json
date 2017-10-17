@@ -1,0 +1,19 @@
+{
+    "template:SudaCompiler:init": [
+        "cn\\atd3\\setting\\Setting::hookSetting", 
+        "cn\\atd3\\admin\\sidebar\\Creator::hook"
+    ],
+    "Application:init": ["cn\\atd3\\setting\\Setting::load"],
+    "Router:prepareRouterInfo": [
+        "cn\\atd3\\admin\\sidebar\\Creator::addAdminSidebar"
+    ],
+    "admin:sidebar.list": [
+        "cn\\atd3\\admin\\sidebar\\Creator::renderAdminSidebar"
+    ],
+    "template:theme::change":[
+        "cn.atd3.setting.template.Manager::themeChange"
+    ],
+    "Manager:loadCompile::before":[
+        "cn.atd3.setting.template.Manager::compilerLoad"
+    ]
+}

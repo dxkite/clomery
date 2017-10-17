@@ -1,0 +1,40 @@
+body,html{
+  padding-top: 20px;
+  margin: 0;
+}
+
+.form-sign {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+
+.v-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+
+.form-sign .form-sign-heading,
+.form-sign .checkbox {
+  margin-bottom: 10px;
+}
+.form-sign .checkbox {
+  font-weight: normal;
+}
+.form-sign .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-sign .form-control:focus {
+  z-index: 2;
+}
+.verify-image {
+  padding: .3rem !important;
+}
+

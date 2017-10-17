@@ -1,0 +1,45 @@
+@startInsert('bs-head')
+<link href="@static('user')/user.css" rel="stylesheet"> @endInsert @startInsert('bs-content')
+<header class="navbar navbar-inverse navbar-toggleable-md fixed-top bg-inverse">
+    <nav class="container justify-content-between">
+        <div class="navbar-brand my-1 my-lg-0" href="#">
+           <a href="@u('user:index')">个人中心</a>
+        </div>
+        <div class="nav navbar-right">
+            <div class="nav-item">
+                <a class="nav-link" href="/">网站首页</a>
+            </div>
+            <div class="nav-item">
+                <a class="nav-link" href="@u('user:signout')">退出登陆</a>
+            </div>
+        </div>
+    </nav>
+</header>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-2  sidebar">
+            <ul class="nav flex-column">
+                 @foreach($:user_sidebar as $item) @if(isset($item['list']))
+                <li class="nav-item dropdown show">
+                    <a href="#" class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> {{ $item['text'] }}</a>
+                    <div class="dropdown-menu">
+                        @foreach($item['list'] as $subitem) @if (isset($subitem['text']))
+                        <div class="dropdown-item">
+                            <a class="nav-link  @b($this->isMe($subitem['id']),'active')" href="{{$subitem['href']}}"> {{$subitem['text']}} </a>
+                        </div>
+                        @else
+                        <div class="dropdown-divider"></div>
+                        @endif @endforeach
+                    </div>
+                </li>
+                @else
+                <li class="nav-item"><a class="nav-link @b($this->isMe($item['id']),'active')" href="{{$item['href']}}">{{$item['text']}}</a></li>
+                @endif @endforeach
+            </ul>
+        </div>
+        <div class="col-10 content">
+            @insert('user-content')
+        </div>
+    </div>
+</div>
+@endInsert @include('suda:bootstrap')

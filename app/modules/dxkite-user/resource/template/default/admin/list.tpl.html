@@ -1,0 +1,51 @@
+@startInsert('admin-content')
+
+<div class="row justify-content-between">
+    <div class="col">
+        <a href="@u('user:admin_add')" class="btn btn-success">添加用户</a>
+    </div>
+    <div class="col col-md-auto">
+        <form class="form-inline" method="get" action="@u">
+            <select name="type" class="custom-select mb-2 mr-sm-2 mb-sm-0" id="inlineFormCustomSelect">
+            <option value="name" selected>用户名</option>
+            <option value="email">邮箱</option>
+            </select>
+            <div class="form-group mx-sm-3">
+                <input type="text" name="search" class="form-control" id="searchbox" placeholder="搜索...">
+            </div>
+            <button type="submit" class="btn btn-primary">搜索</button>
+        </form>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>用户名</th>
+                <th>邮箱</th>
+                <th>注册时间</th>
+                <th>权限组</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($:user.list([]) as $item)
+            <tr>
+                <td>{{ $item['id'] }}</td>
+                <td>{{ $item['name'] }}</td>
+                <td>{{ $item['email'] }} </td>
+                <td>{{ date('Y-m-d H:i:s',$item['signup_time']) }} </td>
+                <td>{{ $:id2group[$item['group_id']] ?? __('未分组') }} </td>
+                <td>
+                    <a href="@u('user:admin_edit',$item['id'])">编辑</a> @if($item['status']==0)
+                    <a href="@u('user:admin_list',['active'=>$item['id']])">活动</a> @else
+                    <a href="@u('user:admin_list',['freeze'=>$item['id']])">禁用</a> @endif
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+@data('bootstrap\View::page') @endinsert @include('user:admin/layout')

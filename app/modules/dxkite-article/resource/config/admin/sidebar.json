@@ -1,0 +1,26 @@
+{
+    "article:admin_list": {
+        "sort": 2,
+        "name": "文章管理",
+        "child": {
+            "article:admin_list": {
+                "name": "文章列表"
+            },
+            "article:admin_add": {
+                "name": "添加文章"
+            }
+        }
+    },
+    "article:admin_category_list": {
+        "sort": 2,
+        "name": "分类管理",
+        "child": {
+            "article:admin_category_list": {
+                "name": "分类列表"
+            },
+            "article:admin_category_add": {
+                "name": "添加分类"
+            }
+        }
+    }
+}

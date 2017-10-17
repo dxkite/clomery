@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>{{ $:title }}</title>
+    {:head}
+</head>
+
+<body>
+    <div> {{ __($:helloworld) }}@/ </div>
+    <a href="{{$:category.link}}">{{$:category.name}}</a>
+     @foreach ($:list as $name => $value)
+     <div> {{$value['author']['name']}}  <a href="{{$value['link']}}">{{$value['title']}}</a></div>
+    <?php var_dump($value); ?> @endforeach {:body}
+</body>
+{:script}
+
+</html>

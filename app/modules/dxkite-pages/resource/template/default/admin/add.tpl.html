@@ -1,0 +1,142 @@
+@set('title',__('添加页面')) @startInsert('admin-content')
+<div class="form-group row">
+    <label for="page-id" class="col-2 col-form-label">@_('页面名称')</label>
+    <div class="col-10">
+        <input name="name" class="form-control" type="text" id="page-id" required value="{{$:page['name']}}" data-set="name" data-id="{{$:page['id']}}">
+    </div>
+</div>
+<div class="form-group row">
+    <label for="page-url" class="col-2 col-form-label">{=页面URL}</label>
+    <div class="col-10">
+        <div class="input-group">
+            <span class="input-group-addon">@page_base</span>
+            <input name="url" type="text" id="page-url" class="form-control" value="{{$:page['match']}}" data-set="match" data-id="{{$:page['id']}}">
+        </div>
+    </div>
+</div>
+<div class="form-group row">
+    <label for="page" class="col-2 col-form-label">{=页面模板}</label>
+    <div class="col-10 ">
+        <select class="form-control" id="template" name="template" aria-describedby="template-description" data-set="template" data-id="{{$:page['id']}}"
+            data-refersh="value">
+            {{! $this->response->getTemplateOptions($:page['id']) }}
+        </select>
+    </div>
+</div>
+<div class="form-group row">
+    <label for="page" class="col-2 col-form-label">{=页面值}</label>
+    <div class="col-10 ">
+        <select class="form-control" id="value_name" name="value" aria-describedby="value-description" data-id="{{$:page['id']}}"
+            data-input="value">
+            <option value="">@_('请选择')</option>
+        </select>
+    </div>
+</div>
+<div class="form-group row">
+    <label for="values" class="col-2 col-form-label">{=页面压值}</label>
+    <div class="col-10">
+        <textarea class="form-control" id="value" name="values" rows="3" data-id="{{$:page['id']}}"></textarea>
+    </div>
+</div>
+<button type="submit" class="btn btn-primary" id="save" data-id="{{$:page['id']}}">{=保存页面}</button>
+<button type="submit" class="btn btn-primary" id="saveHtml" data-id="{{$:page['id']}}">{=生成静态页面}</button>
+<div class="modal fade" id="info" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">@_('保存页面')</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                @_('保存成功')
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">@_('确认')</button>
+            </div>
+        </div>
+    </div>
+</div>
+@endinsert @startInsert('bs-footer')
+<script src="@static(corelib)/remote.js" data-api="@u('pages:admin_ajax')"></script>
+<script>
+    $(function () {
+
+        $("#save").on('click', function () {
+            remote('save').call(this.dataset.id).result(function (result) {
+                $('#info').modal('show');
+            }).error(function (error) {
+                var modal = $('#info');
+                modal.find('.modal-body').text(error.message + ":" + error.data);
+                modal.modal('show');
+            });
+        });
+
+        $("#saveHtml").on('click', function () {
+            remote(null, 'saveHtml').call(this.dataset.id).result(function (result) {
+                $('#info').modal('show');
+            }).error(function (error) {
+                var modal = $('#info');
+                modal.find('.modal-body').text(error.message + ":" + error.data);
+                modal.modal('show');
+            });
+        });
+
+        function AfterChange(elem, callback) {
+            var changed = false;
+            $(elem).on('change', function () {
+                changed = true;
+            });
+            $(elem).on('blur', function () {
+                callback.call(this);
+                changed = false;
+            });
+        }
+        $('[data-input]').on('change', function () {
+            var elem = this;
+            remote(null, 'getPageValue').call(this.dataset.id, $(this).val())
+                .result(function (result) {
+                    $('#value').text(result);
+                    $('#value').attr("name", $(elem).val());
+                });
+        });
+
+        new AfterChange($('#value'), function () {
+            remote(null, 'setPageValue').call(this.dataset.id, $(this).attr("name"), $(this).val())
+                .result(function (result) {
+                    console.log(result);
+                });
+            console.log($(this).val());
+        });
+
+        $('[data-set]').each(function (index, elem) {
+            new AfterChange(elem, function () {
+                if (typeof this.dataset.refersh != 'undefined') {
+                    remote(null, 'getTemplateValues').call($(elem).val()).result(function (
+                        result) {
+                        if (result instanceof Array) {
+                            var html = '';
+                            result.forEach(function (element) {
+                                html += '<option value="' + element + '">' +
+                                    element + '</option>';
+                            }, this);
+                            // console.log(html);
+                            $('#value_name').html(html);
+                        } else {
+                            console.log('empty result array');
+                        }
+                    });
+                }
+                var data = {};
+                data[this.dataset.set] = $(this).val();
+                remote(null, 'update').call(elem.dataset.id, data).result(function (
+                    result) {
+                    console.log(result);
+                });
+                console.log($(this).val());
+            });
+        });
+    })
+</script>
+@endinsert @include('pages:admin/layout')

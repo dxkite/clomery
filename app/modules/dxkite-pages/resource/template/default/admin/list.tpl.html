@@ -1,0 +1,31 @@
+@set('title',__('页面列表')) @startInsert('admin-content')
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>页面ID</th>
+                <th>访问URL</th>
+                <th>页面模板</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($:list([]) as $item)
+            <tr>
+                <td>{{ $item['id'] }}</td>
+                <td>{{ $item['name'] }}</td>
+                <td>
+                    <a href="@page($item['name'])" target="_blank">@page($item['name'])</a>
+                </td>
+                <td>{{ $item['template'] }} </td>
+                <td>
+                    <a href="@u('pages:admin_edit',['id'=>$item['id']])">编辑</a>
+                    <a href="@u(['delete'=>$item['id']])">删除</a>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+@data('bootstrap\View::page') @endinsert @include('pages:admin/layout')

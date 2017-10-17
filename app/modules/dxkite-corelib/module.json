@@ -1,0 +1,19 @@
+{
+    "name": "dxkite\/corelib",
+    "homepage": "http:\/\/atd3.cn",
+    "version": "1.0.0",
+    "locale": "zh-CN",
+    "namespace": "cn\\atd3",
+    "discription": "提供通用的操作库",
+    "table": [
+        "cn.atd3.upload.dao.UploadDataTable", 
+        "cn.atd3.upload.dao.UploadTable"
+    ],
+    "prefix": {
+        "simple": "/setting"
+    },
+    "authors": [{
+        "name": "dxkite",
+        "email": "dxkite@qq.com"
+    }]
+}

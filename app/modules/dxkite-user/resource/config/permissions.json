@@ -1,0 +1,21 @@
+{
+    "admin:user": {
+        "name": "管理用户",
+        "childs": {
+            "list_user": "列出用户",
+            "edit_user": "编辑用户",
+            "delete_user": "删除用户",
+            "add_user": "添加用户",
+            "state_user": "修改用户状态"
+        }
+    },
+    "admin:group": {
+        "name":"管理分组",
+        "childs": {
+            "list_group": "列出分组",
+            "edit_group": "编辑分组",
+            "delete_group": "删除分组",
+            "add_group": "添加分组"
+        }
+    }
+}

@@ -1,0 +1,13 @@
+@startInsert('bs-head')
+<link href="@static/user.css" rel="stylesheet"> 
+@endInsert 
+@startInsert('user-content') 
+<div class="card">
+    <div class="card-block">
+        <div>{{$:name}}</div>
+        <div>{{$:email}}</div>
+        <div>@u</div>
+    </div>
+</div>
+@endInsert
+@include('user:user/view')

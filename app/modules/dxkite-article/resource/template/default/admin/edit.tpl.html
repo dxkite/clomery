@@ -1,0 +1,68 @@
+@startInsert('admin-content')            
+<div class="container">
+    <div class="row">
+        <div class="form-inline">
+            <div class="form-group">
+                <select class="custom-select" id="category">
+                <option value="0">未分类</option>
+                @foreach($:categorys as $c)
+                <option value="{{$c['id']}}" @b($c['id']==$:article['category'],'selected')>{{ $c['name'] }}</option>
+                @endforeach
+                </select>
+
+                <div class="form-group mx-sm-3">
+                    <label for="title" class="sr-only">标题</label>
+                    <input type="text" class="form-control" id="title" placeholder="文章标题" value="{{$:article['title']}}">
+                </div>
+                <button id="add_article" class="btn btn-primary">@_('保存文章')</button>
+                </from>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <script id="article_editor" name="content" type="text/plain">
+        {{! $:article['content'] }}
+        </script>
+    </div>
+</div>
+<div id="success" class="modal fade">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">@_('文章保存成功')</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>@_('文章保存成功')</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">确认</button>
+      </div>
+    </div>
+  </div>
+</div>
+@endInsert
+@startInsert('bs-footer')
+<script type="text/javascript" src="@static/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="@static/ueditor/ueditor.all.js"></script>
+<script type="text/javascript" src="@static('corelib')/remote.js"></script>
+
+<script type="text/javascript">
+    var ue = UE.getEditor('article_editor');
+    $(function () {
+        $("#add_article").click(function () {
+            var data = {
+                title: $('#title').val(),
+                category: $('#category').val(),
+                content: ue.getContent()
+            };
+            remote('article','edit').result(function(result){
+                $('#success').modal('show');
+            }).call("{{$:article['id']}}",data);
+        });
+    });
+</script>
+@endInsert 
+@include('article:admin/layout')

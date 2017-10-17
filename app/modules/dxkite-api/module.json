@@ -1,0 +1,20 @@
+{
+    "name": "dxkite\/api",
+    "homepage": "http:\/\/atd3.cn",
+    "version": "1.0.3",
+    "locale": "zh-CN",
+    "namespace": "cn\\atd3",
+    "discription": "API模块",
+    "prefix": {
+        "simple": "/open-api/1.0"
+    },
+    "require": {
+        "dxkite/user": "*"
+    },
+    "authors": [
+        {
+            "name": "dxkite",
+            "email": "dxkite@qq.com"
+        }
+    ]
+}

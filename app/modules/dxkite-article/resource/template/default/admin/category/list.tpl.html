@@ -1,0 +1,28 @@
+@startInsert('admin-content')
+<a href="@u('article:admin_category_add')" class="btn btn-primary  mx-sm-3">添加分类</a>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>分类名</th>
+                <th>简写</th>
+                <th>父分类</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($:list([]) as $item)
+            <tr>
+                <td>{{ $item['id'] }}</td>
+                <td>{{ $item['name'] }}</td>
+                <td>{{ $item['slug'] }}</td>
+                <td>@_cate2name($item['parent'])</td>
+                <td><a href="@u('article:admin_category_edit',$item['id'])">编辑</a> <a href="@u(['delete'=>$item['id']])">删除</a>                    </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+
+@data('bootstrap\View::page') @endinsert @include ('article:admin/layout')

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>{{ $:title }}</title>
+    {:head}
+</head>
+
+<body>
+    <div> {{ __($:helloworld) }}@/ </div>
+    <img src="@u('user:avatar',0)" alt="">
+    <img src="@static('user')/img/avatar.png" alt="">
+    @if (count($_GET))
+    <table>
+        @foreach ($_GET as $name => $value)
+        <tr>
+            <th>{{$name}}</th>
+            <td>{{$value}}</td>
+        </tr>
+        @endforeach
+    </table>
+    @else
+    <div>No GET value</div>
+    @endif {:body}
+</body>
+{:script}
+
+</html>

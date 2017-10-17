@@ -1,0 +1,19 @@
+{
+    "admin_index":{
+        "class":"cn.atd3.response.Response",
+        "anti-fix":true,
+        "visit":"\/"
+    },
+    "admin_setting":{
+        "class":"cn.atd3.response.SettingResponse",
+        "visit":"\/setting"
+    },
+    "admin_ajax":{
+        "class":"cn.atd3.response.AjaxResponse",
+        "visit":"\/ajax"
+    },
+    "admin_template":{
+        "class":"cn.atd3.response.TemplateResponse",
+        "visit":"\/list"
+    }
+}

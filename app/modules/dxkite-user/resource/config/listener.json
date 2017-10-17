@@ -1,0 +1,10 @@
+{
+    "admin:sidebar.list": [
+        // "cn\\atd3\\user\\ViewGen::adminSidebar",
+        // "cn\\atd3\\viewmodule\\ViewModule->adminSidebar"
+    ],
+    "template:SudaCompiler:init": [
+        // "cn\\atd3\\user\\ViewGen::template" 
+        // ,"cn\\atd3\\viewmodule\\ViewModule->init"
+    ]
+}

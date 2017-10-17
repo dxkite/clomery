@@ -1,0 +1,47 @@
+@startInsert('admin-content') @if($:invaild_id(false))
+<div class="container">
+    <div class="jumbotron">
+        <h1 class="display-3">用户ID不存在</h1>
+        <p class="lead">请仔细确认ID后再开始编辑用户</p>
+    </div>
+</div>
+@else
+<form method="POST" action="@u(['id'=>$:id])">
+    <div class="form-group row @b($:invaild_name(false),'has-danger')">
+        <label for="name" class="col-2 col-form-labe">@_('用户名')</label>
+        <div class="col-10">
+            <input type="text" name="name" class="form-control @b($:invaild_name(false),'form-control-danger')" id="name" placeholder="@_('用户名')"
+                value="{{$:name}}"> @if($:invaild_name(false))
+            <div class="form-control-feedback"> @_("用户已经存在")</div>
+            @endif
+        </div>
+    </div>
+    <div class="form-group row @b($:invaild_email(false),'has-danger')">
+        <label for="email" class="col-2 col-form-labe">@_('输入邮箱')</label>
+        <div class="col-10">
+            <input type="email" name="email" class="form-control @b($:invaild_email(false),'form-control-danger')" id="email" placeholder="@_('输入邮箱')"
+                value="{{$:email}}"> @if($:invaild_email(false))
+            <div class="form-control-feedback"> @_("邮箱经存在")</div>
+            @endif
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="password" class="col-2 col-form-labe">@_('输入密码')</label>
+        <div class="col-10">
+            <input type="text" name="password" class="form-control" id="password" placeholder="@_('输入密码')" value="{{$:passwd('')}}">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="group_id" class="col-2 col-form-labe">@_('用户组')</label>
+        <div class="col-10">
+            <select name="group_id" class="form-control" id="group_id">
+            <option value="0" > 未分组</option>
+            @foreach ($:groups as $item)
+                <option value="{{$item['id']}}" @b($:group_id==$item['id'],'selected')>{{$item['name']}}</option>
+            @endforeach
+        </select>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">@_('编辑用户')</button>
+</form>
+@endif @endinsert @include('user:admin/layout')

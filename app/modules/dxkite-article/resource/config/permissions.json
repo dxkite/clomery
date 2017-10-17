@@ -1,0 +1,30 @@
+{
+    "admin:article": {
+        "name": "管理文章",
+        "childs": {
+            "list_article": "列出文章",
+            "edit_article_property": "编辑文章属性",
+            "edit_article": "编辑文章",
+            "delete_article": "删除文章",
+            "add_article": "添加文章"
+        }
+    },
+    "admin:category": {
+        "name": "管理分类",
+        "childs": {
+            "list_category": "列出分类",
+            "edit_category": "编辑分类",
+            "delete_category": "删除分类",
+            "add_category": "添加分类"
+        }
+    },
+    "admin:tag": {
+        "name": "管理标签",
+        "childs": {
+            "list_tag": "列出标签",
+            "edit_tag": "编辑标签",
+            "delete_tag": "删除标签",
+            "add_tag": "添加标签"
+        }
+    }
+}

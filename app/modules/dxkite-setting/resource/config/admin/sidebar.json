@@ -1,0 +1,17 @@
+{
+    "setting:admin_index":{
+        "name":"网站设置",
+        "sort":-999,
+        "child":{
+            "setting:admin_index":{
+                "name":"网站状态"
+            },
+            "setting:admin_setting":{
+                "name":"网站设置"
+            },
+            "setting:admin_template":{
+                "name":"模板管理"
+            }
+        }
+    }
+}

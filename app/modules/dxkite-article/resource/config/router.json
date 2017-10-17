@@ -1,0 +1,40 @@
+{
+    "read": {
+        "class": "cn\\atd3\\response\\article\\ReadResponse",
+        "visit": "\/{id:int=1}",
+        "anti-prefix": true
+    },
+    "list": {
+        "class": "cn\\atd3\\response\\article\\ListResponse",
+        "visit": "\/list[\/{page:int=1}]"
+    },
+    "category_list": {
+        "class": "cn\\atd3\\response\\article\\category\\CategoryListResponse",
+        "visit": "\/category-{category:int=0}\/list[\/{page:int=1}]"
+    },
+    "category": {
+        "class": "cn\\atd3\\response\\article\\category\\CategoryResponse",
+        "visit": "\/categorys"
+    },
+    "tag": {
+        "class": "cn\\atd3\\response\\article\\tag\\TagResponse",
+        "visit": "\/tags"
+    },
+    "tag_list": {
+        "class": "cn\\atd3\\response\\article\\tag\\TagListResponse",
+        "visit": "\/tag-{tag:int=0}\/list[\/{page:int=1}]"
+    },
+    "ajax": {
+        "class": "cn\\atd3\\response\\article\\AjaxResponse",
+        "visit": "\/ajax[\/{method:string}]"
+    },
+    "author": {
+        "class": "cn\\atd3\\response\\author\\Response",
+        "visit": "\/author[\/{id:int}]"
+    },
+    "cover": {
+        "class": "cn\\atd3\\response\\article\\CoverResponse",
+        "visit": "\/cover\/{id:int=0}",
+        "method": ["GET"]
+    }
+}
