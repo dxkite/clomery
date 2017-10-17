@@ -1,3 +1,3 @@
 app/data
-*_creator.*
-app/resource/config/config.dev.json
+.vscode
+public/assets

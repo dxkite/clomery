@@ -1,7 +1,6 @@
 {
     "namespace":"cn\\atd3",
     "version":"1.0-dev",
-    "modules":["suda","lost_found","user","api"],
-    "language":"zh-CN",
-    "admin":"/admin"
+    "modules":["suda","user"],
+    "language":"zh-CN"
 }
