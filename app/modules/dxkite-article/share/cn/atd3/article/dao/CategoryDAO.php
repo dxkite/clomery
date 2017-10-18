@@ -1,10 +1,10 @@
 <?php
 namespace cn\atd3\article\dao;
 
-use suda\archive\DAO;
+use suda\archive\Table;
 use suda\core\Query;
 
-class CategoryDAO extends DAO
+class CategoryDAO extends Table
 {
     public function __construct()
     {
