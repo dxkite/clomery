@@ -1,7 +1,7 @@
 <?php
 namespace cn\atd3\response;
 
-use cn\atd3\dao\SettingDao;
+use cn\atd3\dao\SettingDAO;
 use cn\atd3\upload\File;
 use cn\atd3\setting\template\Manager;
 
@@ -17,7 +17,7 @@ class AjaxResponse extends \cn\atd3\api\response\OnCallableResponse
      */
     public function setting(string $name, string $value)
     {
-        return (new SettingDao)->set($name, $value);
+        return (new SettingDAO)->set($name, $value);
     }
 
     /**
