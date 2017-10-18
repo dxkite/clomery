@@ -10,8 +10,9 @@ class SignoutResponse extends OnVisitorResponse
     public function onUserVisit(Context $context)
     {
         (new UserProxy($context))->signout();
-        $this->go($context->getRequest()->refer());
+        $this->forward();
     }
+    
     public function onGuestVisit(Context $context)
     {
         $this->go(u('user:signup'));
