@@ -1,0 +1,3 @@
+{
+    "setting-panel:after":["cn.atd3.oauth.baidu.Manager::adminItem"]
+}

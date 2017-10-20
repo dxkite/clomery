@@ -1,0 +1,73 @@
+<h5>{= 百度Oauth2.0设置 }</h5>
+
+<table class="table">
+    <tr>
+        <th>{= 验证 URL }</th>
+        <td>
+            <div class="input-group">
+                <input type="text" name="baidu-auth-url" id="baidu-auth-url" class="form-control" value="@setting('baidu-auth-url')">
+                <span class="input-group-btn">
+                    <button type="button" class=" btn btn-primary" data-input="baidu-auth-url">@_('修改')</button>
+                </span>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <th>{= 访问Token URL }</th>
+        <td>
+            <div class="input-group">
+                <input type="text" name="baidu-access-tokn-url" id="baidu-access-tokn-url" class="form-control" value="@setting('baidu-access-tokn-url')">
+                <span class="input-group-btn">
+                    <button type="button" class=" btn btn-primary" data-input="baidu-access-tokn-url">@_('修改')</button>
+                </span>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <th>{= API Key }</th>
+        <td>
+            <div class="input-group">
+                <input type="text" name="baidu-client-id" id="baidu-client-id" class="form-control" value="@setting('baidu-client-id')">
+                <span class="input-group-btn">
+                    <button type="button" class=" btn btn-primary" data-input="baidu-client-id">@_('修改')</button>
+                </span>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <th>{= Secret Key }</th>
+        <td>
+            <div class="input-group">
+                <input type="text" name="baidu-client-secret" id="baidu-client-secret" class="form-control" value="@setting('baidu-client-secret')">
+                <span class="input-group-btn">
+                    <button type="button" class=" btn btn-primary" data-input="baidu-client-secret">@_('修改')</button>
+                </span>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <th>{= 权限 }</th>
+        <td>
+            <div class="input-group">
+                <input type="text" name="baidu-scope" id="baidu-scope" class="form-control" value="@setting('baidu-scope','basic')">
+                <span class="input-group-btn">
+                    <button type="button" class=" btn btn-primary" data-input="baidu-scope">@_('修改')</button>
+                </span>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <th>{= 类型 }</th>
+        <td>
+            <div class="input-group">
+                <select class="form-control" id="baidu-grant-type" name="baidu-grant-type">
+                    <option value="authorization_code" @b(setting('baidu-grant-type')=='authorization_code','selected="true"')>Authorization Code</option>
+                    <option value="client_credentials" @b(setting('baidu-grant-type')=='client_credentials','selected="true"')>Client Credentials</option>
+                </select>
+                <span class="input-group-btn">
+                    <button type="button" class=" btn btn-primary" data-input="baidu-grant-type">@_('修改')</button>
+                </span>
+            </div>
+        </td>
+    </tr>
+</table>
