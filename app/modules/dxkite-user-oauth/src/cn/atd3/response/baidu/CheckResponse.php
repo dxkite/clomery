@@ -1,39 +1,32 @@
 <?php
-/**
- * Suda FrameWork
- *
- * An open source application development framework for PHP 7.0.0 or newer
- * 
- * Copyright (c)  2017 DXkite
- *
- * @category   PHP FrameWork
- * @package    Suda
- * @copyright  Copyright (c) DXkite
- * @license    MIT
- * @link       https://github.com/DXkite/suda
- * @version    since 1.2.4
- */
-
 namespace cn\atd3\response\baidu;
 
-use suda\core\{Session,Cookie,Request,Query};
+use suda\core\Session;
+use suda\core\Cookie;
+use suda\core\Request;
+use suda\core\Query;
+use cn\atd3\oauth\baidu\Manager;
+use cn\atd3\visitor\Context;
 
-/**
-* visit url /baidu-checked as all method to run this class.
-* you call use u('callback',Array) to create path.
-* @template: default:baidu/check.tpl.html
-* @name: callback
-* @url: /baidu-checked
-* @param: 
-*/
-class CheckResponse extends \suda\core\Response
+class CheckResponse extends \cn\atd3\user\response\OnVisitorResponse
 {
-    public function onRequest(Request $request)
+    public function onVisit(Context $context)
     {
-        $page=$this->page('baidu/check');
-        $page->set('title', 'Welcome to use Suda!')
-        ->set('helloworld', 'Hello,World!')
-        ->set('value', $value);
-        return $page->render();
+        $manager=new Manager;
+        $request=$context->getRequest();
+        if ($code=$request->get()->code) {
+            $result=$manager->authedBaidu($code);
+            if ($result === false) {
+                $this->page('baidu/check-faild')->render();
+            } elseif ($result===ture) {
+                $this->page('baidu/check-ok')->render();
+            } else {
+                $this->page('baidu/sign')->render();
+            }   
+        } else {
+            $page=$this->page('baidu/check');
+            $page->set('auth_url', Manager::getAuthUrl());
+            return $page->render();
+        }
     }
 }

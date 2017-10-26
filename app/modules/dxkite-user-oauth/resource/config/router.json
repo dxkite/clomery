@@ -1,5 +1,5 @@
 {
-    "callback": {
+    "baidu-callback": {
         "class": "cn\\atd3\\response\\baidu\\CheckResponse",
         "visit": "\/baidu-checked"
     }

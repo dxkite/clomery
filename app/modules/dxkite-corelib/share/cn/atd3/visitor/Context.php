@@ -54,9 +54,10 @@ class Context
 
     public function getVisitor():Visitor
     {
-        if (is_null($this->visitor)) {
-            $this->visitor=$this->loadFromCookie();
-        }
+        // TODO: fix it
+        // if (is_null($this->visitor)) {
+        //     $this->visitor=$this->loadFromCookie();
+        // }
         return $this->visitor;
     }
 

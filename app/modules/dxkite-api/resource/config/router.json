@@ -14,5 +14,9 @@
     "category": {
         "class": "cn\\atd3\\response\\article\\CateResponse",
         "visit": "\/category[\/{method:string}]"
+    },
+    "upload": {
+        "class": "cn\\atd3\\response\\UploadResponse",
+        "visit": "\/upload[\/{method:string}]"
     }
 }

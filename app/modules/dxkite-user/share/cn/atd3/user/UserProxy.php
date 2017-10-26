@@ -53,14 +53,7 @@ class UserProxy extends ProxyObject
         if ($id) {
             if (Manager::checkPassword($id, $password)) {
                 $this->context->setSession('signFaildTimes', 0);
-                // 生成TOKEN
-                $token=md5($account.microtime());
-                $token_expire=time()+($remember?conf('system.user_remember', 86400):conf('system.user_expire', 86400));
-                // 刷新
-                Manager::refershToken($id, $token, $token_expire);
-                $visitor=new User;
-                $visitor->refresh($id, $token);
-                $this->context->cookieVisitor($visitor)->expire($token_expire)->session(!$remember)->set();
+                (new User)->sign($id, $remember);
                 return $id;
             } else {
                 $get=$this->context->getSession('signFaildTimes', 0);
