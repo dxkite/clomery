@@ -10,7 +10,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach ($:list as $item)
+        @foreach ($:list([]) as $item)
         <tr>
             <td>
                 <img style="height:1em" src="{{$item->icon}}" alt="icon"> {{ $item->name }} </td>

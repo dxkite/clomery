@@ -25,8 +25,8 @@ class UserDAO extends Table
     public function onBuildCreator($table) {
         return $table->fields(
             $table->field('id','bigint',20)->primary()->unsigned()->auto(),
-            $table->field('name','varchar',255)->unique()->comment("用户名"),
-            $table->field('email','varchar',255)->unique()->comment("邮箱"),
+            $table->field('name','varchar',255)->unique()->default(null)->comment("用户名"),
+            $table->field('email','varchar',255)->unique()->default(null)->comment("邮箱"),
             $table->field('password','varchar',60)->comment("密码"),
             $table->field('avatar','bigint',20)->default(0)->comment("头像ID"),
             $table->field('group_id','bigint',20)->key()->default(0)->comment("分组ID"),

@@ -2,9 +2,8 @@
 namespace cn\atd3\user;
 
 use cn\atd3\exception\UserException;
-use cn\atd3\user\dao\UserDAO;
-use cn\atd3\user\dao\GroupDAO;
 use suda\core\Request;
+
 require_once __DIR__.'/function.php';
 
 class Manager
@@ -30,7 +29,7 @@ class Manager
         if (self::checkEmailExists($email)) {
             return Manager::EXISTS_EMAIL;
         }
-        return (new UserDAO)->insert([
+        return table('user')->insert([
             'name'=>$name,
             'email'=>$email,
             'password'=>password_hash($password, PASSWORD_DEFAULT),
@@ -45,12 +44,12 @@ class Manager
 
     public static function id2name(int $id)
     {
-        return (new UserDAO)->setFields(['name'])->getByPrimaryKey($id)['name']??__('佚名');
+        return table('user')->setFields(['name'])->getByPrimaryKey($id)['name']??__('佚名');
     }
     
     public static function ids2name(array $id)
     {
-        $ids=(new UserDAO)->setFields(['id','name'])->listWhere(['id'=>$id]);
+        $ids=table('user')->setFields(['id','name'])->listWhere(['id'=>$id]);
         $return=[];
         foreach ($ids as $res) {
             $return[$res['id']]=$res['name'];
@@ -60,23 +59,23 @@ class Manager
 
     public static function getUserInfoById(int $id)
     {
-        return (new UserDAO)->getInfo($id);
+        return table('user')->getInfo($id);
     }
 
     public static function getPermissonsByUserId(int $userid)
     {
-        $gid=(new UserDAO)->setFields(['group_id'])->getByPrimaryKey($userid);
+        $gid=table('user')->setFields(['group_id'])->getByPrimaryKey($userid);
         if ($gid) {
-            return (new GroupDAO)->getPermission($gid['group_id']);
+            return table('group')->getPermission($gid['group_id']);
         }
         return null;
     }
 
     public static function checkPermissions(int $userid, array $permission)
     {
-        $gid=(new UserDAO)->setFields(['group_id'])->getByPrimaryKey($userid);
+        $gid=table('user')->setFields(['group_id'])->getByPrimaryKey($userid);
         if ($gid) {
-            return (new GroupDAO)->checkPermission($gid['group_id'], $permission);
+            return table('group')->checkPermission($gid['group_id'], $permission);
         }
         return null;
     }
@@ -84,9 +83,9 @@ class Manager
     public static function groups2name(array $id=null):array
     {
         if (is_null($id)) {
-            $gid=(new GroupDAO)->list();
+            $gid=table('group')->list();
         } else {
-            $gid=(new GroupDAO)->groups2name($id);
+            $gid=table('group')->groups2name($id);
         }
         $group=[];
         if (is_array($gid)) {
@@ -99,7 +98,7 @@ class Manager
 
     public static function group2name(int $id)
     {
-        $gid=(new GroupDAO)->setFields(['name'])->getByPrimaryKey($id);
+        $gid=table('group')->setFields(['name'])->getByPrimaryKey($id);
         if ($gid) {
             return $gid->fetch()['name'];
         }
@@ -108,18 +107,18 @@ class Manager
 
     public static function getIdByEmail(string $email)
     {
-        return (new UserDAO)->getByEmail($email);
+        return table('user')->getByEmail($email);
     }
 
     public static function getIdByName(string $name)
     {
-        return (new UserDAO)->getByName($name);
+        return table('user')->getByName($name);
     }
 
     public static function changePassword(int $userid, string $oldpasswd, string $password)
     {
         self::throwablePassworld($userid, $oldpasswd);
-        return (new UserDAO)->updateByPrimaryKey($userid, [
+        return table('user')->updateByPrimaryKey($userid, [
             'password'=>password_hash($password, PASSWORD_DEFAULT),
             'valid_token'=>'',
             'valid_expire'=>'',
@@ -128,7 +127,7 @@ class Manager
 
     public static function checkPassword(int $id, string $password)
     {
-        if ($user=(new UserDAO)->setFields(['password'])->getByPrimaryKey($id)) {
+        if ($user=table('user')->setFields(['password'])->getByPrimaryKey($id)) {
             if (password_verify($password, $user['password'])) {
                 return true;
             }
@@ -138,17 +137,17 @@ class Manager
 
     public static function checkNameExists(string $name)
     {
-        return (new UserDAO)->getByName($name);
+        return table('user')->getByName($name);
     }
 
     public static function checkEmailExists(string $email)
     {
-        return (new UserDAO)->getByEmail($email);
+        return table('user')->getByEmail($email);
     }
 
     public static function checkTokenVaild(int $uid, string $token)
     {
-        if ($user=(new UserDAO)->select(['valid_expire'], ['id'=>$uid,'valid_token'=>$token])->fetch()) {
+        if ($user=table('user')->select(['valid_expire'], ['id'=>$uid,'valid_token'=>$token])->fetch()) {
             return $user['valid_expire']>time();
         }
         return false;
@@ -156,7 +155,7 @@ class Manager
 
     public static function refershToken(int $uid, string $token, int $valid_expire)
     {
-        return (new UserDAO)->updateByPrimaryKey($uid, [
+        return table('user')->updateByPrimaryKey($uid, [
             'valid_token'=>$token,
             'valid_expire'=>$valid_expire,
         ]);

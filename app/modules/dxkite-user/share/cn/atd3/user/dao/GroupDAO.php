@@ -78,6 +78,7 @@ class GroupDAO extends Table
         }
         return false;
     }
+    
     public function filter(array $array)
     {
         $that=$this;
@@ -86,8 +87,10 @@ class GroupDAO extends Table
             return in_array($value, $list);
         });
     }
+
     public function list(int $page=null, int $rows=10)
     {
+        $this->setWants(['id','name','permissions']);
         if (is_null($page)) {
             $list=parent::list();
         } else {
@@ -101,6 +104,7 @@ class GroupDAO extends Table
         }
         return null;
     }
+
     public function groups2name(array $id)
     {
         $gid=$this->select(['id','name'], ['id'=>$id]);

@@ -19,7 +19,7 @@ class TemplateResponse extends \cn\atd3\user\response\OnUserVisitorResponse
             Manager::instance()->delete($request->get()->delete);
             $this->forward();
         }
-        $list=Manager::instance()->getTemplateShowList();
+        $list=Manager::instance()->getTemplateList();
         $page->set('list', $list);
         $page->set('modules', json_encode(app()->getModules()));
         $page->render();

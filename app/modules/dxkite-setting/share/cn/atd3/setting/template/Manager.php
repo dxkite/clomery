@@ -16,6 +16,7 @@ class Manager
     {
         $this->base=DATA_DIR.'/'.self::TEMPLATE_DIRNAME;
         $this->loadTemplates();
+        $this->template=[];
     }
 
     public static function themeChange(string $uniqid)
@@ -44,7 +45,7 @@ class Manager
         }
     }
 
-    public function getTemplateShowList()
+    public function getTemplateList()
     {
         $list=[];
         foreach ($this->template as $info) {
@@ -70,7 +71,7 @@ class Manager
         return self::$instance;
     }
 
-    public function getTemplateList()
+    public function getTemplate()
     {
         return $this->template;
     }
