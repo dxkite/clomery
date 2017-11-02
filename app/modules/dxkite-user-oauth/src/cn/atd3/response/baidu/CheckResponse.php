@@ -15,10 +15,10 @@ class CheckResponse extends \cn\atd3\user\response\OnVisitorResponse
         $manager=new Manager;
         $request=$context->getRequest();
         if ($code=$request->get()->code) {
-            $result=$manager->authedBaidu($code);
+            $result=$manager->baiduSign($code);
             if ($result === false) {
                 $this->page('baidu/check-faild')->render();
-            } elseif ($result===ture) {
+            } elseif ($result===true) {
                 $this->page('baidu/check-ok')->render();
             } else {
                 $this->page('baidu/sign')->render();

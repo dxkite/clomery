@@ -1,1 +1,12 @@
-{"name":"dxsite","namespace":"cn\\atd3","version":"2.0.0-dev","modules":["suda","user","dxkite\/article:1.0.0","dxkite\/corelib:1.0.0","dxkite\/setting:1.0.0","dxkite\/pages:1.0.0","dxkite\/api:1.0.3","dxkite\/user-baidu:1.0.0","dxkite\/user-oauth:1.0.0"],"language":"zh-CN","url":{"module":0,"beautify":true,"rewrite":true}}
+{
+    "name": "dxsite",
+    "namespace": "cn\\atd3",
+    "version": "2.0.0-dev",
+    "modules": ["suda", "user", "dxkite\/article:1.0.0", "dxkite\/corelib:1.0.0", "dxkite\/setting:1.0.0", "dxkite\/pages:1.0.0", "dxkite\/api:1.0.3", "dxkite\/user-baidu:1.0.0", "dxkite\/user-oauth:1.0.0"],
+    "language": "zh-CN",
+    "url": {
+        "module": 0,
+        "beautify": true,
+        "rewrite": true
+    }
+}

@@ -5,6 +5,9 @@
     "locale": "zh-CN",
     "namespace": "cn\\atd3",
     "discription": "Oauth\u6a21\u5757\u3002",
+    "table": {
+        "baidu_user": "cn.atd3.oauth.baidu.BaiduTable"
+    },
     "prefix": {
         "simple": "/oauth/baidu"
     },

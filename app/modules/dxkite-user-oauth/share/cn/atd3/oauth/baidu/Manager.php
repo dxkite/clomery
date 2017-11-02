@@ -3,8 +3,7 @@ namespace cn\atd3\oauth\baidu;
 
 use suda\template\Manager as TemplateManger;
 use cn\atd3\proxy\ProxyObject;
-use cn\atd3\user\User;
-use cn\atd3\user\dao\UserDAO;
+
 
 class Manager extends ProxyObject
 {
@@ -14,8 +13,8 @@ class Manager extends ProxyObject
     public function __construct()
     {
         parent::__construct();
-        $this->baidu = new BaiduTable;
-        $this->user=new UserDAO;
+        $this->baidu=table('baidu_user');
+        $this->user=table('user');
     }
 
     public static function adminItem($template)
@@ -23,7 +22,13 @@ class Manager extends ProxyObject
         TemplateManger::include('user-oauth:baidu/setting', $template)->render();
     }
 
-    public function authedBaidu(string $code)
+    /**
+     * 百度用户登陆
+     * 
+     * @param string $code
+     * @return bool true|false|id 登陆成功|失败|创建UID
+     */
+    public function baiduSign(string $code)
     {
         $visitor=$this->context->getVisitor();
         $info=$this->getAuthedInfo($code);
@@ -34,69 +39,74 @@ class Manager extends ProxyObject
         $userInfo=$user->getLoggedInUser();
         if ($userInfo && isset($userInfo['uid'])) {
             $exist=$this->baidu->select(['id','user','uid'], ['uid'=>$userInfo['uid']])->fetch();
+            // 是否绑定百度
             if ($exist) {
+                // 游客|绑定->登陆
                 if ($visitor->isGuest()) {
-                    // signin
                     $visitor->sign($exist['user'], true);
                 }
+                // 更新Token
                 $this->baidu->update([
                     'access_token'=>$info['access_token'],
                     'refresh_token'=>$info['refresh_token'],
                     'scope'=>$info['scope'],
                     'expires_in'=> time() + $info['expires_in'],
                 ], ['uid'=>$userInfo['uid']]);
-                return true;
+                return true; // 登陆成功
             } else {
+                
                 $data=[
                     'uid'=>$userInfo['uid'],
                     'uname'=>$userInfo['uname'],
+                    'portrait'=>$userInfo['portrait'],
                     'access_token'=>$info['access_token'],
                     'refresh_token'=>$info['refresh_token'],
                     'scope'=>$info['scope'],
                     'expires_in'=> time() + $info['expires_in'],
                 ];
+
+                // 游客|不存在的用户 -> 创建用户
                 if ($visitor->isGuest()) {
+                    // TODO: 添加头像处理
+                    $newUser=[
+                        'signup_time'=>time(),
+                        'signup_ip'=>request()->ip(),
+                        'status'=>$this->user::ACTIVE,
+                    ];
+                    // 不冲突则直接引用
+                    if (!$this->checkNameExist($userInfo['uname'])) {
+                        $newUser['name']=$userInfo['uname'];
+                    }
+                    // 创建新用户
+                    $userId=$this->user->insert($newUser);
+                    $data['user']=$userId;
+                    // 绑定百度
                     $this->baidu->insert($data);
-                    return $userInfo['uid'];
+                    // 登陆用户
+                    $visitor->sign($userId, true);
+                    return $userId;
                 } else {
+                    // 登陆用户|绑定百度
                     $data['user']=$visitor->getId();
                     $this->baidu->insert($data);
-                    return true;
+                    return true; // 登陆成功
                 }
             }
         } else {
-            return false;
+            return false; // 登陆失败
         }
     }
 
-    public function checkNameExist(string $name) 
+    public function checkNameExist(string $name)
     {
         return $this->user->checkNameExists($name);
     }
     
-    public function checkEmailExists(string $name) 
+    public function checkEmailExists(string $name)
     {
         return $this->user->checkEmailExists($name);
     }
     
-    public function create(int $uid,string $email,string $name) {
-        if (self::checkNameExists($name)) {
-            return UserDAO::EXISTS_USER;
-        }
-        if (self::checkEmailExists($email)) {
-            return UserDAO::EXISTS_EMAIL;
-        }
-        return $this->insert([
-            'name'=>$name,
-            'email'=>$email,
-            'signup_time'=>time(),
-            'signup_ip'=>request()->ip(),
-            'status'=>UserDAO::ACTIVE,
-            'valid_token'=>'',
-            'valid_expire'=>'',
-        ]);
-    }
-
     public static function getAuthUrl()
     {
         $redirectUrl=u('user-oauth:baidu-callback');
@@ -106,7 +116,7 @@ class Manager extends ProxyObject
             'redirect_uri'=>$redirectUrl,
         ];
         $url=setting('baidu-auth-url', 'http://openapi.baidu.com/oauth/2.0/authorize?response_type=code&display=popup');
-        return self::urlAppendQuery($url, $queryStrArr);
+        return static::urlAppendQuery($url, $queryStrArr);
     }
 
     protected static function getAuthedInfo(string $code)
@@ -120,8 +130,8 @@ class Manager extends ProxyObject
             'redirect_uri'=>$redirectUrl,
         ];
         $baiduUrl=setting('baidu-access-token-url', 'https://openapi.baidu.com/oauth/2.0/token');
-        $url=self::urlAppendQuery($baiduUrl, $queryStrArr);
-        $json=self::curl($url);
+        $url=static::urlAppendQuery($baiduUrl, $queryStrArr);
+        $json=static::curl($url);
         debug()->debug('access-json', $json);
         return json_decode($json, true);
     }

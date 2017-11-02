@@ -14,12 +14,16 @@ class User extends Visitor
         if ($check) {
             debug()->trace(__('__get_permission %d', $id), Manager::getPermissonsByUserId($id));
             $permission=Manager::getPermissonsByUserId($id);
-            $this->setPermission(new Permission($permission));
+            if ($permission) {
+                $this->setPermission(new Permission($permission));
+            } else {
+                $this->setPermission(new Permission);
+            }
         }
         return $check;
     }
 
-    public function sign(int $id,bool $remember)
+    public function sign(int $id, bool $remember)
     {
         // 生成TOKEN
         $token=md5($account.microtime());

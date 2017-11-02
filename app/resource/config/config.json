@@ -2,6 +2,7 @@
     "debug": true,
     "timelimit": 0,
     "timezone": "PRC",
+    "debug-local":false,
     "database": {
         "prefix": "dx_", // 数据库前缀
         "name": "test_dxsite",

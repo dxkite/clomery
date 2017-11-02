@@ -1,11 +1,12 @@
-<?php #1509597342
+<?php #1509608386
 
     // 应用所在目录
     define('APP_DIR', __DIR__.'/../app');
     // 日志所在目录
     define('APP_LOG', APP_DIR.'/data/logs');
     // 系统所在目录
-    define('SYSTEM',__DIR__.'/../suda/system');
+    // define('SYSTEM',__DIR__.'/../suda/system');
+    define('SYSTEM','D:\Server\Local\suda\system');
     // 网站根目录位置
     define('APP_PUBLIC',__DIR__);
     // 开发者模式
