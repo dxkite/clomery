@@ -18,5 +18,9 @@
     "upload": {
         "class": "cn\\atd3\\response\\UploadResponse",
         "visit": "\/upload[\/{method:string}]"
+    },
+    "baidu_user": {
+        "class": "cn\\atd3\\response\\user\\BaiduResponse",
+        "visit": "\/baidu-user[\/{method:string}]"
     }
 }

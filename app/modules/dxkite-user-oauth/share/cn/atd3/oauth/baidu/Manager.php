@@ -2,17 +2,15 @@
 namespace cn\atd3\oauth\baidu;
 
 use suda\template\Manager as TemplateManger;
-use cn\atd3\proxy\ProxyObject;
+use cn\atd3\visitor\Visitor;
 
-
-class Manager extends ProxyObject
+class Manager
 {
     protected $baidu=null;
     protected $user=null;
 
     public function __construct()
     {
-        parent::__construct();
         $this->baidu=table('baidu_user');
         $this->user=table('user');
     }
@@ -24,13 +22,13 @@ class Manager extends ProxyObject
 
     /**
      * 百度用户登陆
-     * 
+     *
+     * @param Visitor $visitor
      * @param string $code
      * @return bool true|false|id 登陆成功|失败|创建UID
      */
-    public function baiduSign(string $code)
+    public function baiduSign(Visitor $visitor,string $code)
     {
-        $visitor=$this->context->getVisitor();
         $info=$this->getAuthedInfo($code);
         if (isset($info['error'])) {
             return false; // throw new Exception($info['error_description']);
