@@ -26,7 +26,7 @@ class User extends Visitor
     public function sign(int $id, bool $remember)
     {
         // 生成TOKEN
-        $token=md5($account.microtime());
+        $token=md5($id.microtime());
         $token_expire=time()+($remember?conf('system.user_remember', 86400):conf('system.user_expire', 86400));
         // 刷新
         Manager::refershToken($id, $token, $token_expire);
