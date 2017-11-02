@@ -2,19 +2,154 @@
 <html>
 
 <head>
-    <title>{{ $:title }}</title>
-    {:head}
+    <title>{{ $:title('百度用户 - 信息绑定') }}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.0/css/bulma.min.css"> {:head}
 </head>
 
 <body>
-    <form action="@self">
-        <input type="email" name="email">
-        <input type="name
-        
-        " name="name">
-    </form>
-
+    <div class="container">
+        <img src="http://tb.himg.baidu.com/sys/portraitn/item/{{$:userInfo['portrait']}}" alt="">
+        <div>{{ $:userInfo['uname']}}</div>
+        @if($:bind_name(false))
+        <div class="field">
+            <label class="label">{= 用户名}</label>
+            <div class="control has-icons-left has-icons-right" id="name-input">
+                <input class="input is-danger" type="text" placeholder="{= 请输入用户名}" value="{{$:userInfo['uname']}}">
+                <span class="icon is-small is-left">
+                    <i class="fa fa-user"></i>
+                </span>
+                <span class="icon is-small is-right">
+                    <i class="fa fa-warning"></i>
+                </span>
+            </div>
+            <p class="help is-danger">{= 用户名已经存在}</p>
+        </div>
+        @endif
+        <div class="field">
+            <label class="label">{{ __('Hi！ %s 请绑定邮箱',$:userInfo['uname']) }}</label>
+            <div class="control has-icons-left has-icons-right" id="email-input">
+                <input class="input" type="email" placeholder="{= 请输入邮箱}" id="email-input-value">
+                <span class="icon is-small is-left">
+                    <i class="fa fa-envelope"></i>
+                </span>
+            </div>
+        </div>
+        <div class="control">
+            <button class="button is-primary" id="bind">{= 确认绑定}</button>
+        </div>
+    </div>
 </body>
+<script src="@static(corelib)/remote.js" data-api="@apibase(baidu_user)"></script>
+<script src="@static(setting)/jquery-3.2.1.min.js"></script>
+
+<script>
+    // @if($:bind_name(false))
+    $(function () {
+        $('#name-input-value').on('change', function () {
+            $('#name-input').addClass('is-loading');
+            remote('checkEmailExist').call($(this).val()).result(function (val) {
+                console.log(val);
+                $('#name-input').removeClass('is-loading');
+                $('#name-input').remove('.icon.is-small');
+                $('#name-input').parent().remove('.help');
+                $('#name-input-value').removeClass('is-success');
+                $('#name-input-value').removeClass('is-danger');
+                if (val == false) {
+                    $('#name-input-value').addClass('is-success');
+                    $('#name-input').append(
+                        '<span class="icon is-small is-right"><i class="fa fa-check"></i></span>'
+                    );
+                    $('#name-input').parent().append('<p class="help is-success">{= 用户名可用}</p>');
+                } else {
+                    $('#name-input-value').addClass('is-danger');
+                    $('#name-input').append(
+                        '<span class="icon is-small is-right"><i class="fa fa-warning"></i></span>'
+                    );
+                    $('#name-input').parent().append('<p class="help is-danger">{= 用户名已存在}</p>');
+                }
+            });
+        });
+    });
+    // @endif
+    $(function () {
+        $('#email-input-value').on('change', function () {
+            $('#email-input').addClass('is-loading');
+            $('#email-input').find('.icon.is-small.is-right').remove();
+            $('#email-input').parent().find('.help').remove();
+            remote('checkEmailExist').call($(this).val()).result(function (val) {
+                $('#email-input').removeClass('is-loading');
+                $('#email-input-value').removeClass('is-success');
+                $('#email-input-value').removeClass('is-danger');
+                if (val == false) {
+                    $('#email-input-value').addClass('is-success');
+                    $('#email-input').append(
+                        '<span class="icon is-small is-right"><i class="fa fa-check"></i></span>'
+                    );
+                    $('#email-input').parent().append('<p class="help is-success">{= 邮箱可用}</p>');
+                } else {
+                    $('#email-input-value').addClass('is-danger');
+                    $('#email-input').append(
+                        '<span class="icon is-small is-right"><i class="fa fa-warning"></i></span>'
+                    );
+                    $('#email-input').parent().append('<p class="help is-danger">{= 邮箱已存在}</p>');
+                }
+            });
+        });
+    });
+
+    $('#bind').on('click', function () {
+        if ($('#email-input-value').val()) {
+            $('#bind').addClass('is-loading');
+            remote('setEmail')
+                .fail(function () {
+                    $('#bind').removeClass('is-loading');
+                    $('#bind').text('{= 服务器异常 }');
+                })
+                .error(function () {
+                    $('#bind').removeClass('is-loading');
+                    $('#bind').text('{= 服务器异常 }');
+                })
+                .result(function (val) {
+                    if(val>0){
+                        $('#bind').text('{= 设置成功}');
+                    }else{
+                        $('#bind').text('{= 你已经设置过了}');
+                    }
+                    $('#bind').removeClass('is-loading');
+                })
+                .call($('#email-input-value').val());
+
+        } else {
+            $('#email-input-value').focus();
+        }
+        // @if($:bind_name(false))
+        if ($('#name-input-value').val()) {
+            $('#bind').addClass('is-loading');
+            remote('setName')
+                .fail(function () {
+                    $('#bind').removeClass('is-loading');
+                })
+                .error(function () {
+                    $('#bind').removeClass('is-loading');
+                })
+                .result(function (val) {
+                    if(val>0){
+                        $('#bind').text('{= 设置成功}');
+                    }else{
+                        $('#bind').text('{= 你已经设置过了}');
+                    }
+                    $('#bind').removeClass('is-loading');
+                })
+                .call($('#name-input-value').val());
+        } else {
+            $('#name-input-value').focus();
+        }
+        // @endif
+    });
+</script>
 {:script}
 
 </html>

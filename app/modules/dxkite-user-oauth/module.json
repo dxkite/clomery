@@ -8,6 +8,9 @@
     "table": {
         "baidu_user": "cn.atd3.oauth.baidu.BaiduTable"
     },
+    "proxy":{
+        "baidu":"cn.atd3.oauth.baidu.BaiduExport"
+    },  
     "prefix": {
         "simple": "/oauth/baidu"
     },

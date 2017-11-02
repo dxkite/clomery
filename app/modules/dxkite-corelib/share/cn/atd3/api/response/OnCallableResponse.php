@@ -8,6 +8,6 @@ abstract class OnCallableResponse extends CallableResponse
 {
     protected function onVisitorCreate(Context $context):Visitor
     {
-         return $this->createVisitor('cn\atd3\user\User');
+         return $context->loadVisitorFromCookie('cn\atd3\user\User');
     }
 }

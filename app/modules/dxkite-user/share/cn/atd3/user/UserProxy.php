@@ -5,7 +5,6 @@ use cn\atd3\visitor\Context;
 use cn\atd3\visitor\verify\Image;
 use cn\atd3\proxy\ProxyObject;
 
-
 class UserProxy extends ProxyObject
 {
     const EMAIL_PREG='/^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/';
@@ -114,11 +113,13 @@ class UserProxy extends ProxyObject
         return Manager::getUserInfoById($this->context->getVisitor()->getId());
     }
 
-    public function ids2name(array $ids){
+    public function ids2name(array $ids)
+    {
         return Manager::ids2name($ids);
     }
     
-    public function id2name(int $id){
+    public function id2name(int $id)
+    {
         return self::ids2name([$id])[$id]??null;
     }
 
@@ -157,12 +158,14 @@ class UserProxy extends ProxyObject
     }
 
     // TODO 获取头像
-    public function getAvatar(int $id){
+    public function getAvatar(int $id)
+    {
         return false;
     }
     
     // TODO 设置头像
-    public function setAvatar($file){
+    public function setAvatar($file)
+    {
         return false;
     }
 
