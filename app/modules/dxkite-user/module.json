@@ -10,6 +10,9 @@
         "group": "cn.atd3.user.dao.GroupDAO",
         "user": "cn.atd3.user.dao.UserDAO"
     },
+    "proxy": {
+        "user": "cn.atd3.user.UserProxy"
+    },
     "prefix": [
         "/user",
         "/user"

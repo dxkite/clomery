@@ -3,7 +3,6 @@ namespace cn\atd3\visitor;
 
 use suda\core\Session;
 
-
 abstract class Visitor
 {
     protected $id;
@@ -15,16 +14,16 @@ abstract class Visitor
 
     public function __construct(string $token=null)
     {
-        
         if ($token&&$get=self::decodeToken($token)) {
             list($this->id, $this->token)=$get;
             $this->isGuest=!$this->check($this->id, $this->token);
         } else {
             $this->isGuest=true;
         }
+        
         if ($this->isGuest) {
             $this->id=0;
-            $this->token=md5('Guest-User');
+            $this->token=md5('Suda-Guest-User-'.PHP_VERSION.SUDA_VERSION);
             $this->permission=new Permission;
         }
     }
@@ -69,22 +68,25 @@ abstract class Visitor
 
     public function canAccess($method)
     {
-        return $this->hasPermission(Permission::createFromFunction($method));
+        if ($permission=Permission::createFromFunction($method)) {
+            $this->hasPermission($permission);
+        }
+        return true;
     }
 
     public function hasPermission($permission)
     {
-        if(!$permission instanceof Permission){
-            if(is_array($permission)){
+        if (!$permission instanceof Permission) {
+            if (is_array($permission)) {
                 $permission=new Permission($permission);
-            }elseif(is_string($permission)){
+            } elseif (is_string($permission)) {
                 $permission=new Permission([$permission]);
-            }else{
-                $permission=new Permission;
+            } else {
+                return false;
             }
         }
         $check=$this->getPermission()->surpass($permission);
-        debug()->trace(__('check_access %d',$check),['visitor'=>$this->getPermission(),'need'=>$permission]);
+        debug()->trace(__('check_access %d', $check), ['visitor'=>$this->getPermission(),'need'=>$permission]);
         return $check;
     }
 

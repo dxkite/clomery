@@ -37,7 +37,7 @@ class Permission implements \JsonSerializable
     public static function set(string $name, array $permissions)
     {
         self::$permission_list[]=$name;
-        self::$permission_list=array_merge(self::$permission_list,$permissions);
+        self::$permission_list=array_merge(self::$permission_list, $permissions);
         self::$permission_table[$name]=$permissions;
     }
     
@@ -183,6 +183,6 @@ class Permission implements \JsonSerializable
             // debug()->debug('create_permission '.$method->getName(),$acl);
             return new Permission($acl);
         }
-        return new Permission;
+        return false;
     }
 }

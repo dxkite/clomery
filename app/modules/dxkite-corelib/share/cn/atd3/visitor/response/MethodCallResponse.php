@@ -31,11 +31,6 @@ abstract class MethodCallResponse extends Response
     // 默认接口开放状态
     protected $defaultOpen=true;
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function onVisit(Context $context)
     {
         $this->export=$this->getExportMethods();

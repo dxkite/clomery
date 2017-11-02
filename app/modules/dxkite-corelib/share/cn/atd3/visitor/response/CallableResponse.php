@@ -20,12 +20,6 @@ abstract class CallableResponse extends MethodCallResponse
     protected $isrpc=false;
     protected $isJsonp=false;
 
-
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function onVisit(Context $context)
     {
         $this->export=$this->getExportMethods();

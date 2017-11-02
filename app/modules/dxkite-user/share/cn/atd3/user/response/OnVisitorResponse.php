@@ -4,14 +4,10 @@ namespace cn\atd3\user\response;
 use cn\atd3\visitor\response\Response;
 use cn\atd3\visitor\Context;
 use cn\atd3\visitor\Visitor;
+use cn\atd3\user\User;
 
 abstract class OnVisitorResponse extends Response
 {
-
-    protected function onVisitorCreate(Context $context):Visitor
-    {
-         return $this->createVisitor(conf('visitorClass','cn\atd3\user\User'));
-    }
 
     public function onVisit(Context $context)
     {
@@ -22,6 +18,11 @@ abstract class OnVisitorResponse extends Response
         } else {
             $this->onDeny($context);
         }
+    }
+
+    protected function onVisitorCreate(Context $context):Visitor
+    {
+         return $context->loadVisitorFromCookie(User::class);
     }
 
     public function onGuestVisit(Context $context)

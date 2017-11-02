@@ -14,11 +14,6 @@ abstract class PRCCallResponse extends Response
 {
     protected $defaultParams=[MethodCallResponse::PARAM_JSON];
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     public function onVisit(Context $context)
     {
         $this->isrpc=$this->getContext()->getRequest()->isJson() && $this->getContext()->getRequest()->isPost();

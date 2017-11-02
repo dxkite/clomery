@@ -21,9 +21,13 @@ class CheckResponse extends \cn\atd3\user\response\OnVisitorResponse
             } elseif ($result===true) {
                 $this->page('baidu/check-ok')->render();
             } else {
+                $userInfo=proxy('user')->getInfo();
+                var_dump($userInfo);
                 $this->page('baidu/sign')->render();
             }   
         } else {
+            $userInfo=proxy('user')->getInfo();
+            var_dump($userInfo);
             $page=$this->page('baidu/check');
             $page->set('auth_url', Manager::getAuthUrl());
             return $page->render();

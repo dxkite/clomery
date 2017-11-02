@@ -54,13 +54,21 @@ class Context
 
     public function getVisitor():Visitor
     {
-        // TODO: fix it
-        // if (is_null($this->visitor)) {
-        //     $this->visitor=$this->loadFromCookie();
-        // }
         return $this->visitor;
     }
 
+    public function loadVisitorFromCookie(string $className=Visitor::class)
+    {
+        $name=$this->getCookieName();
+        $className=class_name($className);
+        if (Cookie::has($name)) {
+            $visitor=new $className(Cookie::get($name));
+            debug()->trace(__('load_from_cookie %d:%s token %s', $visitor->getId(), $visitor->getToken(), $visitor->getMaskToken()));
+        } else {
+            $visitor=new $className;
+        }
+        return $visitor;
+    }
 
     public static function encodeCookieName(string $name, string $mask)
     {
