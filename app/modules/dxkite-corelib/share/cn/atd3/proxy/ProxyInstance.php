@@ -1,7 +1,8 @@
 <?php
-namespace cn\atd3\visitor;
+namespace cn\atd3\proxy;
 
 use cn\atd3\proxy\exception\ProxyException;
+use cn\atd3\visitor\Context;
 
 class ProxyInstance
 {

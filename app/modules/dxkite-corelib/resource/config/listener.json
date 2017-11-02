@@ -1,5 +1,5 @@
 {
     "template:SudaCompiler:init": [
-        "cn\\atd3\\view\\ProxyCall::addProxyCall"
+        "cn\\atd3\\proxy\\ProxyCall::addProxyCall"
     ]
 }

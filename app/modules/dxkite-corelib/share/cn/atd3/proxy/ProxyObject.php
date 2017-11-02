@@ -4,6 +4,7 @@ namespace cn\atd3\proxy;
 use cn\atd3\visitor\Context;
 use cn\atd3\visitor\exception\PermissionExcepiton;
 
+
 abstract class ProxyObject
 {
     protected $context;

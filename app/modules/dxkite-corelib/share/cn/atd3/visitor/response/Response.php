@@ -6,7 +6,6 @@ use cn\atd3\visitor\Context;
 use cn\atd3\visitor\Visitor;
 use cn\atd3\visitor\Permission;
 
-require_once __DIR__ .'/../functions.php';
 
 abstract class Response extends \suda\core\Response
 {

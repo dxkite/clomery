@@ -87,7 +87,7 @@ class Manager
                     // 登陆用户|绑定百度
                     $data['user']=$visitor->getId();
                     $this->baidu->insert($data);
-                    return true; // 登陆成功
+                    return $visitor->getId(); // 登陆成功
                 }
             }
         } else {
