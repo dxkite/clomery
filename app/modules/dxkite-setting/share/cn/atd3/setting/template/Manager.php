@@ -15,8 +15,8 @@ class Manager
     protected function __construct()
     {
         $this->base=DATA_DIR.'/'.self::TEMPLATE_DIRNAME;
-        $this->loadTemplates();
         $this->template=[];
+        $this->loadTemplates();
     }
 
     public static function themeChange(string $uniqid)
