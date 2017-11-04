@@ -15,20 +15,20 @@ class ProxyCall
         // 添加DAO
         $compiler->addCommand('call', function ($exp) {
             if ($exp) {
-                $params=\cn\atd3\view\ProxyCall::param($exp);
+                $params=static::param($exp);
                 $type=strtoupper($params['type']??'rows');
-                $method=\cn\atd3\view\ProxyCall::echoValue($params['method']);
+                $method=static::echoValue($params['method']);
                 $class=trim($params['class'], '"\'');
                 $null=trim($params['null']??'this is null', '"\'');
-                return '<?php cn\atd3\view\ProxyCall::call(\''.$class.'\',$this,function($class,$page,$type){
+                return '<?php '.__CLASS__.'::call(\''.$class.'\',$this,function($class,$page,$type){
     $fields=$class->'.$method.'; 
-    $type=cn\atd3\view\ProxyCall::'.$type.';
+    $type='.__CLASS__.'::'.$type.';
     $null=\''. $null .'\';
     $callback=function(array $field) { extract($field); ?>';
             } else {
                 return '<?php };
     if ($fields){
-        if ($type===cn\atd3\view\ProxyCall::ROWS){
+        if ($type==='.__CLASS__.'::ROWS){
             foreach ($fields as $field){
                 $callback($field);
             }
