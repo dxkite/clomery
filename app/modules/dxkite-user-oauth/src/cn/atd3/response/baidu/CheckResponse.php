@@ -43,7 +43,7 @@ class CheckResponse extends \cn\atd3\user\response\OnVisitorResponse
     public function firstBind(Context $context)
     {
         $userInfo=proxy('user')->getInfo();
-        $baiduUserInfo=proxy('baidu')->getUserInfo();
+        $baiduUserInfo=proxy('baidu')->getInfo();
         $page=$this->page('baidu/sign');
         if (is_null($userInfo['name'])) {
             $page->set('bind_name', true);
