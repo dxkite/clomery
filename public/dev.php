@@ -5,8 +5,8 @@
     // 日志所在目录
     define('APP_LOG', APP_DIR.'/data/logs');
     // 系统所在目录
-    // define('SYSTEM',__DIR__.'/../suda/system');
-    define('SYSTEM','D:\Server\Local\suda\system');
+    define('SYSTEM',__DIR__.'/../suda/system');
+    // define('SYSTEM','D:\Server\Local\suda\system');
     // 网站根目录位置
     define('APP_PUBLIC',__DIR__);
     // 开发者模式
