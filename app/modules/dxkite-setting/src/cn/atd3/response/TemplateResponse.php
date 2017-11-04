@@ -13,11 +13,11 @@ class TemplateResponse extends \cn\atd3\user\response\OnUserVisitorResponse
         $request=$context->getRequest();
         if ($request->get()->template) {
             setting_val('template', $request->get()->template('default'));
-            $this->go($this->name);
+            $this->go(u(static::$name));
         }
         elseif ($request->get()->delete) {
             Manager::instance()->delete($request->get()->delete);
-            $this->go($this->name);
+            $this->go(u(static::$name));
         }
         $list=Manager::instance()->getTemplateList();
         $page->set('list', $list);
