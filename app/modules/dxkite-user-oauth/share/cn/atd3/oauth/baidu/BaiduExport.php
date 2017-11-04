@@ -10,7 +10,7 @@ class BaiduExport extends ProxyObject
         return  Manager::getAuthUrl();
     }
 
-    public function getUserInfo() {
+    public function getInfo() {
         $userId=$this->context->getVisitor()->getId();
         return table('baidu_user')->select(['user','uid','uname','portrait'], ['user'=>$userId])->fetch();
     }

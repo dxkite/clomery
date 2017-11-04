@@ -62,7 +62,7 @@ class ArticleDAO extends Table
     {
         $update['modify']=time();
         if (isset($update['title']) && !isset($update['slug'])) {
-            $update['slug']=$update['slug']??Pinyin::getAll($title, '-', 255);
+            $update['slug']=$update['slug']??Pinyin::getAll($update['title'], '-', 255);
         }
         $update['ip']= Request::ip();
         if(is_null($user)){
