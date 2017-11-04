@@ -39,7 +39,10 @@ class Setting
     }
 
     public static function set(string $name,$value){
-        return (new SettingDao)->set($name, $value);
+        $return= (new SettingDao)->set($name, $value);
+        Cache::delete('setting');
+        static::load();
+        return $return;
     }
 }
 

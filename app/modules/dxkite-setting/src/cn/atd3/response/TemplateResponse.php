@@ -12,7 +12,7 @@ class TemplateResponse extends \cn\atd3\user\response\OnUserVisitorResponse
         $page=$this->page('template');
         $request=$context->getRequest();
         if ($request->get()->template) {
-            (new SettingDao)->set('template', $request->get()->template('default'));
+            setting_val('template', $request->get()->template('default'));
             $this->go($this->name);
         }
         elseif ($request->get()->delete) {
