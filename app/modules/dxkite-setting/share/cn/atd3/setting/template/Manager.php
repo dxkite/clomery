@@ -41,6 +41,8 @@ class Manager
             if (storage()->exist($this->base.'/'.$dir.'/config.json')) {
                 $template=new Template($this->base.'/'.$dir.'/config.json');
                 $this->template[$template->uniqid]=$template;
+            }else{
+                storage()->delete($this->base.'/'.$dir);
             }
         }
     }
