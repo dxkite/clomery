@@ -22,7 +22,7 @@ class BaiduExport extends ProxyObject
 
     public function setName(string $name)
     {
-        return table('user')->update(['name'=>$name],'id=:id name is null',['id'=>$this->context->getVisitor()->getId()]);
+        return table('user')->update(['name'=>$name],'id=:id and name is null',['id'=>$this->context->getVisitor()->getId()]);
     }
 
     public function checkNameExist(string $name)

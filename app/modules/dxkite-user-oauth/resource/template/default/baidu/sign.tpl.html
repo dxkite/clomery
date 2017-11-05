@@ -17,7 +17,7 @@
         <div class="field">
             <label class="label">{= 用户名}</label>
             <div class="control has-icons-left has-icons-right" id="name-input">
-                <input class="input is-danger" type="text" placeholder="{= 请输入用户名}" value="{{$:userInfo['uname']}}">
+                <input class="input is-danger" type="text" placeholder="{= 请输入用户名}" id="name-input-value" value="{{$:userInfo['uname']}}">
                 <span class="icon is-small is-left">
                     <i class="fa fa-user"></i>
                 </span>
@@ -50,11 +50,10 @@
     $(function () {
         $('#name-input-value').on('change', function () {
             $('#name-input').addClass('is-loading');
+            $('#name-input').find('.icon.is-small.is-right').remove();
+            $('#name-input').parent().find('.help').remove();
             remote('checkEmailExist').call($(this).val()).result(function (val) {
-                console.log(val);
                 $('#name-input').removeClass('is-loading');
-                $('#name-input').remove('.icon.is-small');
-                $('#name-input').parent().remove('.help');
                 $('#name-input-value').removeClass('is-success');
                 $('#name-input-value').removeClass('is-danger');
                 if (val == false) {
@@ -114,7 +113,7 @@
                 })
                 .result(function (val) {
                     if(val>0){
-                        $('#bind').text('{= 设置成功}');
+                        $('#bind').text('{= 设置成功 }');
                     }else{
                         $('#bind').text('{= 你已经设置过了}');
                     }
