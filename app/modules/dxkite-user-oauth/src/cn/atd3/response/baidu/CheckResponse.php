@@ -20,7 +20,7 @@ class CheckResponse extends \cn\atd3\user\response\OnVisitorResponse
                 $this->page('baidu/check-faild')->render();
             } elseif ($result===true) {
                 $userInfo=proxy('user')->getInfo();
-                if (is_null($userInfo['email'])) {
+                if (isset($userInfo['email']) && is_null($userInfo['email'])) {
                     $this->firstBind($context);
                 } else {
                     $this->page('baidu/check-ok')->render();

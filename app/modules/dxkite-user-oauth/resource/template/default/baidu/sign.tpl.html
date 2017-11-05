@@ -99,6 +99,36 @@
         });
     });
 
+    function setUserName() {
+        // @if($:bind_name(false))
+        if ($('#name-input-value').val()) {
+            $('#bind').addClass('is-loading');
+            remote('setName')
+                .fail(function () {
+                    $('#bind').removeClass('is-loading');
+                })
+                .error(function () {
+                    $('#bind').removeClass('is-loading');
+                })
+                .result(function (val) {
+                    if (val > 0) {
+                        $('#bind').text('{= 设置成功}');
+                        window.location.href=window.location.href;
+                    } else {
+                        $('#bind').text('{= 你已经设置过了}');
+                    }
+                    $('#bind').removeClass('is-loading');
+                })
+                .call($('#name-input-value').val());
+        } else {
+            $('#name-input-value').focus();
+            $('#bind').text('{= 请设置用户名}');
+        }
+        // @else
+        window.location.href=window.location.href;
+        // @endif
+    }
+    
     $('#bind').on('click', function () {
         if ($('#email-input-value').val()) {
             $('#bind').addClass('is-loading');
@@ -112,9 +142,10 @@
                     $('#bind').text('{= 服务器异常 }');
                 })
                 .result(function (val) {
-                    if(val>0){
+                    if (val > 0) {
                         $('#bind').text('{= 设置成功 }');
-                    }else{
+                        setUserName();
+                    } else {
                         $('#bind').text('{= 你已经设置过了}');
                     }
                     $('#bind').removeClass('is-loading');
@@ -123,30 +154,10 @@
 
         } else {
             $('#email-input-value').focus();
+            $('#bind').text('{= 请设置邮箱}');
         }
-        // @if($:bind_name(false))
-        if ($('#name-input-value').val()) {
-            $('#bind').addClass('is-loading');
-            remote('setName')
-                .fail(function () {
-                    $('#bind').removeClass('is-loading');
-                })
-                .error(function () {
-                    $('#bind').removeClass('is-loading');
-                })
-                .result(function (val) {
-                    if(val>0){
-                        $('#bind').text('{= 设置成功}');
-                    }else{
-                        $('#bind').text('{= 你已经设置过了}');
-                    }
-                    $('#bind').removeClass('is-loading');
-                })
-                .call($('#name-input-value').val());
-        } else {
-            $('#name-input-value').focus();
-        }
-        // @endif
+
+
     });
 </script>
 {:script}
