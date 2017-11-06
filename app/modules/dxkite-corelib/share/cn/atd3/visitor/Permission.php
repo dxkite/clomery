@@ -152,10 +152,10 @@ class Permission implements \JsonSerializable
 
     public static function readPermissions()
     {
-        $modules=Application::getLiveModules();
+        $modules=app()->getLiveModules();
         $permissions=[];
         foreach ($modules as $module) {
-            if (Storage::exist($jsonfile=Application::getModulePath($module).'/resource/config/permissions.json')) {
+            if (storage()->exist($jsonfile=app()->getModulePath($module).'/resource/config/permissions.json')) {
                 $tmp=Json::loadFile($jsonfile);
                 $permissions=array_merge($permissions, $tmp);
             }

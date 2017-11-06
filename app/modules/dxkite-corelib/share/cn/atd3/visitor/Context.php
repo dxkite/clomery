@@ -127,7 +127,7 @@ class Context
         if ($this->requestSession) {
             session_id(md5(Request::getInstance()->signature()));
         }
-        Storage::mkdirs($path);
+        storage()->mkdirs($path);
         session_save_path($path);
         session_name(conf('session.name', '__session'));
         session_cache_limiter(conf('session.limiter', 'private'));

@@ -13,10 +13,6 @@
     "proxy": {
         "user": "cn.atd3.user.UserProxy"
     },
-    "prefix": [
-        "/user",
-        "/user"
-    ],
     "require": {
         "dxkite/view": "*"
     },

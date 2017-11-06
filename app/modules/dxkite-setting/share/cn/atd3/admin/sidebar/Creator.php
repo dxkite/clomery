@@ -18,7 +18,7 @@ class Creator
     public static function addAdminSidebar(Router $router)
     {
         debug()->info('add admin sidebar');
-        $modules=Application::getLiveModules();
+        $modules=app()->getLiveModules();
         foreach ($modules as $module) {
             self::addModuleAdminSidebar($module, $router);
         }
@@ -64,7 +64,7 @@ class Creator
 
     private static function addSidebarRouterConfig(string $module, Router $router)
     {
-        if (Storage::exist($path=Application::getModulePath($module).'/resource/config/admin/router.json')) {
+        if (storage()->exist($path=app()->getModulePath($module).'/resource/config/admin/router.json')) {
             $routers=Json::loadFile($path);
             foreach ($routers as $name=>$router_info) {
                 $fix=preg_replace('/:(.+)$/', '', $module);
@@ -78,7 +78,7 @@ class Creator
 
     private static function addSidebarConfig(string $module)
     {
-        if (Storage::exist($jsonfile=Application::getModulePath($module).'/resource/config/admin/sidebar.json')) {
+        if (storage()->exist($jsonfile=app()->getModulePath($module).'/resource/config/admin/sidebar.json')) {
             $configs=Json::loadFile($jsonfile);
             self::$adminsidebar=array_merge(self::$adminsidebar, $configs);
         }

@@ -15,7 +15,7 @@ class Image
 
     public function __construct(Context $context,string $name)
     {
-        $foints=Storage::readDirFiles(Application::getModulePath('corelib').'/resource/ttf/');
+        $foints=storage()->readDirFiles(app()->getModulePath('corelib').'/resource/ttf/');
         $this->foint=$foints[mt_rand(0, count($foints)-1)];
         $this->context=$context;
         $this->name=$name;
