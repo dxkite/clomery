@@ -74,13 +74,13 @@ class Context
     {
         $mask=md5($mask, true);
         $name=pack('A*', $name);
-        return base64_encode($mask^$name);
+        return bin2hex($mask^$name);
     }
 
     public static function decodeCookieName(string $data, string $mask)
     {
         $mask=md5($mask, true);
-        if ($hash=base64_decode($data)) {
+        if ($hash=hex2bin($data)) {
             return unpack('A*name', $hash^$mask)['name'];
         }
         return false;

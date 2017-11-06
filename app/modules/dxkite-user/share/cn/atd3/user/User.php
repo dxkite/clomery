@@ -31,8 +31,6 @@ class User extends Visitor
         // 刷新
         Manager::refershToken($id, $token, $token_expire);
         $this->refresh($id, $token);
-        $this->id=$id;
-        $this->token=$token;
         Context::getInstance()->cookieVisitor($this)->expire($token_expire)->session(!$remember)->set();
         return $this;
     }
