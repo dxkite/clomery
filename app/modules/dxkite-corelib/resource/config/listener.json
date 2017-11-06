@@ -1,5 +1,7 @@
 {
     "template:SudaCompiler:init": [
-        "cn\\atd3\\proxy\\ProxyCall::addProxyCall"
-    ]
+        "cn\\atd3\\proxy\\ProxyCall::addProxyCall",
+        "cn\\atd3\\api\\Hook::setting"
+    ],
+    "Router:prepareRouterInfo": ["cn\\atd3\\api\\Hook::registerOpenApiRoute"]
 }

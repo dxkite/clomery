@@ -5,22 +5,30 @@
     "locale": "zh-CN",
     "namespace": "cn\\atd3",
     "discription": "文章模块，含分类",
-    "table":[
+    "table": [
         "cn.atd3.article.dao.ArticleDAO",
         "cn.atd3.article.dao.CategoryDAO",
         "cn.atd3.article.dao.TagsDAO",
         "cn.atd3.article.dao.TagDAO"
     ],
+    "api-proxy": {
+        "v1.0": {
+            "article": "cn.atd3.article.proxyobject.ArticleProxy",
+            "category": "cn.atd3.article.proxyobject.CategoryProxy",
+            "tags": "cn.atd3.article.proxyobject.TagProxy"
+        },
+        "v2.0": {
+            "article": "cn.atd3.article.view.Article"
+        }
+    },
     "require": {
         "dxkite/user": "*"
     },
     "prefix": {
-        "admin":"/article"//,"simple":"/article"
+        "admin": "/article" //,"simple":"/article"
     },
-    "authors": [
-        {
-            "name": "dxkite",
-            "email": "dxkite@qq.com"
-        }
-    ]
+    "authors": [{
+        "name": "dxkite",
+        "email": "dxkite@qq.com"
+    }]
 }

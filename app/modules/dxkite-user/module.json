@@ -13,6 +13,11 @@
     "proxy": {
         "user": "cn.atd3.user.UserProxy"
     },
+    "api-proxy": {
+        "v1.0": {
+            "user":"cn.atd3.user.UserProxy"
+        }
+    },
     "require": {
         "dxkite/view": "*"
     },

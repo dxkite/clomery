@@ -10,6 +10,11 @@
     },
     "proxy":{
         "baidu":"cn.atd3.oauth.baidu.BaiduExport"
+    },
+    "api-proxy": {
+        "v1.0": {
+            "baidu_user": "cn.atd3.oauth.baidu.BaiduExport"
+        }
     },  
     "prefix": {
         "simple": "/oauth/baidu"

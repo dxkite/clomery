@@ -10,7 +10,8 @@
         "cn.atd3.upload.dao.UploadTable"
     ],
     "prefix": {
-        "simple": "/setting"
+        "simple": "/setting",
+        "api":"/api"
     },
     "authors": [{
         "name": "dxkite",
