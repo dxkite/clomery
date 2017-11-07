@@ -13,12 +13,12 @@
     ],
     "api-proxy": {
         "v1.0": {
-            "article": "cn.atd3.article.proxyobject.ArticleProxy",
+            "article": [
+                "cn.atd3.article.api.Article",
+                "cn.atd3.article.proxyobject.ArticleProxy"
+            ],
             "category": "cn.atd3.article.proxyobject.CategoryProxy",
             "tags": "cn.atd3.article.proxyobject.TagProxy"
-        },
-        "v2.0": {
-            "article": "cn.atd3.article.view.Article"
         }
     },
     "require": {

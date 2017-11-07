@@ -1,5 +1,5 @@
 <?php
-namespace cn\atd3\article\view;
+namespace cn\atd3\article\api;
 
 use cn\atd3\proxy\Proxy;
 use cn\atd3\proxy\ProxyObject;
@@ -18,21 +18,11 @@ class Article extends ProxyObject
 
     public function __construct(Context $context)
     {
+        parent::__construct($context);
         $this->articleDb=new Proxy(new ArticleProxy($context));
         $this->userDb=new Proxy(new UserProxy($context));
         $this->categoryDb=new Proxy(new CategoryProxy($context));
         $this->tagDb=new Proxy(new TagProxy($context));
-        parent::__construct($context);
-    }
-
-    /**
-     * 
-     * @open false
-     * @return void
-     */
-    public function getCategoryDb()
-    {
-        return $this->categoryDb;
     }
 
     public function authorInfo(int $id)
@@ -89,13 +79,13 @@ class Article extends ProxyObject
     }
 
     /**
-     * 文章列表
-     *
+     * 获取文章列表，显示详细信息
+     * 
      * @param int $page
      * @param int $rows
      * @return void
      */
-    public function getList(int $page, int $rows=10)
+    public function getArticleList(int $page, int $rows=10)
     {
         // TODO set field
         $list=$this->articleDb->getList($page, $rows);

@@ -72,6 +72,26 @@ abstract class MethodCallResponse extends Response
     public function getExportMethods($enter=null)
     {
         $enterclass=is_null($enter)?$this:$enter;
+        $methods=[];
+        if (is_array($enterclass)) {
+            while ($class=array_pop($enterclass)) {
+                if (is_object($class)) {
+                    $classInstance=$class;
+                } else {
+                    $class=class_name($class);
+                    $classInstance=new $class(Context::getInstance());
+                }
+                $methodNew=$this->getExportMethodFromClass($classInstance);
+                $methods=array_merge($methods, $methodNew);
+            }
+        }else{
+            $methods=$this->getExportMethodFromClass($classInstance);
+        }
+        return $methods;
+    }
+
+    protected function getExportMethodFromClass($enterclass)
+    {
         $class=new ReflectionClass($enterclass);
         $export=array();
         foreach ($class->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
@@ -82,7 +102,7 @@ abstract class MethodCallResponse extends Response
                     // 设置了是否开放
                     if (preg_match('/@open\s+(\w+)\s+/ims', $docs, $match)) {
                         // 是否开放端口
-                        if (!filter_var(strtolower($match[1]??'true'),FILTER_VALIDATE_BOOLEAN)) {
+                        if (!filter_var(strtolower($match[1]??'true'), FILTER_VALIDATE_BOOLEAN)) {
                             continue; // 不开放则跳过
                         }
                     } elseif (!$this->defaultOpen) {
