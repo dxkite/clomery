@@ -85,6 +85,12 @@ abstract class MethodCallResponse extends Response
                 $methods=array_merge($methods, $methodNew);
             }
         }else{
+            if (is_object($enterclass)) {
+                $classInstance=$enterclass;
+            } else {
+                $class=class_name($enterclass);
+                $classInstance=new $class(Context::getInstance());
+            }
             $methods=$this->getExportMethodFromClass($classInstance);
         }
         return $methods;
