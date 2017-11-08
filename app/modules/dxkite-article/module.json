@@ -14,6 +14,7 @@
     "api-proxy": {
         "v1.0": {
             "article": [
+                "cn.atd3.article.upload.Export",
                 "cn.atd3.article.api.Article",
                 "cn.atd3.article.proxyobject.ArticleProxy"
             ],
