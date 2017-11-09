@@ -6,7 +6,8 @@ use suda\core\Application;
 use suda\tool\Json;
 use suda\core\Storage;
 use suda\template\compiler\suda\Compiler;
-
+use cn\atd3\visitor\Context;
+use cn\atd3\visitor\Permission;
 
 class Creator
 {
@@ -26,12 +27,12 @@ class Creator
 
     public static function hook(Compiler $compiler)
     {
-        $compiler->addCommand('isChild',function($expr){
+        $compiler->addCommand('isChild', function ($expr) {
             return "<?php echo cn\atd3\admin\sidebar\Creator::isChild{$expr}; ?>";
         });
     }
 
-    public static function isChild(string $parent, string $child,string $true,string $false='')
+    public static function isChild(string $parent, string $child, string $true, string $false='')
     {
         $parent=Router::getInstance()->getRouterFullName($parent);
         $child=Router::getInstance()->getRouterFullName($child);
@@ -40,6 +41,7 @@ class Creator
         }
         return $false;
     }
+
     /**
      * 压入管理侧边栏
      *
@@ -70,8 +72,12 @@ class Creator
                 $fix=preg_replace('/:(.+)$/', '', $module);
                 // 去除版本
                 $moduleurl=($router_info['anti-fix']??false)?self::$namespace:self::$namespace.'/'.$fix;
+                // 验证权限
+                if (isset($router_info['acl']) && !static::checkMe($router_info['acl'])) {
+                    continue;
+                }
                 // 添加路由
-                $router->addRouter( $name,rtrim( $moduleurl.$router_info['visit'] ,'/'), $router_info['class'], $module, $router_info['method']??[]);
+                $router->addRouter($name, rtrim($moduleurl.$router_info['visit'], '/'), $router_info['class'], $module, $router_info['method']??[]);
             }
         }
     }
@@ -92,22 +98,30 @@ class Creator
          // 调整侧边栏格式
          foreach ($sidebarconfig as $name=>$adminsidebar) {
              $id=count($sidebar);
+            // 验证权限
+            if (isset($sidebar['acl']) && !static::checkMe($sidebar['acl'])) {
+                continue;
+            }
+            
              $sidebar[$id]['text']=__($adminsidebar['name']);
              $sidebar[$id]['href']=u($name, $adminsidebar['args']??[]);
              $sidebar[$id]['id']=$name;
              $sidebar[$id]['sort']=$adminsidebar['sort']??0;
-             // 二级菜单
-             if (isset($adminsidebar['child']) && is_array($adminsidebar['child'])) {
-                 $parent=Router::getInstance()->getRouterFullName($name);
-                 foreach ($adminsidebar['child'] as $name=>$child) {
-                     $cid=count($sidebar[$id]['child']??[]);
-                     self::$childsidebar[$parent][]=Router::getInstance()->getRouterFullName($name);
-                     $sidebar[$id]['child'][$cid]['text']=__($child['name']);
-                     $sidebar[$id]['child'][$cid]['href']=u($name, $child['args']??[]);
-                     $sidebar[$id]['child'][$cid]['id']=$name;
-                     $sidebar[$id]['child'][$cid]['sort']=$child['sort']??0;
-                 }
-             }
+            // 二级菜单
+            if (isset($adminsidebar['child']) && is_array($adminsidebar['child'])) {
+                $parent=Router::getInstance()->getRouterFullName($name);
+                foreach ($adminsidebar['child'] as $name=>$child) {
+                    if (isset($child['acl']) && !static::checkMe($child['acl'])) {
+                        continue;
+                    }
+                    $cid=count($sidebar[$id]['child']??[]);
+                    self::$childsidebar[$parent][]=Router::getInstance()->getRouterFullName($name);
+                    $sidebar[$id]['child'][$cid]['text']=__($child['name']);
+                    $sidebar[$id]['child'][$cid]['href']=u($name, $child['args']??[]);
+                    $sidebar[$id]['child'][$cid]['id']=$name;
+                    $sidebar[$id]['child'][$cid]['sort']=$child['sort']??0;
+                }
+            }
          }
          return $sidebar;
      }
@@ -138,5 +152,10 @@ class Creator
             return 0;
         });
         return $array;
+    }
+
+    protected static function checkMe(array  $permission)
+    {
+        return Context::getInstance()->getVisitor()->surpass(new Permission($permission));
     }
 }
