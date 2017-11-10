@@ -32,7 +32,8 @@ class Hook
         foreach ($modules as $module) {
             $config=app()->getModuleConfig($module);
             if (isset($config['api-proxy'])) {
-                foreach ($config['api-proxy'] as $version => $classFields) {
+                $apiProxy=$config['api-proxy'] ;
+                foreach ($apiProxy as $version => $classFields) {
                     foreach ($classFields as $name => $proxyClass) {
                         $mapping=new Mapping('api_'.$name.'_'.$version, $prefix.'/'.$version.'/'.$name.'[/{method}]', Response::class.'->onRequest', 'dxkite/corelib');
                         $mapping->setAntiPrefix();

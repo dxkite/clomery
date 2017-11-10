@@ -5,13 +5,21 @@
     "locale": "zh-CN",
     "namespace": "cn\\atd3",
     "discription": "提供通用的操作库",
-    "table": [
-        "cn.atd3.upload.dao.UploadDataTable", 
-        "cn.atd3.upload.dao.UploadTable"
-    ],
+    "table": {
+       "uploadData": "cn.atd3.upload.dao.UploadDataTable",
+        "upload":"cn.atd3.upload.dao.UploadTable"
+    },
+    "proxy": {
+        "database": "cn.atd3.database.DbHelper"
+    },
+    "api-proxy": {
+        "v1.0": {
+            "database": "cn.atd3.database.DbHelper"
+        }
+    },
     "prefix": {
         "simple": "/setting",
-        "api":"/api"
+        "api": "/api"
     },
     "authors": [{
         "name": "dxkite",

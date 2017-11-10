@@ -5,12 +5,12 @@
     "locale": "zh-CN",
     "namespace": "cn\\atd3",
     "discription": "文章模块，含分类",
-    "table": [
-        "cn.atd3.article.dao.ArticleDAO",
-        "cn.atd3.article.dao.CategoryDAO",
-        "cn.atd3.article.dao.TagsDAO",
-        "cn.atd3.article.dao.TagDAO"
-    ],
+    "table": {
+        "article": "cn.atd3.article.dao.ArticleDAO",
+        "category": "cn.atd3.article.dao.CategoryDAO",
+        "tags": "cn.atd3.article.dao.TagsDAO",
+        "tag": "cn.atd3.article.dao.TagDAO"
+    },
     "api-proxy": {
         "v1.0": {
             "article": [
