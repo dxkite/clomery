@@ -99,7 +99,9 @@ class Uploader implements \JsonSerializable
      */
     public function checkPassword(string $password)
     {
-        if(empty($this->passwordHash)) return true;
+        if (empty($this->passwordHash)) {
+            return true;
+        }
         return password_verify($password, $this->passwordHash);
     }
 
@@ -151,8 +153,8 @@ class Uploader implements \JsonSerializable
     {
         if ($this->visibility==self::FILE_PUBLIC) {
             return request()->hostBase().'/'.storage()->cut(storage()->abspath($this->getSavePath()), APP_PUBLIC);
-        }else{
-            return conf('corelib_upload_get')?u(conf('corelib_upload_get'),['id'=>$this->id]):false;
+        } else {
+            return conf('corelib_upload_get')?u(conf('corelib_upload_get'), ['id'=>$this->id]):false;
         }
     }
     
