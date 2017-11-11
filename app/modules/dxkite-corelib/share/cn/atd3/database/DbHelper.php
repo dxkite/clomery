@@ -9,6 +9,12 @@ class DbHelper extends ProxyObject
 {
     const PATH=DATA_DIR.'/backup';
 
+    /**
+     * @acl list_tables
+     * 列出数据表信息
+     * 
+     * @return void
+     */
     public function status()
     {
         $tables= TableInstance::instance()->getTables();
@@ -27,6 +33,12 @@ class DbHelper extends ProxyObject
         return $tableInfos;
     }
     
+    /**
+     * 创建数据库备份
+     * 
+     * @acl create_backup
+     * @return void
+     */
     public function create()
     {
         $hash=date('Y-m-d_H.i.s_').substr(md5(time()),0,8);
@@ -39,6 +51,13 @@ class DbHelper extends ProxyObject
         return $hash;
     }
 
+    /**
+     * 删除备份
+     * 
+     * @acl  delete_backup
+     * @param string $hash
+     * @return void
+     */
     public function deleteBackup(string $hash)
     {
         if (storage()->exist($configFile=self::PATH.'/'.$hash.'/config.json')){
@@ -48,6 +67,15 @@ class DbHelper extends ProxyObject
         }
     }
 
+
+    /**
+     * 备份表到一备份数据
+     *
+     * @acl export_table
+     * @param string $hash
+     * @param string $table
+     * @return void
+     */
     public function backupTo(string $hash, string  $table)
     {
         if (storage()->exist($configFile=self::PATH.'/'.$hash.'/config.json')){
@@ -65,6 +93,14 @@ class DbHelper extends ProxyObject
         }
     }
 
+    /**
+     * 从某一备份中导入数据
+     * 
+     * @acl import_table
+     * @param string $hash
+     * @param string $table
+     * @return void
+     */
     public function importFrom(string $hash, string $table)
     {
         if (storage()->exist($configFile=self::PATH.'/'.$hash.'/config.json')){
@@ -74,6 +110,12 @@ class DbHelper extends ProxyObject
         }
     }
 
+    /**
+     * 优化数据表
+     * @acl optimize_tables
+     * @param array $tables
+     * @return void
+     */
     public function optimize(array $tables)
     {
         foreach ($tables  as $name) {
@@ -82,6 +124,12 @@ class DbHelper extends ProxyObject
         return (new SQLQuery('OPTIMIZE TABLE '. implode(',',$tableArr)))->exec();
     }
 
+    /**
+     * 修复数据表
+     * @acl repair_tables
+     * @param array $tables
+     * @return void
+     */
     public function repair(array $tables)
     {
         foreach ($tables  as $name) {
@@ -90,6 +138,11 @@ class DbHelper extends ProxyObject
         return (new SQLQuery('REPAIR TABLE '. implode(',',$tableArr)))->exec();
     }
 
+    /**
+     * 列出备份
+     * @acl list_backups
+     * @return void
+     */
     public function list()
     {
         $readDirs=storage()->readDirs(self::PATH);

@@ -1,0 +1,15 @@
+{
+    "admin:bakcup": {
+        "name": "管理备份",
+        "childs": {
+            "list_tables": "列出数据库信息",
+            "create_backup": "创建备份数据",
+            "export_table": "备份数据表",
+            "import_table": "恢复数据表",
+            "delete_backup": "删除备份数据",
+            "list_backups":"列出备份",
+            "optimize_tables":"优化数据表",
+            "repair_tables":"修复数据表"
+        }
+    }
+}
