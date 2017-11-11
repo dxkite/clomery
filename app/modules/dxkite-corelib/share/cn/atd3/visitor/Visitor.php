@@ -69,7 +69,7 @@ abstract class Visitor
     public function canAccess($method)
     {
         if ($permission=Permission::createFromFunction($method)) {
-            $this->hasPermission($permission);
+            return $this->hasPermission($permission);
         }
         return true;
     }
