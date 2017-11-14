@@ -10,8 +10,9 @@ class UploadProxy extends ProxyObject
 {
     const STATE_VERIFY=0;
     const STATE_PUBLISH=1;
-    const STATE_PRIVATE=2;
-    const STATE_DELETE=3;
+    const STATE_PROTECTED=2;
+    const STATE_PRIVATE=3;
+    const STATE_DELETE=4;
 
     const FILE_PUBLIC=0;
     const FILE_SIGN=1;

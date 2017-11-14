@@ -20,7 +20,8 @@ class Uploader implements \JsonSerializable
     
     const FILE_PUBLIC=0;
     const FILE_SIGN=1;
-    const FILE_PASSWORD=1;
+    const FILE_PROTECTED=2;
+    const FILE_PASSWORD=3;
 
     protected $savePath;
     protected $id;

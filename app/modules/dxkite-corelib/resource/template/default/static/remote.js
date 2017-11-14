@@ -2,7 +2,7 @@
 (function (win) {
     // 全局严格模式
     "use strict";
-    var apibase = "/open-api/1.0/";
+    var apibase = '/api';
     var call_id = 0;
 
     var that_dom = function () {
