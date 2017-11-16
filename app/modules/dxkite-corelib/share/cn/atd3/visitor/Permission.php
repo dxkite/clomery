@@ -168,6 +168,11 @@ class Permission implements \JsonSerializable
 
     public static function createFromFunction($method)
     {
+        // TODO:  parse acl like
+        // group.authname
+        // group.*
+        // group.[auth1,auth2]
+        // to replace auth1,auth2
         if ($method instanceof \ReflectionMethod || $method instanceof \ReflectionFunction) {
         } elseif (count($method)>1) {
             $method=new ReflectionMethod($method[0], $method[1]);
