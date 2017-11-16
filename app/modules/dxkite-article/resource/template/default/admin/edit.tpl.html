@@ -47,7 +47,7 @@
 @startInsert('bs-footer')
 <script type="text/javascript" src="@static/ueditor/ueditor.config.js"></script>
 <script type="text/javascript" src="@static/ueditor/ueditor.all.js"></script>
-<script type="text/javascript" src="@static('corelib')/remote.js"></script>
+<script type="text/javascript" src="@static('corelib')/remote.js" data-api="@api(:v1.0)" ></script>
 
 <script type="text/javascript">
     var ue = UE.getEditor('article_editor');
