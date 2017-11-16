@@ -102,7 +102,7 @@ class PagesDAO extends Table
         if (is_null($page)) {
             $list=parent::listWhere(['status'=>0]);
         } else {
-            $list=parent::listWhere(['status'=>0],$page, $rows);
+            $list=parent::listWhere(['status'=>0],[],$page, $rows);
         }
         if ($list) {
             array_walk($list, function (&$value, $key) {

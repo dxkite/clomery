@@ -108,7 +108,7 @@ class CategoryProxy extends ProxyObject
      */
     public function getRootList()
     {
-        return $this->categoryDAO->setWants(['id','name','slug','count','parent'])->listWhere(['parent'=>0]);
+        return $this->categoryDAO->setWants(['id','name','slug','count','parent'])->listWhere(['parent'=>0],[]);
     }
 
     /**

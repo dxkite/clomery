@@ -87,7 +87,15 @@ class ArticleDAO extends Table
         if (is_null($page)) {
             return $this->setWants(['id','title','slug','user','create','modify','category','abstract' ,'cover','views','status'])->listWhere(['user'=>$uid]);
         } else {
-            return $this->setWants(['id','title','slug','user','create','modify','category','abstract' ,'cover','views','status'])->listWhere(['user'=>$uid], $page, $count);
+            return $this->setWants(['id','title','slug','user','create','modify','category','abstract' ,'cover','views','status'])->listWhere(['user'=>$uid],[], $page, $count);
+        }
+    }
+
+    public function listAll(int $page=null,int $row=10){
+        if (is_null($page)) {
+            return  parent::listWhere('status != :status',['status'=>ArticleDAO::STATUS_DELETE]);
+        } else {
+            return parent::listWhere('status != :status',['status'=>ArticleDAO::STATUS_DELETE], $page, $row);
         }
     }
 
@@ -96,7 +104,7 @@ class ArticleDAO extends Table
         if (is_null($page)) {
             return $this->setWants(['id','title','slug','user','create','modify','category','abstract' ,'cover','views','status'])->listWhere(['category'=>$cateid]);
         } else {
-            return $this->setWants(['id','title','slug','user','create','modify','category','abstract' ,'cover','views','status'])->listWhere(['category'=>$cateid], $page, $count);
+            return $this->setWants(['id','title','slug','user','create','modify','category','abstract' ,'cover','views','status'])->listWhere(['category'=>$cateid],[],$page, $count);
         }
     }
 

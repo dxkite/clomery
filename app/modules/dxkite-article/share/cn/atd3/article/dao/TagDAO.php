@@ -42,7 +42,7 @@ class TagDAO extends Table
         if (is_null($page)) {
             return $this->listWhere(['tag'=>$tagid]);
         }
-        return $this->listWhere(['tag'=>$tagid], $page, $row);
+        return $this->listWhere(['tag'=>$tagid],[], $page, $row);
     }
 
     public function bind(int $ref, array $tags)

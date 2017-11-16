@@ -37,10 +37,11 @@ class ListResponse extends OnUserVisitorResponse
             $list=$dao->setFields(['id','user','title','create','modify','category','type','views','status'])->order('modify',ArticleDAO::ORDER_DESC)->search(['title','content'],$request->get()->search,$now, 10)->fetchAll();
             $page->set('page.next',count($list)>=10);
         }else{
-            $list=$dao->setFields(['id','user','title','create','modify','category','type','views','status'])->order('modify',ArticleDAO::ORDER_DESC)->list($now, 10);
+            $list=$dao->setFields(['id','user','title','create','modify','category','type','views','status'])->order('modify',ArticleDAO::ORDER_DESC)->listAll($now, 10);
             $count=$dao->getCount();
             $page->set('page.max', ceil($count/10));
         }
+        
         $page->set('title',__('文章列表 第%d页',$now));
         $page->set('page.now', $now);
         $page->set('page.router', 'article:admin_list');
