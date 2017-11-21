@@ -144,6 +144,10 @@ class Permission implements \JsonSerializable
         return array_diff($in, array_diff($in, self::$permission_list));
     }
 
+    public function getSystemPermissions() {
+        return  self::$permission_list;
+    }
+
     public function jsonSerialize()
     {
         list($this_parent, $this_childs)=self::splitIt($this->permissions);
