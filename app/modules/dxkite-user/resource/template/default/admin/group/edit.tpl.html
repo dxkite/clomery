@@ -20,7 +20,7 @@
                     @foreach($body['childs'] as $id=>$auth)
                     <li class="form-check">
                         <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" name="auths[{{$id}}]" value="1" @b(in_array($id,$:permissions([])),'checked')> 
+                                <input class="form-check-input" type="checkbox" name="auths[{{$name}}.{{$id}}]" value="1" @b(in_array($id,$:permissions([])),'checked')> 
                                 {{__($auth)}}
                             </label>
                     </li>

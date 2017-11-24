@@ -29,6 +29,7 @@ abstract class Response extends \suda\core\Response
 
     public function onDeny(Context $context)
     {
+        $this->etag(md5(time()));
         echo '<h1>deny access</h1>';
     }
     

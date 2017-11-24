@@ -2,6 +2,7 @@
     "admin:website": {
         "name": "管理网站",
         "childs": {
+            "info":"网站信息",
             "list_setting": "列出设置",
             "edit_setting": "编辑设置"
         }

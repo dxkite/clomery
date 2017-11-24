@@ -6,6 +6,12 @@ use cn\atd3\visitor\Context;
 class SettingResponse extends \cn\atd3\user\response\OnUserVisitorResponse
 {
     public static $continents = [ 'Africa', 'America', 'Antarctica', 'Arctic', 'Asia', 'Atlantic', 'Australia', 'Europe', 'Indian', 'Pacific'];
+    /**
+     * 
+     * @acl list_setting
+     * @param Context $context
+     * @return void
+     */
     public function onUserVisit(Context $context)
     {
         $page=$this->page('setting');

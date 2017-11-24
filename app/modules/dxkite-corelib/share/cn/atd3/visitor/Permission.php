@@ -8,13 +8,19 @@ use ReflectionFunction;
 use ReflectionClass;
 use suda\tool\Json;
 
+/**
+ * 二级权限验证，支持忽略父级元素
+ * [parent.]child,[parent.]child
+ */
 class Permission implements \JsonSerializable
 {
-    // 权限表
-    private static $permission_table=[];
-    private static $permission_list=[];
+    // 权限表,包含所有的权限结构
+    private static $permissionTable=[];
+    // 所有权限列表，过滤用
+    private static $permissionFilter=[];
+    // 是否读取了权限表
     private static $readtable=false;
-
+    // 私有权限（完整权限）
     private $permissions=[];
 
     public function __construct(array $permissions=null)
@@ -34,11 +40,21 @@ class Permission implements \JsonSerializable
         }
     }
 
+    /**
+     * 添加权限
+     *
+     * @param string $name 父级权限
+     * @param array $permissions 子集权限
+     * @return void
+     */
     public static function set(string $name, array $permissions)
     {
-        self::$permission_list[]=$name;
-        self::$permission_list=array_merge(self::$permission_list, $permissions);
-        self::$permission_table[$name]=$permissions;
+        self::$permissionFilter[]=$name;
+        foreach ($permissions as $permission) {
+            self::$permissionFilter[]=$name.'.'.$permission;
+        }
+        self::$permissionFilter=array_merge(self::$permissionFilter, $permissions);
+        self::$permissionTable[$name]=$permissions;
     }
     
     public function merge(Permission $anthor_vargs)
@@ -68,12 +84,21 @@ class Permission implements \JsonSerializable
         
         $permission=$anthor->permissions;
         list($this_parent, $this_childs)=self::splitIt($this->permissions);
-        // 去除父级元素
+        // 去除父级权限元素
         $permission=array_diff($permission, $this_parent);
-        // 去除父级权限的子权限
+        // 去除父级权限的子权限 g.n
+        foreach ($permission as $id=>$name){
+            if (strpos($name, '.')) {
+                list($p, $c)=preg_split('/\./',$name, 2);
+                if (in_array($p,$this_parent)){
+                    unset($permission[$id]);
+                }
+            }
+        }
+        // 去除父级权限的子权限 name
         foreach ($this_parent as $parent) {
-            if (isset(self::$permission_table[$parent])) {
-                $permission=array_diff($permission, self::$permission_table[$parent]);
+            if (isset(self::$permissionTable[$parent])) {
+                $permission=array_diff($permission, self::$permissionTable[$parent]);
             }
             if (empty($permission)) {
                 return true;
@@ -85,6 +110,12 @@ class Permission implements \JsonSerializable
         return true;
     }
 
+    /**
+     * 检查是否包含单个权限name
+     *
+     * @param string $name
+     * @return boolean
+     */
     public function has(string $name)
     {
         list($this_parent, $this_childs)=self::splitIt($this->permissions);
@@ -104,13 +135,19 @@ class Permission implements \JsonSerializable
 
     private function isParent(string $name)
     {
-        return in_array($name, array_keys(self::$permission_table));
+        return in_array($name, array_keys(self::$permissionTable));
     }
 
     private function isChild(string $parent, string $child)
     {
+        if (strpos($name, '.')) {
+            list($p, $c)=preg_split('/\./',$name, 2);
+            if ($parent==$p) {
+                return true;
+            }
+        }
         if (self::isParent($parent)) {
-            return in_array($child, self::$permission_table[$parent]);
+            return in_array($child, self::$permissionTable[$parent]);
         }
         return false;
     }
@@ -128,8 +165,8 @@ class Permission implements \JsonSerializable
 
         // 去除父级权限的子权限
         foreach ($parent as $index) {
-            if (isset(self::$permission_table[$index])) {
-                $permission=array_diff($permission, self::$permission_table[$index]);
+            if (isset(self::$permissionTable[$index])) {
+                $permission=array_diff($permission, self::$permissionTable[$index]);
             }
             if (empty($permission)) {
                 break;
@@ -141,11 +178,12 @@ class Permission implements \JsonSerializable
 
     private function filter(array $in)
     {
-        return array_diff($in, array_diff($in, self::$permission_list));
+        return array_diff($in, array_diff($in, self::$permissionFilter));
     }
 
-    public function getSystemPermissions() {
-        return  self::$permission_list;
+    public function getSystemPermissions()
+    {
+        return  array_keys(self::$permissionTable);
     }
 
     public function jsonSerialize()
@@ -163,20 +201,21 @@ class Permission implements \JsonSerializable
                 $tmp=Json::loadFile($jsonfile);
                 $permissions=array_merge($permissions, $tmp);
             }
-        }
-        foreach ($permissions as $surp=>$child) {
-            self::set($surp, array_keys($child['childs']));
-        }
+        } 
+        foreach ($permissions as $parent=>$child) {
+            self::set($parent, array_keys($child['childs']));
+        }                   
         return $permissions;
     }
 
     public static function createFromFunction($method)
     {
         // TODO:  parse acl like
-        // group.authname
-        // group.*
-        // group.[auth1,auth2]
-        // to replace auth1,auth2
+        // -[x] authname|groupname
+        // -[ ] group.authname
+        // -[ ] group.*
+        // -[ ] group.[auth1,auth2]
+        // -[ ] to replace auth1,auth2
         if ($method instanceof \ReflectionMethod || $method instanceof \ReflectionFunction) {
         } elseif (count($method)>1) {
             $method=new ReflectionMethod($method[0], $method[1]);
@@ -184,7 +223,7 @@ class Permission implements \JsonSerializable
             $method=new ReflectionFunction($method);
         }
         $docs=$method->getDocComment();
-        if ($docs && preg_match('/@ACL\s+([\w,]+)?\s*$/im', $docs, $match)) {
+        if ($docs && preg_match('/@ACL\s+(.+?)?\s*$/im', $docs, $match)) {
             $acl=null;
             if (isset($match[1])) {
                 $acl=explode(',', trim($match[1], ','));

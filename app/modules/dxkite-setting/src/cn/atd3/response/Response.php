@@ -6,6 +6,15 @@ use suda\core\Query;
 
 class Response extends \cn\atd3\user\response\OnUserVisitorResponse
 {
+
+    /**
+     * 列出网站信息
+     * 
+     * @acl admin:website.info
+     * 
+     * @param Context $context
+     * @return void
+     */
     public function onUserVisit(Context $context)
     {
         $page=$this->page('index');
@@ -17,10 +26,12 @@ class Response extends \cn\atd3\user\response\OnUserVisitorResponse
         $page->set('upload', self::getFileupload());
         $page->render();
     }
+
     public function getFileupload()
     {
         return ini_get("file_uploads") ? ini_get("upload_max_filesize"):__('不支持文件上传');
     }
+    
     public function getMySQLVersion()
     {
         return (new Query('select version() as version'))->fetch()['version']??'unkown';
