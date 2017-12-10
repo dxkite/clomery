@@ -143,7 +143,7 @@ class UserProxy extends ProxyObject
      * @param int $type Signin=1,Signup=2
      * @return void
      */
-    protected function setNeedSigninCode(int $type)
+    protected function setNeedSignCode(int $type)
     {
         if ($type==self::SIGN_IN) {
             $this->context->setSession('needSigninCode', true);

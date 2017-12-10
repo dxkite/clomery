@@ -4,7 +4,6 @@ namespace cn\atd3\proxy;
 use cn\atd3\proxy\Proxy;
 use suda\template\compiler\suda\Compiler;
 
-require_once __DIR__ .'/functions.php';
 
 class ProxyCall
 {

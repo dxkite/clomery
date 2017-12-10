@@ -24,5 +24,6 @@
     "authors": [{
         "name": "dxkite",
         "email": "dxkite@qq.com"
-    }]
+    }],
+    "import": ["share/functions.php"]
 }
