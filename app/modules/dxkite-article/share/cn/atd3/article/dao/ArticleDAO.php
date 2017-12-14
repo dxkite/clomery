@@ -102,9 +102,9 @@ class ArticleDAO extends Table
     public function getListByCategory(int $cateid, int $page=null, int $count=10)
     {
         if (is_null($page)) {
-            return $this->setWants(['id','title','slug','user','create','modify','category','abstract' ,'cover','views','status'])->listWhere(['category'=>$cateid]);
+            return $this->setWants(['id','title','slug','user','create','modify','category','abstract' ,'cover','views','status'])->listWhere(['category'=>$cateid,'status'=>ArticleDAO::STATUS_PUBLISH]);
         } else {
-            return $this->setWants(['id','title','slug','user','create','modify','category','abstract' ,'cover','views','status'])->listWhere(['category'=>$cateid],[],$page, $count);
+            return $this->setWants(['id','title','slug','user','create','modify','category','abstract' ,'cover','views','status'])->listWhere(['category'=>$cateid,'status'=>ArticleDAO::STATUS_PUBLISH],[],$page, $count);
         }
     }
 
