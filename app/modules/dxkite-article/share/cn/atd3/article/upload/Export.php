@@ -5,14 +5,21 @@ use cn\atd3\upload\File;
 use suda\tool\ZipHelper;
 
 class Export  extends ProxyObject {
-    public function upload(File $article) {
-        $path=TEMP_DIR.'/article_temp';
-        $path=TEMP_DIR.'/article_temp/'.md5($article->getPath());
-        ZipHelper::unzip($article->getPath(),$path);
-        return $article;
-    }
 
-    public function test(){
-        HtmlFilter::filter();
+    /**
+    * 上传文件压缩包
+    *
+    * @param File $article
+    * @param string $type
+    * @param int $status
+    * @return bool
+    */
+    public function upload(File $article,string $type,int $status) : bool
+    {
+        $type=strtolower($type);
+        if (in_array($type,['xml'])) {
+            return (new ArticleArchive($article,$type))->save($status);
+        }
+        return false;
     }
 }

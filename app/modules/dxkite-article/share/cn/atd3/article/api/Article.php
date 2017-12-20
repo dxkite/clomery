@@ -8,6 +8,7 @@ use cn\atd3\article\proxyobject\CategoryProxy;
 use cn\atd3\article\proxyobject\TagProxy;
 use cn\atd3\user\UserProxy;
 use cn\atd3\visitor\Context;
+use cn\atd3\upload\File;
 
 class Article extends ProxyObject
 {

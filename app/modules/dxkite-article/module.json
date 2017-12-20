@@ -14,19 +14,19 @@
     "api-proxy": {
         "v1.0": {
             "article": [
-                "cn.atd3.article.upload.Export",
                 "cn.atd3.article.api.Article",
                 "cn.atd3.article.proxyobject.ArticleProxy"
             ],
             "category": "cn.atd3.article.proxyobject.CategoryProxy",
-            "tags": "cn.atd3.article.proxyobject.TagProxy"
+            "tags": "cn.atd3.article.proxyobject.TagProxy",
+            "articleXml": "cn.atd3.article.upload.Export"
         }
     },
     "require": {
         "dxkite/user": "*"
     },
     "prefix": {
-        "admin": "/article" //,"simple":"/article"
+        "admin": "/article" 
     },
     "authors": [{
         "name": "dxkite",
