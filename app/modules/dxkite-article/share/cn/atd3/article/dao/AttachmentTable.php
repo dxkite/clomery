@@ -37,6 +37,7 @@ class AttachmentTable extends Table
 
     public function addArticleResource(File $file,int $article) {
         $file=proxy('upload')->save($file,'article_resource_'.$article,UploadProxy::STATE_PUBLISH,UploadProxy::FILE_PUBLIC);
+        $this->insert(['aid'=>$article,'fid'=>$file->getId(),'time'=>time(),'ip'=>request()->ip()]);
         return $file->getUrl();
     }
 }
