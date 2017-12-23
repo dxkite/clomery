@@ -16,9 +16,10 @@ class Export  extends ProxyObject {
     */
     public function upload(File $article,string $type,int $status) : bool
     {
+         
         $type=strtolower($type);
         if (in_array($type,['xml'])) {
-            return (new ArticleArchive($article,$type))->save($status);
+            return (new ArticleArchive($article,$type))->save($this->getUserId(),$status);
         }
         return false;
     }

@@ -16,7 +16,7 @@ abstract class ProxyObject
     
     public function getContext()
     {
-        return $this->context;
+        return $this->context=Context::getInstance();
     }
 
     public function getUserId()

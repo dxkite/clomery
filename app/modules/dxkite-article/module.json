@@ -11,6 +11,11 @@
         "tags": "cn.atd3.article.dao.TagsDAO",
         "tag": "cn.atd3.article.dao.TagDAO"
     },
+    "proxy": {
+        "article": "cn.atd3.article.proxyobject.ArticleProxy",
+        "category": "cn.atd3.article.proxyobject.CategoryProxy",
+        "tag": "cn.atd3.article.proxyobject.TagProxy"
+    },
     "api-proxy": {
         "v1.0": {
             "article": [
@@ -26,7 +31,7 @@
         "dxkite/user": "*"
     },
     "prefix": {
-        "admin": "/article" 
+        "admin": "/article"
     },
     "authors": [{
         "name": "dxkite",

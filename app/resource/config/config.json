@@ -4,7 +4,7 @@
     "timezone": "PRC",
     "debug-local":false,
     "database": {
-        "prefix": "dx_", // 数据库前缀
+        "prefix": "dx_",
         "name": "test_dxsite",
         "passwd": "root",
         "user": "root",

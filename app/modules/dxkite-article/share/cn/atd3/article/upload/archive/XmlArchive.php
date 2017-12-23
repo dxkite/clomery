@@ -13,7 +13,7 @@ class  XmlArchive extends  Archive {
     protected $templatePath;
 
     public function __construct(File $file) {
-        $path=TEMP_DIR.'/upload_temp/'.md5($file->getPath());
+        $path=TEMP_DIR.'/upload_temp/'.md5_file($file->getPath());
         ZipHelper::unzip($file->getPath(),$path);
         $this->xmlFile=$path.'/index.xml';
         $this->templatePath=$path;
@@ -47,7 +47,7 @@ class  XmlArchive extends  Archive {
             $name=isset($obj['name'])?(string)$obj['name']:$obj->getName();
             if (isset($obj['value'])) {
                 $value=(string)$obj['value'];
-                $value=base64_decode($value);
+              //  $value=base64_decode($value);
             } else {
                 $children=$obj->children();
                 if (count($children)) {
@@ -59,7 +59,8 @@ class  XmlArchive extends  Archive {
                     }
                 } else {
                     $value=(string)$obj;
-                    $value=base64_decode($value);
+                    // TODO: add this
+                    // $value=base64_decode($value);
                 }
             }
             return [$name,$value];
