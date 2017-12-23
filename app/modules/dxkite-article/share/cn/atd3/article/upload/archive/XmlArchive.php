@@ -10,13 +10,10 @@ use suda\tool\ZipHelper;
 class  XmlArchive extends  Archive {
 
     protected $xmlFile;
-    protected $templatePath;
 
     public function __construct(File $file) {
-        $path=TEMP_DIR.'/upload_temp/'.md5_file($file->getPath());
-        ZipHelper::unzip($file->getPath(),$path);
-        $this->xmlFile=$path.'/index.xml';
-        $this->templatePath=$path;
+        parent::__construct($file);
+        $this->xmlFile=$this->templatePath.'/index.xml';
     }
 
     public function toArticle():Article {
@@ -60,7 +57,7 @@ class  XmlArchive extends  Archive {
                 } else {
                     $value=(string)$obj;
                     // TODO: add this
-                    // $value=base64_decode($value);
+                    $value=base64_decode($value);
                 }
             }
             return [$name,$value];

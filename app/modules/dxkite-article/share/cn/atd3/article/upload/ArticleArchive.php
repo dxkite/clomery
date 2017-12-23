@@ -10,6 +10,7 @@ use cn\atd3\article\dao\ArticleDAO;
 class ArticleArchive
 {
    
+    protected $article;
     protected $archive;
 
     /**
@@ -21,7 +22,8 @@ class ArticleArchive
     public function __construct(File $archive,string $type)
     {
         $className='cn\atd3\article\upload\archive\\'.ucfirst($type).'Archive';
-        $this->archive=(new $className($archive))->toArticle();
+        $this->archive=new $className($archive);
+        $this->article=$this->archive->toArticle();
     }
 
     /**
@@ -32,17 +34,17 @@ class ArticleArchive
      */
     public function save(int $uid,int $status) : bool
     {
-        $archive=$this->archive;
+        $article=$this->article;
         // 修改文章
         if ($archive->attr['id']??0){
-            $articleId=$archive->attr['id'];
-            $archive->attr['status']=$archive->attr['status']??$status;
-            $result=proxy('article')->edit($articleId,static::valIfSet(['title','slug','category','create','modify','status'], $archive->attr));
+            $articleId=$article->attr['id'];
+            $article->attr['status']=$article->attr['status']??$status;
+            $result=proxy('article')->edit($articleId,static::valIfSet(['title','slug','category','create','modify','status'], $article->attr));
         }else{
             $articleId=proxy('article')->create(
-                $archive->attr['title'],
-                $archive->content,
-                $archive->attr['category']??0,
+                $article->attr['title'],
+                $article->content,
+                $article->attr['category']??0,
                 ArticleDAO::TYPE_HTML,
                 $status
             );
@@ -50,6 +52,7 @@ class ArticleArchive
         }
         return $result;
     }
+
     public static function valIfSet(array $vals,array $source){
         $attr=[];
         foreach ($vals as $name){
@@ -58,5 +61,9 @@ class ArticleArchive
             }
         }
         return $attr;
+    }
+
+    public function __destruct(){
+        $this->archive->remove();
     }
 }
