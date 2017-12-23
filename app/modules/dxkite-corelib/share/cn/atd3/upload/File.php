@@ -11,9 +11,12 @@ class File implements \JsonSerializable
     private $delete=null;
     private $upload=false;
     
-    protected function __construct(string $path)
+    public function __construct(string $path)
     {
         $this->path=$path;
+        $this->name=$name;
+        $this->type=strtolower(pathinfo($name, PATHINFO_EXTENSION));
+        $this->size=filesize($path);
     }
 
     public function getName()
