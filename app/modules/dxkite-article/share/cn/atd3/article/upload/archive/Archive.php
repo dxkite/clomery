@@ -14,7 +14,9 @@ abstract class Archive
         ZipHelper::unzip($file->getPath(), $path);
         $this->templatePath=$path;
     }
-
+    public function getRootPath() {
+        return  $this->templatePath;
+    }
     abstract public function toArticle():Article;
     public function remove():bool
     {

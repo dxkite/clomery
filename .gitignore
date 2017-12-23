@@ -1,3 +1,4 @@
 app/data
 .vscode
 public/assets
+app/modules/dxkite-article/share/htmlpurifier/HTMLPurifier/DefinitionCache/Serializer

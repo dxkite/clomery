@@ -9,6 +9,7 @@
         "article": "cn.atd3.article.dao.ArticleDAO",
         "category": "cn.atd3.article.dao.CategoryDAO",
         "tags": "cn.atd3.article.dao.TagsDAO",
+        "attachment": "cn.atd3.article.dao.AttachmentTable",
         "tag": "cn.atd3.article.dao.TagDAO"
     },
     "proxy": {

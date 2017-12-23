@@ -14,8 +14,8 @@ class File implements \JsonSerializable
     public function __construct(string $path)
     {
         $this->path=$path;
-        $this->name=$name;
-        $this->type=strtolower(pathinfo($name, PATHINFO_EXTENSION));
+        $this->name=pathinfo($path, PATHINFO_BASENAME);
+        $this->type=strtolower(pathinfo($path, PATHINFO_EXTENSION));
         $this->size=filesize($path);
     }
 

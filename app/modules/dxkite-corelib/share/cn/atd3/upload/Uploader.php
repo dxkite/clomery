@@ -159,11 +159,14 @@ class Uploader implements \JsonSerializable
      */
     public function getUrl()
     {
-        if ($this->visibility==self::FILE_PUBLIC) {
-            return request()->hostBase().'/'.storage()->cut(storage()->abspath($this->getSavePath()), APP_PUBLIC);
-        } else {
+        // if (empty($this->savePath)){
+        //     return u('corelib:upload', ['id'=>$this->id]);
+        // }
+        // if ($this->visibility==self::FILE_PUBLIC) {
+        //     return request()->hostBase().'/'.storage()->cut(storage()->abspath($this->getSavePath()), APP_PUBLIC);
+        // } else {
             return u('corelib:upload', ['id'=>$this->id]);
-        }
+        // }
     }
     
     /**

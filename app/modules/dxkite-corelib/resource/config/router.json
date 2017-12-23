@@ -1,5 +1,5 @@
 {
-    "uplaod": {
+    "upload": {
         "class": "cn.atd3.upload.FileDispatherResponse",
         "visit": "/upload-{id:int=1}",
         "anti-prefix": true

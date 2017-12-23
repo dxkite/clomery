@@ -34,7 +34,7 @@ class Export  extends ProxyObject {
         $purifier = new \HTMLPurifier($config);
         
         // untrusted input HTML
-        $html = '<b>Simple and short';
+        $html = '<b>Simpl<img     src="xxx"/> e and<img src="xxx"> short<script src=""></script>';
         
         $pure_html = $purifier->purify($html);
         
