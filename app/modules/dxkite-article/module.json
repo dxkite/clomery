@@ -33,6 +33,7 @@
     "prefix": {
         "admin": "/article"
     },
+    "import":["share/htmlpurifier/HTMLPurifier.auto.php"],
     "authors": [{
         "name": "dxkite",
         "email": "dxkite@qq.com"

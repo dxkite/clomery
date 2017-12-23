@@ -23,4 +23,22 @@ class Export  extends ProxyObject {
         }
         return false;
     }
+
+    public function html() {
+        $config = \HTMLPurifier_Config::createDefault();
+
+        // configuration goes here:
+        $config->set('Core.Encoding', 'UTF-8'); // replace with your encoding
+        $config->set('HTML.Doctype', 'XHTML 1.0 Transitional'); // replace with your doctype
+        
+        $purifier = new \HTMLPurifier($config);
+        
+        // untrusted input HTML
+        $html = '<b>Simple and short';
+        
+        $pure_html = $purifier->purify($html);
+        
+       return $pure_html;
+ 
+    }
 }
