@@ -23,32 +23,49 @@ class UploadProxy extends ProxyObject
         parent::__construct($context);
     }
 
-    public function save(File $file,string $mark,int $status, int $visibility,string $password=null)
-    { 
-        $uploader=new Uploader($this->getUserId(),$file,$mark);
+    public function save(File $file, string $mark, int $status, int $visibility, string $password=null)
+    {
+        $uploader=new Uploader($this->getUserId(), $file, $mark);
         $uploader->setStatus($status);
-        if(is_null($password)){
+        if (is_null($password)) {
             $uploader->setVisibility($visibility);
-        }else{
-            $uploader->setVisibility($visibility,$password);
+        } else {
+            $uploader->setVisibility($visibility, $password);
         }
         $uploader->save();
         return $uploader;
     }
 
-    public function delete(int $id){
-        
+    public function delete(int $id)
+    {
     }
 
-    public function getFileUrl(int $id) {
-        
+    public function getFileUrl(int $id, string $password=null)
+    {
     }
 
-    public function getPublicFile(int $id)
+    public function getFile(int $id, string $password=null)
     {
         $uploader=Uploader::newInstanceById($id);
-        if ($uploader && $uploader->isPublic()) {
-            return $uploader->getFile();
+        if ($uploader) {
+            if ($uploader->isPublic()) {
+                return $uploader->getFile();
+            } elseif ($uploader->getStatus() === Uploader::FILE_SIGN) {
+                if (!$this->getContext()->getVisitor()->isGuest()) {
+                    return $uploader->getFile();
+                }
+            } elseif ($uploader->getStatus() === Uploader::FILE_PROTECTED) {
+                if (!$this->getContext()->getVisitor()->isGuest()) {
+                    $id=$this->getContext()->getVisitor()->getId();
+                    if ($uploader->isOwner($id)) {
+                        return $uploader->getFile();
+                    }
+                }
+            } elseif ($uploader->getStatus() === Uploader::FILE_PASSWORD) {
+                if ($password && $uploader->checkPassword($password)) {
+                    return $uploader->getFile();
+                }
+            }
         }
         return false;
     }

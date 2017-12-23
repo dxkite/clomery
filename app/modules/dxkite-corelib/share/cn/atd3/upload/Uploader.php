@@ -58,6 +58,14 @@ class Uploader implements \JsonSerializable
         $this->status=$status;
     }
 
+    public function getStatus()
+    {
+        return $this->status;
+    }
+    public function isOwner(int $user)
+    {
+        return $this->user == $user;
+    }
     /**
      * 获取保存全路径
      *
@@ -145,7 +153,6 @@ class Uploader implements \JsonSerializable
      * 获取文件URL，
      * 公开文件返回URL
      * 私有文件
-     * 如果设置了corelib_upload_get 配置，返回URL
      * 否则 false 
      * 
      * @return void
@@ -155,7 +162,7 @@ class Uploader implements \JsonSerializable
         if ($this->visibility==self::FILE_PUBLIC) {
             return request()->hostBase().'/'.storage()->cut(storage()->abspath($this->getSavePath()), APP_PUBLIC);
         } else {
-            return conf('corelib_upload_get')?u(conf('corelib_upload_get'), ['id'=>$this->id]):false;
+            return u('corelib:upload', ['id'=>$this->id]);
         }
     }
     
@@ -253,6 +260,9 @@ class Uploader implements \JsonSerializable
         $upload=new UploadTable;
         $data=new UploadDataTable;
         $uploadTableData=$upload->getByPrimaryKey($id);
+        if (!$uploadTableData) {
+            return false;
+        }
         $uploadDataTableData=$data->getByPrimaryKey($uploadTableData['data']);
         if ($uploadTableData['visibility']==self::FILE_PUBLIC) {
             $uploadTableData['path'] =self::PUBLIC_PATH.'/'.$uploadDataTableData['path'];

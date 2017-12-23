@@ -6,11 +6,12 @@
     "namespace": "cn\\atd3",
     "discription": "提供通用的操作库",
     "table": {
-       "uploadData": "cn.atd3.upload.dao.UploadDataTable",
-        "upload":"cn.atd3.upload.dao.UploadTable"
+        "uploadData": "cn.atd3.upload.dao.UploadDataTable",
+        "upload": "cn.atd3.upload.dao.UploadTable"
     },
     "proxy": {
-        "database": "cn.atd3.database.DbHelper"
+        "database": "cn.atd3.database.DbHelper",
+        "upload": "cn.atd3.upload.UploadProxy"
     },
     "api-proxy": {
         "v1.0": {

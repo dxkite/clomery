@@ -52,6 +52,10 @@ class ArticleArchive
         }
         return $result;
     }
+    
+    public static function resourceMatch() {
+
+    }
 
     public static function valIfSet(array $vals,array $source){
         $attr=[];
@@ -63,7 +67,7 @@ class ArticleArchive
         return $attr;
     }
 
-    public function __destruct(){
+    public function __destruct() {
         $this->archive->remove();
     }
 }
