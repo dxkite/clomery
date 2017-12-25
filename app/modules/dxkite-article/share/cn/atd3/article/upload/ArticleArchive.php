@@ -48,7 +48,7 @@ class ArticleArchive
             $articleId=proxy('article')->create(
                 $article->attr['title'],
                 $article->content,
-                $article->attr['category']??0,
+                intval($article->attr['category']??0),
                 ArticleDAO::TYPE_HTML,
                 $status
             );
