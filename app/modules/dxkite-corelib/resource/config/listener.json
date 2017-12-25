@@ -4,4 +4,5 @@
         "cn\\atd3\\api\\Hook::setting"
     ],
     "Router:prepareRouterInfo": ["cn\\atd3\\api\\Hook::registerOpenApiRoute"]
+    , "system:displayException":["cn\\atd3\\proxy\\exception\\Handler::uncaughtException"]
 }

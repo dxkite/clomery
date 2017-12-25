@@ -78,7 +78,7 @@ abstract class CallableResponse extends MethodCallResponse
                 $help[$name]['doc']=$docs;
             }
             if ($docs) {
-                if(preg_match('/@ACL\s+([\w,]+)?\s*$/im', $docs, $match)){
+                if (preg_match('/@ACL\s+([\w,]+)?\s*$/im', $docs, $match)) {
                     $acl=null;
                     if (isset($match[1])) {
                         $acl=explode(',', trim($match[1], ','));
@@ -152,6 +152,8 @@ abstract class CallableResponse extends MethodCallResponse
                     return;
                 }
             }
+        } catch (\Error $e) {
+            return  $this->error(get_class($e), $e->getMessage(), $param_arr);
         } catch (CallableException $e) {
             return $this->error($e->getName(), $e->getMessage());
         } catch (PermissionExcepiton $e) {
@@ -203,6 +205,8 @@ abstract class CallableResponse extends MethodCallResponse
             throw (new CallableException('Server Error', -32001+$e->getCode()))->setData($e->getMessage())->setName('ServerError');
         } catch (Exception $e) {
             throw (new CallableException('Server Error', -32000))->setData($e->getMessage())->setName('ServerError');
+        } catch (\Error $e) {
+            throw (new CallableException('Server Error', -32000))->setData($e->getMessage())->setName('ServerError');
         }
         return $data;
     }
@@ -220,10 +224,10 @@ abstract class CallableResponse extends MethodCallResponse
                     try {
                         // 文件类型处理
                         if ($param->getType()->__toString()=='cn\\atd3\\upload\\File') {
-                            if($params[$name] instanceof File ){
+                            if ($params[$name] instanceof File) {
                                 $args[$pos]=$val;
-                            }else{
-                                $args[$pos]=File::createFromBase64($params[$name]['name'],$params[$name]['data']);
+                            } else {
+                                $args[$pos]=File::createFromBase64($params[$name]['name'], $params[$name]['data']);
                             }
                         } elseif (settype($val, $param->getType()->__toString())) {
                             $args[$pos]=$val;

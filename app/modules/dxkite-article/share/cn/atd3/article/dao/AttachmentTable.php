@@ -40,4 +40,8 @@ class AttachmentTable extends Table
         $this->insert(['aid'=>$article,'fid'=>$file->getId(),'time'=>time(),'ip'=>request()->ip()]);
         return $file->getUrl();
     }
+
+    // public function getAttachmentById(int $article) {
+    //     $this->listWhere(['fid','time'])
+    // }
 }
