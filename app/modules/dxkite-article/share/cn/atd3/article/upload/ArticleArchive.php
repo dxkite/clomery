@@ -84,7 +84,7 @@ class ArticleArchive
     public static function purify(string $html)
     {
         $config = \HTMLPurifier_Config::createDefault();
-        $config->set('Cache.SerializerPath',CACHE_DIR.'/html_purifier');
+        $config->set('Cache.SerializerPath',storage()->path(CACHE_DIR.'/html_purifier'));
         $config->set('Core.Encoding', 'UTF-8'); // replace with your encoding
         $config->set('HTML.Doctype', 'XHTML 1.0 Transitional'); // replace with your doctype
         $purifier = new \HTMLPurifier($config);
