@@ -102,10 +102,12 @@ class UserProxy extends ProxyObject
 
     public function signout()
     {
-        Manager::refershToken($this->context->getVisitor()->getId(), '', 0);
+        $userId=$this->context->getVisitor()->getId();
+        Manager::refershToken($userId, '', 0);
         $guest=new User;
         $this->context->setVisitor($guest);
         $this->context->cookieVisitor($guest);
+        return $userId;
     }
 
     public function getInfo()
