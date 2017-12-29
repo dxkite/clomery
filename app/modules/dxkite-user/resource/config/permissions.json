@@ -6,7 +6,8 @@
             "edit_user": "编辑用户",
             "delete_user": "删除用户",
             "add_user": "添加用户",
-            "state_user": "修改用户状态"
+            "state_user": "修改用户状态",
+            "simulate":"模拟其他用户"
         }
     },
     "admin:group": {
