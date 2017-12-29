@@ -22,14 +22,24 @@ class User extends Visitor
     public function getId()
     {
         if ($this->hasPermission('admin:user.simulate') && cookie()->has(User::simulateUserToken)) {
-            $userId=intval(cookie()->get(User::simulateUserToken,$this->id));
-            debug()->trace(__( 'user_simulated  %d --> %d',$this->id ,$userId));
-            if ($this->simulate != $userId){
+            $userId=intval(cookie()->get(User::simulateUserToken, $this->id));
+            debug()->trace(__('user_simulated  %d --> %d', $this->id, $userId));
+            if ($this->isSimulateMode()) {
                 $this->refreshPermission($userId);
             }
             return $userId;
         }
-        return $this->simulate ?? $this->id;
+        return $this->isSimulateMode()?$this->simulate:$this->id;
+    }
+
+    public function isSimulateMode()
+    {
+        return $this->simulate != $this->simulate;
+    }
+
+    public function clearSimulateMode()
+    {
+        $this->refreshPermission($this->id);
     }
 
     public function sign(int $id, bool $remember)
@@ -44,7 +54,8 @@ class User extends Visitor
         return $this;
     }
 
-    protected function refreshPermission(int $id){
+    protected function refreshPermission(int $id)
+    {
         $permission=Manager::getPermissonsByUserId($id);
         debug()->trace(__('refresh_permission_for_user %d', $id), $permission);
         $this->simulate = $id;

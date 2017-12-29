@@ -127,13 +127,17 @@ class UserProxy extends ProxyObject
     public function simulate(int $id=0)
     {
         if ($id==0) {
-            cookie()->unset(User::simulateUserToken);
+            cookie()->delete(User::simulateUserToken);
         } else {
-            cookie()->unset(User::simulateUserToken);
-            if ($this->hasPermission('admin:user.simulate')) {
+            if ($this->getContext()->getVisitor()->isSimulateMode()){
+                $this->getContext()->getVisitor()->clearSimulateMode();
+                cookie()->delete(User::simulateUserToken);
+            }
+            if (
+                $this->hasPermission('admin:user.simulate')) {
                 cookie()->set(User::simulateUserToken, $id);
             } else {
-                throw new PermissionExcepiton(__('permission deny: need permission [admin:user.simulate]'), 1);
+                throw new PermissionExcepiton(__('permission deny: need permission %d [admin:user.simulate]',$this->getContext()->getVisitor()->getId()), 1);
             }
         }
         return $this->getContext()->getVisitor()->getId();
