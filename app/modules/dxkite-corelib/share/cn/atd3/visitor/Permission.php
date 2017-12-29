@@ -212,8 +212,8 @@ class Permission implements \JsonSerializable
     {
         // TODO:  parse acl like
         // -[x] authname|groupname
-        // -[ ] group.authname
-        // -[ ] group.*
+        // -[x] group.authname
+        // -[x] group.*
         // -[ ] group.[auth1,auth2]
         // -[ ] to replace auth1,auth2
         if ($method instanceof \ReflectionMethod || $method instanceof \ReflectionFunction) {

@@ -4,6 +4,7 @@ namespace cn\atd3\user;
 use cn\atd3\visitor\Context;
 use cn\atd3\visitor\verify\Image;
 use cn\atd3\proxy\ProxyObject;
+use cn\atd3\visitor\exception\PermissionExcepiton;
 
 class UserProxy extends ProxyObject
 {
@@ -117,17 +118,22 @@ class UserProxy extends ProxyObject
 
     /**
      * 模拟其他用户
+     * 
      * @?acl admin:user.simulate
      * @paramSource json,get
      * @param integer $id
      * @return void
      */
-    public function simulate(int $id=0) {
-        if ($id==0){
+    public function simulate(int $id=0)
+    {
+        if ($id==0) {
             cookie()->unset(User::simulateUserToken);
-        }else{
+        } else {
+            cookie()->unset(User::simulateUserToken);
             if ($this->hasPermission('admin:user.simulate')) {
-                cookie()->set(User::simulateUserToken,$id);
+                cookie()->set(User::simulateUserToken, $id);
+            } else {
+                throw new PermissionExcepiton(__('permission deny: need permission [admin:user.simulate]'), 1);
             }
         }
         return $this->getContext()->getVisitor()->getId();
