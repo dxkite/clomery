@@ -115,6 +115,24 @@ class UserProxy extends ProxyObject
         return Manager::getUserInfoById($this->context->getVisitor()->getId());
     }
 
+    /**
+     * 模拟其他用户
+     * @?acl admin:user.simulate
+     * @paramSource json,get
+     * @param integer $id
+     * @return void
+     */
+    public function simulate(int $id=0) {
+        if ($id==0){
+            cookie()->unset(User::simulateUserToken);
+        }else{
+            if ($this->hasPermission('admin:user.simulate')) {
+                cookie()->set(User::simulateUserToken,$id);
+            }
+        }
+        return $this->getContext()->getVisitor()->getId();
+    }
+
     public function ids2name(array $ids)
     {
         return Manager::ids2name($ids);

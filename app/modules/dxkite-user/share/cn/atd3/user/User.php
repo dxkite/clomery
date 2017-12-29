@@ -7,7 +7,7 @@ use cn\atd3\visitor\Context;
 
 class User extends Visitor
 {
-    const  simulateUserToken='_simulate_user_id';
+    const  simulateUserToken='__suid';
     protected $simulate=null;
     // 检查是否是登陆状态
     protected function check(int $id, string $token)
@@ -22,7 +22,7 @@ class User extends Visitor
     public function getId()
     {
         if ($this->hasPermission('admin:user.simulate') && cookie()->has(User::simulateUserToken)) {
-            $userId=cookie()->get(User::simulateUserToken,$this->id);
+            $userId=intval(cookie()->get(User::simulateUserToken,$this->id));
             debug()->trace(__( 'user_simulated  %d --> %d',$this->id ,$userId));
             if ($this->simulate != $userId){
                 $this->refreshPermission($userId);
