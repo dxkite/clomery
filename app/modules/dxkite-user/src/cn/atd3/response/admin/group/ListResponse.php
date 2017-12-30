@@ -33,7 +33,7 @@ class ListResponse extends OnUserVisitorResponse
         }
         $page->set('title', __('分组列表 第%d页', $now));
         $page->set('group.list', $dao->list($now, 10));
-        $auths=$dao->getAuthList();
+        $auths=$context->getVisitor()->getPermission()->readPermissions();
         $page->set('auths', $auths);
         $page->set('page.max', ceil($max/10));
         $page->set('page.router', 'user:admin_group_list');

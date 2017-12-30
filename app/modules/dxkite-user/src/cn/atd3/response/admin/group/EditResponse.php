@@ -55,8 +55,4 @@ class EditResponse extends OnUserVisitorResponse
         $page->set('auths', $all);
         return $page->render();
     }
-
-    private function treeList(array $list){
-
-    }
 }

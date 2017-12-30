@@ -20,8 +20,8 @@
                 <td>{{ $item['id'] }}</td>
                 <td>{{ $item['name'] }}</td>
                 <td class="tags">
-                    @foreach($item['permissions']??[] as $id)
-                    <span title="{{$id}}">{{ $:auths[$id]??$id }}</span> @endforeach
+                    @foreach($item['permissions']->jsonSerialize()??[] as $id)
+                    <span title="{{$id}}">{{ $item['permissions']->alias($id) }}</span> @endforeach
                 </td>
                 <td><a href="@u('user:admin_group_edit',$item['id'])">编辑</a> <a href="@u(['delete'=>$item['id']])">删除</a> </td>
             </tr>

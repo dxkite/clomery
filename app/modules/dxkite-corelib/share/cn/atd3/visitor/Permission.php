@@ -16,6 +16,8 @@ class Permission implements \JsonSerializable
 {
     // 权限表,包含所有的权限结构
     private static $permissionTable=[];
+    // 权限配置
+    private static $permissionConfig=[];
     // 所有权限列表，过滤用
     private static $permissionFilter=[];
     // 是否读取了权限表
@@ -87,10 +89,10 @@ class Permission implements \JsonSerializable
         // 去除父级权限元素
         $permission=array_diff($permission, $this_parent);
         // 去除父级权限的子权限 g.n
-        foreach ($permission as $id=>$name){
+        foreach ($permission as $id=>$name) {
             if (strpos($name, '.')) {
-                list($p, $c)=preg_split('/\./',$name, 2);
-                if (in_array($p,$this_parent)){
+                list($p, $c)=preg_split('/\./', $name, 2);
+                if (in_array($p, $this_parent)) {
                     unset($permission[$id]);
                 }
             }
@@ -133,15 +135,15 @@ class Permission implements \JsonSerializable
         return false;
     }
 
-    private function isParent(string $name)
+    private static function isParent(string $name)
     {
         return in_array($name, array_keys(self::$permissionTable));
     }
 
-    private function isChild(string $parent, string $child)
+    private static function isChild(string $parent, string $child)
     {
-        if (strpos($name, '.')) {
-            list($p, $c)=preg_split('/\./',$name, 2);
+        if (strpos($child, '.')) {
+            list($p, $c)=preg_split('/\./', $name, 2);
             if ($parent==$p) {
                 return true;
             }
@@ -188,6 +190,11 @@ class Permission implements \JsonSerializable
 
     public function jsonSerialize()
     {
+        return self::toArray();
+    }
+
+    public function toArray():array
+    {
         list($this_parent, $this_childs)=self::splitIt($this->permissions);
         return array_merge($this_parent, $this_childs);
     }
@@ -201,11 +208,25 @@ class Permission implements \JsonSerializable
                 $tmp=Json::loadFile($jsonfile);
                 $permissions=array_merge($permissions, $tmp);
             }
-        } 
+        }
         foreach ($permissions as $parent=>$child) {
             self::set($parent, array_keys($child['childs']));
-        }                   
+        }
+        static::$permissionConfig=$permissions;
         return $permissions;
+    }
+
+    public static function alias(string $permission):string
+    {
+        if (static::isParent($permission)) {
+            return static::$permissionConfig[$permission]['name'];
+        } elseif (strpos($permission, '.')) {
+            list($parent, $child) = explode('.', $permission, 2);
+            if (static::isParent($parent) && static::isChild($parent,$child)) {
+                return static::$permissionConfig[$parent]['childs'][$child];
+            }
+        }
+        return $permission;
     }
 
     public static function createFromFunction($method)
