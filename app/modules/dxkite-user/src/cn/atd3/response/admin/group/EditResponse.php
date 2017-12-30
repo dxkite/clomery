@@ -23,6 +23,7 @@ use suda\core\Query;
 use cn\atd3\user\dao\GroupDAO;
 use cn\atd3\user\response\OnUserVisitorResponse;
 use cn\atd3\visitor\Context;
+use cn\atd3\visitor\Permission;
 
 class EditResponse extends OnUserVisitorResponse
 {
@@ -38,7 +39,7 @@ class EditResponse extends OnUserVisitorResponse
         $request=$context->getRequest();
         $page=$this->page('dxkite/user:admin/group/edit');
         $dao=new GroupDAO;
-        $all=$dao->getAuths();
+        $all=Permission::readPermissions();
         $id=$request->get()->id;
         if ($request->hasPost()) {
             $dao->setPermission($id, array_keys($request->post()->auths([])));
@@ -49,6 +50,7 @@ class EditResponse extends OnUserVisitorResponse
         }
         $page->set('name', $info['name']);
         $page->set('title',__('编辑分组_%s', $info['name']));
+       // var_dump($info['permissions']);
         $page->set('permissions', $info['permissions']);
         $page->set('auths', $all);
         return $page->render();

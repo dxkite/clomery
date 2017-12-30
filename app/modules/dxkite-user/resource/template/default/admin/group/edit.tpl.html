@@ -13,14 +13,14 @@
             @foreach($:auths as $name=>$body)
             <li class="form-check">
                 <label class="form-check-label">
-                            <input class="form-check-input" type="checkbox" name="auths[{{$name}}]" value="1" @b(in_array($name,$:permissions([])),'checked')>
+                            <input class="form-check-input" type="checkbox" name="auths[{{$name}}]" value="1" @b($:permissions->surpass(new cn\atd3\visitor\Permission([$name])),'checked')>
                             {{__($body['name'])}}
                         </label>
                 <ul>
                     @foreach($body['childs'] as $id=>$auth)
                     <li class="form-check">
                         <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" name="auths[{{$name}}.{{$id}}]" value="1" @b(in_array($id,$:permissions([])),'checked')> 
+                                <input class="form-check-input" type="checkbox" name="auths[{{$name}}.{{$id}}]" value="1" @b($:permissions->surpass(new cn\atd3\visitor\Permission([$name.'.'.$id])),'checked') > 
                                 {{__($auth)}}
                             </label>
                     </li>

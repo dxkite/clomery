@@ -37,7 +37,7 @@ class GroupDAO extends Table
         }
         $id= $this->insert([
             'name'=>$name,
-            'permissions'=> serialize(self::filter($permissons)),
+            'permissions'=> serialize(new Permission($permissons)),
             'sort'=>$sort,
         ]);
         return $id;
@@ -47,7 +47,7 @@ class GroupDAO extends Table
     {
         $id= $this->updateByPrimaryKey($id, [
             'name'=>$name,
-            'permissions'=> serialize(self::filter($permissons)),
+            'permissions'=> serialize(new Permission($permissons)),
             'sort'=>$sort,
         ]);
         return $id;
@@ -56,7 +56,7 @@ class GroupDAO extends Table
     public function setPermission(int $id, array $permissons)
     {
         return $this->updateByPrimaryKey($id, [
-            'permissions'=> serialize(self::filter($permissons)),
+            'permissions'=> serialize(new Permission($permissons)),
         ]);
     }
     
@@ -64,7 +64,7 @@ class GroupDAO extends Table
     {
         $permissons=$this->setFields(['permissions'])->getByPrimaryKey($id);
         if ($permissons) {
-            return self::filter(unserialize($permissons['permissions']));
+            return unserialize($permissons['permissions']);
         }
         return false;
     }
@@ -73,7 +73,7 @@ class GroupDAO extends Table
     {
         $permissons=$this->setFields(['name','permissions'])->getByPrimaryKey($id);
         if ($permissons) {
-            $permissons['permissions']=self::filter(unserialize($permissons['permissions']));
+            $permissons['permissions']=unserialize($permissons['permissions']);
             return $permissons;
         }
         return false;
@@ -116,42 +116,8 @@ class GroupDAO extends Table
     
     public function checkPermission(int $id, $needs)
     {
-        // 取消权限检查
-        if (conf('disable-auth', false)) {
-            return true;
-        }
         $needs=is_array($needs)?$needs:[$needs];
-        $acls=self::getPermission($id);
-        if (count($needs)>0 && count($acls)>0 && $acls) {
-            foreach ($needs as $need) {
-                if (!in_array($need, $acls)) {
-                    return false;
-                }
-            }
-            return true;
-        }
-        return false;
-    }
-
-    public function getAuthList()
-    {
-        $aulist=self::getAuths();
-        $tmp=[];
-        foreach ($aulist as $name => $alias) {
-            if (is_array($alias)) {
-                $tmp[$name]=$alias['name']??$name;
-                foreach (($alias['childs']??[]) as $key =>$val) {
-                    $tmp[$key]=$val;
-                }
-            } else {
-                $tmp[$name]=$alias;
-            }
-        }
-        return $tmp;
-    }
-    
-    public function getAuths()
-    {
-       return Permission::readPermissions();
+        $permissons=self::getPermission($id);
+        return $permissons->surpass(new Permission($needs));
     }
 }

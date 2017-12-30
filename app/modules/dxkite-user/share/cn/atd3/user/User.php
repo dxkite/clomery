@@ -59,8 +59,10 @@ class User extends Visitor
         $permission=Manager::getPermissonsByUserId($id);
         debug()->trace(__('refresh_permission_for_user %d', $id), $permission);
         $this->simulate = $id;
-        if ($permission) {
+        if (is_array($permission)) {
             $this->setPermission(new Permission($permission));
+        } elseif ($permission instanceof Permission) {
+            $this->setPermission($permission);
         } else {
             $this->setPermission(new Permission);
         }
