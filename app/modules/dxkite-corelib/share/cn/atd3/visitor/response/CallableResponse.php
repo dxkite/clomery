@@ -87,7 +87,7 @@ abstract class CallableResponse extends MethodCallResponse
                 }
                 if (preg_match('/@paramSource\s+([\w,]+)\s*$/ims', $docs, $match)) {
                     $types=explode(',', strtoupper(trim($match[1], ',')));
-                    $help[$name]['paramSource']=$acl;
+                    $help[$name]['paramSource']=$types;
                 }
             }
             foreach ($method->getParameters() as $param) {

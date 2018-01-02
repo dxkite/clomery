@@ -143,7 +143,7 @@ class Permission implements \JsonSerializable
     private static function isChild(string $parent, string $child)
     {
         if (strpos($child, '.')) {
-            list($p, $c)=preg_split('/\./', $name, 2);
+            list($p, $c)=explode('.', $child, 2);
             if ($parent==$p) {
                 return true;
             }
@@ -222,7 +222,7 @@ class Permission implements \JsonSerializable
             return static::$permissionConfig[$permission]['name'];
         } elseif (strpos($permission, '.')) {
             list($parent, $child) = explode('.', $permission, 2);
-            if (static::isParent($parent) && static::isChild($parent,$child)) {
+            if (static::isParent($parent) && static::isChild($parent, $child)) {
                 return static::$permissionConfig[$parent]['childs'][$child];
             }
         }
