@@ -76,9 +76,9 @@ class UserProxy extends ProxyObject
      * @param string $email
      * @param string $password
      * @param string $code
-     * @return void
+     * @return int
      */
-    public function signup(string $user, string $email, string $password, string $code=null)
+    public function signup(string $user, string $email, string $password, string $code=null):int
     {
         if (self::getNeedSignCode(self::SIGN_UP)) {
             if (is_null($code)) {
