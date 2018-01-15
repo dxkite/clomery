@@ -22,7 +22,7 @@ class UserProxy extends ProxyObject
     const EXISTS_EMAIL=-5;
     const MAINCODE_NAME='action_man';
     const NEED_CODE=-6;
-    
+
     const SIGN_IN=1;
     const SIGN_UP=2;
 
@@ -36,17 +36,17 @@ class UserProxy extends ProxyObject
     
     public function signin(string $account, string $password, bool $remember=false, string $code=null)
     {
-        if (self::getNeedSignCode(self::SIGN_IN)) {
+        if (self::getNeedSignCode(self::SIGN_UP)) {
             if (is_null($code)) {
-                throw new UserException(__('you need enter image code'), UserException::NEED_CODE);
+               return self::NEED_CODE;
             } else {
                 if (!self::checkCode($code)) {
-                    return UserProxy::INVALID_CODE;
+                    return self::INVALID_CODE;
                 }
             }
         }
     
-        if (preg_match(UserProxy::EMAIL_PREG, $account)) {
+        if (preg_match(self::EMAIL_PREG, $account)) {
             $id=Manager::getIdByEmail($account);
         } else {
             $id=Manager::getIdByName($account);
@@ -63,10 +63,10 @@ class UserProxy extends ProxyObject
                 if ($get>=conf('system.user_faildtimes', 3)) {
                     self::setNeedSignCode(self::SIGN_IN);
                 }
-                return UserProxy::INVALID_PASSWORD;
+                return self::INVALID_PASSWORD;
             }
         } else {
-            return UserProxy::INVALID_ACCOUNT;
+            return self::INVALID_ACCOUNT;
         }
         return $id;
     }
@@ -84,7 +84,7 @@ class UserProxy extends ProxyObject
     {
         if (self::getNeedSignCode(self::SIGN_UP)) {
             if (is_null($code)) {
-                throw new UserException(__('you need enter image code'), self::NEED_CODE);
+               return self::NEED_CODE;
             } else {
                 if (!self::checkCode($code)) {
                     return self::INVALID_CODE;
