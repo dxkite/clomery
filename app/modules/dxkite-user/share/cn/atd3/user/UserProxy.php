@@ -5,6 +5,7 @@ use cn\atd3\visitor\Context;
 use cn\atd3\visitor\verify\Image;
 use cn\atd3\proxy\ProxyObject;
 use cn\atd3\visitor\exception\PermissionExcepiton;
+use cn\atd3\user\exception\UserException;
 
 class UserProxy extends ProxyObject
 {

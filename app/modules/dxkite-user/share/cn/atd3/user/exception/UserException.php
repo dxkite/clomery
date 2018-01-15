@@ -1,5 +1,5 @@
 <?php
-namespace cn\atd3\exception;
+namespace cn\atd3\user\exception;
 use RuntimeException;
 class UserException extends RuntimeException {
     const NAME_FORMAT=0;
