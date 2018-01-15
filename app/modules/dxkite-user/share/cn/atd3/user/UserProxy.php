@@ -21,7 +21,8 @@ class UserProxy extends ProxyObject
     const EXISTS_USER=-4;
     const EXISTS_EMAIL=-5;
     const MAINCODE_NAME='action_man';
-
+    const NEED_CODE=-6;
+    
     const SIGN_IN=1;
     const SIGN_UP=2;
 
@@ -83,10 +84,10 @@ class UserProxy extends ProxyObject
     {
         if (self::getNeedSignCode(self::SIGN_UP)) {
             if (is_null($code)) {
-                throw new UserException(__('you need enter image code'), UserProxy::NEED_CODE);
+                throw new UserException(__('you need enter image code'), self::NEED_CODE);
             } else {
                 if (!self::checkCode($code)) {
-                    return UserProxy::INVALID_CODE;
+                    return self::INVALID_CODE;
                 }
             }
         }

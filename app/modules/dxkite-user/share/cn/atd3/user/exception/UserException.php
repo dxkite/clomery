@@ -6,4 +6,5 @@ class UserException extends RuntimeException {
     const EMAIL_FORMAT=1;
     const NAME_EXISTS=3;
     const EMAIL_EXISTS=4;
+    const NEED_CODE=5;
 }
