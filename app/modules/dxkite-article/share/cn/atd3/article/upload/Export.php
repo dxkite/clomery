@@ -23,22 +23,4 @@ class Export  extends ProxyObject {
         }
         return false;
     }
-
-    public function html() {
-        $config = \HTMLPurifier_Config::createDefault();
-        $config->set('Cache.SerializerPath',CACHE_DIR.'/html_purifier');
-        // configuration goes here:
-        $config->set('Core.Encoding', 'UTF-8'); // replace with your encoding
-        $config->set('HTML.Doctype', 'XHTML 1.0 Transitional'); // replace with your doctype
-        
-        $purifier = new \HTMLPurifier($config);
-        
-        // untrusted input HTML
-        $html = '<b>Simpl<img     src="xxx"/> e and<img src="xxx"> short<script src=""></script>';
-        
-        $pure_html = $purifier->purify($html);
-        
-       return $pure_html;
- 
-    }
 }

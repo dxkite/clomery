@@ -38,13 +38,13 @@ class AttachmentTable extends Table
 
     public function addArticleResource(int $article, string $name,int $file)
     {
-        $this->insert(['aid'=>$article,'name'=>$name,'fid'=>$file,'time'=>time(),'ip'=>request()->ip()]);
+        $this->insert(['aid'=>$article,'name'=>$name,'fid'=>$file,'time'=>time(),'ip'=>request()->ip(),'type'=>AttachmentTable::TYPE_RESOURCE]);
     }
 
     public function addArticleImage(File $fileIn,int $article) {
         $file=proxy('upload')->save($fileIn,'article_image_'.$article,UploadProxy::STATE_PUBLISH,UploadProxy::FILE_PUBLIC);
         if ($file){
-            $this->insert(['aid'=>$article,'fid'=>$file->getId(),'time'=>time(),'ip'=>request()->ip()]);
+            $this->insert(['aid'=>$article,'fid'=>$file->getId(),'time'=>time(),'ip'=>request()->ip(),'type'=>AttachmentTable::TYPE_ATTACHMEMT]);
             return $file->getUrl();
         }
         return false;
@@ -52,7 +52,7 @@ class AttachmentTable extends Table
 
     public function getArchiveIds(int $articleId)
     {
-        $att=$this->select(['name','fid'], ['aid' => $articleId]) -> fetchAll();
+        $att=$this->select(['name','fid'], ['aid' => $articleId,'type'=>AttachmentTable::TYPE_ATTACHMEMT]) -> fetchAll();
         return $att;
     }
 }

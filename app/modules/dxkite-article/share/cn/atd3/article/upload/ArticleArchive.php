@@ -37,7 +37,7 @@ class ArticleArchive
     public function save(int $uid, int $status) : bool
     {
         $article=$this->article;
-     
+        $result=false;
         try {
             Query::begin();
             // 设置了ID则修改文章
@@ -60,7 +60,6 @@ class ArticleArchive
                 $article->attr['id'] = $articleId;
                 $result=$articleId>0;
             }
-
             if ($result) {
                 if ($article->contentType == 'html') {
                     $content=$article->content;
