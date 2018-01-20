@@ -20,6 +20,8 @@ abstract class Archive
     abstract public function toArticle():Article;
     public function remove():bool
     {
-        return storage()->delete($this->templatePath);
+        debug()->info('delete_template:'.$this->templatePath);
+        //return storage()->delete($this->templatePath);
+        return true;
     }
 }

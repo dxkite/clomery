@@ -5,8 +5,8 @@ use suda\archive\Table;
 use suda\tool\Pinyin;
 use suda\core\Request;
 use suda\core\Query;
-use cn\atd3\upload\{File,UploadProxy};
-
+use cn\atd3\upload\File;
+use cn\atd3\upload\UploadProxy;
 
 class AttachmentTable extends Table
 {
@@ -27,6 +27,7 @@ class AttachmentTable extends Table
         return $table->fields(
             $table->field('id', 'bigint', 20)->primary()->unsigned()->auto(),
             $table->field('aid', 'bigint', 20)->unsigned()->key()->comment("文章ID"),
+            $table->field('name','varchar',255)->comment('附件名'),
             $table->field('fid', 'bigint', 20)->unsigned()->key()->comment("文件ID"),
             $table->field('type', 'tinyint', 1)->key()->comment("附件或者资源"),
             $table->field('time', 'int', 11)->key()->comment("时间"),
@@ -35,13 +36,23 @@ class AttachmentTable extends Table
         );
     }
 
-    public function addArticleResource(File $file,int $article) {
-        $file=proxy('upload')->save($file,'article_resource_'.$article,UploadProxy::STATE_PUBLISH,UploadProxy::FILE_PUBLIC);
-        $this->insert(['aid'=>$article,'fid'=>$file->getId(),'time'=>time(),'ip'=>request()->ip()]);
-        return $file->getUrl();
+    public function addArticleResource(int $article, string $name,int $file)
+    {
+        $this->insert(['aid'=>$article,'name'=>$name,'fid'=>$file,'time'=>time(),'ip'=>request()->ip()]);
     }
 
-    // public function getAttachmentById(int $article) {
-    //     $this->listWhere(['fid','time'])
-    // }
+    public function addArticleImage(File $fileIn,int $article) {
+        $file=proxy('upload')->save($fileIn,'article_image_'.$article,UploadProxy::STATE_PUBLISH,UploadProxy::FILE_PUBLIC);
+        if ($file){
+            $this->insert(['aid'=>$article,'fid'=>$file->getId(),'time'=>time(),'ip'=>request()->ip()]);
+            return $file->getUrl();
+        }
+        return false;
+    }
+
+    public function getArchiveIds(int $articleId)
+    {
+        $att=$this->select(['name','fid'], ['aid' => $articleId]) -> fetchAll();
+        return $att;
+    }
 }

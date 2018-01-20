@@ -1,7 +1,9 @@
 <?php
 namespace cn\atd3\article\upload;
-use cn\atd3\upload\File;
 
+use cn\atd3\upload\File;
+use cn\atd3\upload\UploadProxy;
+use cn\atd3\article\upload\exception\ResourceException;
 
 class Attachment
 {
@@ -10,7 +12,8 @@ class Attachment
     protected $visibility;
     protected $password;
     
-    public function __construct(string $source){
+    public function __construct(string $source)
+    {
         $this->setSource($source);
     }
 
@@ -58,7 +61,36 @@ class Attachment
         return $this->password;
     }
 
-    public function saveTo(Article $article) {
-        proxy('upload')->save();
+    /**
+     * 将附件保存至文章
+     *
+     * @param Article $article
+     * @return bool 是否保存成功
+     */
+    public function saveTo(Article $article):bool
+    {
+        $articleId=$article->attr['id'];
+        
+        if ($this->getVisibility() == 'public') {
+            $statu=UploadProxy::FILE_PUBLIC;
+        } elseif ($this->getVisibility() == 'password') {
+            $statu=UploadProxy::FILE_PASSWORD;
+        } else {
+            $statu=UploadProxy::FILE_SIGN;
+        }
+
+        if (storage()->exist($this->source)) {
+            $file = new File($this->source);
+            $upload=proxy('upload')->save($file, 'article_resource_'.$articleId, UploadProxy::STATE_PUBLISH, $statu);
+            if ($upload->getId() > 0) {
+                $insertId= table('attachment')->addArticleResource($articleId, $this->name, $upload->getId());
+            } else {
+                throw new ResourceException('resource not prepared: '.$this->source);
+            }
+            return $insertId>0;
+        } else {
+            throw new ResourceException('resource not exist: '.$this->source);
+        }
+        return false;
     }
 }

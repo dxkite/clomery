@@ -173,6 +173,31 @@ class Article extends ProxyObject
         return null;
     }
 
+    /**
+     * 获取附件列表
+     *
+     * @param integer $id 文章ID
+     * @return array 附件列表
+     */
+    public function getAttachments(int $id)
+    {
+        $atts=table('attachment')->getArchiveIds($id);
+        $id2name =[];
+        if ($atts) {
+            $attids=[];
+            foreach ($atts as $item) {
+                $attids[] = $item['fid'];
+                $id2name[$item['fid']] = $item['name'];
+            }
+        }
+        $data=table('upload') -> select(['id','name','type','size','time','visibility'], ['id'=>$attids])->fetchAll();
+        foreach ($data as $i=>$daItem){
+            $data[$i]['attachment'] = $id2name[$daItem['id']];
+            $data[$i]['url']= u('corelib:upload', ['id'=>$daItem['id']]);
+        }
+        return $data;
+    }
+
     protected function parseArticle(array $article)
     {
         $id=intval($article['id']);

@@ -1,22 +1,26 @@
 <?php
 namespace cn\atd3\article\upload\archive;
-use  cn\atd3\article\upload\{Article,Attachment};
+
+use cn\atd3\article\upload\Article;
+use cn\atd3\article\upload\Attachment;
 use cn\atd3\upload\File;
 use suda\tool\ZipHelper;
 
 /**
  * xml格式压缩文档解析器
  */
-class  XmlArchive extends  Archive {
-
+class XmlArchive extends Archive
+{
     protected $xmlFile;
 
-    public function __construct(File $file) {
+    public function __construct(File $file)
+    {
         parent::__construct($file);
         $this->xmlFile=$this->templatePath.'/index.xml';
     }
 
-    public function toArticle():Article {
+    public function toArticle():Article
+    {
         $article=new Article;
         $indexXml=simplexml_load_file($this->xmlFile);
         foreach ($indexXml->children() as $child) {
@@ -68,7 +72,7 @@ class  XmlArchive extends  Archive {
     protected function getXmlAttachment(\SimpleXMLElement $obj)
     {
         if (isset($obj['src']) && $obj->getName()==='attarchment') {
-            $attachment=new Attachment($obj['src']);
+            $attachment=new Attachment($this->getRootPath().'/'.$obj['src']);
             if (isset($obj['name'])) {
                 $attachment->setName($obj['name']);
             }
@@ -84,7 +88,7 @@ class  XmlArchive extends  Archive {
     }
     
 
-    public  function __destruct () {
-
+    public function __destruct()
+    {
     }
 }

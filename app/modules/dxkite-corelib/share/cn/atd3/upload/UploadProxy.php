@@ -16,7 +16,7 @@ class UploadProxy extends ProxyObject
 
     const FILE_PUBLIC=0;
     const FILE_SIGN=1;
-    const FILE_PASSWORD=1;
+    const FILE_PASSWORD=2;
     
     public function __construct(Context $context)
     {
@@ -32,8 +32,10 @@ class UploadProxy extends ProxyObject
         } else {
             $uploader->setVisibility($visibility, $password);
         }
-        $uploader->save();
-        return $uploader;
+        if ($uploader->save()) {
+            return $uploader;
+        }
+        return false;
     }
 
     public function delete(int $id)

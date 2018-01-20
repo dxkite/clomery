@@ -283,8 +283,13 @@ class Uploader implements \JsonSerializable
     public function jsonSerialize()
     {
         return [
-            'url'=>$this->getPublicUrl(),
+            'url'=>$this->getUrl(),
             'id'=>$this->id,
         ];
+    }
+
+    public function __toString()
+    {
+        return json_encode($this->jsonSerialize());
     }
 }
