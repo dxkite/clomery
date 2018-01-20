@@ -58,14 +58,14 @@ class ArticleDAO extends Table
         ]);
     }
     
-    public function edit(int $id, array $update,int $user=null)
+    public function edit(int $id, array $update, int $user=null)
     {
         $update['modify']=time();
         if (isset($update['title']) && !isset($update['slug'])) {
             $update['slug']=$update['slug']??Pinyin::getAll($update['title'], '-', 255);
         }
         $update['ip']= Request::ip();
-        if(is_null($user)){
+        if (is_null($user)) {
             return $this->update($update, ['id'=>$id]);
         }
         return $this->update($update, ['id'=>$id, 'user'=>$user]);
@@ -87,15 +87,16 @@ class ArticleDAO extends Table
         if (is_null($page)) {
             return $this->setWants(['id','title','slug','user','create','modify','category','abstract' ,'cover','views','status'])->listWhere(['user'=>$uid]);
         } else {
-            return $this->setWants(['id','title','slug','user','create','modify','category','abstract' ,'cover','views','status'])->listWhere(['user'=>$uid],[], $page, $count);
+            return $this->setWants(['id','title','slug','user','create','modify','category','abstract' ,'cover','views','status'])->listWhere(['user'=>$uid], [], $page, $count);
         }
     }
 
-    public function listAll(int $page=null,int $row=10){
+    public function listAll(int $page=null, int $row=10)
+    {
         if (is_null($page)) {
-            return  parent::listWhere('status != :status',['status'=>ArticleDAO::STATUS_DELETE]);
+            return  parent::listWhere('status != :status', ['status'=>ArticleDAO::STATUS_DELETE]);
         } else {
-            return parent::listWhere('status != :status',['status'=>ArticleDAO::STATUS_DELETE], $page, $row);
+            return parent::listWhere('status != :status', ['status'=>ArticleDAO::STATUS_DELETE], $page, $row);
         }
     }
 
@@ -104,7 +105,7 @@ class ArticleDAO extends Table
         if (is_null($page)) {
             return $this->setWants(['id','title','slug','user','create','modify','category','abstract' ,'cover','views','status'])->listWhere(['category'=>$cateid,'status'=>ArticleDAO::STATUS_PUBLISH]);
         } else {
-            return $this->setWants(['id','title','slug','user','create','modify','category','abstract' ,'cover','views','status'])->listWhere(['category'=>$cateid,'status'=>ArticleDAO::STATUS_PUBLISH],[],$page, $count);
+            return $this->setWants(['id','title','slug','user','create','modify','category','abstract' ,'cover','views','status'])->listWhere(['category'=>$cateid,'status'=>ArticleDAO::STATUS_PUBLISH], [], $page, $count);
         }
     }
 
@@ -181,5 +182,14 @@ class ArticleDAO extends Table
     public function getCount()
     {
         return $this->count('status!=:status', ['status'=>ArticleDAO::STATUS_DELETE]);
+    }
+
+    // 内容输出转换
+    protected function _outputContentField(string $content)
+    {
+        return preg_replace_callback('/\[\[data\:(\d+)\]\]/', function ($match) {
+            $id=intval($match[1]);
+            return u('corelib:upload', ['id'=>$id]);
+        }, $content);
     }
 }

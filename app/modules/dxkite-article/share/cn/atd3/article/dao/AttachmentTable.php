@@ -27,7 +27,7 @@ class AttachmentTable extends Table
         return $table->fields(
             $table->field('id', 'bigint', 20)->primary()->unsigned()->auto(),
             $table->field('aid', 'bigint', 20)->unsigned()->key()->comment("文章ID"),
-            $table->field('name','varchar',255)->comment('附件名'),
+            $table->field('name', 'varchar', 255)->comment('附件名'),
             $table->field('fid', 'bigint', 20)->unsigned()->key()->comment("文件ID"),
             $table->field('type', 'tinyint', 1)->key()->comment("附件或者资源"),
             $table->field('time', 'int', 11)->key()->comment("时间"),
@@ -36,16 +36,19 @@ class AttachmentTable extends Table
         );
     }
 
-    public function addArticleResource(int $article, string $name,int $file)
+    public function addArticleResource(int $article, string $name, int $file)
     {
-        $this->insert(['aid'=>$article,'name'=>$name,'fid'=>$file,'time'=>time(),'ip'=>request()->ip(),'type'=>AttachmentTable::TYPE_ATTACHMEMT]);
+        return $this->insert(['aid'=>$article,'name'=>$name,'fid'=>$file,'time'=>time(),'ip'=>request()->ip(),'type'=>AttachmentTable::TYPE_ATTACHMEMT]);
     }
 
-    public function addArticleImage(File $fileIn,int $article) {
-        $file=proxy('upload')->save($fileIn,'article_image_'.$article,UploadProxy::STATE_PUBLISH,UploadProxy::FILE_PUBLIC);
-        if ($file){
-            $this->insert(['aid'=>$article,'fid'=>$file->getId(),'time'=>time(),'ip'=>request()->ip(),'type'=>AttachmentTable::TYPE_RESOURCE]);
-            return $file->getUrl();
+    public function addArticleImage(File $fileIn, int $article)
+    {
+        $file=proxy('upload')->save($fileIn, 'article_image_'.$article, UploadProxy::STATE_PUBLISH, UploadProxy::FILE_PUBLIC);
+        if ($file) {
+            $id=$this->insert(['aid'=>$article,'fid'=>$file->getId(),'time'=>time(),'ip'=>request()->ip(),'type'=>AttachmentTable::TYPE_RESOURCE]);
+            if ($id >0) {
+                return $file->getId();
+            }
         }
         return false;
     }

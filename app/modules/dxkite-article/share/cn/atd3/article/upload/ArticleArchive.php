@@ -89,9 +89,9 @@ class ArticleArchive
             if (!preg_match('/^https?/', $match[1])) {
                 $path=$archive->getRootPath().'/'.$match[1];
                 if (storage()->exist($path)) {
-                    $url=table('attachment')->addArticleImage(new File($path), $id);
-                    if ($url) {
-                        return '<img src="'.$url.'" alt="'.$match[2].'"/>';
+                    $id=table('attachment')->addArticleImage(new File($path), $id);
+                    if ($id>0) {
+                        return '<img src="[[data:'.$id.']]" alt="'.$match[2].'"/>';
                     } else {
                         throw new ResourceException('image resource not prepared: '.$match[1]);
                     }

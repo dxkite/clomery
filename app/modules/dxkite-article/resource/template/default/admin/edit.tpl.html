@@ -5,7 +5,7 @@
             <div class="form-group">
                 <select class="custom-select" id="category">
                 <option value="0">未分类</option>
-                @foreach($:categorys as $c)
+                @foreach($:categorys([]) as $c)
                 <option value="{{$c['id']}}" @b($c['id']==$:article['category'],'selected')>{{ $c['name'] }}</option>
                 @endforeach
                 </select>
