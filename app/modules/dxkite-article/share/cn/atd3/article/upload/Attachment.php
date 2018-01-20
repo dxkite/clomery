@@ -71,17 +71,22 @@ class Attachment
     {
         $articleId=$article->attr['id'];
         
-        if ($this->getVisibility() == 'public') {
+        if (strtolower($this->getVisibility()) == 'public') {
             $statu=UploadProxy::FILE_PUBLIC;
-        } elseif ($this->getVisibility() == 'password') {
+        } elseif (strtolower($this->getVisibility()) == 'password') {
             $statu=UploadProxy::FILE_PASSWORD;
         } else {
             $statu=UploadProxy::FILE_SIGN;
         }
-
         if (storage()->exist($this->source)) {
             $file = new File($this->source);
-            $upload=proxy('upload')->save($file, 'article_resource_'.$articleId, UploadProxy::STATE_PUBLISH, $statu);
+
+            if ($statu == UploadProxy::FILE_PASSWORD) {
+                $upload=proxy('upload')->save($file, 'article_resource_'.$articleId, UploadProxy::STATE_PUBLISH, $statu, $this->getPassword());
+            } else {
+                $upload=proxy('upload')->save($file, 'article_resource_'.$articleId, UploadProxy::STATE_PUBLISH, $statu);
+            }
+           
             if ($upload->getId() > 0) {
                 $insertId= table('attachment')->addArticleResource($articleId, $this->name, $upload->getId());
             } else {

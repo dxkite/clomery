@@ -14,9 +14,9 @@ class UploadProxy extends ProxyObject
     const STATE_PRIVATE=3;
     const STATE_DELETE=4;
 
-    const FILE_PUBLIC=0;
-    const FILE_SIGN=1;
-    const FILE_PASSWORD=2;
+    const FILE_PUBLIC=Uploader::FILE_PUBLIC;
+    const FILE_SIGN=Uploader::FILE_SIGN;
+    const FILE_PASSWORD=Uploader::FILE_PASSWORD;
     
     public function __construct(Context $context)
     {

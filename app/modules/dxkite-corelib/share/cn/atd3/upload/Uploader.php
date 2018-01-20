@@ -20,8 +20,7 @@ class Uploader implements \JsonSerializable
     
     const FILE_PUBLIC=0;
     const FILE_SIGN=1;
-    const FILE_PROTECTED=2;
-    const FILE_PASSWORD=3;
+    const FILE_PASSWORD=2;
 
     protected $savePath;
     protected $id;
@@ -159,14 +158,7 @@ class Uploader implements \JsonSerializable
      */
     public function getUrl()
     {
-        // if (empty($this->savePath)){
-        //     return u('corelib:upload', ['id'=>$this->id]);
-        // }
-        // if ($this->visibility==self::FILE_PUBLIC) {
-        //     return request()->hostBase().'/'.storage()->cut(storage()->abspath($this->getSavePath()), APP_PUBLIC);
-        // } else {
-            return u('corelib:upload', ['id'=>$this->id]);
-        // }
+        return u('corelib:upload', ['id'=>$this->id]);
     }
     
     /**
@@ -190,7 +182,7 @@ class Uploader implements \JsonSerializable
     {
         $this->visibility=$visibility;
         if (!empty($password)) {
-            $this->visibility=FILE_PASSWORD;
+            $this->visibility=self::FILE_PASSWORD;
             $this->password=$password;
         }
         return $this;
@@ -220,6 +212,7 @@ class Uploader implements \JsonSerializable
                 $upload->uploadByPrimaryKey($uploadId, [
                     'mark'=>$this->mark,
                     'time'=>time(),
+                    'visibility'=> $this->visibility,
                     'status'=>$this->status,
                 ]);
             } else {
@@ -231,6 +224,7 @@ class Uploader implements \JsonSerializable
                     'type'=>$this->file->getType(),
                     'size'=>$this->file->getSize(),
                     'mark'=>$this->mark,
+                    'visibility'=> $this->visibility,
                     'status'=>$this->status,
                 ];
                 if ($this->password) {
