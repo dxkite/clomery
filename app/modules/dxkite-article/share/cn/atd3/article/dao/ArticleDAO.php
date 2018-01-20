@@ -192,4 +192,23 @@ class ArticleDAO extends Table
             return u('corelib:upload', ['id'=>$id]);
         }, $content);
     }
+
+
+    // 内容输出转换
+    protected function _inputContentField(string $content)
+    {
+        return preg_replace_callback('/<img(.+?)src="(.+?)"(.+?)\/?>/i', function ($match) {
+            if (isset($match[2])) {
+                if ($that=router()->parseUrl($match[2])){
+                    if ($that->is('corelib:upload')){
+                       $param= $that->getValue();
+                       if (isset($param['id'])){
+                           return '<img'.$match[1].'src="[[data:'.$param['id'].']]"'.$match[3].'/>';
+                       }
+                    }
+                }
+            }
+            return $match[0];
+        }, $content);
+    }
 }
