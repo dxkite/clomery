@@ -198,6 +198,7 @@ class ArticleDAO extends Table
     protected function _inputContentField(string $content)
     {
         return preg_replace_callback('/<img(.+?)src="(.+?)"(.+?)\/?>/i', function ($match) {
+            
             if (isset($match[2])) {
                 if ($that=router()->parseUrl($match[2])){
                     if ($that->is('corelib:upload')){

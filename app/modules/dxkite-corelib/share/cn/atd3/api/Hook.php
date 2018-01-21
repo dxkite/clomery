@@ -12,15 +12,18 @@ class Hook
                 $name=trim($v[1], '"\'');
                 if(preg_match('/^:(.+)$/',$name,$match)){
                     $prefix=app()->getModulePrefix('dxkite/corelib')['api']??'/open-api';
-                    return  request()->hostBase().$prefix.'/'.$match[1]??'';
+                    $url=ltrim($prefix.'/'.$match[1]??'','/');
+                    return '<?php echo request()->baseUrl().\''.$url.'\'; ?>';
                 }
                 if(strpos($name,':')){
                    list($name,$version)=preg_split('/:/',$name,2);
                 }
-                return u('dxkite/corelib:api_'.$name.'_'.$version);
+                $routeName='dxkite/corelib:api_'.$name.'_'.$version;
+                return '<?php echo u(\''.$routeName.'\'); ?>';
             } else {
                 $prefix=app()->getModulePrefix('dxkite/corelib')['api']??'/open-api';
-                return  request()->hostBase().$prefix;
+                $prefix=ltrim($prefix,'/');
+                return '<?php echo request()->baseUrl().\''.$prefix.'\'; ?>';
             }
         });
     }
