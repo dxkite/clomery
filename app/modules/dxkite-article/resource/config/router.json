@@ -1,7 +1,7 @@
 {
     "read": {
         "class": "cn\\atd3\\response\\article\\ReadResponse",
-        "visit": "\/{id:int=1}",
+        "url": "\/{id:int=1}",
         "anti-prefix": true
     },
     "list": {
