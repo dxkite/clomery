@@ -183,19 +183,22 @@ class Article extends ProxyObject
     {
         $atts=table('attachment')->getArchiveIds($id);
         $id2name =[];
+        $attids=[];
         if ($atts) {
-            $attids=[];
             foreach ($atts as $item) {
                 $attids[] = $item['fid'];
                 $id2name[$item['fid']] = $item['name'];
             }
         }
-        $data=table('upload') -> select(['id','name','type','size','time','visibility'], ['id'=>$attids])->fetchAll();
-        foreach ($data as $i=>$daItem){
-            $data[$i]['attachment'] = $id2name[$daItem['id']];
-            $data[$i]['url']= u('corelib:upload', ['id'=>$daItem['id']]);
+        if (count($attids)){
+            $data=table('upload') -> select(['id','name','type','size','time','visibility'], ['id'=>$attids])->fetchAll();
+            foreach ($data as $i=>$daItem){
+                $data[$i]['attachment'] = $id2name[$daItem['id']];
+                $data[$i]['url']= u('corelib:upload', ['id'=>$daItem['id']]);
+            }
+            return $data;
         }
-        return $data;
+        return false;
     }
 
     protected function parseArticle(array $article)
