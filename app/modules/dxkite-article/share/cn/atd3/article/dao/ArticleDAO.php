@@ -76,9 +76,9 @@ class ArticleDAO extends Table
         $this->setWants(['id','title','slug','user','create','modify','category','abstract' ,'cover','views','status']);
         // OR ( user=:user  AND status!=:delete )
         if (is_null($page)) {
-            return Query::where($this->getTableName(), $this->getWants(), ' status = :publish '.  self::_order(), ['publish'=>ArticleDAO::STATUS_PUBLISH])->fetchAll();
+            return Query::where($this->getTableName(), $this->getWants(), ' status = :publish '.  self::_order(), ['publish'=>ArticleDAO::STATUS_PUBLISH])->object($this)->fetchAll();
         } else {
-            return Query::where($this->getTableName(), $this->getWants(), ' status = :publish '.  self::_order(), ['publish'=>ArticleDAO::STATUS_PUBLISH], [$page, $count])->fetchAll();
+            return Query::where($this->getTableName(), $this->getWants(), ' status = :publish '.  self::_order(), ['publish'=>ArticleDAO::STATUS_PUBLISH], [$page, $count])->object($this)->fetchAll();
         }
     }
 
@@ -112,14 +112,14 @@ class ArticleDAO extends Table
     public function getArticle(int $article, int $user=null)
     {
         if (is_null($user)) {
-            return Query::where($this->getTableName(), $this->getWants(), ' id=:id AND status = :publish ', ['id'=>$article,  'publish'=>ArticleDAO::STATUS_PUBLISH])->fetch();
+            return Query::where($this->getTableName(), $this->getWants(), ' id=:id AND status = :publish ', ['id'=>$article,  'publish'=>ArticleDAO::STATUS_PUBLISH])->object($this)->fetch();
         }
-        return Query::where($this->getTableName(), $this->getWants(), ' ( id=:id AND status = :publish ) OR ( id=:id AND user=:user  AND status!=:delete)', ['id'=>$article, 'user'=>$user, 'publish'=>ArticleDAO::STATUS_PUBLISH,'delete'=>ArticleDAO::STATUS_DELETE])->fetch();
+        return Query::where($this->getTableName(), $this->getWants(), ' ( id=:id AND status = :publish ) OR ( id=:id AND user=:user  AND status!=:delete)', ['id'=>$article, 'user'=>$user, 'publish'=>ArticleDAO::STATUS_PUBLISH,'delete'=>ArticleDAO::STATUS_DELETE])->object($this)->fetch();
     }
 
     public function getUserArticle(int $uid, int $article)
     {
-        return Query::where($this->getTableName(), $this->getWants(), [$this->getPrimaryKey()=>$article,'user'=>$uid])->fetch()?:false;
+        return Query::where($this->getTableName(), $this->getWants(), [$this->getPrimaryKey()=>$article,'user'=>$uid])->object($this)->fetch()?:false;
     }
 
     public function getArticleListByIds(array $ids)
@@ -127,12 +127,12 @@ class ArticleDAO extends Table
         list($in_sql, $in_params)=Query::prepareIn('id', $ids);
         $in_params['publish']=ArticleDAO::STATUS_PUBLISH;
         $this->setWants(['id','title','slug','user','create','modify','category','abstract' ,'cover','views','status']);
-        return Query::where($this->getTableName(), $this->getWants(), $in_sql.' AND status = :publish  '. self::_order(), $in_params)->fetchAll();
+        return Query::where($this->getTableName(), $this->getWants(), $in_sql.' AND status = :publish  '. self::_order(), $in_params)->object($this)->fetchAll();
     }
 
     public function getArticleContent(int $user, int $article)
     {
-        return Query::where($this->getTableName(), ['id','user','content','status'], ' id=:id AND status = :publish OR ( user=:user  AND status!=:delete)', ['id'=>$article, 'user'=>$user, 'publish'=>ArticleDAO::STATUS_PUBLISH,'delete'=>ArticleDAO::STATUS_DELETE])->fetch();
+        return Query::where($this->getTableName(), ['id','user','content','status'], ' id=:id AND status = :publish OR ( user=:user  AND status!=:delete)', ['id'=>$article, 'user'=>$user, 'publish'=>ArticleDAO::STATUS_PUBLISH,'delete'=>ArticleDAO::STATUS_DELETE])->object($this)->fetch();
     }
 
     public function setCategory(int $article, int $category)

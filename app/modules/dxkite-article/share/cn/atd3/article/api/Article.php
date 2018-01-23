@@ -71,7 +71,7 @@ class Article extends ProxyObject
     public function articleTags(int $aid)
     {
         $ids=$this->tagDb->getTags($aid);
-        return count($ids)?self::tagsInfo($ids):null;
+        return $ids&&count($ids)?self::tagsInfo($ids):null;
     }
 
     public function cate2name(int $id)
