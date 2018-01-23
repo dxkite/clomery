@@ -40,24 +40,27 @@ class ArticleArchive
         $result=false;
         try {
             Query::begin();
+           
             // 设置了ID则修改文章
-            if ($archive->attr['id']??0) {
+            if ($article->attr['id']??0) {
                 $articleId=$article->attr['id'];
                 $attr=array_merge($article->attr, [
                     'status'=>$article->attr['status']??$status,
                     'content'=>$article->content
                 ]);
-                $result=proxy('article')->edit($articleId, static::valInSet(['title','slug','category','create','modify','status'], $attr));
+                $result=proxy('article')->edit($articleId, static::valInSet(['title','slug','category','abstract','create','modify','status'], $attr));
             } else {
                 // 创建新的文章
                 $articleId=proxy('article')->create(
                     $article->attr['title'],
+                 
                     $article->content,
                     intval($article->attr['category']??0),
                     ArticleDAO::TYPE_HTML,
                     $status
                 );
                 $article->attr['id'] = $articleId;
+                proxy('article')->setAbstract($articleId, $article->attr['abstract']);
                 $result=$articleId>0;
             }
             if ($result) {
