@@ -187,7 +187,6 @@ class ArticleDAO extends Table
     // 内容输出转换
     protected function _outputContentField(string $content)
     {
-        debug()->info('output_transContent');
         return preg_replace_callback('/\[\[data\:(\d+)\]\]/', function ($match) {
             $id=intval($match[1]);
             return u('corelib:upload', ['id'=>$id]);
@@ -198,7 +197,6 @@ class ArticleDAO extends Table
     // 内容输出转换
     protected function _inputContentField(string $content)
     {
-        debug()->info('output_transContent');
         return preg_replace_callback('/<img(.+?)src="(.+?)"(.+?)\/?>/i', function ($match) {
             
             if (isset($match[2])) {
