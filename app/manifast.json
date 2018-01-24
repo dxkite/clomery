@@ -13,7 +13,8 @@
         "dxkite\/user-baidu:1.0.0", 
         "dxkite\/user-oauth:1.0.0", 
         "dxkite\/report",
-        "dxkite\/collection"
+        "dxkite\/collection",
+        "dxkite\/android-message"
     ],
     "language": "zh-CN",
     "url": {
