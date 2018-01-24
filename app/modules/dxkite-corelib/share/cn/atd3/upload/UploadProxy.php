@@ -39,6 +39,7 @@ class UploadProxy extends ProxyObject
         return false;
     }
 
+ 
     public function delete(int $id)
     {
     }

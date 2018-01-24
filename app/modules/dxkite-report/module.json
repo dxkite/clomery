@@ -1,0 +1,29 @@
+{
+    "name": "dxkite\/report",
+    "homepage": "http:\/\/atd3.cn",
+    "version": "1.0.0",
+    "locale": "zh-CN",
+    "namespace": "cn\\atd3",
+    "discription": "反馈模块",
+    "table": {
+        "report": "cn.atd3.report.table.Report",
+        "report_log": "cn.atd3.report.table.ReportLog"
+    },
+    "require": {
+        "corelib": ""
+    },
+    "autoload": {
+        "share": {
+            "cn\\atd3\\report": "share"
+        }
+    },
+    "api-proxy": {
+        "v1.0": {
+            "report":"cn.atd3.report.Report"
+        }
+    },
+    "authors": [{
+        "name": "dxkite",
+        "email": "dxkite@qq.com"
+    }]
+}
