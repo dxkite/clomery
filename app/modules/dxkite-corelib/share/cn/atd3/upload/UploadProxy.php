@@ -19,9 +19,9 @@ class UploadProxy extends ProxyObject
     const FILE_PROTECTED=Uploader::FILE_PROTECTED;
     const FILE_PASSWORD=Uploader::FILE_PASSWORD;
     
-    public function __construct(Context $context)
+    public function __construct()
     {
-        parent::__construct($context);
+        parent::__construct();
     }
 
     public function save(File $file, string $mark, int $status, int $visibility, string $password=null)

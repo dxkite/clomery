@@ -3,10 +3,14 @@ namespace cn\atd3\report;
 
 use cn\atd3\proxy\ProxyObject;
 use cn\atd3\upload\Media;
+use cn\atd3\upload\File;
 
 class Report extends ProxyObject
 {
 
+    public function __construc() {
+
+    }
     /**
      * 上传日志文件
      *
@@ -15,7 +19,7 @@ class Report extends ProxyObject
      */
     public function upload(File $report):bool
     {
-        $id=(new Media)->save($report, 'report_log', Report::STATE_PROTECTED, Report::FILE_PROTECTED);
+        $id=(new Media)->save($report, 'report_log', Media::STATE_PROTECTED, Media::FILE_PROTECTED);
         if ($id) {
             $token=cookie()->get('report_log');
             $reportId=table('report')->token2id($token);
@@ -48,7 +52,7 @@ class Report extends ProxyObject
         if ($id=$this->getContext()->getVisitor()->getId()) {
             $data['user']=$id;
         }
-        if (table()->insert($data) > 0) {
+        if (table('report')->insert($data) > 0) {
             cookie()->set('report_log', $reportToken);
             return true;
         }

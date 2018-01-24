@@ -117,7 +117,7 @@ abstract class CallableResponse extends MethodCallResponse
     public function runMethod($method_call, array $params)
     {
         // TODO: format check
-        $param_arr=$this->isrpc?$params['params']:$params;
+        $param_arr=$this->isrpc?($params['params']??[]):$params;
         // 获取对象引用
         $method=$this->getReflectionMethod($method_call);
         // 参数检查

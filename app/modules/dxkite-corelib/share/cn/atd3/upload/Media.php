@@ -5,8 +5,6 @@ use cn\atd3\upload\File;
 
 class Media extends UploadProxy
 {
-
-   
     /**
      * POST上传资源文件
      *
