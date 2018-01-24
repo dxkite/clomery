@@ -201,9 +201,12 @@ class Uploader implements \JsonSerializable
             $data=new UploadDataTable;
             $upload=new UploadTable;
             $hash=md5_file($this->file->getPath());
+            $duplicate=false;
             // 唯一数据ID
             if ($get=$data->select(['id','path'], ['hash'=>$hash])->fetch()) {
                 $dataId=$get['id'];
+                $this->savePath=$get['path'];
+                $duplicate=true;
             } else {
                 $dataId=$data->insert(['hash'=>$hash, 'ref'=>0,'path'=>$this->getSavePath()]);
             }
@@ -244,7 +247,9 @@ class Uploader implements \JsonSerializable
             return false;
         }
         $this->id=$uploadId;
-        $this->file->move($this->getSaveFullPath());
+        if (!$duplicate) {
+            $this->file->move($this->getSaveFullPath());
+        }
         return true;
     }
 

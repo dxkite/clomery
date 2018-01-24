@@ -5,6 +5,7 @@ use cn\atd3\article\upload\Article;
 use cn\atd3\article\upload\Attachment;
 use cn\atd3\upload\File;
 use suda\tool\ZipHelper;
+use cn\atd3\article\upload\exception\ResourceException;
 
 /**
  * xml格式压缩文档解析器
@@ -22,24 +23,28 @@ class XmlArchive extends Archive
     public function toArticle():Article
     {
         $article=new Article;
+        libxml_use_internal_errors(true);
         $indexXml=simplexml_load_file($this->xmlFile);
-        foreach ($indexXml->children() as $child) {
-            if ($child->getName()=='attrs') {
-                $article->attr=$this->getXmlAttrValue($child, 'attr', 'attrs')[1];
-            } elseif ($child->getName()=='content') {
-                if (isset($child['type'])) {
-                    $article->contentType=(string)$child['type'];
-                }
-                $article->content=base64_decode((string)$child);
-            } elseif ($child->getName()=='attachments') {
-                foreach ($child->children() as $xchild) {
-                    if ($item=$this->getXmlAttachment($xchild)) {
-                        $article->attachment[]=$item;
+        if ($indexXml) {
+            foreach ($indexXml->children() as $child) {
+                if ($child->getName()=='attrs') {
+                    $article->attr=$this->getXmlAttrValue($child, 'attr', 'attrs')[1];
+                } elseif ($child->getName()=='content') {
+                    if (isset($child['type'])) {
+                        $article->contentType=(string)$child['type'];
+                    }
+                    $article->content=base64_decode((string)$child);
+                } elseif ($child->getName()=='attachments') {
+                    foreach ($child->children() as $xchild) {
+                        if ($item=$this->getXmlAttachment($xchild)) {
+                            $article->attachment[]=$item;
+                        }
                     }
                 }
             }
+            return  $article;
         }
-        return  $article;
+        throw new ResourceException(__('article xml parser error(%d) %s',xml_get_error_code(), xml_error_string()));
     }
 
     protected function getXmlAttrValue(\SimpleXMLElement $obj, string $childName='attr', string $tagName='attars')
@@ -90,5 +95,6 @@ class XmlArchive extends Archive
 
     public function __destruct()
     {
+        parent::remove();
     }
 }

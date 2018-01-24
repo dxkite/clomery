@@ -10,7 +10,16 @@ class File implements \JsonSerializable
     private $error;
     private $delete=null;
     private $upload=false;
-    
+    public static $errorCode=[
+        1=>'UPLOAD_ERR_OK',
+        2=>'UPLOAD_ERR_INI_SIZE',
+        3=>'UPLOAD_ERR_FORM_SIZE',
+        4=>'UPLOAD_ERR_PARTIAL',
+        5=>'UPLOAD_ERR_NO_FILE',
+        6=>'UPLOAD_ERR_NO_TMP_DIR',
+        7=>'UPLOAD_ERR_CANT_WRITE'
+    ];
+
     public function __construct(string $path)
     {
         $this->path=$path;
@@ -106,8 +115,11 @@ class File implements \JsonSerializable
 
     public static function createFromPost(string $name)
     {
-        if (!is_uploaded_file($name)) {
-            new Exception(__('%s is not a uploaded file', $name));
+        if (!isset($_FILES[$name]) || !is_uploaded_file($_FILES[$name]['tmp_name'])) {
+            throw new Exception(__('%s is not a uploaded file', $name));
+        }
+        if ($_FILES[$name]['error'] != 0) {
+            throw new Exception(__('%s upload error %s', $name, static::$errorCode[$_FILES[$name]['error']]));
         }
         $param=$_FILES[$name];
         $file=new File($param['tmp_name']);

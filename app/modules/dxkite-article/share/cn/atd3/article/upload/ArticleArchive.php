@@ -37,6 +37,7 @@ class ArticleArchive
     public function save(int $uid, int $status) : bool
     {
         $article=$this->article;
+
         $result=false;
         try {
             Query::begin();
