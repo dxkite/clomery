@@ -5,12 +5,13 @@
     "locale": "zh-CN",
     "namespace": "cn\\atd3",
     "discription": "通用设置模块",
-    "table":{
-        "setting":"cn.atd3.dao.SettingDAO"
+    "table": {
+        "setting": "cn.atd3.dao.SettingDAO"
     },
     "require": {
-        "corelib":""
+        "corelib": ""
     },
+    "import": ["share/function.php"],
     "authors": [{
         "name": "dxkite",
         "email": "dxkite@qq.com"

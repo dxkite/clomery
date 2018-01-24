@@ -19,7 +19,7 @@
         }
     },
     "require": {
-        "dxkite/view": "*"
+        "dxkite/corelib": "*"
     },
     "authors": [{
         "name": "dxkite",
