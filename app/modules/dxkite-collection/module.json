@@ -1,0 +1,28 @@
+{
+    "name": "dxkite\/collection",
+    "homepage": "http:\/\/atd3.cn",
+    "version": "1.0.0",
+    "locale": "zh-CN",
+    "namespace": "cn\\atd3",
+    "discription": "反馈模块",
+    "table": {
+        "collection": "cn.atd3.collection.table.Collection"
+    },
+    "require": {
+        "corelib": ""
+    },
+    "autoload": {
+        "share": {
+            "cn\\atd3\\collection": "share"
+        }
+    },
+    "api-proxy": {
+        "v1.0": {
+            "collection": "cn.atd3.collection.Collection"
+        }
+    },
+    "authors": [{
+        "name": "dxkite",
+        "email": "dxkite@qq.com"
+    }]
+}

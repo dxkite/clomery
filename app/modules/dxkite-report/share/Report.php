@@ -7,10 +7,6 @@ use cn\atd3\upload\File;
 
 class Report extends ProxyObject
 {
-
-    public function __construc() {
-
-    }
     /**
      * 上传日志文件
      *
