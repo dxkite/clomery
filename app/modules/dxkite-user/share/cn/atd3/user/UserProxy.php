@@ -36,7 +36,7 @@ class UserProxy extends ProxyObject
     
     public function signin(string $account, string $password, bool $remember=false, string $code=null)
     {
-        if (self::getNeedSignCode(self::SIGN_UP)) {
+        if (self::getNeedSignCode(self::SIGN_IN)) {
             if (is_null($code)) {
                return self::NEED_CODE;
             } else {
