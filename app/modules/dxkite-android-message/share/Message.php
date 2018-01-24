@@ -8,11 +8,11 @@ class Message extends ProxyObject
     public function pull()
     {
         return [
-            'message' => '服务器时间为：' .date('Y-d-m H:i:s') .', 你从服务器拉取了此条信息，其中信息数据库暂时没有弄。',
+            'message' => '服务器时间为：' .date('Y-m-d H:i:s') .', 你从服务器拉取了此条信息，其中信息数据库暂时没有弄。',
             'url'=>'https://github.com/DXkite/code4a_server',
-            'time'=>5000,
+            'time'=>10000,
             'color'=>'#222222',
-            'backgroundColor'=>'#cccccc'
+            'backgroundColor'=>'#EEEEEE'
         ];
     }
 
