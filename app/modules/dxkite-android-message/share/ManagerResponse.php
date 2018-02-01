@@ -12,7 +12,7 @@ class ManagerResponse extends OnUserVisitorResponse
 {
     /**
      * 
-     * @acl android-message
+     * @acl android-message.[editPull,editAds]
      * @param Context $context
      * @return void
      */

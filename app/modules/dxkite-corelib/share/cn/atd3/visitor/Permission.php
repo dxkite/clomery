@@ -180,7 +180,9 @@ class Permission implements \JsonSerializable
 
     private function filter(array $in)
     {
-        return array_diff($in, array_diff($in, self::$permissionFilter));
+        return array_filter($in,function($name){
+            return in_array($name,Permission::$permissionFilter);
+        });
     }
 
     public function getSystemPermissions()
@@ -229,14 +231,20 @@ class Permission implements \JsonSerializable
         return $permission;
     }
 
+    /**
+     * 反射读取函数执行权限
+     *
+     * @param [type] $method 可调用的函数
+     * @return void
+     */
     public static function createFromFunction($method)
     {
-        // TODO:  parse acl like
-        // -[x] authname|groupname
+    
+        // -[x] authname,groupname
         // -[x] group.authname
         // -[x] group.*
-        // -[ ] group.[auth1,auth2]
-        // -[ ] to replace auth1,auth2
+        // -[x] group.[auth1,auth2]
+ 
         if ($method instanceof \ReflectionMethod || $method instanceof \ReflectionFunction) {
         } elseif (count($method)>1) {
             $method=new ReflectionMethod($method[0], $method[1]);
@@ -247,9 +255,17 @@ class Permission implements \JsonSerializable
         if ($docs && preg_match('/@ACL\s+(.+?)?\s*$/im', $docs, $match)) {
             $acl=null;
             if (isset($match[1])) {
-                $acl=explode(',', trim($match[1], ','));
+                $permissions=preg_replace_callback('/([^.,]+)\.\[([^.]+)\]/', function ($matchs) {
+                    list($all, $parent, $childs) = $matchs;
+                    $acls=explode(',', trim($childs, ','));
+                    $premStr='';
+                    foreach ($acls as $perm) {
+                        $premStr.=$parent.'.'.$perm.',';
+                    }
+                    return $premStr;
+                }, $match[1]);
+                $acl=explode(',', trim($permissions, ','));
             }
-            // debug()->debug('create_permission '.$method->getName(),$acl);
             return new Permission($acl);
         }
         return false;
