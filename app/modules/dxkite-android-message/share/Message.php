@@ -7,20 +7,39 @@ class Message extends ProxyObject
 {
     public function pull()
     {
-        return [
-            'message' => '服务器时间为：' .date('Y-m-d H:i:s') .', 你从服务器拉取了此条信息，其中信息数据库暂时没有弄。',
-            'url'=>'https://github.com/DXkite/code4a_server',
-            'time'=>10000,
-            'color'=>'#222222',
-            'backgroundColor'=>'#EEEEEE'
-        ];
+        $message = setting('androidMessage',false);
+        if ($message && setting('androidMessageEnable',false)){
+            return $message;
+        }
+        return false;
     }
 
     public function pullAd()
     {
-        return [
-            'image'=>'http://code4a.atd3.cn/ad.png',
-            'url'=>'https://github.com/TTHHR/code4a',
+        return setting('androidAds',false);
+    }
+
+    public function editPull(string $message,int $time=10000,string $url=null,string $color='#222222',string $bgColor='#EEEEEE'){
+        $message = [
+            'message' => $message,
+            'url'=>$url,
+            'time'=>$time,
+            'color'=>$color,
+            'backgroundColor'=> $bgColor,
+            'touchable' => !empty($url),
         ];
+        return setting_val('androidMessage',$message);
+    }
+
+    public function editAds(string $image,string $url){
+        $ads=[
+            'image'=>$image,
+            'url'=>$url,
+        ];
+        return setting_val('androidAds',$ads);
+    }
+
+    public function enableMessage(bool $enable=true) {
+        return setting_val('androidMessageEnable',$enable);
     }
 }

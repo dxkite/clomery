@@ -1,0 +1,16 @@
+@startInsert('bs-head')
+<link href="@static('user')/user.css" rel="stylesheet"> 
+<link href="@static('setting')/accordion.css" rel="stylesheet"> 
+@endInsert 
+@startInsert('bs-content')
+@include('header')
+<div class="container-fluid">
+    <div class="row">
+        @include('dxkite/setting:sidebar')
+        <div class="col-10 ml-sm-auto content">
+            @insert('admin-content')
+        </div>
+    </div>
+</div>
+@endInsert 
+@include('setting:bootstrap')

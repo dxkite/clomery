@@ -1,5 +1,5 @@
 {
-    "admin:bakcup": {
+    "admin:backup": {
         "name": "管理备份",
         "childs": {
             "list_tables": "列出数据库信息",

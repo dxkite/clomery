@@ -1,0 +1,9 @@
+{
+    "android-message": {
+        "name": "管理Android信息",
+        "childs": {
+            "editPull": "推送信息",
+            "editAds": "开屏广告"
+        }
+    }
+}

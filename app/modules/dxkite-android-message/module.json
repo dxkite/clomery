@@ -6,7 +6,7 @@
     "namespace": "cn\\atd3",
     "discription": "Android信息",
     "table": {
-        "collection": "cn.atd3.android.table.Message"
+
     },
     "require": {
         "corelib": ""

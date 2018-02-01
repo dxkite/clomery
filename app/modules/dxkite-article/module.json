@@ -34,7 +34,7 @@
     "prefix": {
         "admin": "/article"
     },
-    "import":["share/htmlpurifier/HTMLPurifier.auto.php"],
+    "import":["share/htmlpurifier/MyHTML.auto.php"],
     "authors": [{
         "name": "dxkite",
         "email": "dxkite@qq.com"

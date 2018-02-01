@@ -1,0 +1,11 @@
+{
+    "android-message:android-message": {
+        "sort": 2,
+        "name": "信息管理",
+        "child": {
+            "android-message:android-message": {
+                "name": "Android信息"
+            }
+        }
+    }
+}

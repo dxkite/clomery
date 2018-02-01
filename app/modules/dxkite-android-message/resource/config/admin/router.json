@@ -1,0 +1,10 @@
+{
+    "android-message": {
+        "class": "cn.atd3.android.ManagerResponse",
+        "visit": "\/message",
+        "method": [
+            "GET",
+            "POST"
+        ]
+    }
+}
