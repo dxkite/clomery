@@ -12,33 +12,44 @@ class UserDAO extends Table
     const EXISTS_USER=-4;
     const EXISTS_EMAIL=-5;
 
-    protected $fieldCheck=[
-        'name'=>['/^[\w\x{4e00}-\x{9aff}]{4,80}$/u','invalid user name {value} format {check}'],
-        'email'=>['/^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/','invalid user email {value} format {check}']
-    ];
-
     public function __construct()
     {
         parent::__construct(conf('module.tables.user', 'user'));
     }
     
-    public function onBuildCreator($table) {
+    public function onBuildCreator($table)
+    {
         return $table->fields(
-            $table->field('id','bigint',20)->primary()->unsigned()->auto(),
-            $table->field('name','varchar',255)->unique()->default(null)->comment("用户名"),
-            $table->field('email','varchar',255)->unique()->default(null)->comment("邮箱"),
-            $table->field('password','varchar',60)->default(null)->comment("密码"),
-            $table->field('avatar','bigint',20)->default(0)->comment("头像ID"),
-            $table->field('group_id','bigint',20)->key()->default(0)->comment("分组ID"),
-            $table->field('valid_email','tinyint',1)->key()->default(0)->comment("邮箱验证"),
-            $table->field('signup_ip','varchar',32)->comment("注册IP"),
-            $table->field('signup_time','int',11)->comment("注册时间"),
-            $table->field('valid_token','varchar',32)->comment("验证内容"),
-            $table->field('valid_expire','int',11)->comment("过期时间"),
-            $table->field('status','tinyint',1)->key()->default(0)->comment("用户状态")
+            $table->field('id', 'bigint', 20)->primary()->unsigned()->auto(),
+            $table->field('name', 'varchar', 255)->unique()->default(null)->comment("用户名"),
+            $table->field('email', 'varchar', 255)->unique()->default(null)->comment("邮箱"),
+            $table->field('password', 'varchar', 60)->default(null)->comment("密码"),
+            $table->field('avatar', 'bigint', 20)->default(0)->comment("头像ID"),
+            $table->field('group_id', 'bigint', 20)->key()->default(0)->comment("分组ID"),
+            $table->field('valid_email', 'tinyint', 1)->key()->default(0)->comment("邮箱验证"),
+            $table->field('signup_ip', 'varchar', 32)->comment("注册IP"),
+            $table->field('signup_time', 'int', 11)->comment("注册时间"),
+            $table->field('valid_token', 'varchar', 32)->comment("验证内容"),
+            $table->field('valid_expire', 'int', 11)->comment("过期时间"),
+            $table->field('status', 'tinyint', 1)->key()->default(0)->comment("用户状态")
         );
     }
 
+    protected function _inputNameField($name)
+    {
+        if (!preg_match('/^[\w\x{4e00}-\x{9aff}]{4,255}$/u', $name)) {
+            throw new UserException('invalid user name',UserException::NAME_FORMAT);
+        }
+        return $name;
+    }
+
+    protected function _inputEmailField($email)
+    {
+        if (!preg_match('/^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/', $email)) {
+            throw new UserException('invalid user email',UserException::EMAIL_FORMAT);
+        }
+        return $email;
+    }
     /**
      * 通过用户名获取ID（不区分大小写）
      *

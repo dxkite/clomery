@@ -4,7 +4,7 @@
     "version": "1.0.5",
     "locale": "zh-CN",
     "namespace": "cn\\atd3",
-    "discription": "用户邮箱注册模块，包括权限组控制",
+    "discription": "用户邮箱注册模块，包括分组式权限组控制",
     "install": "cn.atd3.user.Install::create",
     "table": {
         "group": "cn.atd3.user.dao.GroupDAO",
