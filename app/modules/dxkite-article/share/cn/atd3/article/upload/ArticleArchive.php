@@ -8,7 +8,7 @@ use suda\core\Query;
 
 /**
  * 文章归档
- *  
+ *
  */
 class ArticleArchive
 {
@@ -17,7 +17,7 @@ class ArticleArchive
 
     /**
      * 实例化
-     * 
+     *
      * @source POST
      * @param File $archive
      */
@@ -73,9 +73,11 @@ class ArticleArchive
                 }
                 // 获取附件列表
                 $attachments=$article->attachment;
-                foreach ($attachments as $attachment) {
-                    // 保存附件
-                    $attachment->saveTo($article);
+                if (is_array($attachments)) {
+                    foreach ($attachments as $attachment) {
+                        // 保存附件
+                        $attachment->saveTo($article);
+                    }
                 }
             }
             Query::commit();
