@@ -76,7 +76,7 @@ class XmlArchive extends Archive
 
     protected function getXmlAttachment(\SimpleXMLElement $obj)
     {
-        if (isset($obj['src']) && $obj->getName()==='attarchment') {
+        if (isset($obj['src']) && $obj->getName()==='attachment') {
             $attachment=new Attachment($this->getRootPath().'/'.$obj['src']);
             if (isset($obj['name'])) {
                 $attachment->setName($obj['name']);

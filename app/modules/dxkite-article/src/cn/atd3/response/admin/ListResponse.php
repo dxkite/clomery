@@ -45,7 +45,7 @@ class ListResponse extends OnUserVisitorResponse
         $page->set('title',__('文章列表 第%d页',$now));
         $page->set('page.now', $now);
         $page->set('page.router', 'article:admin_list');
-        $page->set('article',$list );
+        $page->set('article',$list??[] );
         return $page->render();
     }
 }
