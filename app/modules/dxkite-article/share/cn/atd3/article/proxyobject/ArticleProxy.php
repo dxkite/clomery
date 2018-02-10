@@ -64,7 +64,7 @@ class ArticleProxy extends ProxyObject
     public function delete(int $id)
     {
         if ($this->hasPermission('delete_article')) {
-            return $this->articleDao->delete($id);
+            return $this->articleDao->deleteByPrimaryKey($id);
         }
         return $this->articleDao->deleteByUser($this->getUserId(), $id);
     }
