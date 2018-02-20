@@ -1,0 +1,10 @@
+{
+    "android-message": {
+        "class": "dxkite.android.message.response.setting.ManagerResponse",
+        "visit": "\/message",
+        "method": [
+            "GET",
+            "POST"
+        ]
+    }
+}

@@ -2,7 +2,17 @@
     "namespace": "cn\\atd3",
     "version": "1.0-dev",
     "application": "suda\\core\\Application",
-    "modules": ["suda", "default"],
+    "modules": [
+        "suda",
+        "support",
+        "user",
+        "ueditor",
+        "article",
+        "page",
+        "android-report",
+        "android-collection",
+        "android-message"
+    ],
     "language": "zh-CN",
     "url": {
         "mode": 0,

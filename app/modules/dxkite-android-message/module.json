@@ -1,0 +1,31 @@
+{
+    "name": "dxkite\/android-message",
+    "homepage": "http:\/\/atd3.cn",
+    "version": "1.0.0",
+    "locale": "zh-CN",
+    "namespace": "dxkite\\android\\message",
+    "discription": "Android信息",
+    "table": {
+
+    },
+    "require": {
+        "support": ""
+    },
+    "import": {
+        "share": {
+            "dxkite\\android\\message": "share"
+        },
+        "src": {
+            "dxkite\\android\\message\\response": "src"
+        }
+    },
+    "open-api": {
+        "v1.0": {
+            "android-message": "dxkite.android.message.Message"
+        }
+    },
+    "authors": [{
+        "name": "dxkite",
+        "email": "dxkite@qq.com"
+    }]
+}

@@ -1,0 +1,28 @@
+{
+    "name": "dxkite\/android-collection",
+    "homepage": "http:\/\/atd3.cn",
+    "version": "1.0.0",
+    "locale": "zh-CN",
+    "namespace": "dxkite\\android\\collection",
+    "discription": "设备信息收集模块",
+    "table": {
+        "collection": "dxkite.android.collection.table.Collection"
+    },
+    "require": {
+        "support": ""
+    },
+    "import": {
+        "share": {
+            "dxkite\\android\\collection": "share"
+        }
+    },
+    "open-api": {
+        "v1.0": {
+            "android-collection": "dxkite.android.collection.Collection"
+        }
+    },
+    "authors": [{
+        "name": "dxkite",
+        "email": "dxkite@qq.com"
+    }]
+}

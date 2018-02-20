@@ -1,0 +1,29 @@
+{
+    "name": "dxkite\/android-report",
+    "homepage": "http:\/\/atd3.cn",
+    "version": "1.0.0",
+    "locale": "zh-CN",
+    "namespace": "dxkite\\android\\report",
+    "discription": "Android应用反馈模块",
+    "table": {
+        "report": "dxkite.android.report.table.Report",
+        "report_log": "dxkite.android.report.table.ReportLog"
+    },
+    "require": {
+        "support": ""
+    },
+    "import": {
+        "share": {
+            "dxkite\\android\\report": "share"
+        }
+    },
+    "open-api": {
+        "v1.0": {
+            "android-report":"dxkite.android.report.Report"
+        }
+    },
+    "authors": [{
+        "name": "dxkite",
+        "email": "dxkite@qq.com"
+    }]
+}
