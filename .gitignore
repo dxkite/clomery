@@ -1,0 +1,16 @@
+# 应用数据
+/app/data/backup
+/app/data/cache
+/app/data/install
+/app/data/logs
+/app/data/runtime
+/app/data/session
+/app/data/temp
+/app/data/views
+# 静态数据
+/public/assets
+# DXkite本地开发环境
+/public/dx.php
+/public/dx-dev.php
+.vscode
+/app/data/install.lock
