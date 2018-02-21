@@ -7,6 +7,7 @@
 /app/data/session
 /app/data/temp
 /app/data/views
+/app/data/upload
 # 静态数据
 /public/assets
 # DXkite本地开发环境
