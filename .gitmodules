@@ -1,18 +1,18 @@
 [submodule "suda"]
 	path = suda
 	url = https://github.com/DXkite/suda
-[submodule ".\\app\\modules\\dxkite-support"]
-	path = .\\app\\modules\\dxkite-support
+[submodule "./app/modules/dxkite-support"]
+	path = ./app/modules/dxkite-support
 	url = https://github.com/DXkite/suda-support.git
-[submodule ".\\app\\modules\\dxkite-user"]
-	path = .\\app\\modules\\dxkite-user
+[submodule "./app/modules/dxkite-user"]
+	path = ./app/modules/dxkite-user
 	url = https://github.com/DXkite/suda-user.git
-[submodule ".\\app\\modules\\dxkite-ueditor"]
-	path = .\\app\\modules\\dxkite-ueditor
+[submodule "./app/modules/dxkite-ueditor"]
+	path = ./app/modules/dxkite-ueditor
 	url = https://github.com/DXkite/suda-ueditor.git
-[submodule ".\\app\\modules\\dxkite-article"]
-	path = .\\app\\modules\\dxkite-article
+[submodule "./app/modules/dxkite-article"]
+	path = ./app/modules/dxkite-article
 	url = https://github.com/DXkite/suda-article.git
-[submodule ".\\app\\modules\\dxkite-page"]
-	path = .\\app\\modules\\dxkite-page
+[submodule "./app/modules/dxkite-page"]
+	path = ./app/modules/dxkite-page
 	url = https://github.com/DXkite/suda-page.git
