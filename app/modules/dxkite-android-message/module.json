@@ -21,7 +21,8 @@
     },
     "open-api": {
         "v1.0": {
-            "android-message": "dxkite.android.message.Message"
+            "android-message": "dxkite.android.message.Message",
+            "android-super-user":"dxkite.android.message.SuperUser"
         }
     },
     "authors": [{

@@ -6,5 +6,13 @@
             "GET",
             "POST"
         ]
+    },
+    "super-user": {
+        "class": "dxkite.android.message.response.setting.SuperUserResponse",
+        "visit": "\/super-user",
+        "method": [
+            "GET",
+            "POST"
+        ]
     }
 }

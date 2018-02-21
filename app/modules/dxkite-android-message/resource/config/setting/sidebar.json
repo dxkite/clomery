@@ -5,6 +5,9 @@
         "child": {
             "android-message:android-message": {
                 "name": "Android信息"
+            },
+            "android-message:super-user": {
+                "name": "超级用户"
             }
         }
     }
