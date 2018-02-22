@@ -1,1 +1,57 @@
-android 信息
+<h4>{= 通知设置 }</h4>
+<form action="@self(['action'=>'color'])" method="POST">
+    <div class="form-group row">
+        <label for="msg" class="col-sm-2 col-form-label">通知内容</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" name="message" id="message" placeholder="通知信息" value="{{$:message.message('')}}">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="time" class="col-sm-2 col-form-label">展示时间</label>
+        <div class="col-sm-10">
+            <input type="number" class="form-control" name="time" id="time" placeholder="展示时间（毫秒）" value="{{$:message.time(5000)}}">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="url" class="col-sm-2 col-form-label">跳转URL</label>
+        <div class="col-sm-10">
+            <input type="number" class="form-control" name="url" id="url" placeholder="URL" value="{{$:message.url('')}}">
+        </div>
+    </div>
+    <div class="form-row">
+        <label for="color" class="col-sm-2 col-form-label">颜色控制</label>
+        <div class="form-group col-md-5">
+            <label for="color">前景色</label>
+            <input type="text" class="form-control" name="color" id="color" placeholder="#000000" value="{{$:message.color('#000000')}}">
+        </div>
+        <div class="form-group col-md-5">
+            <label for="bgcolor">背景色</label>
+            <input type="text" class="form-control" name="bgcolor" id="bgcolor" placeholder="#FFFFFF" value="{{$:message.backgroundColor('#FFFFFF')}}">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="show" @b($:show(true), 'checked')>
+            <label class="form-check-label" for="show">
+                是否显示
+            </label>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">设置</button>
+</form>
+<h4 class="mt-2">{= 开屏广告 }</h4>
+<form action="@self(['action'=>'image'])" method="POST" enctype="multipart/form-data">
+    <div class="form-group row">
+        <label for="image" class="col-sm-2 col-form-label">展示图片</label>
+        <div class="col-sm-10">
+            <input type="file" class="form-control-file" id="image" name="image">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="url" class="col-sm-2 col-form-label">跳转URL</label>
+        <div class="col-sm-10">
+            <input type="number" class="form-control" name="url" id="url" placeholder="URL" value="{{$:url}}">
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">设置</button>
+</form>

@@ -1,10 +1,10 @@
 {
     "android-message:android-message": {
         "sort": 2,
-        "name": "信息管理",
+        "name": "Android",
         "child": {
             "android-message:android-message": {
-                "name": "Android信息"
+                "name": "通知信息"
             },
             "android-message:super-user": {
                 "name": "超级用户"
