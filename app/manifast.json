@@ -1,0 +1,25 @@
+{
+    "name": "suda-demo-app",
+    "version": "1.0-dev",
+    "modules": [
+        "suda",
+        "support",
+        "content-parser",
+        "category",
+        "comments",
+        "user"
+    ],
+    "reachable": [
+        "support",
+        "content-parser",
+        "category",
+        "comments",
+        "user"
+    ],
+    "language": "zh-CN",
+    "url": {
+        "mode": 0,
+        "beautify": true,
+        "rewrite": true
+    }
+}
