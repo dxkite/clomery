@@ -1,0 +1,30 @@
+{
+    "name": "dxkite\/friend-link",
+    "homepage": "http:\/\/dxkite.cn",
+    "version": "1.0.0",
+    "locale": "zh-CN",
+    "namespace": "dxkite\\friendlink",
+    "suda": ">=1.2.14",
+    "discription": "实名认证",
+    "authors": [{
+        "name": "dxkite",
+        "email": "dxkite@qq.com"
+    }],
+    "table": {
+       
+    },
+    "import": {
+        "share": {
+            "dxkite\\friendlink": "share"
+        },
+        "src": {
+            "dxkite\\friendlink\\response": "src"
+        }
+    },
+    "require": {
+        "dxkite\/support": ">=1.4.0"
+    },
+    "prefix": {
+        "default": "\/friend-link"
+    }
+}

@@ -1,0 +1,3 @@
+{
+    "suda:template:compile::init": ["dxkite.friendlink.view.hook.FriendLinkRender::compilerHook"]
+}

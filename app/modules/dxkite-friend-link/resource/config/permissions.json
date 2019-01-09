@@ -1,0 +1,12 @@
+{
+    "friend-link": {
+        "name": "友链管理",
+        "childs": {
+            "add": "添加友链",
+            "delete": "删除友链",
+            "list": "显示友链",
+            "edit": "编辑友链",
+            "status": "编辑友链"
+        }
+    }
+}
