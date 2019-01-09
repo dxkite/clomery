@@ -1,0 +1,26 @@
+{
+    "name": "dxkite\/tags",
+    "homepage": "http:\/\/atd3.cn",
+    "version": "1.0.0",
+    "locale": "zh-CN",
+    "namespace": "dxkite\\tags",
+    "suda": ">=2.0.2",
+    "discription": "标签提供模块",
+    "authors": [
+        {
+            "name": "dxkite",
+            "email": "dxkite@qq.com"
+        }
+    ],
+    "import": {
+        "share": {
+            "dxkite\\tags": "share"
+        },
+        "src": {
+            "dxkite\\tags\\response": "src"
+        }
+    },
+    "require": {
+        "support": ""
+    }
+}

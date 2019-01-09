@@ -1,0 +1,27 @@
+{
+    "name": "dxkite\/comment",
+    "homepage": "http:\/\/atd3.cn",
+    "version": "1.0.0",
+    "locale": "zh-CN",
+    "namespace": "dxkite\\comment",
+    "suda": ">=2.0.2",
+    "discription": "评论提供模块",
+    "authors": [
+        {
+            "name": "dxkite",
+            "email": "dxkite@qq.com"
+        }
+    ],
+    "import": {
+        "share": {
+            "dxkite\\comment": "share"
+        },
+        "src": {
+            "dxkite\\comment\\response": "src"
+        }
+    },
+    "require": {
+        "support": "",
+        "content-parser": ""
+    }
+}

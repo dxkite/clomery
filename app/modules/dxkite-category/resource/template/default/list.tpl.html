@@ -1,0 +1,35 @@
+<div class="my-2">
+    <a href="@u( $:module .':setting_category_add')" class="btn btn-primary">添加分类</a>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>分类名</th>
+                <th>简写</th>
+                <th>父分类</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($:category.rows as $item)
+            <tr>
+                <td>{{ $item['id'] }}</td>
+                <td>{{ $item['name'] }}</td>
+                <td>{{ $item['slug'] }}</td>
+                <td> {{ $item['parent'] }}</td>
+                <td>
+                    <div class="btn-group btn-group-toggle">
+                        <a class="btn btn-secondary btn-sm" href="@u( $:module .':setting_category_edit',$item['id'])">编辑</a>
+                        <a class="btn btn-danger btn-sm" href="@u(['delete'=>$item['id']])">删除</a>
+                    </div>
+
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+@data('dxkite\support\Bootstrap::page')
