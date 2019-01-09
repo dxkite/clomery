@@ -6,14 +6,16 @@
         "support",
         "content-parser",
         "category",
-        "comments",
+        "comment",
+        "tags",
         "user"
     ],
     "reachable": [
         "support",
         "content-parser",
         "category",
-        "comments",
+        "comment",
+        "tags",
         "user"
     ],
     "language": "zh-CN",
