@@ -4,7 +4,9 @@ namespace dxkite\clomery\main\provider;
 use dxkite\support\view\PageData;
 use dxkite\content\parser\Content;
 use dxkite\article\table\ArticleTable;
+use dxkite\clomery\main\view\ArticleView;
 use dxkite\article\controller\ArticleController;
+use dxkite\article\controller\ArticleCategoryController;
 
 class ArticleProvider
 {
@@ -14,10 +16,25 @@ class ArticleProvider
      * @var ArticleController
      */
     protected $article;
+    /**
+     * 文章分类
+     *
+     * @var ArticleCategoryController
+     */
+    protected $category;
+
+    /**
+     * 视图处理
+     *
+     * @var ArticleView
+     */
+    protected $view;
 
     public function __construct()
     {
         $this->article = new ArticleController('clomery');
+        $this->category = new ArticleCategoryController('clomery');
+        $this->view = new ArticleView($this->article, $this->category);
     }
     
     /**
@@ -66,7 +83,7 @@ class ArticleProvider
             $userid = \get_user_id();
         }
         $page = $this->article->getList($userid, $categoryId, $page, $count);
-        return $this->pageDataAssign($page);
+        return $this->view->listView($page);
     }
 
     /**
@@ -109,24 +126,6 @@ class ArticleProvider
             $userid = \get_user_id();
         }
         $page = $this->$this->article->search($title, $category, $page, $count);
-        return $this->pageDataAssign($page);
-    }
-
-    protected function pageDataAssign(PageData $page):PageData {
-        if ($page->getSize() > 0 ) {
-            $rows = $page->getRows();
-            $ids = [];
-            foreach ($rows as $index => $row) {
-                $ids[] = $row['user'];
-            }
-            $userInfos = get_user_public_info_array($ids);
-            foreach ($rows as $index => $row) {
-                $rows[$index]['user'] = $userInfos[$row['user']] ?? $row['user'];
-                // $rows[$index]['image'] = self::getImages($row['id']);
-                // $rows[$index]['category'] = self::getCategoryInfo($row['category']);
-            }
-            $page->setRows($rows);
-        }
-        return $page;
+        return $this->view->listView($page);
     }
 }

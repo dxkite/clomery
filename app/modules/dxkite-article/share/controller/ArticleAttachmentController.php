@@ -12,7 +12,7 @@ use dxkite\support\table\file\FileInfoTable;
 /**
  * 文章附件
  */
-class AttachmentController
+class ArticleAttachmentController
 {
     /**
      * 文章附件

@@ -29,6 +29,19 @@ class CategoryController
         return false;
     }
 
+    public function getCategoryByIds(array $ids):?array
+    {
+        $get = $this->table->select(['id','name','slug'], ['id'=>$ids])->fetchAll();
+        if ($get) {
+            $result=[];
+            foreach ($get as $item) {
+                $result[$item['id']]=$item;
+            }
+            return $result;
+        }
+        return null;
+    }
+
     public function name2id(string $name)
     {
         return $this->table->select($this->getFields(), ' LOWER(name)=LOWER(:name) ', ['name'=>$name])->fetch()['id']??false;
