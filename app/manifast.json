@@ -9,11 +9,12 @@
         "dxkite/comment",
         "dxkite/tags",
         "dxkite/article",
-        "dxkite/user"
+        "dxkite/user",
+        "clomery/main"
     ],
     "reachable": [
         "dxkite/support",
-        "clomery/article",
+        "clomery/main",
         "dxkite/user"
     ],
     "language": "zh-CN",

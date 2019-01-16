@@ -1,5 +1,5 @@
 <?php
-namespace dxkite\article\provider;
+namespace dxkite\clomery\main\provider;
 
 use dxkite\support\view\PageData;
 use dxkite\content\parser\Content;
@@ -15,15 +15,15 @@ class ArticleProvider
      */
     protected $article;
 
-    public function __construct(string $prefix)
+    public function __construct()
     {
-        $this->article = new ArticleController($prefix);
+        $this->article = new ArticleController('clomery');
     }
     
     /**
      * 写入文章
      *
-     * @acl dxkite:article.write:article
+     * @acl clomery.write:article
      * @param integer|null $id 文章ID/修改则填入
      * @param string $title 文章标题
      * @param string|null $slug 文章唯一标识

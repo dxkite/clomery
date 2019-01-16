@@ -1,9 +1,9 @@
 {
-    "name": "clomery\/article",
+    "name": "clomery\/main",
     "homepage": "http:\/\/atd3.cn",
     "version": "1.0.0",
     "locale": "zh-CN",
-    "namespace": "dxkite\\clomery\\article",
+    "namespace": "dxkite\\clomery\\main",
     "suda": ">=2.0.2",
     "discription": "Clomery文章",
     "authors": [
@@ -14,7 +14,7 @@
     ],
     "import": {
         "share": {
-            "dxkite\\clomery\\article": "share"
+            "dxkite\\clomery\\main": "share"
         }
     },
     "require": {
