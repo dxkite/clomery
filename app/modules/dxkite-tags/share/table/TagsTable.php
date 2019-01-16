@@ -28,6 +28,7 @@ class TagsTable extends Table
         return $table->fields(
             $table->field('id', 'bigint', 20)->primary()->unsigned()->auto(),
             $table->field('name', 'varchar', 255)->unique()->comment("标签名"),
+            $table->field('count', 'int')->comment("标签下的数量"),
             $table->field('user', 'bigint', 20)->unsigned()->key()->comment("创建用户"),
             $table->field('time', 'int')->key()->comment("创建时间")
         );

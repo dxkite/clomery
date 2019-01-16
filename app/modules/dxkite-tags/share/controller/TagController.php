@@ -98,14 +98,18 @@ class TagController
             $count++;
             $this->tagTable->insert(['ref'=>$ref,'tag'=>$tag]);
         }
+        $this->tagsTable->update('count = count + 1',['id'=>$tags]);
         return $count;
     }
+    
     public function unbindAllTags(int $ref)
     {
         return $this->tagTable->delete(['ref'=>$ref]);
     }
+
     public function unbindTags(int $ref, array $tags)
     {
+        $this->tagsTable->update('count = count - 1',['id'=>$tags]);
         return $this->tagTable->delete(['ref'=>$ref,'tag'=>$tags]);
     }
 }
