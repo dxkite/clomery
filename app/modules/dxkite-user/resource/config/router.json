@@ -1,0 +1,45 @@
+{
+    "index": {
+        "_": "用户中心",
+        "url": "/",
+        "class": "dxkite.user.response.IndexResponse"
+    },
+    "signin": {
+        "_": "登陆界面",
+        "url": "\/signin",
+        "class": "dxkite.user.response.SigninResponse"
+    },
+    "signout": {
+        "_": "注销界面",
+        "url": "\/signout",
+        "class": "dxkite.user.response.SignoutResponse"
+    },
+    "setting": {
+        "_": "基本设置界面",
+        "url": "\/setting",
+        "class": "dxkite.user.response.SettingResponse"
+    },
+    "signup": {
+        "_": "注册界面",
+        "url": "\/signup",
+        "class": "dxkite.user.response.SignupResponse"
+    },
+    "avatar": {
+        "_": "生成用户头像",
+        "url": "\/avatar\/{id:int}",
+        "class": "dxkite.user.response.AvatarResponse"
+    },
+    "verify": {
+        "class": "dxkite.user.response.VerifyResponse",
+        "url": "\/verify",
+        "method": ["GET"]
+    },
+    "forgot": {
+        "url": "\/forgot",
+        "class": "dxkite.user.response.forgot.IndexResponse"
+    },
+    "forgot_reset": {
+        "url": "\/forgot\/reset",
+        "class": "dxkite.user.response.forgot.ResetResponse"
+    }
+}

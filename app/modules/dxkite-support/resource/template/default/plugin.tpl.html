@@ -1,0 +1,44 @@
+<table class="table">
+    <thead>
+        <tr>
+            <th>{=插件}</th>
+            <th>{=版本}</th>
+            <th>{=描述}</th>
+            <th>{=作者}</th>
+            <th>{=操作}</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ($:list([]) as $item)
+        <tr>
+            <td>
+                <img style="height:1em" src="{{$item['icon']}}" alt="icon"> {{ $item['name'] }} </td>
+            <td>{{ $item['version'] }}</td>
+            <td>{{ $item['discription'] }} </td>
+            <td>
+                @foreach ($item['author'] as $author)
+                <a href="{{ $author['link'] ?? '#' }}">{{ $author['name'] }}</a>
+                @endforeach
+            </td>
+            <td>
+                <div class="btn-group btn-group-toggle">
+                    @if ($item['status'] === 1)
+                    <a class="btn btn-warning btn-sm" href="?deactivate={{$item['unique']}}">{=禁用}</a>
+                    @else
+                    <a class="btn btn-success btn-sm" href="?active={{$item['unique']}}">{=激活}</a>
+                    @endif
+                    <a class="btn btn-danger btn-sm" href="?delete={{$item['unique']}}">{=删除}</a>
+                </div>
+            </td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>
+@startInsert('bs-footer')
+<script src="@static('support')/call.js" data-api="@u('support:admin_ajax')"></script>
+<script @nonce>
+
+
+
+</script>
+@endinsert

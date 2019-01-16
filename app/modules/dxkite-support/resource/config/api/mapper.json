@@ -1,0 +1,9 @@
+{
+    "_private": {
+        "setting": "dxkite.support.provider.SettingProvider",
+        "template": "dxkite.support.provider.TemplateProvider",
+        "plugin": "dxkite.support.provider.PluginProvider",
+        "grant": "dxkite.support.provider.GrantProvider",
+        "database": "dxkite.support.provider.DatabaseProvider"
+    }
+}

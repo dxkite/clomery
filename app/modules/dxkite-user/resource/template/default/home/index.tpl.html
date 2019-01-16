@@ -1,0 +1,33 @@
+@extend ('home/layout') @startInsert('home-content')
+<form>
+    <fieldset class="form-group">
+        <div class="row">
+            <legend class="col-form-label">
+                <h4>注册信息</h4>
+            </legend>
+        </div>
+        <div class="form-group row">
+            <label for="staticName" class="col-sm-2 col-form-label">用户名</label>
+            <div class="col-sm-10">
+                <input type="text" readonly class="form-control-plaintext" id="staticName" value="{{ $:user.name }}">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="staticEmail" class="col-sm-2 col-form-label">
+                <span>{= 邮箱 }</span>
+            </label>
+            <div class="col-sm-8">
+                <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="{{ $:user.email('未填写') }}">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="staticMobile" class="col-sm-2 col-form-label">
+                <span>{= 手机号 }</span>
+            </label>
+            <div class="col-sm-8">
+                <input type="text" readonly class="form-control-plaintext" id="staticMobile" value="{{ $:user.mobile('未填写') }}">
+            </div>
+        </div>
+    </fieldset>
+</form>
+{:user.home.info} @endInsert

@@ -1,0 +1,35 @@
+{
+    "${module}:admin_list": {
+        "name": "用户设置",
+        "sort": -888,
+        "acl": [
+            "user.list"
+        ],
+        "child": {
+            "${module}:admin_list": {
+                "name": "用户列表",
+                "acl": [
+                    "user.list"
+                ]
+            },
+            "${module}:admin_add": {
+                "name": "添加用户",
+                "acl": [
+                    "user.add"
+                ]
+            },
+            "${module}:admin_edit": {
+                "name": "编辑用户",
+                "acl": [
+                    "user.edit"
+                ]
+            },
+            "${module}:admin_role": {
+                "name": "编辑权限",
+                "acl": [
+                    "user.role"
+                ]
+            }
+        }
+    }
+}

@@ -1,0 +1,21 @@
+.navbar {
+    margin-bottom: 1rem;
+}
+
+.user-avatar {
+    width: 100%;
+    max-width: 100%;
+    padding: 2em;
+}
+
+.user-name {
+    text-align: center;
+}
+
+.main {
+    padding: 1em;
+}
+
+.custom-file-input:lang(cn)~.custom-file-label::after {
+    content: "浏览文件";
+}

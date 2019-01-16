@@ -1,0 +1,56 @@
+<div class="row justify-content-between p-2">
+    <div class="col">
+        <a href="@u('admin_add')" class="btn btn-success">添加用户</a>
+    </div>
+    <div class="col col-md-auto">
+        <form class="form-inline input-group" method="get" action="@u">
+            <select name="type" class="custom-select input-group-prepend">
+                <option value="name" selected>用户名</option>
+                <option value="email">邮箱</option>
+                <option value="mobile">手机号</option>
+            </select>
+            <input type="text" name="search" class="form-control" id="searchbox" placeholder="搜索...">
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary">搜索</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">{= 用户名}</th>
+            <th scope="col">{= 邮箱}</th>
+            <th scope="col">{= 手机号}</th>
+            <th scope="col">{= 注册时间}</th>
+            <th scope="col">{= 操作}</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ($:list.rows as $item)
+        <tr>
+            <td>{{ $item['id'] }}</td>
+            <td>{{ $item['name'] ?? ''}}</td>
+            <td>{{ $item['email'] ?? '' }} </td>
+            <td>{{ $item['mobile'] ?? '' }} </td>
+            <td>{{ date('Y-m-d H:i:s',$item['signupTime']) }} </td>
+            <td>
+                <div class="btn-group btn-group-toggle">
+                    <a class="btn btn-outline-secondary btn-sm" href="@u('admin_edit',['id'=>$item['id']])">编辑</a>
+                    @if( $item['status'] == 1)
+                    <a class="btn btn-outline-success btn-sm" href="@u('admin_list',['freeze'=>$item['id']])">封禁</a>
+                    @else
+                    <a class="btn btn-success btn-sm" href="@u('admin_list',['active'=>$item['id']])">解封</a>
+                    @endif
+                    <a class="btn btn-outline-info btn-sm" href="@u('admin_role',['id'=>$item['id']])">权限</a>
+                    <a class="btn btn-danger btn-sm" href="@u('admin_list',['delete'=>$item['id']])">删除</a>
+                </div>
+            </td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>
+
+@data('dxkite\support\Bootstrap::page')

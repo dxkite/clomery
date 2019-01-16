@@ -1,0 +1,6 @@
+{
+    "prefix": "user_",
+    "tables": {
+        "user": "dxkite.usercenter.server.table.UserTable"
+    }
+}

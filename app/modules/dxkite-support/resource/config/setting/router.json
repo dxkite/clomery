@@ -1,0 +1,43 @@
+{
+    "admin_index": {
+        "class": "dxkite.support.response.Response",
+        "anti-prefix": true,
+        "url": "\/"
+    },
+    "admin_setting": {
+        "class": "dxkite.support.response.SettingResponse",
+        "url": "\/setting"
+    },
+    "admin_template": {
+        "class": "dxkite.support.response.TemplateResponse",
+        "url": "\/template"
+    },
+    "admin_plugin": {
+        "class": "dxkite.support.response.PluginResponse",
+        "url": "\/plugin"
+    },
+    "admin_email": {
+        "class": "dxkite.support.response.EmailResponse",
+        "url": "\/email"
+    },
+    "admin_role_list": {
+        "class": "dxkite.support.response.role.ListResponse",
+        "url": "\/role[\/{page:int}]"
+    },
+    "admin_role_add": {
+        "class": "dxkite.support.response.role.AddResponse",
+        "url": "\/role/add"
+    },
+    "admin_role_edit": {
+        "class": "dxkite.support.response.role.EditResponse",
+        "url": "\/role/edit[\/{id:int}]"
+    },
+    "admin_database": {
+        "class": "dxkite.support.response.DatabaseResponse",
+        "url": "\/database"
+    },
+    "admin_download": {
+        "class": "dxkite.support.response.DownloadResponse",
+        "url": "\/download\/{name:string}"
+    }
+}

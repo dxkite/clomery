@@ -1,0 +1,18 @@
+@extend ('support:bootstrap') @set('title',__('用户注册 - 验证账号')) @set('lang','cn') @startInsert('bs-head')
+<link href="@static/sign.css" rel="stylesheet"> @endInsert 
+@startInsert('bs-content')
+<div class="container">
+    <form class="form-sign" id="form-signup" action="@self" method="POST">
+        <h2 class="form-sign-heading"> {= 验证账号 }</h2>
+        <div class="form-group">
+            <label for="code" class="sr-only">{= 验证码 }</label>
+            <input type="text" name="code" id="code" class="form-control  @if($:invaildCode(false)) is-invalid @endif" placeholder="{= 验证码 }"
+                required autofocus> 
+            @if($:invaildCode(false))
+            <div id="name_error" class="invalid-feedback"> {= 验证码错误 }</div>
+            @endif
+        </div>
+        <button id="signup-button" class="btn btn-lg btn-primary btn-block" type="submit"> {= 验证账号 } </button>
+    </form>
+</div>
+@endInsert

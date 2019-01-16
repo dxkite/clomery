@@ -1,0 +1,8 @@
+{
+    "_private": {
+        "user": "dxkite.user.provider.AdminUserProvider"
+    },
+    "v1.0": {
+        "user": "dxkite.user.provider.UserProvider"
+    }
+}

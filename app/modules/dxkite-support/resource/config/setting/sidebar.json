@@ -1,0 +1,74 @@
+{
+    "${module}:admin_index": {
+        "name": "网站设置",
+        "sort": -999,
+        "acl": [
+            "website.info"
+        ],
+        "child": {
+            "${module}:admin_index": {
+                "name": "网站状态",
+                "acl": [
+                    "website.info"
+                ]
+            },
+            "${module}:admin_setting": {
+                "name": "网站设置",
+                "acl": [
+                    "website.listSetting"
+                ]
+            },
+            "${module}:admin_template": {
+                "name": "模板管理",
+                "acl": [
+                    "template.list"
+                ]
+            },
+            "${module}:admin_plugin": {
+                "name": "插件管理",
+                "acl": [
+                    "plugin"
+                ]
+            },
+            "${module}:admin_email": {
+                "name": "邮件设置",
+                "acl": [
+                    "website.setEmail"
+                ]
+            },
+            "${module}:admin_database": {
+                "name": "备份管理",
+                "acl": [
+                    "website.backup"
+                ]
+            }
+        }
+    },
+    "${module}:admin_role_list": {
+        "name": "系统权限",
+        "sort": -998,
+        "acl": [
+            "role.list"
+        ],
+        "child": {
+            "${module}:admin_role_list": {
+                "name": "角色列表",
+                "acl": [
+                    "role.list"
+                ]
+            },
+            "${module}:admin_role_add": {
+                "name": "添加角色",
+                "acl": [
+                    "role.create"
+                ]
+            },
+            "${module}:admin_role_edit": {
+                "name": "编辑角色",
+                "acl": [
+                    "role.edit"
+                ]
+            }
+        }
+    }
+}

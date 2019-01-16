@@ -1,0 +1,69 @@
+{
+    "database": {
+        "name": "管理备份",
+        "childs": {
+            "download": "备份下载",
+            "backup_info": "查看备份信息",
+            "list_tables": "列出数据库信息",
+            "create_backup": "创建备份数据",
+            "export_table": "备份数据表",
+            "import_table": "恢复数据表",
+            "delete_backup": "删除备份数据",
+            "list_backups": "列出备份",
+            "optimize_tables": "优化数据表",
+            "repair_tables": "修复数据表"
+        }
+    },
+    "visitor": {
+        "name": "管理访问者",
+        "childs": {
+            "simulate": "切换用户"
+        }
+    },
+    "role": {
+        "name": "管理授权",
+        "childs": {
+            "create": "添加授权",
+            "grant": "赋予授权",
+            "edit": "权限编辑",
+            "list": "列出权限",
+            "delete": "删除权限",
+            "revoke": "撤销权限"
+        }
+    },
+    "template": {
+        "name": "模板权限",
+        "childs": {
+            "set": "设置模板",
+            "upload": "上传模板",
+            "download": "模板下载",
+            "delete": "删除模板",
+            "list": "显示模板",
+            "refresh": "刷新资源",
+            "data-table-list": "模板数据表列表",
+            "data-table-import": "模板数据表导入",
+            "data-table-export": "模板数据表导出"
+        }
+    },
+    "plugin": {
+        "name": "插件权限",
+        "childs": {
+            "list": "插件列表",
+            "upload": "上传插件",
+            "delete": "删除插件",
+            "active": "激活插件",
+            "deactivate": "禁用插件"
+        }
+    },
+    "website": {
+        "name": "网站管理权限",
+        "childs": {
+            "set-email": "设置邮件",
+            "view-mail": "查看邮件",
+            "backup": "备份网站",
+            "info": "查看网站信息",
+            "list-setting": "列出网站设置",
+            "edit-setting": "编辑网站设置"
+        }
+    }
+}

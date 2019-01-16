@@ -1,0 +1,27 @@
+{
+    "suda:application:init": [
+        "dxkite.support.setting.Setting::load",
+        "dxkite.support.visitor.Visitor::initVisitor",
+        "dxkite.support.visitor.Visitor::initLocate"
+    ],
+    "suda:template:compile::init": [
+        "dxkite.support.proxy.ProxyCall::addProxyCall",
+        "dxkite.support.setting.Setting::hookSetting",
+        "dxkite.support.api.Hook::setting",
+        "dxkite.support.setting.View::hook"
+    ],
+    "suda:route:prepare": [
+        "dxkite.support.api.Hook::registerOpenApiRoute",
+        "dxkite.support.setting.View::registerAdminSidebarRouter",
+        "dxkite.support.template.Manager::hookRouterOverride"
+    ],
+    "suda:module:load": [
+        "dxkite.support.plugin.Manager::registerPlugins"
+    ],
+    "suda:template:change-theme": [
+        "dxkite.support.template.Manager::onThemeChanged"
+    ],
+    "suda:template:load-compile::before": [
+        "dxkite.support.template.Manager::onThemeChanged"
+    ]
+}

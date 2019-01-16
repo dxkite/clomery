@@ -1,0 +1,28 @@
+{
+    "name": "dxkite\/user",
+    "homepage": "http:\/\/atd3.cn",
+    "version": "2.0.0",
+    "locale": "zh-CN",
+    "namespace": "dxkite\\user",
+    "suda": ">=2.0.3",
+    "discription": "用户系统",
+    "install": "dxkite.user.hook.UserHook::install",
+    "authors": [{
+        "name": "dxkite",
+        "email": "dxkite@qq.com"
+    }],
+    "import": {
+        "share": {
+            "dxkite\\user": "share"
+        },
+        "src": {
+            "dxkite\\user\\response": "src"
+        }
+    },
+    "require": {
+        "dxkite\/support": ""
+    },
+    "prefix": {
+        "default": "\/user"
+    }
+}

@@ -1,0 +1,18 @@
+{
+    "admin_add" :{
+        "class":"dxkite.user.response.setting.AddResponse",
+        "url":"\/user\/add"
+    },
+    "admin_list" :{
+        "class":"dxkite.user.response.setting.ListResponse",
+        "url":"\/user[\/{page:int}]"
+    },
+    "admin_edit" :{
+        "class":"dxkite.user.response.setting.EditResponse",
+        "url":"\/user\/edit\/{id:int}"
+    },
+    "admin_role" :{
+        "class":"dxkite.user.response.setting.RoleResponse",
+        "url":"\/role\/{id:int}"
+    }
+}

@@ -3,22 +3,21 @@
     "version": "1.0-dev",
     "modules": [
         "suda",
-        "support",
-        "content-parser",
-        "category",
-        "comment",
-        "tags",
-        "user"
+        "dxkite/support",
+        "dxkite/content-parser",
+        "dxkite/category",
+        "dxkite/comment",
+        "dxkite/tags",
+        "dxkite/article",
+        "dxkite/user"
     ],
     "reachable": [
-        "support",
-        "content-parser",
-        "category",
-        "comment",
-        "tags",
-        "user"
+        "dxkite/support",
+        "clomery/article",
+        "dxkite/user"
     ],
     "language": "zh-CN",
+    "debugSupport": "dxkite",
     "url": {
         "mode": 0,
         "beautify": true,

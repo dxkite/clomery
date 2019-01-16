@@ -1,0 +1,8 @@
+{
+    "suda:application:init": [
+        "dxkite.user.hook.UserHook::initConfig"
+    ],
+    "view.setting.header.navlist.append": [
+        "dxkite.user.hook.ViewHook::settingNavbar"
+    ]
+}

@@ -1,0 +1,44 @@
+<form class="form-inline input-group my-2" method="get" action="@self">
+    <div class="input-group-prepend">
+        <span class="input-group-text">给 {{$:user.name}} 授予 </span>
+    </div>
+    <select name="grant" class="custom-select">
+        <option value="0" selected>选择权限组</option>
+        @foreach($:roles([]) as $c)
+        <option value="{{$c['id']}}">{{$c['name']}}</option>
+        @endforeach
+    </select>
+    <div class="input-group-append">
+        <button type="submit" class="btn btn-primary">授权</button>
+    </div>
+</form>
+<div class="text-primary my-2">{{$:user.name}} 当前的权限有</div>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>角色</th>
+                <th>权限</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($:list.rows as $item)
+            <tr>
+                <td>{{ $item['id'] }}</td>
+                <td class="text-nowrap"> {{ $item['name'] }}</td>
+                <td class="tags">
+                    @foreach($item['permission']->jsonSerialize()??[] as $id)
+                    <span title="{{$id}}">{{ $item['permission']->alias($id) }}</span> @endforeach
+                </td>
+                <td>
+                    <div class="btn-group btn-group-toggle">
+                        <a class="btn btn-danger btn-sm" href="@self( ['revoke'=>$item['id']])">收回权限</a>
+                    </div>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>

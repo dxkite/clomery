@@ -1,0 +1,54 @@
+@extend ('support:bootstrap') @set('title',__('找回密码 - 验证邮箱')) @set('lang','cn') @startInsert('bs-head')
+<link href="@static/sign.css" rel="stylesheet"> @endInsert @startInsert('bs-content')
+<div class="container">
+    <form class="form-sign" id="form-signup" action="@u($_GET)" method="POST">
+        @if($:mobileAvailable)
+        <ul class="nav nav-pills nav-fill mb-2">
+            <li class="nav-item">
+                <a class="nav-link" href="@u(['type'=>'mobile'])">手机验证</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="#">邮箱验证</a>
+            </li>
+        </ul>
+        @endif
+        <h2 class="form-sign-heading"> {= 找回密码 - 验证邮箱 }</h2>
+        @if($?:invaildInput)
+        <div class="alert alert-danger" role="alert">
+            {= 请保证输入不为空 }
+        </div>
+        @endif @if($?:sendError)
+        <div class="alert alert-danger" role="alert">
+            {= 邮件发送失败，请重试 }
+        </div>
+        @endif
+        <div class="form-group">
+            <label for="email" class="sr-only">{= 邮箱 }</label>
+            <input type="email" name="email" id="email" class="form-control  @if($:invaildEmail(false)) is-invalid @endif" placeholder="{= 邮箱 }"
+                required value="{{$:email('')}}"> @if($:invaildEmail(false))
+            <div id="email_error" class="invalid-feedback"> {{ __($:invaildEmail) }}</div>
+            @endif
+        </div>
+        <div class="form-group" id="verify-image">
+            <div class="input-group">
+                <div class="input-group-prepend ">
+                    <img id="verify_code_image" src="@u('verify')" class="input-group-text verify-image" alt="verfiy">
+                </div>
+                <input type="text" name="code" class="form-control  @if($:invaildCode(false)) is-invalid @endif" id="verifycode" placeholder="{= 验证码 }"> @if($:invaildCode(false))
+                <div id="invaildCode" class="invalid-feedback"> {= 验证码错误 }</div>
+                @endif
+            </div>
+        </div>
+        <button id="signup-button" class="btn btn-lg btn-primary btn-block" type="submit"> {= 发送邮件 } </button>
+    </form>
+</div>
+@endInsert @startInsert('bs-footer')
+<script @nonce>
+    $(function () {
+        var src = $('#verify_code_image').attr('src');
+        $('#verify_code_image').on('click', function () {
+            this.src = src + '?' + new Date().getTime();
+        });
+    });
+</script>
+@endInsert

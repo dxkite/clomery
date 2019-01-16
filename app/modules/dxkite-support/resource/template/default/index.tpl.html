@@ -1,0 +1,20 @@
+@insert('setting-index-panel:before')
+<h4>@_('当前环境信息')</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>@_('配置项')</th>
+            <th>@_('信息')</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ($:env as $item)
+        <tr>
+            <td>{{ $item['name'] }}</td>
+            <td>{{ $item['value'] }}</td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>
+{:setting-index-panel:after}
+@insert('setting-index-panel:after')

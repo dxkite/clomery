@@ -19,7 +19,7 @@ class ArticleTable extends PrefixTable
         parent::__construct($prefix, 'article');
     }
 
-    public function onBuildCreator($prefix)
+    public function onBuildCreator($table)
     {
         return $table->fields([
             $table->field('id', 'bigint', 20)->primary()->unsigned()->auto(),

@@ -1,0 +1,48 @@
+@extend ('support:bootstrap')
+@set('title',__('用户中心')) @set('lang','Zh-cn')
+@startInsert('bs-head')
+<link rel="stylesheet" href="@static/home.css"> 
+@endInsert 
+@startInsert('bs-content')
+
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="#">{= 用户中心 }</a>
+        <a class="btn btn-light btn-sm" href="@u('signout')" role="button">退出登录</a>
+    </div>
+</nav>
+<div class="container">
+    <div class="row">
+
+        <div class="col-sm-4">
+            <img class="user-avatar rounded-circle" src="@u('avatar',['id'=> $:user.id(0)])" alt="User Avatar">
+            <h4 class="user-name">{{ $:user.name('用户名') }}</h4>
+            @insert('home-sidebar') {:user.home.sidebar}
+        </div>
+        <div class="col-sm-8 p-2">
+            @if ($:error(false))
+            <div class="alert alert-{{$:error.type}} p-2" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                @if ($:error.title(false))
+                <h5 class="alert-heading">{{$:error.title}}</h5>
+                @endif {{$:error.message}}
+            </div>
+            @endif
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link @if($this->isMe('index')) active @endif" href="@u('index')">个人信息</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @if($this->isMe('setting')) active @endif" href="@u('setting')">编辑信息</a>
+                </li>
+                @insert('home-navtabs') {:user.home.navtabs}
+            </ul>
+            <main class="main">
+                @insert('home-content') {:user.home.content}
+            </main>
+        </div>
+    </div>
+</div>
+@endInsert 
