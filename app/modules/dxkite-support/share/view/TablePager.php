@@ -25,7 +25,7 @@ class TablePager
         $row = $row > $maxRow?$maxRow:$row;
         $rows = $table->listWhere($where, $binder, $page, $row);
         $total = $table->count($where, $binder);
-        return PageData::buildPageData($rows, $total, $page, $row);
+        return PageData::build($rows, $total, $page, $row);
     }
     
     /**

@@ -1,7 +1,7 @@
 <?php
 namespace dxkite\article\controller;
 
-use support\util\Pinyin;
+use dxkite\support\util\Pinyin;
 use dxkite\support\view\PageData;
 use dxkite\content\parser\Content;
 use dxkite\support\view\TablePager;

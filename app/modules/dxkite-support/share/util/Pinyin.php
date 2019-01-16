@@ -13,7 +13,7 @@
  * @link       https://github.com/DXkite/suda
  * @version    since 1.2.4
  */
-namespace support\util;
+namespace dxkite\support\util;
 
 /**
  * 将中文转换成拼音

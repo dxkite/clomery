@@ -1,6 +1,7 @@
 <?php
 namespace dxkite\support\api;
 
+use suda\core\Router;
 use suda\core\route\Mapping;
 
 class Hook
@@ -24,10 +25,10 @@ class Hook
     /**
      * 注册标准开放URL
      *
-     * @param [type] $router
+     * @param Router $router
      * @return void
      */
-    public static function registerOpenApiRoute($router)
+    public static function registerOpenApiRoute(Router $router)
     {
         $modules = app()->getReachableModules();
         $prefix=app()->getModulePrefix(module(__FILE__))['api']??'/api';
@@ -36,6 +37,7 @@ class Hook
         foreach ($modules as $module) {
             $mapper = app()->getModuleConfig($module, 'api/mapper');
             if (is_array($mapper)) {
+                debug()->info(__('register open api for $0', $module));
                 foreach ($mapper as $version => $classFields) {
                     foreach ($classFields as $name => $proxyClass) {
                         $mapping=new Mapping(self::buildRouterName($version, $name), $prefix.'/'.$version.'/'.$name.'[/{method}]', Response::class.'->onRequest', module(__FILE__), [], 'support_api');

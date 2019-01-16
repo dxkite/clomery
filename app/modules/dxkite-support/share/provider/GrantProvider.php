@@ -99,7 +99,7 @@ class GrantProvider
      * @acl role.list
      * @param integer $page
      * @param integer $rows
-     * @return void
+     * @return array
      */
     public function listRole(?int $page=null, int $rows=10)
     {
@@ -114,7 +114,7 @@ class GrantProvider
      * @param integer $user
      * @param integer|null $page
      * @param integer $rows
-     * @return void
+     * @return array
      */
     public function listUserRoles(int $user,?int $page=null, int $rows=10)
     {

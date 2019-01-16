@@ -1,5 +1,7 @@
 <?php
 
+use dxkite\support\visitor\Visitor;
+
 function proxy(string $tableName, bool $outputFile=false)
 {
     return dxkite\support\proxy\ProxyInstance::getInstance($tableName, $outputFile);
@@ -19,7 +21,12 @@ function context()
     return dxkite\support\visitor\Context::getInstance();
 }
 
-function visitor()
+/**
+ * 获取访客
+ *
+ * @return Visitor
+ */
+function visitor():Visitor
 {
     return context()->getVisitor();
 }

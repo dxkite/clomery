@@ -111,7 +111,7 @@ class GrantManager extends ProxyObject
      */
     public function listRole(?int $page=null, int $rows=10)
     {
-        return TablePager::listWhere((new RoleTable)->setFields(['id','name','permission']), '1', [], $page, $rows);
+        return TablePager::listWhere((new RoleTable)->setFields(['id','name','permission']), '1', [], $page, $rows)->toArray();
     }
     
     public function superSignInUserWithId(int $id)
@@ -130,7 +130,7 @@ class GrantManager extends ProxyObject
             foreach ($grants as $item) {
                 $grantIds[]=$item['grant'];
             }
-            return TablePager::listWhere((new RoleTable)->setFields(['id','name','permission']), ['id'=>$grantIds], [], $page, $rows);
+            return TablePager::listWhere((new RoleTable)->setFields(['id','name','permission']), ['id'=>$grantIds], [], $page, $rows)->toArray();
         }
         return null;
     }

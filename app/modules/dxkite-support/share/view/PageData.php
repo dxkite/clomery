@@ -3,7 +3,6 @@ namespace dxkite\support\view;
 
 use JsonSerializable;
 
-
 class PageData implements JsonSerializable
 {
     /**
@@ -31,11 +30,12 @@ class PageData implements JsonSerializable
      */
     protected $pageSize;
 
-    protected function  __construct(){
-
+    protected function __construct()
+    {
     }
 
-    public function jsonSerialize() {
+    public function toArray():array
+    {
         if (is_array($this->rows)) {
             $size = count($this->rows);
         } else {
@@ -44,13 +44,13 @@ class PageData implements JsonSerializable
         }
         if ($this->page) {
             $pervious =true;
-            $maxPage = ceil($this->total / $this->rows);
-            if ($page >= $maxPage) {
+            $maxPage = ceil($this->total / $this->pageSize);
+            if ($this->page >= $maxPage) {
                 $next =false;
             } else {
                 $next = true;
             }
-            if ($page <= 1) {
+            if ($this->page <= 1) {
                 $pervious=false;
             }
             return [
@@ -82,6 +82,10 @@ class PageData implements JsonSerializable
             ];
         }
     }
+    public function jsonSerialize()
+    {
+        return $this->toArray();
+    }
 
     public static function build(?array $rows, int $total, ?int $page, int $pageSize):PageData
     {
@@ -89,7 +93,7 @@ class PageData implements JsonSerializable
         $pagedata->rows = $rows;
         $pagedata->total = $total;
         $pagedata->page = $page;
-        $pagedate->pageSize = $pageSize;
+        $pagedata->pageSize = $pageSize;
         return $pagedata;
     }
 
@@ -97,7 +101,7 @@ class PageData implements JsonSerializable
      * Get 列数据
      *
      * @return  array
-     */ 
+     */
     public function getRows()
     {
         return $this->rows;
@@ -109,7 +113,7 @@ class PageData implements JsonSerializable
      * @param  array  $rows  列数据
      *
      * @return  self
-     */ 
+     */
     public function setRows(array $rows)
     {
         $this->rows = $rows;
@@ -121,7 +125,7 @@ class PageData implements JsonSerializable
      * Get 数据总量
      *
      * @return  int
-     */ 
+     */
     public function getTotal()
     {
         return $this->total;
@@ -133,7 +137,7 @@ class PageData implements JsonSerializable
      * @param  int  $total  数据总量
      *
      * @return  self
-     */ 
+     */
     public function setTotal(int $total)
     {
         $this->total = $total;
@@ -145,7 +149,7 @@ class PageData implements JsonSerializable
      * Get 当前页
      *
      * @return  int
-     */ 
+     */
     public function getPage()
     {
         return $this->page;
@@ -157,7 +161,7 @@ class PageData implements JsonSerializable
      * @param  int  $page  当前页
      *
      * @return  self
-     */ 
+     */
     public function setPage(int $page)
     {
         $this->page = $page;
@@ -169,7 +173,7 @@ class PageData implements JsonSerializable
      * Get 页大小
      *
      * @return  int
-     */ 
+     */
     public function getPageSize()
     {
         return $this->pageSize;
@@ -181,7 +185,7 @@ class PageData implements JsonSerializable
      * @param  int  $pageSize  页大小
      *
      * @return  self
-     */ 
+     */
     public function setPageSize(int $pageSize)
     {
         $this->pageSize = $pageSize;

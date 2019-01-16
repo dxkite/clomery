@@ -19,7 +19,7 @@ class AdminUserController
 
     public function list(?int $page=1, int $row =10)
     {
-        return TablePager::listWhere($this->table->setFields(self::$fields), 'status != :status', ['status' => UserTable::STATUS_DELETE], $page, $row);
+        return TablePager::listWhere($this->table->setFields(self::$fields), 'status != :status', ['status' => UserTable::STATUS_DELETE], $page, $row)->toArray();
     }
     
     public function search(string $field, string $search, ?int $page=1, int $row =10)
@@ -32,7 +32,7 @@ class AdminUserController
             ['status' => UserTable::STATUS_DELETE],
             $page,
             $row
-        );
+        )->toArray();
     }
 
     public function modifyStatus(array $ids, int $status)

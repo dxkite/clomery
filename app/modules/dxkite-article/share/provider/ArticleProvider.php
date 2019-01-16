@@ -1,6 +1,7 @@
 <?php
 namespace dxkite\article\provider;
 
+use dxkite\support\view\PageData;
 use dxkite\content\parser\Content;
 use dxkite\article\table\ArticleTable;
 use dxkite\article\controller\ArticleController;
@@ -50,5 +51,32 @@ class ArticleProvider
         return $this->article->save($id, \get_user_id(), $title, $slug, $category, $cover, $abstract, $content, $modify, $status);
     }
     
-    
+    /**
+     * 获取文章列表
+     *
+     * @param integer|null $categoryId 当前选择的分类
+     * @param integer $page 当前页
+     * @param integer $count 页大小
+     * @return PageData
+     */
+    public function getList(?int $categoryId =null, int $page=null, int $count=10):PageData
+    {
+        $userid = null;
+        if (!\visitor()->isGuest()) {
+            $userid = \get_user_id(); 
+        }
+        return $this->article->getList($userid,$categoryId,$page,$count);
+    }
+
+    /**
+     * 发布文章
+     *
+     * @param integer $article
+     * @return int
+     */    
+    public function post(int $article):int {
+        return $this->article->update($article,[
+            'status' => ArticleTable::STATUS_PUBLISH,
+        ], get_user_id());
+    }
 }

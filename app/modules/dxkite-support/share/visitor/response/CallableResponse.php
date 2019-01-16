@@ -54,6 +54,7 @@ abstract class CallableResponse extends MethodCallResponse
         if (!$e instanceof SudaException) {
             $e=new SudaException($e);
         }
+        debug()->writeException($e);
         $responseObject = self::$errorHandler[0] ->error($e->getName(), $e->getCode(), $e->getMessage());
         self::$errorHandler[0]->buildResponse($responseObject);
         return true;
