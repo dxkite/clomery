@@ -19,6 +19,8 @@
     },
     "require": {
         "support": "",
-        "dxkite/category":""
+        "dxkite/category":"",
+        "dxkite/tags":"",
+        "dxkite/comment":""
     }
 }
