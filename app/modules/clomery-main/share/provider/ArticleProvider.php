@@ -63,9 +63,10 @@ class ArticleProvider
     {
         $userid = null;
         if (!\visitor()->isGuest()) {
-            $userid = \get_user_id(); 
+            $userid = \get_user_id();
         }
-        return $this->article->getList($userid,$categoryId,$page,$count);
+        $page = $this->article->getList($userid, $categoryId, $page, $count);
+        return $this->pageDataAssign($page);
     }
 
     /**
@@ -73,10 +74,59 @@ class ArticleProvider
      *
      * @param integer $article
      * @return int
-     */    
-    public function post(int $article):int {
-        return $this->article->update($article,[
+     */
+    public function post(int $article):int
+    {
+        return $this->article->update($article, [
             'status' => ArticleTable::STATUS_PUBLISH,
         ], get_user_id());
+    }
+
+    /**
+     * 删除文章
+     *
+     * @param integer $article 删除文章
+     * @return integer
+     */
+    public function delete(int $article):int
+    {
+        return $this->article->delete($article, get_user_id());
+    }
+    
+    /**
+     * 搜索标题
+     *
+     * @param string $title 标题关键字
+     * @param integer|null $category 指定分类
+     * @param integer|null $page
+     * @param integer $count
+     * @return PageData
+     */
+    public function search(string $title, ?int $category=null, ?int $page, int $count=10):PageData
+    {
+        $userid = null;
+        if (!\visitor()->isGuest()) {
+            $userid = \get_user_id();
+        }
+        $page = $this->$this->article->search($title, $category, $page, $count);
+        return $this->pageDataAssign($page);
+    }
+
+    protected function pageDataAssign(PageData $page):PageData {
+        if ($page->getSize() > 0 ) {
+            $rows = $page->getRows();
+            $ids = [];
+            foreach ($rows as $index => $row) {
+                $ids[] = $row['user'];
+            }
+            $userInfos = get_user_public_info_array($ids);
+            foreach ($rows as $index => $row) {
+                $rows[$index]['user'] = $userInfos[$row['user']] ?? $row['user'];
+                // $rows[$index]['image'] = self::getImages($row['id']);
+                // $rows[$index]['category'] = self::getCategoryInfo($row['category']);
+            }
+            $page->setRows($rows);
+        }
+        return $page;
     }
 }

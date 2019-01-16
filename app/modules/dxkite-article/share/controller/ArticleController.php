@@ -144,21 +144,24 @@ class ArticleController
     public function getList(?int $user=null, ?int $categoryId =null, int $page=null, int $count=10):PageData
     {
         if (is_null($user)) {
-            $parameter = [
-                'user' => $user,
-                'delete' => ArticleTable::STATUS_DELETE,
-            ];
-            $condition = 'user = :user AND status != :delete';
-        } else {
             $condition = 'status = :publish';
             $parameter = [
                 'publish'=>ArticleTable::STATUS_PUBLISH,
+            ];
+           
+           
+        } else {
+            $condition = '((user = :user AND status != :delete) OR status = :publish)';
+            $parameter = [
+                'publish'=>ArticleTable::STATUS_PUBLISH,
+                'user' => $user,
+                'delete' => ArticleTable::STATUS_DELETE,
             ];
         }
 
         if (!is_null($categoryId)) {
             $parameter['category']=$categoryId;
-            $condition[]= 'category = :category';
+            $condition= ' AND category = :category';
         }
        
         return  TablePager::listWhere($this->table->setWants(ArticleController::$showFields), $condition, $parameter, $page, $count);
@@ -254,11 +257,11 @@ class ArticleController
     /**
      * 删除文章
      *
+     * @param integer $article 文章ID
      * @param integer|null $userId 指定用户的文章
-     * @param integer $article
      * @return integer
      */
-    public function delete(?int $userId =null, int $article):int
+    public function delete(int $article,?int $userId =null):int
     {
         if ($userId) {
             return $this->table->update(['status'=>ArticleTable::STATUS_DELETE], ['user'=>$userId,'id'=>$article]);
