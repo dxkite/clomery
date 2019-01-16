@@ -10,7 +10,7 @@ a php 7.2 based content manager system
     - [x] 文章标签
     - [x] 文章列表
     - [x] 文章分类列表
-    - [ ] 文章标签列表
+    - [x] 文章标签列表
 - [ ] HEXO文章推送接口
 - [ ] 友链
 - [ ] 直接菜单

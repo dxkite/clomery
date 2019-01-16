@@ -85,11 +85,11 @@ class ArticleProvider
      * 获取文章列表
      *
      * @param integer|null $categoryId 当前选择的分类
-     * @param integer $page 当前页
+     * @param integer|null $page 当前页
      * @param integer $count 页大小
      * @return PageData
      */
-    public function getList(?int $categoryId =null, int $page=null, int $count=10):PageData
+    public function getList(?int $categoryId =null, ?int $page=null, int $count=10):PageData
     {
         $userid = null;
         if (!\visitor()->isGuest()) {
@@ -99,6 +99,22 @@ class ArticleProvider
         return $this->view->listView($page);
     }
 
+    public function getListByTag(int $tagId, ?int $page=null, int $count=10):PageData
+    {
+        $userid = null;
+        if (!\visitor()->isGuest()) {
+            $userid = \get_user_id();
+        }
+        $article=[];
+        $tagRefs = $this->tag->getRefByTag($tagId);
+        if (is_array($tagRefs)) {
+            foreach ($tagRefs as $value) {
+                $articles[] = $value['ref'];
+            }
+        }
+        $page = $this->article->getArticleListByIds($userid, $articles, $page, $count);
+        return $this->view->listView($page);
+    }
 
     /**
      * 获取分类列表

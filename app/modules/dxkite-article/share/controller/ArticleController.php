@@ -5,6 +5,7 @@ use dxkite\support\util\Pinyin;
 use dxkite\support\view\PageData;
 use dxkite\content\parser\Content;
 use dxkite\support\view\TablePager;
+use suda\archive\SQLStatementPrepare;
 use dxkite\article\table\ArticleTable;
 use dxkite\article\controller\ArticleController;
 
@@ -229,6 +230,30 @@ class ArticleController
             ];
         }
         return $this->table->count($condition, $parameter);
+    }
+
+    /**
+     * 根据Id获取列表
+     *
+     * @param integer|null $user
+     * @param array $ids
+     * @param integer|null $page
+     * @param integer $count
+     * @return PageData
+     */
+    public function getArticleListByIds(?int $user=null,array $ids,?int $page,int $count):PageData
+    {
+        list($condition, $parameter)= SQLStatementPrepare::prepareIn('id', $ids);
+        if (is_null($user)) {
+            $condition .= ' AND user = :user AND status != :delete';
+            $parameter['user'] = $user;
+            $parameter['delete'] = ArticleTable::STATUS_DELETE;
+        
+        } else {
+            $condition .= 'AND status = :publish';
+            $parameter['publish'] = ArticleTable::STATUS_PUBLISH;
+        }
+        return  TablePager::listWhere($this->table->setWants(ArticleController::$showFields), $condition, $parameter, $page, $count);
     }
 
     /**
