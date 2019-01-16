@@ -31,7 +31,7 @@ class TagController
         $this->tagTable = new TagTable($this->target);
     }
 
-    public function add(int $user,string $name)
+    public function add(int $user, string $name)
     {
         if ($tag = $this->getTagId($name)) {
             return $tag;
@@ -55,7 +55,7 @@ class TagController
  
     public function getTags(?int $page=null, int $row=10)
     {
-        return $this->tagsTable->list($page, $row);
+        return TablePager::listWhere($this->tagsTable->setWants(['id','name','count']), '1', [], $page, $row);
     }
 
     public function getTagByIds(array $ids)
@@ -98,7 +98,7 @@ class TagController
             $count++;
             $this->tagTable->insert(['ref'=>$ref,'tag'=>$tag]);
         }
-        $this->tagsTable->update('count = count + 1',['id'=>$tags]);
+        $this->tagsTable->update('count = count + 1', ['id'=>$tags]);
         return $count;
     }
     
@@ -109,7 +109,7 @@ class TagController
 
     public function unbindTags(int $ref, array $tags)
     {
-        $this->tagsTable->update('count = count - 1',['id'=>$tags]);
+        $this->tagsTable->update('count = count - 1', ['id'=>$tags]);
         return $this->tagTable->delete(['ref'=>$ref,'tag'=>$tags]);
     }
 }
