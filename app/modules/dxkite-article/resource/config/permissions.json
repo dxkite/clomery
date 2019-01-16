@@ -1,0 +1,9 @@
+{
+    "dxkite:article": {
+        "name": "文章权限",
+        "childs": {
+            "write:article": "编写文章",
+            "upload:attachment": "添加附件"
+        }
+    }
+}

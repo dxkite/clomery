@@ -1,6 +1,7 @@
 <?php
 namespace dxkite\category\response;
 
+use dxkite\category\response\BaseResponse;
 use dxkite\category\provider\CategoryManageProvider;
 
 class AddResponse extends BaseResponse

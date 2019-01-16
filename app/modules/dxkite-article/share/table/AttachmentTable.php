@@ -1,22 +1,17 @@
 <?php
 namespace dxkite\article\table;
 
-use suda\archive\Table;
-use suda\tool\Pinyin;
-use suda\core\Request;
-use suda\core\Query;
-use dxkite\support\file\File;
-use dxkite\support\file\Media;
-use dxkite\support\file\UploadFile;
+use dxkite\article\table\PrefixTable;
 
-class AttachmentTable extends Table
+
+class AttachmentTable extends PrefixTable
 {
     const TYPE_ATTACHMEMT=0;
     const TYPE_RESOURCE=1;
 
-    public function __construct()
+    public function __construct(string $prefix='')
     {
-        parent::__construct('article_attachment');
+        parent::__construct($prefix, 'article_attachment');
     }
 
     public function onBuildCreator($table)

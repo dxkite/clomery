@@ -1,6 +1,7 @@
 <?php
 namespace dxkite\category\response;
 
+use suda\core\route\Mapping;
 use dxkite\support\visitor\Context;
 use dxkite\support\template\Manager;
 
@@ -36,7 +37,7 @@ abstract class BaseResponse extends \dxkite\support\setting\Response
     public function onAdminView($view, $context)
     {
         if ($context->getVisitor()->hasPermission($this->acl)) {
-            $view->set('module',app()->getActiveModule());
+            $view->set('module', app()->getActiveModule());
             return $this->contentAction($view, $context);
         } else {
             $this->onDeny($context);

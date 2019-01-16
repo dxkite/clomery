@@ -1,8 +1,8 @@
 <?php
 namespace dxkite\comment\table;
 
+use suda\core\Runnable;
 use \suda\archive\Table;
-use suda\tool\Command;
 
 /**
  * 评论
@@ -19,13 +19,13 @@ class CommentTable extends Table
     {
         if ($target instanceof Table) {
         } else {
-            $target =Command::newClassInstance($target);
+            $target =Runnable::newClassInstance($target);
         }
-        $perfix = $target->getTableName();
-        parent::__construct(self::parsePerfix($perfix).$sub.'comment');
+        $prefix = $target->getTableName();
+        parent::__construct(self::parsePrefix($prefix).$sub.'comment');
     }
     
-    protected function parsePerfix(?string $fix)
+    protected function parsePrefix(?string $fix)
     {
         if (!is_null($fix)) {
             $fix = $fix.'_';

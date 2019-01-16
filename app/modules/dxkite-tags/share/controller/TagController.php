@@ -1,10 +1,11 @@
 <?php
 namespace dxkite\tags\controller;
 
-use dxkite\tags\table\TagsTable;
-use dxkite\tags\table\TagTable;
-use dxkite\support\view\TablePager;
 use suda\tool\Command;
+use dxkite\tags\table\TagTable;
+use dxkite\tags\table\TagsTable;
+use dxkite\support\view\PageData;
+use dxkite\support\view\TablePager;
 
 class TagController
 {
@@ -67,7 +68,7 @@ class TagController
         return $this->tagTable->listWhere(['tag'=>$tagid], [], $page, $row);
     }
 
-    public function search(string $tagname):array
+    public function search(string $tagname):PageData
     {
         return TablePager::search($this->tagsTable, 'name', $tagname);
     }

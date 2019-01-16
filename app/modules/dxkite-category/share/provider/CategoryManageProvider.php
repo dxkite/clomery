@@ -28,12 +28,13 @@ class CategoryManageProvider
         ]);
     }
 
-    public function edit(int $id,array $edit)
+    public function edit(int $id, array $edit)
     {
-        return $this->table->updateByPrimaryKey($id,$edit);
+        return $this->table->updateByPrimaryKey($id, $edit);
     }
 
-    public function delete(int $id) {
+    public function delete(int $id)
+    {
         return $this->table->deleteByPrimaryKey($id);
     }
 
@@ -42,7 +43,8 @@ class CategoryManageProvider
         return $this->table->getByPrimaryKey($id);
     }
 
-    public function list(?int $page=null,int $row=10) { 
+    public function list(?int $page=null, int $row=10)
+    {
         $pager = TablePager::listWhere($this->table, '1', [], $page, $row);
         return $pager;
     }

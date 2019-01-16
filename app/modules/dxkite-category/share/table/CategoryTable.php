@@ -1,8 +1,9 @@
 <?php
 namespace dxkite\category\table;
 
-use suda\archive\Table;
 use suda\core\Query;
+use suda\archive\Table;
+use suda\core\Runnable;
 
 class CategoryTable extends Table
 {
@@ -10,12 +11,12 @@ class CategoryTable extends Table
     {
         if ($target instanceof Table) {
         } else {
-            $target =Command::newClassInstance($target);
+            $target =Runnable::newClassInstance($target);
         }
-        parent::__construct(self::parsePerfix($target->getTableName()).'category');
+        parent::__construct(self::parsePrefix($target->getTableName()).'category');
     }
 
-    protected function parsePerfix(?string $fix)
+    protected function parsePrefix(?string $fix)
     {
         if (!is_null($fix)) {
             $fix = $fix.'_';

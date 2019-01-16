@@ -11,10 +11,10 @@ class TagsTable extends Table
         } else {
             $target =Command::newClassInstance($target);
         }
-        parent::__construct(self::parsePerfix($target->getTableName()).'tags');
+        parent::__construct(self::parsePrefix($target->getTableName()).'tags');
     }
 
-    protected function parsePerfix(?string $fix)
+    protected function parsePrefix(?string $fix)
     {
         if (!is_null($fix)) {
             $fix = $fix.'_';

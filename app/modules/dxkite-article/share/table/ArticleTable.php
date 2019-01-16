@@ -1,14 +1,10 @@
 <?php
 namespace dxkite\article\table;
 
-use suda\core\Query;
-use suda\tool\Pinyin;
-use suda\core\Request;
-use suda\archive\Table;
-use dxkite\support\file\Media;
 use dxkite\content\parser\Content;
+use dxkite\article\table\PrefixTable;
 
-class ArticleTable extends Table
+class ArticleTable extends PrefixTable
 {
     const STATUS_DELETE=0;     // 删除
     const STATUS_DRAFT=1;      // 草稿
@@ -18,17 +14,18 @@ class ArticleTable extends Table
     const TYPE_HTML=1;
     const TYPE_PLAIN=2;
 
-    public function __construct()
+    public function __construct(string $prefix='')
     {
-        parent::__construct('article');
+        parent::__construct($prefix, 'article');
     }
 
-    public function onBuildCreator($table)
+    public function onBuildCreator($prefix)
     {
-        return $table->fields(
+        return $table->fields([
             $table->field('id', 'bigint', 20)->primary()->unsigned()->auto(),
             $table->field('user', 'bigint', 20)->unsigned()->key()->comment("作者"),
             $table->field('title', 'varchar', 255)->key()->comment("标题"),
+            $table->field('category', 'bigint', 20)->key()->comment("文章分类"),
             $table->field('slug', 'varchar', 255)->key()->comment("缩写"),
             $table->field('cover', 'bigint', 20)->comment("封面文件ID"),
             $table->field('abstract', 'text')->comment("摘要"),
@@ -37,12 +34,12 @@ class ArticleTable extends Table
             $table->field('modify', 'int', 11)->key()->comment("修改时间"),
             $table->field('ip', 'varchar', 32)->comment("编辑IP"),
             $table->field('views', 'int', 11)->key()->comment("阅读量"),
-            $table->field('category', 'bigint', 20)->key()->comment("文章分类"),
-            $table->field('type', 'tinyint', 1)->key()->comment("类型"),
-            $table->field('status', 'tinyint', 1)->key()->comment("状态")
-        );
+            $table->field('status', 'tinyint', 1)->key()->comment("状态"),
+        ]);
     }
 
+
+    /** content */
     /**
      * 使用Markdown 对内容进行默认编码
      *
@@ -51,7 +48,7 @@ class ArticleTable extends Table
      */
     protected function _inputContentField($content)
     {
-        return content_pack($content, self::CONTENT_TYPE);
+        return content_pack($content, Content::MD);
     }
 
     /**
@@ -66,7 +63,35 @@ class ArticleTable extends Table
         if ($object = content_unpack($content)) {
             return $object;
         }
-        // 未设置解码则按text编码
-        return content_create($content, 'text');
+        // 未设置解码则按markdown编码
+        return content_create($content, Content::MD);
+    }
+
+    /** abstract */
+    /**
+     * 将内容解码成HTML格式
+     *
+     * @param string $abstract
+     * @return Content
+     */
+    protected function _outputAbstractField(string $abstract)
+    {
+        // 解码成对象
+        if ($object = content_unpack($abstract)) {
+            return $object;
+        }
+        // 未设置解码则按markdown编码
+        return content_create($abstract, Content::MD);
+    }
+
+    /**
+     * 使用Markdown 对内容进行默认编码
+     *
+     * @param string|Content $abstract
+     * @return string
+     */
+    protected function _inputAbstractField($abstract)
+    {
+        return content_pack($abstract, Content::MD);
     }
 }

@@ -1,0 +1,23 @@
+{
+    "name": "clomery\/article",
+    "homepage": "http:\/\/atd3.cn",
+    "version": "1.0.0",
+    "locale": "zh-CN",
+    "namespace": "dxkite\\clomery\\article",
+    "suda": ">=2.0.2",
+    "discription": "Clomery文章",
+    "authors": [
+        {
+            "name": "dxkite",
+            "email": "dxkite@qq.com"
+        }
+    ],
+    "import": {
+        "share": {
+            "dxkite\\clomery\\article": "share"
+        }
+    },
+    "require": {
+        "support": ""
+    }
+}

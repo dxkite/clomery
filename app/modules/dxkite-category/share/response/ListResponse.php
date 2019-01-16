@@ -10,7 +10,7 @@ class ListResponse extends BaseResponse
         $now = request()->get('page', 1);
         $provider = new CategoryManageProvider($this->target);
         
-        if($id = request()->get()->delete){
+        if ($id = request()->get()->delete) {
             $provider->delete($id);
             $this->refresh();
             return false;
