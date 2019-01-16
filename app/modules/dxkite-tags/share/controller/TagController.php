@@ -9,7 +9,18 @@ use dxkite\support\view\TablePager;
 
 class TagController
 {
+    /**
+     * 标签表
+     *
+     * @var TagsTable
+     */
     protected $tagsTable;
+    
+    /**
+     * 标签关系表
+     *
+     * @var TagTable
+     */
     protected $tagTable;
     protected $target;
 
@@ -20,10 +31,9 @@ class TagController
         $this->tagTable = new TagTable($this->target);
     }
 
-    public function add(string $name)
+    public function add(int $user,string $name)
     {
         if ($tag = $this->getTagId($name)) {
-            $user = get_user_id();
             return $tag;
         } else {
             return $this->tagsTable->insert(['name'=>$name,'user'=> $user,'time'=>time()]);
@@ -90,7 +100,10 @@ class TagController
         }
         return $count;
     }
-    
+    public function unbindAllTags(int $ref)
+    {
+        return $this->tagTable->delete(['ref'=>$ref]);
+    }
     public function unbindTags(int $ref, array $tags)
     {
         return $this->tagTable->delete(['ref'=>$ref,'tag'=>$tags]);

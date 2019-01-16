@@ -11,7 +11,7 @@ class TagTable extends Table
         } else {
             $target =Command::newClassInstance($target);
         }
-        parent::__construct(self::parsePrefix($target->getTableName()).'tags');
+        parent::__construct(self::parsePrefix($target->getTableName()).'tag_relation');
     }
 
     protected function parsePrefix(?string $fix)

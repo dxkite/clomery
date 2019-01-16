@@ -3,6 +3,7 @@ namespace dxkite\clomery\main\view;
 
 use dxkite\support\view\PageData;
 use dxkite\article\controller\ArticleController;
+use dxkite\article\controller\ArticleTagController;
 use dxkite\article\controller\ArticleCategoryController;
 
 class ArticleView
@@ -20,11 +21,19 @@ class ArticleView
      * @var ArticleCategoryController
      */
     protected $category;
+    /**
+     * 标签
+     *
+     * @var ArticleTagController
+     */
+    protected $tag;
+    
 
-    public function __construct(ArticleController $article, ArticleCategoryController $category)
+    public function __construct(ArticleController $article, ArticleCategoryController $category, ArticleTagController $tag)
     {
         $this->article = $article;
         $this->category = $category;
+        $this->tag = $tag;
     }
 
     public function listView(PageData $page):PageData
@@ -41,8 +50,8 @@ class ArticleView
             }
             $userInfo = get_user_public_info_array($users);
             $categoryInfo = $this->getCategorys($categorys);
-
             foreach ($rows as $index => $row) {
+                $rows[$index]['tags'] = $this->tag->getArticleTags($row['id']);
                 $rows[$index]['user'] = $userInfo[$row['user']] ?? $row['user'];
                 $rows[$index]['category'] = $categoryInfo[$row['category']];
             }
@@ -63,10 +72,5 @@ class ArticleView
             'slug' => '',
         ];
         return $categoryInfo;
-    }
-
-    protected function getTags(array $tags):array
-    {
-        
     }
 }

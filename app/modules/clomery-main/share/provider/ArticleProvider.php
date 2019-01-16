@@ -6,6 +6,7 @@ use dxkite\content\parser\Content;
 use dxkite\article\table\ArticleTable;
 use dxkite\clomery\main\view\ArticleView;
 use dxkite\article\controller\ArticleController;
+use dxkite\article\controller\ArticleTagController;
 use dxkite\article\controller\ArticleCategoryController;
 
 class ArticleProvider
@@ -24,6 +25,13 @@ class ArticleProvider
     protected $category;
 
     /**
+     * 标签
+     *
+     * @var ArticleTagController
+     */
+    protected $tag;
+
+    /**
      * 视图处理
      *
      * @var ArticleView
@@ -34,9 +42,10 @@ class ArticleProvider
     {
         $this->article = new ArticleController('clomery');
         $this->category = new ArticleCategoryController('clomery');
-        $this->view = new ArticleView($this->article, $this->category);
+        $this->tag = new ArticleTagController('clomery');
+        $this->view = new ArticleView($this->article, $this->category, $this->tag);
     }
-    
+        
     /**
      * 写入文章
      *
@@ -46,6 +55,7 @@ class ArticleProvider
      * @param string|null $slug 文章唯一标识
      * @param integer $category 文章分类
      * @param integer $cover 文章封面
+     * @param array|null $tags
      * @param Content $abstract 文章摘要
      * @param Content $content 文章内容
      * @param integer|null $modify 文章修改时间
@@ -58,14 +68,17 @@ class ArticleProvider
         ?string $slug=null,
         int $category=0,
         int $cover= 0,
-
+        ?array $tags= null,
         Content $abstract,
         Content $content,
-        
         ?int $modify=null,
         int $status=ArticleTable::STATUS_DRAFT
     ) :int {
-        return $this->article->save($id, \get_user_id(), $title, $slug, $category, $cover, $abstract, $content, $modify, $status);
+        $articleId = $this->article->save($id, \get_user_id(), $title, $slug, $category, $cover, $abstract, $content, $modify, $status);
+        if (is_array($tags)) {
+            $this->tag->addTags($articleId, $tags);
+        }
+        return $articleId;
     }
     
     /**
@@ -84,6 +97,20 @@ class ArticleProvider
         }
         $page = $this->article->getList($userid, $categoryId, $page, $count);
         return $this->view->listView($page);
+    }
+
+
+    /**
+     * 获取分类列表
+     *
+     * @param integer|null $page
+     * @param integer $count
+     * @return PageData
+     */
+    public function getCategoryList(?int $page=null, int $count=10):PageData
+    {
+        $page = $this->category->getList($page, $count);
+        return $page;
     }
 
     /**
@@ -111,21 +138,18 @@ class ArticleProvider
     }
     
     /**
-     * 搜索标题
-     *
-     * @param string $title 标题关键字
-     * @param integer|null $category 指定分类
-     * @param integer|null $page
-     * @param integer $count
-     * @return PageData
-     */
-    public function search(string $title, ?int $category=null, ?int $page, int $count=10):PageData
+       * 搜索标题
+       *
+       * @param string $title 标题关键字
+       * @param integer|null $user 指定用户
+       * @param integer|null $category 指定分类
+       * @param integer|null $page
+       * @param integer $count
+       * @return PageData 搜索结果页数据
+       */
+    public function search(string $title, ?int $user=null, ?int $category=null, ?int $page, int $count=10):PageData
     {
-        $userid = null;
-        if (!\visitor()->isGuest()) {
-            $userid = \get_user_id();
-        }
-        $page = $this->$this->article->search($title, $category, $page, $count);
+        $page = $this->article->search($title, $user, $category, $page, $count);
         return $this->view->listView($page);
     }
 }

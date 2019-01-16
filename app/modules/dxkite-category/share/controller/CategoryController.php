@@ -1,8 +1,10 @@
 <?php
 namespace dxkite\category\controller;
 
-use dxkite\category\table\CategoryTable;
 use suda\tool\Command;
+use dxkite\support\view\PageData;
+use dxkite\support\view\TablePager;
+use dxkite\category\table\CategoryTable;
 
 class CategoryController
 {
@@ -40,6 +42,11 @@ class CategoryController
             return $result;
         }
         return null;
+    }
+
+    public function getList(?int $page=null, int $count=10):PageData
+    {
+        return TablePager::listWhere($this->table, '1', [], $page, $count);
     }
 
     public function name2id(string $name)
