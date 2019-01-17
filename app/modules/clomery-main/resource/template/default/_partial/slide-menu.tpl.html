@@ -1,5 +1,7 @@
 <div class="mobile-menu">
-      <img class="mobile-menu-icon" src="@static/images/dxkite.png">
+      @data('dxkite.clomery.main.view.Data::profile')
+      <img class="mobile-menu-icon" src="{{ $:profile.avatar }}">
+      @data('dxkite.clomery.main.view.Data::menu')
       @foreach ($:menu as $name => $menu)
       @if ($name === 'search')
       <a class="mobile-menu-link mobile-menu-search" href="#">{= 搜索 '}</a>

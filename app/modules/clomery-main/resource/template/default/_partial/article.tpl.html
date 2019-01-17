@@ -17,6 +17,6 @@
         {{! content_unpack2html($:post.excerpt) }}
     </div>
     <div class='article-bottom'>
-        <a class="article-readmore" href="#post.path">{= 阅读更多 }</a>
+        <a class="article-readmore" href="@u('read-article', $:post.id)">{= 阅读更多 }</a>
     </div>
 </article>

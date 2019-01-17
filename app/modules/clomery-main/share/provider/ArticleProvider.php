@@ -49,7 +49,7 @@ class ArticleProvider
     /**
      * 写入文章
      *
-     * @acl clomery.write:article
+     * @acl clomery:article.write:article
      * @param integer|null $id 文章ID/修改则填入
      * @param string $title 文章标题
      * @param string|null $slug 文章唯一标识
