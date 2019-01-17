@@ -1,10 +1,10 @@
 <?php
-namespace dxkite\clomery\main\response;
+namespace dxkite\article\response;
 
 use dxkite\support\visitor\Context;
 use dxkite\support\visitor\response\Response;
-use dxkite\clomery\main\provider\ArticleProvider;
-use dxkite\clomery\main\TemplateContentSecurityPolicyLoader;
+use dxkite\article\provider\ArticleProvider;
+use dxkite\article\TemplateContentSecurityPolicyLoader;
 
 class ArticleResponse extends Response
 {

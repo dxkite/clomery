@@ -1,0 +1,14 @@
+{
+    "index": {
+        "url": "/",
+        "class": "dxkite.article.response.IndexResponse"
+    },
+    "index-page": {
+        "url": "/page/{page:int}",
+        "class": "dxkite.article.response.IndexResponse"
+    },
+    "read-article": {
+        "url": "/{article:int}",
+        "class": "dxkite.article.response.ArticleResponse"
+    }
+}

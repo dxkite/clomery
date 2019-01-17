@@ -1,5 +1,5 @@
 <?php
-namespace dxkite\clomery\main\view;
+namespace dxkite\article\view;
 
 use dxkite\support\view\PageData;
 use dxkite\article\controller\ArticleController;

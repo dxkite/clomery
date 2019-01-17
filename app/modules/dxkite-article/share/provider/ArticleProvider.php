@@ -1,10 +1,10 @@
 <?php
-namespace dxkite\clomery\main\provider;
+namespace dxkite\article\provider;
 
 use dxkite\support\view\PageData;
 use dxkite\content\parser\Content;
 use dxkite\article\table\ArticleTable;
-use dxkite\clomery\main\view\ArticleView;
+use dxkite\article\view\ArticleView;
 use dxkite\article\controller\ArticleController;
 use dxkite\article\controller\ArticleTagController;
 use dxkite\article\controller\ArticleCategoryController;
@@ -183,6 +183,12 @@ class ArticleProvider
         return $this->view->listView($page);
     }
 
+    /**
+     * 获取文章信息
+     *
+     * @param integer $article
+     * @return array|null
+     */
     public function getArticle(int $article):?array
     {
         $userid = null;

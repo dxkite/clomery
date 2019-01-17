@@ -15,12 +15,15 @@
     "import": {
         "share": {
             "dxkite\\article": "share"
+        },
+        "src": {
+            "dxkite\\article\\response": "src"
         }
     },
     "require": {
         "support": "",
-        "dxkite/category":"",
-        "dxkite/tags":"",
-        "dxkite/comment":""
+        "dxkite/category": "",
+        "dxkite/tags": "",
+        "dxkite/comment": ""
     }
 }

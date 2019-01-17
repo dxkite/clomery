@@ -1,5 +1,5 @@
 {
-    "clomery:article": {
+    "article": {
         "name": "文章权限",
         "childs": {
             "write:article": "编写文章",

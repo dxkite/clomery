@@ -14,13 +14,16 @@
     ],
     "import": {
         "share": {
-            "dxkite\\clomery\\main": "share"
+            "dxkite\\clomery\\main": "main/share"
         },
         "src" : {
-            "dxkite\\clomery\\main\\response": "src"
+            "dxkite\\clomery\\main\\response": "main/src"
         }
     },
+    "template": {
+        "dxkite/article" : "template/article/"
+    },
     "require": {
-        "support": ""
+        "dxkite/article": ""
     }
 }

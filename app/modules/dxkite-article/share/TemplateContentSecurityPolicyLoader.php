@@ -1,5 +1,5 @@
 <?php
-namespace dxkite\clomery\main;
+namespace dxkite\article;
 
 use suda\tool\Security;
 use suda\template\Manager;
