@@ -128,20 +128,6 @@ class ArticleProvider
         $page = $this->category->getList($page, $count);
         return $page;
     }
-
-
-    /**
-     * 获取标签列表
-     *
-     * @param integer|null $page
-     * @param integer $count
-     * @return PageData
-     */
-    public function getTagList(?int $page=null, int $count=10):PageData
-    {
-        $page = $this->tag->getTags($page, $count);
-        return $page;
-    }
     
     /**
      * 发布文章

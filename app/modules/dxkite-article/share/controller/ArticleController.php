@@ -22,8 +22,8 @@ class ArticleController
      * @var ArticleTable
      */
     protected $table;
-    protected static $showFields = ['id','title','slug','user','create','modify','category','excerpt' ,'cover','views','status'];
-    protected static $viewFields = ['id','title','slug','user','create','modify','category','excerpt','content' ,'cover','views','status'];
+    public static $showFields = ['id','title','slug','user','create','modify','category','excerpt' ,'cover','views','status'];
+    public static $viewFields = ['id','title','slug','user','create','modify','category','excerpt','content' ,'cover','views','status'];
     
  
     protected $order = ArticleTable::ORDER_DESC;
@@ -157,7 +157,7 @@ class ArticleController
      */
     public function getList(?int $user=null, ?int $categoryId =null, int $page=null, int $count=10):PageData
     {
-        list($condition, $parameter) = $this->getUserViewCondition($user);
+        list($condition, $parameter) = self::getUserViewCondition($user);
         if (!is_null($categoryId)) {
             $parameter['category']=$categoryId;
             $condition= ' AND category = :category';
@@ -178,7 +178,7 @@ class ArticleController
         $parameter = [
             'id' => $article,
         ];
-        list($cond, $par) = $this->getUserViewCondition($user);
+        list($cond, $par) = self::getUserViewCondition($user);
         $condition = $condition .' AND '. $cond;
         $parameter = array_merge($parameter, $par);
         return $this->table->select(ArticleController::$viewFields, $condition, $parameter)->fetch();
@@ -217,7 +217,7 @@ class ArticleController
      */
     public function getNearArticleByTime(?int $user=null, int $create):array
     {
-        list($condition, $parameter) = $this->getUserViewCondition($user);
+        list($condition, $parameter) =self::getUserViewCondition($user);
         $previousCondition = '`create` < :create  AND ' . $condition;
         $nextCondition = '`create` > :create AND ' . $condition;
         $parameter['create'] =  $create;
@@ -230,17 +230,18 @@ class ArticleController
      * 获取用户查看条件
      *
      * @param integer|null $user
+     * @param string $prefix
      * @return array
      */
-    protected function getUserViewCondition(?int $user=null):array
+    public static function getUserViewCondition(?int $user=null,string $prefix=''):array
     {
         if (is_null($user)) {
-            $condition = 'status = :publish';
+            $condition = $prefix.'status = :publish';
             $parameter = [
                 'publish'=>ArticleTable::STATUS_PUBLISH,
             ];
         } else {
-            $condition = '((user = :user AND status != :delete) OR status = :publish)';
+            $condition = '(('.$prefix.'user = :user AND '.$prefix.'status != :delete) OR '.$prefix.'status = :publish)';
             $parameter = [
                 'publish'=>ArticleTable::STATUS_PUBLISH,
                 'user' => $user,
@@ -259,7 +260,7 @@ class ArticleController
      */
     public function getArticleCount(int $user=null, ?int $categoryId =null):int
     {
-        list($condition, $parameter) = $this->getUserViewCondition($user);
+        list($condition, $parameter) = self::getUserViewCondition($user);
         return $this->table->count($condition, $parameter);
     }
 
@@ -275,7 +276,7 @@ class ArticleController
     public function getArticleListByIds(?int $user=null, array $ids, ?int $page, int $count):PageData
     {
         list($condition, $parameter)= SQLStatementPrepare::prepareIn('id', $ids);
-        list($conditionU, $parameterU) = $this->getUserViewCondition($user);
+        list($conditionU, $parameterU) = self::getUserViewCondition($user);
         $condition = array_merge($condition, $conditionU);
         $parameter = array_merge($parameter, $parameterU);
         return  TablePager::listWhere($this->table->setWants(ArticleController::$showFields), $condition, $parameter, $page, $count);

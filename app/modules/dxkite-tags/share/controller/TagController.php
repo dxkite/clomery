@@ -2,6 +2,7 @@
 namespace dxkite\tags\controller;
 
 use suda\tool\Command;
+use suda\archive\Table;
 use dxkite\tags\table\TagTable;
 use dxkite\tags\table\TagsTable;
 use dxkite\support\view\PageData;
@@ -22,6 +23,11 @@ class TagController
      * @var TagTable
      */
     protected $tagTable;
+    /**
+     * 目标表
+     *
+     * @var Table
+     */
     protected $target;
 
     public function __construct(string $target = null)
@@ -63,9 +69,9 @@ class TagController
         return $this->tagsTable->select(['id','name'], ['id'=>$ids])->fetchAll();
     }
 
-    public function getTagId(string $name)
+    public function getTagByName(string $name):?array
     {
-        return $this->tagsTable->select(['id'], ' LOWER(name)=LOWER(:name) ', ['name'=>$name])->fetch()['id']??false;
+        return $this->tagsTable->select(['id','name','count'], ' LOWER(name)=LOWER(:name) ', ['name'=>$name])->fetch();
     }
  
     public function getTagByRef(int $id)

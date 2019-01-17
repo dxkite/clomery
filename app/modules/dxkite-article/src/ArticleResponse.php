@@ -4,11 +4,11 @@ namespace dxkite\article\response;
 use dxkite\support\visitor\Context;
 use dxkite\support\visitor\response\Response;
 use dxkite\article\provider\ArticleProvider;
-use dxkite\article\TemplateContentSecurityPolicyLoader;
+use dxkite\article\TemplateCSPLoader;
 
 class ArticleResponse extends Response
 {
-    use TemplateContentSecurityPolicyLoader;
+    use TemplateCSPLoader;
 
     public function onVisit(Context $context)
     {

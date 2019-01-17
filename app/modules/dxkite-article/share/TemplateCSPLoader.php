@@ -4,7 +4,7 @@ namespace dxkite\article;
 use suda\tool\Security;
 use suda\template\Manager;
 
-trait TemplateContentSecurityPolicyLoader 
+trait TemplateCSPLoader 
 {   
     protected function getContentSecurityPolicy() {
         list($root,$path) = Manager::getInputFile(app()->getActiveModule(),'csp-white-list.json',false);

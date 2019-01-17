@@ -10,5 +10,17 @@
     "read-article": {
         "url": "/{article:int}",
         "class": "dxkite.article.response.ArticleResponse"
+    },
+    "tags": {
+        "url": "/tags",
+        "class": "dxkite.article.response.TagResponse"
+    },
+    "tag-article": {
+        "url": "/tag/{tag:string}",
+        "class": "dxkite.article.response.TagArticleResponse"
+    },
+    "tag-article-page": {
+        "url": "/tag/{tag:string}/page/{page:int}",
+        "class": "dxkite.article.response.TagArticleResponse"
     }
 }

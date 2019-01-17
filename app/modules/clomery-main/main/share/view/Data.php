@@ -12,7 +12,8 @@ class Data
     public static function menu($template)
     {
         $template->set('menu', [
-            '首页' => u('index'),
+            __('首页') => u('index'),
+            __('标签') => u('tags'),
             'Suda框架' => 'https://github.com/dxkite/suda',
         ]);
     }

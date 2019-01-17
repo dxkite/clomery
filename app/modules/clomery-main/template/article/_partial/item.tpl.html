@@ -1,0 +1,7 @@
+<article class="item slideDownMin">
+
+    <time class="item-date"> {{ date( "m月d日, Y年", $:post.modify) }} </time>
+
+    <a class="item-title" href="@u('read-article', $:post.id)">{{ $:post.title }}</a>
+
+</article>

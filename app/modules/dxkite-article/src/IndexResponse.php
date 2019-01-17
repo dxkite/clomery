@@ -4,11 +4,11 @@ namespace dxkite\article\response;
 use dxkite\support\visitor\Context;
 use dxkite\support\visitor\response\Response;
 use dxkite\article\provider\ArticleProvider;
-use dxkite\article\TemplateContentSecurityPolicyLoader;
+use dxkite\article\TemplateCSPLoader;
 
 class IndexResponse extends Response
 {
-    use TemplateContentSecurityPolicyLoader;
+    use TemplateCSPLoader;
 
     public function onVisit(Context $context)
     {
@@ -16,8 +16,6 @@ class IndexResponse extends Response
         $pageCurrent = request()->get('page',1);
         $articleData = $provider->getList(null,$page);
         $page = $this->page('index');
-       
-       
         $page->set('title', 'dxkite 的博客');
         $page->set('articles', $articleData->getRows());
         $page->set('page',$articleData->getPage());
