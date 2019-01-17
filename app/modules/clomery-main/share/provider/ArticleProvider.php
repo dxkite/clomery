@@ -189,7 +189,10 @@ class ArticleProvider
         if (!\visitor()->isGuest()) {
             $userid = \get_user_id();
         }
-        $this->article->updateArticleViewCount($article);
+        if (!session()->has('article.view.'.$article)) {
+            $this->article->updateArticleViewCount($article);
+            session()->set('article.view.'.$article, 1);
+        }
         $article = $this->article->getArticle($userid, $article);
         return $this->view->article($article);
     }

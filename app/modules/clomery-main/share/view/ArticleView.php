@@ -36,21 +36,31 @@ class ArticleView
         $this->tag = $tag;
     }
 
-    public function article(array $article):array {
+    public function article(array $article):array
+    {
+        $article = $this->articleInfo($article);
+        $userid = null;
+        if (!\visitor()->isGuest()) {
+            $userid = \get_user_id();
+        }
+        list($previous, $next) =$this->article->getNearArticle($userid, $article['id']);
+        $article['near'] = [
+            'previous' => $this->articleInfo($previous),
+            'next' => $this->articleInfo($next),
+        ];
+        return $article;
+    }
+
+    protected function articleInfo(?array $article):?array
+    {
+        if (\is_null($article)) {
+            return null;
+        }
         $userInfo = get_user_public_info_array([$article['user']]);
         $categoryInfo = $this->getCategorys([$article['category']]);
         $article['tags'] = $this->tag->getArticleTags($article['id']) ?? [];
         $article['user'] = $userInfo[$article['user']] ?? $article['user'];
         $article['category'] = $categoryInfo[$article['category']];
-        $userid = null;
-        if (!\visitor()->isGuest()) {
-            $userid = \get_user_id();
-        }
-        list($previous,$next) =$this->article->getNearArticle($userid, $article['id']);
-        $article['near'] = [
-            'previous' => $previous,
-            'next' => $next,
-        ];
         return $article;
     }
 
