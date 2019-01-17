@@ -42,6 +42,15 @@ class ArticleView
         $article['tags'] = $this->tag->getArticleTags($article['id']) ?? [];
         $article['user'] = $userInfo[$article['user']] ?? $article['user'];
         $article['category'] = $categoryInfo[$article['category']];
+        $userid = null;
+        if (!\visitor()->isGuest()) {
+            $userid = \get_user_id();
+        }
+        list($previous,$next) =$this->article->getNearArticle($userid, $article['id']);
+        $article['near'] = [
+            'previous' => $previous,
+            'next' => $next,
+        ];
         return $article;
     }
 

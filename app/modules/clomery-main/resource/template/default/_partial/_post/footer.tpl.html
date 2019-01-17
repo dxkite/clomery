@@ -6,30 +6,19 @@
 </div>
 
 @data('dxkite.clomery.main.view.Data::profile')
-
- 
-
 <div class="post-footer">
   <div class="pf-left">
-      <img class="pf-avatar" src="{{ $:profile.avatar }}">
-      <p class="pf-des">{{ $:profile.description }}</p>
+    <img class="pf-avatar" src="{{ $:profile.avatar }}">
+    <p class="pf-des">{{ $:profile.description }}</p>
   </div>
-<!-- 
-  <div class="pf-right">           
-      <div class="pf-links">
-        <%- partial('_partial/_post/donate') %> 
-        <%- partial('_partial/_post/mob_share') %>
-      </div>  
+  <div class="pf-right">
     <nav class="pf-paginator">
-      <% if (page.prev) { %>
-        <% var title = truncate(page.prev.title , {length:60}) %> 
-          <a href="<%- url_for(page.prev.path) %>" data-hover="<%= title ||  __('Untitled') %>"><%= __('Post.Prev') %></a>      
-       <% } %>     
-        
-      <% if (page.next) { %>
-        <% var title = truncate(page.next.title, {length:60}) %>
-        <a href="<%- url_for(page.next.path) %>" data-hover="<%= title ||  __('Untitled') %>"> <%=__('Post.Next')%></a>
-      <% } %>      
-  </nav>   
-  </div> -->
-</div> 
+      @if ($:article.near.previous)
+      <a href="@u('read-article',$:article.near.previous.id)" data-hover="{{$:article.near.previous.title}}">{= 上一篇文章 }</a>
+      @endif
+      @if ($:article.near.next)
+      <a href="@u('read-article',$:article.near.next.id)" data-hover="{{$:article.near.next.title}}">{= 下一篇文章 }</a>
+      @endif
+    </nav>
+  </div>
+</div>

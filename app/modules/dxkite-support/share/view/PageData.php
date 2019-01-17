@@ -58,7 +58,7 @@ class PageData implements JsonSerializable
      *
      * @var bool
      */
-    protected $pagePervious;
+    protected $pagePrevious;
     /**
      * 当前页
      *
@@ -83,7 +83,7 @@ class PageData implements JsonSerializable
                 'size'=> $this->pageSize,
                 'current'=>$this->pageCurrent,
                 'next' => $this->pageNext,
-                'previous'=> $this->pagePervious,
+                'previous'=> $this->pagePrevious,
             ]
         ];
     }
@@ -97,7 +97,7 @@ class PageData implements JsonSerializable
             $this->rows = [];
         }
         if ($this->page) {
-            $pervious =true;
+            $previous =true;
             $maxPage = ceil($this->total / $this->pageSize);
             if ($this->page >= $maxPage) {
                 $next = false;
@@ -105,19 +105,19 @@ class PageData implements JsonSerializable
                 $next = true;
             }
             if ($this->page <= 1) {
-                $pervious=false;
+                $previous=false;
             }
             $this->pageMin = 1;
             $this->pageMax = $maxPage;
             $this->pageCurrent = $this->page;
             $this->pageNext = $next;
-            $this->pagePervious = $pervious;
+            $this->pagePrevious = $previous;
         } else {
             $this->pageMin = 1;
             $this->pageMax = 1;
             $this->pageCurrent = 1;
             $this->pageNext = false;
-            $this->pagePervious = false;
+            $this->pagePrevious = false;
         }
     }
 
@@ -198,7 +198,7 @@ class PageData implements JsonSerializable
             'size'=> $this->pageSize,
             'current'=>$this->pageCurrent,
             'next' => $this->pageNext,
-            'previous'=> $this->pagePervious,
+            'previous'=> $this->pagePrevious,
         ];
     }
 
@@ -327,21 +327,21 @@ class PageData implements JsonSerializable
      *
      * @return  bool
      */
-    public function getPagePervious()
+    public function getPagePrevious()
     {
-        return $this->pagePervious;
+        return $this->pagePrevious;
     }
 
     /**
      * Set 上一页
      *
-     * @param  bool  $pagePervious  上一页
+     * @param  bool  $pagePrevious  上一页
      *
      * @return  self
      */
-    public function setPagePervious(bool $pagePervious)
+    public function setPagePrevious(bool $pagePrevious)
     {
-        $this->pagePervious = $pagePervious;
+        $this->pagePrevious = $pagePrevious;
 
         return $this;
     }

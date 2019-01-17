@@ -26,15 +26,19 @@ class ArticleController
     protected static $viewFields = ['id','title','slug','user','create','modify','category','excerpt','content' ,'cover','views','status'];
     
  
-    
+    protected $order = ArticleTable::ORDER_DESC;
+    protected $orderBy = 'modify';
+
     public function __construct(string $prefix)
     {
         $this->table = new ArticleTable($prefix);
-        $this->table->order('modify', ArticleTable::ORDER_DESC);
+        $this->table->order($this->orderBy, $this->order);
     }
     
     public function setOrder(string $field, int $type=ArticleTable::ORDER_DESC)
     {
+        $this->order = $type;
+        $this->orderBy =$field;
         $this->table->order($field, $type);
     }
 
@@ -153,25 +157,11 @@ class ArticleController
      */
     public function getList(?int $user=null, ?int $categoryId =null, int $page=null, int $count=10):PageData
     {
-        if (is_null($user)) {
-            $condition = 'status = :publish';
-            $parameter = [
-                'publish'=>ArticleTable::STATUS_PUBLISH,
-            ];
-        } else {
-            $condition = '((user = :user AND status != :delete) OR status = :publish)';
-            $parameter = [
-                'publish'=>ArticleTable::STATUS_PUBLISH,
-                'user' => $user,
-                'delete' => ArticleTable::STATUS_DELETE,
-            ];
-        }
-
+        list($condition, $parameter) = $this->getUserViewCondition($user);
         if (!is_null($categoryId)) {
             $parameter['category']=$categoryId;
             $condition= ' AND category = :category';
         }
-       
         return  TablePager::listWhere($this->table->setWants(ArticleController::$showFields), $condition, $parameter, $page, $count);
     }
 
@@ -188,15 +178,9 @@ class ArticleController
         $parameter = [
             'id' => $article,
         ];
-        if (is_null($user)) {
-            $condition .= ' AND status = :publish';
-            $parameter['publish'] = ArticleTable::STATUS_PUBLISH;
-        } else {
-            $condition .= ' AND ( status = :publish OR ( user = :user AND status != :delete)) ';
-            $parameter['user'] = $user;
-            $parameter['publish'] = ArticleTable::STATUS_PUBLISH;
-            $parameter['delete'] = ArticleTable::STATUS_DELETE;
-        }
+        list($cond, $par) = $this->getUserViewCondition($user);
+        $condition = $condition .' AND '. $cond;
+        $parameter = array_merge($parameter, $par);
         return $this->table->select(ArticleController::$viewFields, $condition, $parameter)->fetch();
     }
 
@@ -212,6 +196,61 @@ class ArticleController
     }
 
     /**
+     * 上一篇下一篇文章
+     *
+     * @param integer|null $user
+     * @param integer $article
+     * @return array
+     */
+    public function getNearArticle(?int $user=null, int $article):array
+    {
+        $create = $this->table->setWants(['create'])->getByPrimaryKey($article);
+        return $this->getNearArticleByTime($user, $create['create']);
+    }
+
+    /**
+     * 根据时间获取相近文章
+     *
+     * @param integer|null $user
+     * @param integer $create
+     * @return array
+     */
+    public function getNearArticleByTime(?int $user=null, int $create):array
+    {
+        list($condition, $parameter) = $this->getUserViewCondition($user);
+        $previousCondition = '`create` < :create  AND ' . $condition;
+        $nextCondition = '`create` > :create AND ' . $condition;
+        $parameter['create'] =  $create;
+        $previous = $this->table->select(ArticleController::$showFields, $previousCondition, $parameter, 1, 1)->fetch();
+        $next = $this->table->select(ArticleController::$showFields, $nextCondition, $parameter, 1, 1)->fetch();
+        return [$previous,$next];
+    }
+
+    /**
+     * 获取用户查看条件
+     *
+     * @param integer|null $user
+     * @return array
+     */
+    protected function getUserViewCondition(?int $user=null):array
+    {
+        if (is_null($user)) {
+            $condition = 'status = :publish';
+            $parameter = [
+                'publish'=>ArticleTable::STATUS_PUBLISH,
+            ];
+        } else {
+            $condition = '((user = :user AND status != :delete) OR status = :publish)';
+            $parameter = [
+                'publish'=>ArticleTable::STATUS_PUBLISH,
+                'user' => $user,
+                'delete' => ArticleTable::STATUS_DELETE,
+            ];
+        }
+        return [$condition,$parameter];
+    }
+
+    /**
      * 获取文章数目
      *
      * @param integer $user
@@ -220,18 +259,7 @@ class ArticleController
      */
     public function getArticleCount(int $user=null, ?int $categoryId =null):int
     {
-        if (is_null($user)) {
-            $condition .= ' AND user = :user AND status != :delete';
-            $parameter = [
-                'user' => $user,
-                'delete' => ArticleTable::STATUS_DELETE,
-            ];
-        } else {
-            $condition .= 'AND status = :publish';
-            $parameter = [
-                'publish'=>ArticleTable::STATUS_PUBLISH,
-            ];
-        }
+        list($condition, $parameter) = $this->getUserViewCondition($user);
         return $this->table->count($condition, $parameter);
     }
 
@@ -247,14 +275,9 @@ class ArticleController
     public function getArticleListByIds(?int $user=null, array $ids, ?int $page, int $count):PageData
     {
         list($condition, $parameter)= SQLStatementPrepare::prepareIn('id', $ids);
-        if (is_null($user)) {
-            $condition .= ' AND user = :user AND status != :delete';
-            $parameter['user'] = $user;
-            $parameter['delete'] = ArticleTable::STATUS_DELETE;
-        } else {
-            $condition .= 'AND status = :publish';
-            $parameter['publish'] = ArticleTable::STATUS_PUBLISH;
-        }
+        list($conditionU, $parameterU) = $this->getUserViewCondition($user);
+        $condition = array_merge($condition, $conditionU);
+        $parameter = array_merge($parameter, $parameterU);
         return  TablePager::listWhere($this->table->setWants(ArticleController::$showFields), $condition, $parameter, $page, $count);
     }
 
