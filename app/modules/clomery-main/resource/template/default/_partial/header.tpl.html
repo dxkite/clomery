@@ -5,6 +5,7 @@
     <span class="iconfont icon-menu mobile-toggle"></span>
 
     <div class="header-menu">
+        @data('dxkite.clomery.main.view.Data::menu')
       @foreach ($:menu as $name => $menu)
       @if ($name === 'search')
       <a class="iconfont icon-menu-search header-menu-link" id="header-menu-search"></a>

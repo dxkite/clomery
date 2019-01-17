@@ -1,22 +1,22 @@
-
 @extend('layout')
 @startInsert('body')
 {-- profile --}
 
 <div class="profile sildeUpMin">
-	
-		<a href="@u" >
-			<img class="avatar" src="@static/images/dxkite.png">
+
+	<a href="@u">
+		<img class="avatar" src="@static/images/dxkite.png">
+	</a>
+	<p class="author">{{ $:profile.author('dxkite') }}</p>
+
+	<div class="social">
+		@data('dxkite.clomery.main.view.Data::socialLinks')
+		@foreach ($:socialLinks([]) as $index => $link)
+		<a target="_blank" class="social-links" href="{{$link}}">
+			<i class="iconfont icon-{{$index}}"></i>
 		</a>
-		<p class="author">{{ $:profile.author('dxkite') }}</p>
-		
-		<div class="social">
-        @foreach ($:socialLinks([]) as $index => $link)   		
-			<a target="_blank" class="social-links" href="{{$link}}" >		
-				<i class="iconfont icon-{{$index}}" ></i>
-			</a>	
-	    @endforeach
-    	</div>		
+		@endforeach
+	</div>
 </div>
 
 {-- article --}
