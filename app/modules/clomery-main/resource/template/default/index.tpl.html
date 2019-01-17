@@ -1,0 +1,31 @@
+
+@extend('layout')
+@startInsert('body')
+{-- profile --}
+
+<div class="profile sildeUpMin">
+	
+		<a href="@u" >
+			<img class="avatar" src="@static/images/dxkite.png">
+		</a>
+		<p class="author">{{ $:profile.author('dxkite') }}</p>
+		
+		<div class="social">
+        @foreach ($:socialLinks([]) as $index => $link)   		
+			<a target="_blank" class="social-links" href="{{$link}}" >		
+				<i class="iconfont icon-{{$index}}" ></i>
+			</a>	
+	    @endforeach
+    	</div>		
+</div>
+
+{-- article --}
+
+@foreach ($:articles([]) as $article)
+@set('post', $article)
+@include('_partial/article')
+@endforeach
+
+{-- paginator --}
+@include('_partial/paginator')
+@endInsert

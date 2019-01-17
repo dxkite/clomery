@@ -51,7 +51,7 @@ class ArticleView
             $userInfo = get_user_public_info_array($users);
             $categoryInfo = $this->getCategorys($categorys);
             foreach ($rows as $index => $row) {
-                $rows[$index]['tags'] = $this->tag->getArticleTags($row['id']);
+                $rows[$index]['tags'] = $this->tag->getArticleTags($row['id']) ?? [];
                 $rows[$index]['user'] = $userInfo[$row['user']] ?? $row['user'];
                 $rows[$index]['category'] = $categoryInfo[$row['category']];
             }

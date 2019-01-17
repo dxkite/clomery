@@ -56,7 +56,7 @@ class ArticleProvider
      * @param integer $category 文章分类
      * @param integer $cover 文章封面
      * @param array|null $tags
-     * @param Content $abstract 文章摘要
+     * @param Content $excerpt 文章摘要
      * @param Content $content 文章内容
      * @param integer|null $modify 文章修改时间
      * @param integer $status 文章状态
@@ -69,12 +69,12 @@ class ArticleProvider
         int $category=0,
         int $cover= 0,
         ?array $tags= null,
-        Content $abstract,
+        Content $excerpt,
         Content $content,
         ?int $modify=null,
         int $status=ArticleTable::STATUS_DRAFT
     ) :int {
-        $articleId = $this->article->save($id, \get_user_id(), $title, $slug, $category, $cover, $abstract, $content, $modify, $status);
+        $articleId = $this->article->save($id, \get_user_id(), $title, $slug, $category, $cover, $excerpt, $content, $modify, $status);
         if (is_array($tags)) {
             $this->tag->addTags($articleId, $tags);
         }

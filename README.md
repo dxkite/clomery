@@ -4,7 +4,7 @@ a php 7.2 based content manager system
 
 # TODO 
 
-- [x] 文章发布功能
+- [x] 文章功能 API
     - [x] 文章分类
     - [x] 文章标题搜索
     - [x] 文章标签

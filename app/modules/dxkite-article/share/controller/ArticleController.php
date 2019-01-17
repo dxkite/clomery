@@ -22,7 +22,7 @@ class ArticleController
      * @var ArticleTable
      */
     protected $table;
-    protected static $showFields = ['id','title','slug','user','create','modify','category','abstract' ,'cover','views','status'];
+    protected static $showFields = ['id','title','slug','user','create','modify','category','excerpt' ,'cover','views','status'];
 
     public function __construct(string $prefix)
     {
@@ -38,7 +38,7 @@ class ArticleController
      * @param string|null $slug
      * @param integer $category
      * @param integer $cover
-     * @param Content $abstract
+     * @param Content $excerpt
      * @param Content $content
      * @param integer|null $modify
      * @param integer $status
@@ -52,7 +52,7 @@ class ArticleController
         int $category=0,
         int $cover= 0,
 
-        Content $abstract,
+        Content $excerpt,
         Content $content,
         
         ?int $modify=null,
@@ -66,7 +66,7 @@ class ArticleController
                 'category'=> $category,
                 'cover'=> $cover,
     
-                'abstract' => $abstract,
+                'excerpt' => $excerpt,
                 'content'=> $content,
                 
                 'create'=> time(),
@@ -85,7 +85,7 @@ class ArticleController
                 'category'=>$category,
                 'cover' => $cover,
     
-                'abstract' => $abstract,
+                'excerpt' => $excerpt,
                 'content'=>$content,
                 
                 'create'=> time(),
@@ -119,8 +119,8 @@ class ArticleController
         if (array_key_exists('create', $update)) {
             unset($update['create']);
         }
-        if (array_key_exists('abstract', $update)) {
-            $update['abstract'] =content_pack($update['abstract'], Content::MD);
+        if (array_key_exists('excerpt', $update)) {
+            $update['excerpt'] =content_pack($update['excerpt'], Content::MD);
         }
         if (array_key_exists('content', $update)) {
             $update['content'] =content_pack($update['content'], Content::MD);

@@ -28,7 +28,7 @@ class ArticleTable extends PrefixTable
             $table->field('category', 'bigint', 20)->key()->comment("文章分类"),
             $table->field('slug', 'varchar', 255)->key()->comment("缩写"),
             $table->field('cover', 'bigint', 20)->comment("封面文件ID"),
-            $table->field('abstract', 'text')->comment("摘要"),
+            $table->field('excerpt', 'text')->comment("摘要"),
             $table->field('content', 'text')->comment("内容"),
             $table->field('create', 'int', 11)->key()->comment("创建时间"),
             $table->field('modify', 'int', 11)->key()->comment("修改时间"),
@@ -67,31 +67,31 @@ class ArticleTable extends PrefixTable
         return content_create($content, Content::MD);
     }
 
-    /** abstract */
+    /** excerpt */
     /**
      * 将内容解码成HTML格式
      *
-     * @param string $abstract
+     * @param string $excerpt
      * @return Content
      */
-    protected function _outputAbstractField(string $abstract)
+    protected function _outputExcerptField(string $excerpt)
     {
         // 解码成对象
-        if ($object = content_unpack($abstract)) {
+        if ($object = content_unpack($excerpt)) {
             return $object;
         }
         // 未设置解码则按markdown编码
-        return content_create($abstract, Content::MD);
+        return content_create($excerpt, Content::MD);
     }
 
     /**
      * 使用Markdown 对内容进行默认编码
      *
-     * @param string|Content $abstract
+     * @param string|Content $excerpt
      * @return string
      */
-    protected function _inputAbstractField($abstract)
+    protected function _inputExcerptField($excerpt)
     {
-        return content_pack($abstract, Content::MD);
+        return content_pack($excerpt, Content::MD);
     }
 }

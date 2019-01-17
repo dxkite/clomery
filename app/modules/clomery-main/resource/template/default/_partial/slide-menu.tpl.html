@@ -1,0 +1,10 @@
+<div class="mobile-menu">
+      <img class="mobile-menu-icon" src="@static/images/dxkite.png">
+      @foreach ($:menu as $name => $menu)
+      @if ($name === 'search')
+      <a class="mobile-menu-link mobile-menu-search" href="#">{= 搜索 '}</a>
+      @else
+      <a class="mobile-menu-link" id="header-menu-{{$name}}" href="{{$menu}}">{{ $name }}</a>
+      @endif
+      @endforeach
+</div>

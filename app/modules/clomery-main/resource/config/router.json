@@ -1,0 +1,10 @@
+{
+    "index": {
+        "url": "/",
+        "class": "dxkite.clomery.main.response.IndexResponse"
+    },
+    "index-page": {
+        "url": "/page/{page:int}",
+        "class": "dxkite.clomery.main.response.IndexResponse"
+    }
+}

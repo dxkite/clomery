@@ -186,27 +186,20 @@ class PageData implements JsonSerializable
     }
 
     /**
-     * Get 当前页
+     * Get 获取分页属性
      *
-     * @return  int
+     * @return  array
      */
     public function getPage()
     {
-        return $this->page;
-    }
-
-    /**
-     * Set 当前页
-     *
-     * @param  int  $page  当前页
-     *
-     * @return  self
-     */
-    public function setPage(int $page)
-    {
-        $this->page = $page;
-
-        return $this;
+        return [
+            'max' => $this->pageMax,
+            'min' => $this->pageMin,
+            'size'=> $this->pageSize,
+            'current'=>$this->pageCurrent,
+            'next' => $this->pageNext,
+            'previous'=> $this->pagePervious,
+        ];
     }
 
     /**
