@@ -182,4 +182,15 @@ class ArticleProvider
         $page = $this->article->search($title, $user, $category, $page, $count);
         return $this->view->listView($page);
     }
+
+    public function getArticle(int $article):?array
+    {
+        $userid = null;
+        if (!\visitor()->isGuest()) {
+            $userid = \get_user_id();
+        }
+        $this->article->updateArticleViewCount($article);
+        $article = $this->article->getArticle($userid, $article);
+        return $this->view->article($article);
+    }
 }

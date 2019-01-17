@@ -13,13 +13,11 @@ class ArticleResponse extends Response
     public function onVisit(Context $context)
     {
         $provider = new ArticleProvider;
-        $pageCurrent = request()->get('page',1);
-        $articleData = $provider->getList(null,$page);
-        $page = $this->page('index');
-
-        $page->set('title', 'dxkite 的博客');
-        $page->set('articles', $articleData->getRows());
-        $page->set('page',$articleData->getPage());
+        $articleId = request()->get('article');
+        $articleData = $provider->getArticle($articleId);
+        $page = $this->page('post');
+        $page->set('title', $articleData['title'].' | dxkite 的博客');
+        $page->set('article', $articleData);
         return $page;
     }
 }

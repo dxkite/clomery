@@ -16,4 +16,13 @@ class Data
             'Suda框架' => 'https://github.com/dxkite/suda',
         ]);
     }
+
+    public static function profile($template)
+    {
+        $template->set('profile', [
+            'author' => 'dxkite',
+            'avatar' => assets_url(module(__FILE__),'images/dxkite.png'),
+            'description' => 'Hello! I am DXkite'
+        ]);
+    }
 }

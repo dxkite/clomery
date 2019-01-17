@@ -1,0 +1,35 @@
+<div class="post-meta">
+  <i class="iconfont icon-category">{{ $:article.category.name }}</i>
+  @foreach ($:article.tags as $tag)
+  <i class="iconfont icon-tag">{{$tag['name']}}</i>
+  @endforeach
+</div>
+
+@data('dxkite.clomery.main.view.Data::profile')
+
+ 
+
+<div class="post-footer">
+  <div class="pf-left">
+      <img class="pf-avatar" src="{{ $:profile.avatar }}">
+      <p class="pf-des">{{ $:profile.description }}</p>
+  </div>
+<!-- 
+  <div class="pf-right">           
+      <div class="pf-links">
+        <%- partial('_partial/_post/donate') %> 
+        <%- partial('_partial/_post/mob_share') %>
+      </div>  
+    <nav class="pf-paginator">
+      <% if (page.prev) { %>
+        <% var title = truncate(page.prev.title , {length:60}) %> 
+          <a href="<%- url_for(page.prev.path) %>" data-hover="<%= title ||  __('Untitled') %>"><%= __('Post.Prev') %></a>      
+       <% } %>     
+        
+      <% if (page.next) { %>
+        <% var title = truncate(page.next.title, {length:60}) %>
+        <a href="<%- url_for(page.next.path) %>" data-hover="<%= title ||  __('Untitled') %>"> <%=__('Post.Next')%></a>
+      <% } %>      
+  </nav>   
+  </div> -->
+</div> 

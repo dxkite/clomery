@@ -3,11 +3,12 @@
 {-- profile --}
 
 <div class="profile sildeUpMin">
-
+		@data('dxkite.clomery.main.view.Data::profile')
 	<a href="@u">
-		<img class="avatar" src="@static/images/dxkite.png">
+		<img class="avatar" src="{{ $:profile.avatar }}">
 	</a>
-	<p class="author">{{ $:profile.author('dxkite') }}</p>
+	
+	<p class="author">{{ $:profile.author }}</p>
 
 	<div class="social">
 		@data('dxkite.clomery.main.view.Data::socialLinks')

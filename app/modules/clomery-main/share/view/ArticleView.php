@@ -36,6 +36,15 @@ class ArticleView
         $this->tag = $tag;
     }
 
+    public function article(array $article):array {
+        $userInfo = get_user_public_info_array([$article['user']]);
+        $categoryInfo = $this->getCategorys([$article['category']]);
+        $article['tags'] = $this->tag->getArticleTags($article['id']) ?? [];
+        $article['user'] = $userInfo[$article['user']] ?? $article['user'];
+        $article['category'] = $categoryInfo[$article['category']];
+        return $article;
+    }
+
     public function listView(PageData $page):PageData
     {
         if ($page->getSize() > 0) {
@@ -68,7 +77,7 @@ class ArticleView
         }
         $categoryInfo[0] = [
             'id' => 0,
-            'category' => __('未分类'),
+            'name' => __('未分类'),
             'slug' => '',
         ];
         return $categoryInfo;

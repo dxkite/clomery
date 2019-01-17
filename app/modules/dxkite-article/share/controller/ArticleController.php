@@ -11,7 +11,7 @@ use dxkite\article\controller\ArticleController;
 
 /**
  * 文章控制器
- * 
+ *
  * 控制文章的内容处理
  */
 class ArticleController
@@ -23,12 +23,21 @@ class ArticleController
      */
     protected $table;
     protected static $showFields = ['id','title','slug','user','create','modify','category','excerpt' ,'cover','views','status'];
-
+    protected static $viewFields = ['id','title','slug','user','create','modify','category','excerpt','content' ,'cover','views','status'];
+    
+ 
+    
     public function __construct(string $prefix)
     {
         $this->table = new ArticleTable($prefix);
+        $this->table->order('modify', ArticleTable::ORDER_DESC);
     }
     
+    public function setOrder(string $field, int $type=ArticleTable::ORDER_DESC)
+    {
+        $this->table->order($field, $type);
+    }
+
     /**
      * 保存文章内容
      *
@@ -149,8 +158,6 @@ class ArticleController
             $parameter = [
                 'publish'=>ArticleTable::STATUS_PUBLISH,
             ];
-           
-           
         } else {
             $condition = '((user = :user AND status != :delete) OR status = :publish)';
             $parameter = [
@@ -182,19 +189,15 @@ class ArticleController
             'id' => $article,
         ];
         if (is_null($user)) {
-            $parameter = [
-                'user' => $user,
-                'delete' => ArticleTable::STATUS_DELETE,
-            ];
-            $condition .= ' AND user = :user AND status != :delete';
+            $condition .= ' AND status = :publish';
+            $parameter['publish'] = ArticleTable::STATUS_PUBLISH;
         } else {
-            $condition .= 'AND status = :publish';
-            $parameter = [
-                'publish'=>ArticleTable::STATUS_PUBLISH,
-            ];
+            $condition .= ' AND ( status = :publish OR ( user = :user AND status != :delete)) ';
+            $parameter['user'] = $user;
+            $parameter['publish'] = ArticleTable::STATUS_PUBLISH;
+            $parameter['delete'] = ArticleTable::STATUS_DELETE;
         }
-        return $this->table->setWants($this->table->getFields())
-        ->select($condition, $parameter)->fetch();
+        return $this->table->select(ArticleController::$viewFields, $condition, $parameter)->fetch();
     }
 
     /**
@@ -205,7 +208,7 @@ class ArticleController
      */
     public function updateArticleViewCount(int $article):int
     {
-        return $this->table->update('view = view + 1', ['id'=>$article]);
+        return $this->table->update('views = views + 1', ['id'=>$article]);
     }
 
     /**
@@ -241,14 +244,13 @@ class ArticleController
      * @param integer $count
      * @return PageData
      */
-    public function getArticleListByIds(?int $user=null,array $ids,?int $page,int $count):PageData
+    public function getArticleListByIds(?int $user=null, array $ids, ?int $page, int $count):PageData
     {
         list($condition, $parameter)= SQLStatementPrepare::prepareIn('id', $ids);
         if (is_null($user)) {
             $condition .= ' AND user = :user AND status != :delete';
             $parameter['user'] = $user;
             $parameter['delete'] = ArticleTable::STATUS_DELETE;
-        
         } else {
             $condition .= 'AND status = :publish';
             $parameter['publish'] = ArticleTable::STATUS_PUBLISH;
@@ -286,7 +288,7 @@ class ArticleController
      * @param integer|null $userId 指定用户的文章
      * @return integer
      */
-    public function delete(int $article,?int $userId =null):int
+    public function delete(int $article, ?int $userId =null):int
     {
         if ($userId) {
             return $this->table->update(['status'=>ArticleTable::STATUS_DELETE], ['user'=>$userId,'id'=>$article]);
