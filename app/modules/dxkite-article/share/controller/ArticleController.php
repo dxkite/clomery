@@ -198,8 +198,8 @@ class ArticleController
      */
     public function getNearArticle(?int $user=null, int $article):array
     {
-        $create = $this->table->setWants(['create'])->getByPrimaryKey($article);
-        return $this->getNearArticleByTime($user, $create['create']);
+        $modify = $this->table->setWants(['modify'])->getByPrimaryKey($article);
+        return $this->getNearArticleByTime($user, $modify['modify']);
     }
 
     /**
@@ -209,14 +209,14 @@ class ArticleController
      * @param integer $create
      * @return array
      */
-    public function getNearArticleByTime(?int $user=null, int $create):array
+    public function getNearArticleByTime(?int $user=null, int $modify):array
     {
         list($condition, $parameter) =self::getUserViewCondition($user);
-        $previousCondition = '`create` < :create  AND ' . $condition;
-        $nextCondition = '`create` > :create AND ' . $condition;
-        $parameter['create'] =  $create;
-        $previous = $this->table->select(ArticleController::$showFields, $previousCondition, $parameter, 1, 1)->fetch();
-        $next = $this->table->select(ArticleController::$showFields, $nextCondition, $parameter, 1, 1)->fetch();
+        $previousCondition = '`modify` < :modify  AND ' . $condition;
+        $nextCondition = '`modify` > :modify AND ' . $condition;
+        $parameter['modify'] =  $modify;
+        $previous = $this->table->select(ArticleController::$showFields, $previousCondition .' order by `modify` asc', $parameter, 1, 1)->fetch();
+        $next = $this->table->select(ArticleController::$showFields, $nextCondition .' order by `modify` asc', $parameter, 1, 1)->fetch();
         return [$previous,$next];
     }
 
