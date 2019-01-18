@@ -6,7 +6,7 @@ use dxkite\article\TemplateCSPLoader;
 use dxkite\article\provider\ArticleTagProvider;
 use dxkite\support\visitor\response\Response;
 
-class TagArticleResponse extends Response
+class ArticleTagResponse extends Response
 {
     use TemplateCSPLoader;
 

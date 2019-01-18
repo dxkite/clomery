@@ -15,12 +15,24 @@
         "url": "/tags",
         "class": "dxkite.article.response.TagResponse"
     },
-    "tag-article": {
+    "article-tag": {
         "url": "/tag/{tag:string}",
-        "class": "dxkite.article.response.TagArticleResponse"
+        "class": "dxkite.article.response.ArticleTagResponse"
     },
-    "tag-article-page": {
+    "article-tag-page": {
         "url": "/tag/{tag:string}/page/{page:int}",
-        "class": "dxkite.article.response.TagArticleResponse"
+        "class": "dxkite.article.response.ArticleTagResponse"
+    },
+    "categorys": {
+        "url": "/categorys",
+        "class": "dxkite.article.response.CategoryResponse"
+    },
+    "article-category": {
+        "url": "/category/{tag:string}",
+        "class": "dxkite.article.response.ArticleCategoryResponse"
+    },
+    "article-category-page": {
+        "url": "/category/{tag:string}/page/{page:int}",
+        "class": "dxkite.article.response.ArticleCategoryResponse"
     }
 }
