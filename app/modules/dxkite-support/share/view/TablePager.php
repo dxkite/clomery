@@ -3,12 +3,40 @@ namespace dxkite\support\view;
 
 use suda\archive\Table;
 use dxkite\support\view\PageData;
+use suda\archive\SQLStatementPrepare;
 
 /**
  * 表页信息构建
  */
 class TablePager
 {
+
+    /**
+     * 选择分页
+     *
+     * @param Table $table
+     * @param string|array $wants
+     * @param string|array $where
+     * @param array $binder
+     * @param integer|null $page
+     * @param integer $row
+     * @return PageData
+     */
+    public static function select(Table $table, $wants,  $where, array $binder, ?int $page, int $row):PageData
+    {
+        $maxRow = conf('pager.max-row', 100);
+        $row = $row > $maxRow?$maxRow:$row;
+        $rows = $table->select($wants, $where, $binder, $page, $row)->fetchAll();
+        $wants = SQLStatementPrepare::prepareWants($wants);
+        $where = SQLStatementPrepare::prepareWhere($where, $binder);
+        $query = $table->query('SELECT count(*) as count from (SELECT '.$wants.' FROM `%table%` WHERE '.$where.') as total', $binder)->fetch();
+        $total = 0;
+        if (is_array($query)) {
+            $total = intval($query['count']);
+        }
+        return PageData::build($rows, $total, $page, $row);
+    }
+
     /**
      * 列出指定条件的内容，并进行分页
      *

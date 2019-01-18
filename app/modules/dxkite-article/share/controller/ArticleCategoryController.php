@@ -10,7 +10,7 @@ use dxkite\category\controller\CategoryController;
  */
 class ArticleCategoryController extends CategoryController
 {
-    public function __construct(string $prefix)
+    public function __construct(string $prefix='')
     {
         parent::__construct(ArticleTable::class.'('.$prefix.')');
     }

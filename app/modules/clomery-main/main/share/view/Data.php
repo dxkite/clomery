@@ -12,9 +12,10 @@ class Data
     public static function menu($template)
     {
         $template->set('menu', [
-            __('首页') => u('index'),
-            __('标签') => u('tags'),
-            __('分类') => u('categorys'),
+            __('首页') => u('article:index'),
+            __('标签') => u('article:tags'),
+            __('分类') => u('article:categorys'),
+            __('归档') => u('main:archives'),
             'Suda框架' => 'https://github.com/dxkite/suda',
         ]);
     }

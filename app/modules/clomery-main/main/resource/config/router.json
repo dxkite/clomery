@@ -1,0 +1,14 @@
+{
+    "archives": {
+        "url": "/archives",
+        "class": "dxkite.clomery.main.response.ArchiveResponse"
+    },
+    "article-archive": {
+        "url": "/archive/{date:string}",
+        "class": "dxkite.clomery.main.response.ArticleArchiveResponse"
+    },
+    "article-archive-page": {
+        "url": "/archive/{date:string}/page/{page:int}",
+        "class": "dxkite.clomery.main.response.ArticleArchiveResponse"
+    }
+}

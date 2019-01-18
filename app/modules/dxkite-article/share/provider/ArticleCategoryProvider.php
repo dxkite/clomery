@@ -16,9 +16,9 @@ class ArticleCategoryProvider
     protected $category;
 
 
-    public function __construct()
+    public function __construct(string $prefix='')
     {
-        $this->category = new ArticleCategoryController('clomery');
+        $this->category = new ArticleCategoryController($prefix);
     }
     
     /**

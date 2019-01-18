@@ -18,9 +18,9 @@ class ArticleTagProvider
     protected $tag;
 
 
-    public function __construct()
+    public function __construct(string $prefix='')
     {
-        $this->tag = new ArticleTagController('clomery');
+        $this->tag = new ArticleTagController($prefix);
     }
 
     /**

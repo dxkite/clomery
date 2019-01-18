@@ -38,14 +38,14 @@ class ArticleProvider
      */
     protected $view;
 
-    public function __construct()
+    public function __construct(string $prefix='')
     {
-        $this->article = new ArticleController('clomery');
-        $this->category = new ArticleCategoryController('clomery');
-        $this->tag = new ArticleTagController('clomery');
+        $this->article = new ArticleController($prefix);
+        $this->category = new ArticleCategoryController($prefix);
+        $this->tag = new ArticleTagController($prefix);
         $this->view = new ArticleView($this->article, $this->category, $this->tag);
     }
-        
+
     /**
      * 写入文章
      *
@@ -101,6 +101,15 @@ class ArticleProvider
         return $this->view->listView($page);
     }
 
+
+    /**
+     * 根据标签获取文章列表
+     *
+     * @param integer $tagId
+     * @param integer|null $page
+     * @param integer $count
+     * @return PageData
+     */
     public function getListByTag(int $tagId, ?int $page=null, int $count=10):PageData
     {
         $userid = null;
@@ -156,15 +165,15 @@ class ArticleProvider
     }
     
     /**
-       * 搜索标题
-       *
-       * @param string $title 标题关键字
-       * @param integer|null $user 指定用户
-       * @param integer|null $category 指定分类
-       * @param integer|null $page
-       * @param integer $count
-       * @return PageData 搜索结果页数据
-       */
+     * 搜索标题
+     *
+     * @param string $title 标题关键字
+     * @param integer|null $user 指定用户
+     * @param integer|null $category 指定分类
+     * @param integer|null $page
+     * @param integer $count
+     * @return PageData 搜索结果页数据
+     */
     public function search(string $title, ?int $user=null, ?int $category=null, ?int $page, int $count=10):PageData
     {
         $page = $this->article->search($title, $user, $category, $page, $count);

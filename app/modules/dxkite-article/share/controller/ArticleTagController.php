@@ -14,7 +14,7 @@ use dxkite\article\controller\ArticleController;
  */
 class ArticleTagController extends TagController
 {
-    public function __construct(string $prefix)
+    public function __construct(string $prefix='')
     {
         parent::__construct(ArticleTable::class.'('.$prefix.')');
     }

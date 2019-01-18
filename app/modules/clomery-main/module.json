@@ -16,13 +16,14 @@
         "share": {
             "dxkite\\clomery\\main": "main/share"
         },
-        "src" : {
+        "src": {
             "dxkite\\clomery\\main\\response": "main/src"
         }
     },
     "template": {
-        "dxkite/article" : "template/article/"
+        "dxkite/article": "template/article/"
     },
+    "resource": "main/resource",
     "require": {
         "dxkite/article": ""
     }

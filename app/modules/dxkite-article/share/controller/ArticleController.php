@@ -29,7 +29,7 @@ class ArticleController
     protected $order = ArticleTable::ORDER_DESC;
     protected $orderBy = 'modify';
 
-    public function __construct(string $prefix)
+    public function __construct(string $prefix='')
     {
         $this->table = new ArticleTable($prefix);
         $this->table->order($this->orderBy, $this->order);
@@ -38,7 +38,7 @@ class ArticleController
     public function setOrder(string $field, int $type=ArticleTable::ORDER_DESC)
     {
         $this->order = $type;
-        $this->orderBy =$field;
+        $this->orderBy = $field;
         $this->table->order($field, $type);
     }
 

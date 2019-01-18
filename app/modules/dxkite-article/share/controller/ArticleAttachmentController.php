@@ -21,7 +21,7 @@ class ArticleAttachmentController
      */
     protected $table;
 
-    public function __construct(string $prefix)
+    public function __construct(string $prefix='')
     {
         $this->table = new AttachmentTable($prefix);
     }

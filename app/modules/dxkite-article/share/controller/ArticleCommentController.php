@@ -9,7 +9,7 @@ use dxkite\comment\controller\CommentController;
  */
 class ArticleCommentController extends CommentController
 {
-    public function __construct(string $prefix) {
+    public function __construct(string $prefix='') {
         parent::__construct(ArticleTable::class.'('.$prefix.')');
     }
 }

@@ -1,0 +1,14 @@
+@extend('article:layout')
+@startInsert('body')
+<section>
+    <span class="page-title">{= 文章归档 }</span>
+    @foreach ($:archives as $archive)
+    @set('archive',$archive)
+    <a class="tag-wrap slideDownMin" href="@u('article-archive', $:archive.raw )">
+        <span class="iconfont icon-tag-inner"></span>
+        <span class="tag-name"> {{ $:archive.date }} </span>
+        <span class="tag-count"> {{ $:archive.count }} </span>
+    </a>
+    @endforeach
+</section>
+@endInsert

@@ -15,7 +15,8 @@
     "reachable": [
         "dxkite/support",
         "dxkite/user",
-        "dxkite/article"
+        "dxkite/article",
+        "clomery/main"
     ],
     "language": "zh-CN",
     "debugSupport": "dxkite",

@@ -1,0 +1,30 @@
+@extend('article:layout')
+@startInsert('body')
+<section>
+    <span class="page-title"> {=归档} {{ $:date.show }}</span>
+    @foreach ($:articles as $post)
+    @set('post',$post)
+    @include('article:_partial/item')
+    @endforeach
+</section>
+@if($?:page)
+@if ($:page.total > 1)
+<nav class="paginator scrollIn">
+    <% if (page.prev) { %>
+    @if ($:page.previous)
+    <a class="prev" href="@u('article-archive-page', $:date.raw, $:page.current -1 )">
+        <i class="iconfont icon-left"></i>
+        {= 上一页 }
+    </a>
+    @endif
+    <span class="page-number"> {= 第 }<strong>{{$:page.current}}</strong> {= 页 } </span>
+    @if ($:page.next)
+    <a class="next" href="@u('article-archive-page', $:date.raw, $:page.current + 1 )">
+        {= 下一页}
+        <i class="iconfont icon-right"></i>
+    </a>
+    @endif
+</nav>
+@endif
+@endif
+@endInsert
