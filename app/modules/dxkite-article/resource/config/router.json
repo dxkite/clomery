@@ -28,11 +28,11 @@
         "class": "dxkite.article.response.CategoryResponse"
     },
     "article-category": {
-        "url": "/category/{tag:string}",
+        "url": "/category/{slug:string}",
         "class": "dxkite.article.response.ArticleCategoryResponse"
     },
     "article-category-page": {
-        "url": "/category/{tag:string}/page/{page:int}",
+        "url": "/category/{slug:string}/page/{page:int}",
         "class": "dxkite.article.response.ArticleCategoryResponse"
     }
 }

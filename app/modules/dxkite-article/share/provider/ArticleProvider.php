@@ -49,7 +49,7 @@ class ArticleProvider
     /**
      * 写入文章
      *
-     * @acl clomery:article.write:article
+     * @acl article.write:article
      * @param integer|null $id 文章ID/修改则填入
      * @param string $title 文章标题
      * @param string|null $slug 文章唯一标识
@@ -74,9 +74,11 @@ class ArticleProvider
         ?int $modify=null,
         int $status=ArticleTable::STATUS_DRAFT
     ) :int {
+        \visitor()->requirePermission('article.write:article');
         $articleId = $this->article->save($id, \get_user_id(), $title, $slug, $category, $cover, $excerpt, $content, $modify, $status);
+        $this->category->count($articleId, $category);
         if (is_array($tags)) {
-            $this->tag->addTags($articleId, $tags);
+            $this->tag->addTags($articleId, $tags, \visitor()->hasPermission('article.write:tag'));
         }
         return $articleId;
     }

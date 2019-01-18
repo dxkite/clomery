@@ -69,7 +69,7 @@ class Pinyin
         if ($length) {
             $py = substr($py, 0, $length);
         }
-        return $py;
+        return preg_replace(['/\s+/','/\-+/'],['-','-'],$py);
     }
 
     /**
@@ -93,7 +93,7 @@ class Pinyin
             }
             $result .= substr(self::zh2py($p), 0, 1);
         }
-        return $result ;
+        return $result;
     }
 
     private static function _U2_Utf8_Gb($_C)

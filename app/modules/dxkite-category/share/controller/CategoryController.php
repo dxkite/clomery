@@ -8,6 +8,11 @@ use dxkite\category\table\CategoryTable;
 
 class CategoryController
 {
+    /**
+     * 分类表
+     *
+     * @var CategoryTable
+     */
     protected $table;
     protected $target;
 
@@ -49,36 +54,25 @@ class CategoryController
         return TablePager::listWhere($this->table, '1', [], $page, $count);
     }
 
-    public function name2id(string $name)
+    public function getByName(string $name):?array
     {
-        return $this->table->select($this->getFields(), ' LOWER(name)=LOWER(:name) ', ['name'=>$name])->fetch()['id']??false;
+        return $this->table->select($this->table->getFields(), ' LOWER(name)=LOWER(:name) ', ['name'=>$name])->fetch();
     }
 
-    public function slug2id(string $slug)
+    public function getBySlug(string $slug):?array
     {
-        return $this->table->select($this->getFields(), ' LOWER(slug)=LOWER(:slug) ', ['slug'=>$name])->fetch()['id']??false;
+        return $this->table->select($this->table->getFields(), ' LOWER(slug)=LOWER(:slug) ', ['slug'=>$slug])->fetch();
     }
     
-    public function setCategory(int $target, int $category)
+    public function count(int $article, int $category)
     {
-        $get = $this->target->getByPrimaryKey($target);
-        if ($get) {
-            if ($get['category']==$category) {
-                return true;
-            }
-            try {
-                $this->table->begin();
-                $article->setCategory($target, $category);
+        $article = $this->target->getByPrimaryKey($article);
+        if (\is_array($article)) {
+            if ($category !== $article['category']) {
                 $this->countCate($category);
-                $this->countCate($get['category'], false);
-                $this->table->commit();
-                return true;
-            } catch (\PDOException $e) {
-                $this->table->rollBack();
-                return false;
+                $this->countCate($article['category'], false);
             }
         }
-        return false;
     }
 
     protected function countCate(int $cateid, bool $op=true)

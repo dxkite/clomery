@@ -37,11 +37,19 @@ class TagController
         $this->tagTable = new TagTable($this->target);
     }
 
-    public function add(int $user, string $name)
+    /**
+     * 保存标签
+     *
+     * @param integer $user 创建用户
+     * @param string $name 创建标签
+     * @param boolean $insertIfNotExists 不存在是否插入
+     * @return integer
+     */
+    public function save(int $user, string $name, bool $insertIfNotExists=true):int
     {
-        if ($tag = $this->getTagId($name)) {
-            return $tag;
-        } else {
+        if ($tag = $this->getTagByName($name)) {
+            return $tag['id'];
+        } elseif ($insertIfNotExists) {
             return $this->tagsTable->insert(['name'=>$name,'user'=> $user,'time'=>time()]);
         }
     }
@@ -74,7 +82,13 @@ class TagController
         return $this->tagsTable->select(['id','name','count'], ' LOWER(name)=LOWER(:name) ', ['name'=>$name])->fetch();
     }
  
-    public function getTagByRef(int $id)
+    /**
+     * 根据Id获取标签Id
+     *
+     * @param integer $id
+     * @return array|null
+     */
+    public function getTagByRef(int $id):?array
     {
         return $this->tagTable->select(['id','tag'], ['ref'=>$id])->fetchAll();
     }
@@ -89,7 +103,14 @@ class TagController
         return TablePager::search($this->tagsTable, 'name', $tagname);
     }
 
-    public function bindTags(int $ref, array $tags)
+    /**
+     * 绑定标签
+     *
+     * @param integer $ref 引用标签
+     * @param array $tags 标签ID列表
+     * @return integer
+     */
+    public function bindTags(int $ref, array $tags):int
     {
         $count=0;
         if ($get=$this->tagTable->select(['ref','tag'], ['ref'=>$ref])->fetchAll()) {
@@ -110,7 +131,14 @@ class TagController
     
     public function unbindAllTags(int $ref)
     {
-        return $this->tagTable->delete(['ref'=>$ref]);
+        $tags = $this->getTagByRef($ref);
+        if (is_array($tags)) {
+            $ids = [];
+            foreach ($tags as $item) {
+                $ids [] = $item['tag'];
+            }
+            return $this->unbindTags($ref, $ids);
+        }
     }
 
     public function unbindTags(int $ref, array $tags)

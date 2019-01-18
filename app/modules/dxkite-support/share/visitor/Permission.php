@@ -285,4 +285,25 @@ class Permission implements \JsonSerializable, MethodParameter
     {
         return self::createFromJson($jsonData);
     }
+    
+    /**
+     * 构建权限
+     * @param array|string|Permission $permission
+     * @return Permission
+     */
+    public static function buildPermission($permission):Permission
+    {
+        if (!$permission instanceof Permission) {
+            if (is_array($permission)) {
+                $permission=new Permission($permission);
+            } else {
+                $permission=new Permission([$permission]);
+            }
+        }
+        return $permission;
+    }
+
+    public function __toString() {
+        return json_encode($this->toArray());    
+    }
 }

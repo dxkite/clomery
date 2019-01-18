@@ -1,6 +1,7 @@
 {
     "v1.0": {
         "article": "dxkite.article.provider.ArticleProvider",
-        "tag": "dxkite.article.provider.ArticleTagProvider"
+        "tag": "dxkite.article.provider.ArticleTagProvider",
+        "category": "dxkite.article.provider.ArticleCategoryProvider"
     }
 }

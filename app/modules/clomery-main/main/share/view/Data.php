@@ -14,6 +14,7 @@ class Data
         $template->set('menu', [
             __('首页') => u('index'),
             __('标签') => u('tags'),
+            __('分类') => u('categorys'),
             'Suda框架' => 'https://github.com/dxkite/suda',
         ]);
     }

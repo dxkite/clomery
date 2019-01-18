@@ -24,16 +24,17 @@ class ArticleTagController extends TagController
      *
      * @param integer $article
      * @param array $tags
+     * @param boolean $insertIfNotExists
      * @return boolean
      */
-    public function addTags(int $article, array $tags):bool
+    public function addTags(int $article, array $tags, bool $insertIfNotExists = false):bool
     {
         try {
             $this->tagsTable->begin();
             $tagids = [];
             $user = \get_user_id();
             foreach ($tags as $tagName) {
-                $tagids[] =$this->add($user, $tagName);
+                $tagids[] =$this->save($user, $tagName, $insertIfNotExists);
             }
             $this->unbindAllTags($article);
             $this->bindTags($article, $tagids);

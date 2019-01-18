@@ -99,7 +99,7 @@ class Visitor implements \JsonSerializable
             $this->id = $id;
             $this->permission = self::loadPermission($id);
             Context::getInstance()->saveVisitor($this);
-            hook()->exec('support:visitor::signin',[$this]);
+            hook()->exec('support:visitor::signin', [$this]);
         }
         return $this;
     }
@@ -115,7 +115,7 @@ class Visitor implements \JsonSerializable
             ])->fetch()) {
                 $this->expireTime = $session['expire']+$expireTime;
                 Context::getInstance()->saveVisitor($this);
-                hook()->exec('support:visitor::beat',[$this]);
+                hook()->exec('support:visitor::beat', [$this]);
                 return (new SessionTable)->updateByPrimaryKey($session['id'], ['expire'=>$session['expire']+$expireTime]);
             }
         }
@@ -131,7 +131,7 @@ class Visitor implements \JsonSerializable
             (new SessionTable)->updateByPrimaryKey($session['id'], ['expire'=>time()]);
         }
         Context::getInstance()->removeVisitor();
-        hook()->exec('support:visitor::signout',[$this]);
+        hook()->exec('support:visitor::signout', [$this]);
     }
     
     /**
@@ -230,7 +230,7 @@ class Visitor implements \JsonSerializable
 
     /**
      * 检查函数权限
-     * 
+     *
      * @param [type] $method 输入参数
      * @return boolean
      */
@@ -253,22 +253,28 @@ class Visitor implements \JsonSerializable
         return $this->hasPermission(self::loadPermission($visitor));
     }
     
+
+    /**
+     * 需要权限信息
+     *
+     * @param array|string|Permission $permission
+     * @return void
+     */
+    public function requirePermission($permission)
+    {
+        $permission = Permission::buildPermission($permission);
+        if (!$this->hasPermission($permission)) {
+            throw new PermissionExcepiton(__('require permission $0', $permission));
+        }
+    }
+
     public function hasPermission($permission)
     {
-        if (!$permission instanceof Permission) {
-            if (is_array($permission)) {
-                $permission=new Permission($permission);
-            } elseif (is_string($permission)) {
-                $permission=new Permission([$permission]);
-            } else {
-                return false;
-            }
-        }
-        $check=$this->getPermission()->surpass($permission);
+        $check=$this->getPermission()->surpass(Permission::buildPermission($permission));
         debug()->trace(__('check_access $0', $check), ['visitor'=>$this->getPermission(),'need'=>$permission]);
         return $check;
     }
-    
+
     public static function loadFromDB(int $userId)
     {
         $visitor = new Visitor($userId);

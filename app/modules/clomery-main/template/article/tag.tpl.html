@@ -4,7 +4,7 @@
     <span class="page-title">{= 文章标签 }</span>
     @foreach ($:tags as $tag)
     @set('tag',$tag)
-    <a class="tag-wrap slideDownMin" href="@u('tag-article', $:tag.name )">
+    <a class="tag-wrap slideDownMin" href="@u('article-tag', $:tag.name )">
         <span class="iconfont icon-tag-inner"></span>
         <span class="tag-name"> {{ $:tag.name }} </span>
         <span class="tag-count"> {{ $:tag.count }} </span>

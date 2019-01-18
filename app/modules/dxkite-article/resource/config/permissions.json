@@ -3,7 +3,9 @@
         "name": "文章权限",
         "childs": {
             "write:article": "编写文章",
-            "upload:attachment": "添加附件"
+            "write:category": "写分类",
+            "write:tag":"写标签",
+            "write:attachment": "写附件"
         }
     }
 }

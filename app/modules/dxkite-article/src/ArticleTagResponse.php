@@ -17,10 +17,11 @@ class ArticleTagResponse extends Response
         $pageCurrent = request()->get('page',1);
         $tag = $provider->getTagByName($tagName);
         $articles = $provider->getArticleByTag($tag['id'],$pageCurrent);
-        $page = $this->page('tag-article');
+        $page = $this->page('article-tag');
         $page->set('tag',$tag);
         $page->set('title', '标签 '.$tagName.' |  dxkite 的博客');
-        $page ->set('articles', $articles->getRows());
+        $page->set('articles', $articles->getRows());
+        $page->set('page',$articles->getPage());
         return $page;
     }
 }

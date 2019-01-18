@@ -97,15 +97,9 @@ class ArticleController
                 'slug'=> $slug ?? Pinyin::getAll($title, '-', 255),
                 'category'=>$category,
                 'cover' => $cover,
-    
                 'excerpt' => $excerpt,
                 'content'=>$content,
-                
-                'create'=> time(),
                 'modify'=> $modify ?? time(),
-    
-                'views'=> 0,
-                
                 'ip'=> request()->ip(),
                 'status'=>$status,
             ]);
@@ -160,7 +154,7 @@ class ArticleController
         list($condition, $parameter) = self::getUserViewCondition($user);
         if (!is_null($categoryId)) {
             $parameter['category']=$categoryId;
-            $condition= ' AND category = :category';
+            $condition.= ' AND category = :category';
         }
         return  TablePager::listWhere($this->table->setWants(ArticleController::$showFields), $condition, $parameter, $page, $count);
     }
