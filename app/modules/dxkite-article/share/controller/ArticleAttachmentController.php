@@ -32,30 +32,33 @@ class ArticleAttachmentController
      * @param integer $article
      * @param string $name
      * @param File $attachment
-     * @return integer|null
+     * @return UploadFile|null
      */
-    public function addAttachment(int $article, string $name, File $attachment):?int
+    public function addAttachment(int $article, string $name, File $attachment):?UploadFile
     {
         $file=Media::saveFile($attachment);
         if ($file !== null) {
-            return $this->addResource($article, $name, $file->getId(), AttachmentTable::TYPE_ATTACHMEMT);
+            if ($this->addResource($article, $name, $file->getId(), AttachmentTable::TYPE_ATTACHMEMT)){
+                return $file;
+            }
         }
         return null;
     }
-
     /**
      * 添加图片资源
      *
      * @param integer $article
      * @param string $name
      * @param File $image
-     * @return integer|null
+     * @return UploadFile|null
      */
-    public function addImage(int $article, string $name, File $image):?int
+    public function addImage(int $article, string $name, File $image):?UploadFile
     {
-        $file=Media::saveFile($attachment);
+        $file=Media::saveFile($image);
         if ($file !== null) {
-            return $this->addResource($article, $name, $file->getId(), AttachmentTable::TYPE_RESOURCE);
+            if ($this->addResource($article, $name, $file->getId(), AttachmentTable::TYPE_RESOURCE)){
+                return $file;
+            }
         }
         return null;
     }
@@ -67,9 +70,9 @@ class ArticleAttachmentController
      * @param string $name
      * @param integer $resource
      * @param integer $type
-     * @return integer|null
+     * @return boolean
      */
-    public function addResource(int $article, string $name, int $resource, int $type):?int
+    public function addResource(int $article, string $name, int $resource, int $type): bool
     {
         if ($this->table->insert([
                 'aid'=>$article,
@@ -79,9 +82,9 @@ class ArticleAttachmentController
                 'ip'=>request()->ip(),
                 'type'=> $type
             ]) > 0) {
-            return $fileId;
+            return true;
         }
-        return null;
+        return false;
     }
 
     

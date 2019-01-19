@@ -1,12 +1,15 @@
 <?php
 namespace dxkite\clomery\main\provider;
 
+use dxkite\support\file\File;
 use dxkite\support\util\Pinyin;
 use dxkite\support\view\PageData;
 use dxkite\content\parser\Content;
+use dxkite\support\file\UploadFile;
 use dxkite\article\table\ArticleTable;
 use dxkite\article\provider\ArticleProvider;
 use dxkite\article\controller\ArticleCategoryController;
+use dxkite\article\controller\ArticleAttachmentController;
 
 class PostProvider
 {
@@ -23,6 +26,12 @@ class PostProvider
      */
     protected $categoryController;
 
+    /**
+     * 附件控制器
+     *
+     * @var ArticleAttachmentController
+     */
+    protected $attachmentController;
 
     public function __construct()
     {
@@ -33,6 +42,7 @@ class PostProvider
         }
         $this->provider = new ArticleProvider;
         $this->categoryController = new ArticleCategoryController;
+        $this->attachmentController= new ArticleAttachmentController;
     }
 
     /**
@@ -74,5 +84,15 @@ class PostProvider
             $categoryId = 0;
         }
         return $this->provider->save($id, $title, $slug, $categoryId, $cover, $tags, $excerpt, $content, $create, $modify, $status);
+    }
+
+    public function saveImage(int $article, ?string $name=null, File $image):?UploadFile
+    {
+        return $this->attachmentController->addImage($article, $name ?? $image->getName(), $image);
+    }
+
+    public function saveAttachment(int $article, string $name, File $attachment):?UploadFile
+    {
+        return $this->attachmentController->addAttachment($article, $name , $attachment);
     }
 }

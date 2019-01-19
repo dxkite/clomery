@@ -20,7 +20,7 @@ class Media
      * @param integer $status
      * @param integer $visibility
      * @param string $password
-     * @return void
+     * @return UploadFile|null
      */
     public static function save(File $file, int $status=UploadFile::IS_NORMAL, int $visibility=UploadFile::FILE_PUBLISH, string $password=null)
     {
@@ -34,7 +34,7 @@ class Media
         if ($uploader->save()) {
             return $uploader;
         }
-        return false;
+        return null;
     }
     
     /**
