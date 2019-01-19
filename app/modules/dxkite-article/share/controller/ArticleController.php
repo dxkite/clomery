@@ -236,7 +236,7 @@ class ArticleController
         list($condition, $parameter) =self::getUserViewCondition($user);
         $previousCondition = '`create` < :create  AND ' . $condition;
         $nextCondition = '`create` > :create AND ' . $condition;
-        $parameter['create'] =  $modify;
+        $parameter['create'] =  $create;
         $previous = $this->table->select(ArticleController::$showFields, $previousCondition .' order by `create` asc', $parameter, 1, 1)->fetch();
         $next = $this->table->select(ArticleController::$showFields, $nextCondition .' order by `create` asc', $parameter, 1, 1)->fetch();
         return [$previous,$next];
