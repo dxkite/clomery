@@ -3,14 +3,8 @@
     <p class="post-title">
         {{$:article.title}}
     </p>
-
-
     <div class="meta-info">
-        <span>
-            {{ date( "m月d日, Y年", $:article.modify) }}
-        </span>
-
-
+        <span>{{ date( "Y年m月d日 H:i:s", $:article.modify) }} {=最后更新} </span>
         <i class="iconfont icon-eye"></i>
         <span>
             {{ $:article.views }}
