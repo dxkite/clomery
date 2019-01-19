@@ -10,7 +10,6 @@
 @if($?:page)
 @if ($:page.size > 1)
 <nav class="paginator scrollIn">
-    <% if (page.prev) { %>
     @if ($:page.previous)
     <a class="prev" href="@u('article-archive-page', $:date.raw, $:page.current -1 )">
         <i class="iconfont icon-left"></i>

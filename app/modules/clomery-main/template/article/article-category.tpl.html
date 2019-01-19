@@ -12,14 +12,14 @@
 <nav class="paginator scrollIn">
 
     @if ($:page.previous)
-    <a class="prev" href="@u('article-tag-page', $:category.slug, $:page.current -1 )">
+    <a class="prev" href="@u('article-category-page', $:category.slug, $:page.current -1 )">
         <i class="iconfont icon-left"></i>
         {= 上一页 }
     </a>
     @endif
     <span class="page-number"> {= 第 }<strong>{{$:page.current}}</strong> {= 页 } </span>
     @if ($:page.next)
-    <a class="next" href="@u('article-tag-page', $:category.slug, $:page.current + 1 )">
+    <a class="next" href="@u('article-category-page', $:category.slug, $:page.current + 1 )">
         {= 下一页}
         <i class="iconfont icon-right"></i>
     </a>

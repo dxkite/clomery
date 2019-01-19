@@ -64,13 +64,17 @@ class CategoryController
         return $this->table->select($this->table->getFields(), ' LOWER(slug)=LOWER(:slug) ', ['slug'=>$slug])->fetch();
     }
     
-    public function count(int $articleId, int $category)
+    public function count(?int $articleId, int $category)
     {
-        $article = $this->target->getByPrimaryKey($articleId);
-        if (\is_array($article)) {
-            if ($category !== $article['category']) {
-                $this->countCate($category);
-                $this->countCate($article['category'], false);
+        if ($articleId === null) {
+            $this->countCate($category);
+        } else {
+            $article = $this->target->getByPrimaryKey($articleId);
+            if (\is_array($article)) {
+                if ($category !== $article['category']) {
+                    $this->countCate($category);
+                    $this->countCate($article['category'], false);
+                }
             }
         }
     }

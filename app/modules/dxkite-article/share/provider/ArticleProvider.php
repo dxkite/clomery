@@ -84,9 +84,7 @@ class ArticleProvider
                 $id = $article['id'];
             }
         }
-        if (!is_null($id)) {
-            $this->category->count($id, $category);
-        }
+        $this->category->count($id, $category);
         $articleId = $this->article->save($id, $userid, $title, $slug, $category, $cover, $excerpt, $content, $create, $modify, $status);
         if (is_array($tags)) {
             $this->tag->addTags($articleId, $tags, \visitor()->hasPermission('article.write:tag'));
