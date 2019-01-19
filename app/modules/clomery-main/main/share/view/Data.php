@@ -24,7 +24,7 @@ class Data
     {
         $template->set('profile', [
             'author' => 'dxkite',
-            'avatar' => assets_url(module(__FILE__),'images/dxkite.png'),
+            'avatar' => assets_url('article','images/dxkite.png'),
             'description' => 'Hello! I am DXkite'
         ]);
     }

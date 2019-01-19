@@ -3,6 +3,7 @@ namespace dxkite\support\visitor\response;
 
 use suda\core\Request;
 use suda\core\Exception;
+use suda\template\Template;
 use dxkite\support\file\File;
 use dxkite\support\visitor\Context;
 use dxkite\support\visitor\Visitor;
@@ -22,10 +23,16 @@ abstract class Response extends \suda\core\Response
         $this->context=$context;
         $context->setRequest($request);
         if ($context->getVisitor()->canAccess([ $this,'onVisit'])) {
-            return $this->onVisit($context);
+            $response = $this->onVisit($context);
         } else {
-            return $this->onDeny($context);
+            $response =  $this->onDeny($context);
         }
+        // 支持JSON输出页面
+        if ($response instanceof Template && preg_match('/application\/json/i',$request->getHeader('Accept'))) {
+            $this->json($response->get());
+            return;
+        }
+        return $response;
     }
     
     abstract public function onVisit(Context $context);
