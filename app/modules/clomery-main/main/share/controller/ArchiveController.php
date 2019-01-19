@@ -21,7 +21,7 @@ class ArchiveController extends ArticleController
         }
         return TablePager::select(
             $this->table,
-            'FROM_UNIXTIME(`create`, \'%Y-%m-%d\') AS date, count(id) AS count',
+            'FROM_UNIXTIME(`create`, \'%Y-%m\') AS date, count(id) AS count',
             $condition.' GROUP BY date',
             $parameter,
             $page,
@@ -41,7 +41,7 @@ class ArchiveController extends ArticleController
     public function getListByDate(?int $user=null,string $date, ?int $page=null, int $count=10):PageData
     {
         list($condition, $parameter)= ArticleController::getUserViewCondition($user);
-        $condition = 'FROM_UNIXTIME(`create`, \'%Y-%m-%d\') = :date AND '.$condition;
+        $condition = 'FROM_UNIXTIME(`create`, \'%Y-%m\') = :date AND '.$condition;
         $parameter['date'] = $date;
         return TablePager::listWhere($this->table, $condition,$parameter,$page,$count);
     }

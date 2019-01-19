@@ -37,11 +37,11 @@ class ArchiveProvider extends ArticleProvider
         }
         $beginUnix = null;
         if (!is_null($begin)) {
-            $beginUnix = \date_create_from_format('Y-m-d', $begin)->getTimestamp();
+            $beginUnix = \date_create_from_format('Y-m', $begin)->getTimestamp();
         }
         $endUnix = null;
         if (!is_null($end)) {
-            $endUnix = \date_create_from_format('Y-m-d', $end)->getTimestamp();
+            $endUnix = \date_create_from_format('Y-m', $end)->getTimestamp();
         }
         return $this->fixDatetime($this->archive->getArchive($userid, $beginUnix, $endUnix, $page, $count));
     }
@@ -66,7 +66,7 @@ class ArchiveProvider extends ArticleProvider
     {
         $datas = $data->getRows();
         foreach ($datas as $index => $item) {
-            $date = \date_create_from_format('Y-m-d', $item['date'])->format(__('Y年m月d日'));
+            $date = \date_create_from_format('Y-m', $item['date'])->format(__('Y年m月'));
             $datas[$index] = [
                 'date' => $date,
                 'raw' => $item['date'],

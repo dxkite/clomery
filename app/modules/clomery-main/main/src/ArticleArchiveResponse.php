@@ -15,7 +15,7 @@ class ArticleArchiveResponse extends Response
         $provider = new ArchiveProvider;
         $date = request()->get('date');
         $pageCurrent = request()->get('page',1);
-        $dateShow = \date_create_from_format('Y-m-d', $date)->format(__('Y年m月d日'));
+        $dateShow = \date_create_from_format('Y-m', $date)->format(__('Y年m月d日'));
         $data = $provider->getListByDate($date, $pageCurrent);
         $page = $this->page('article-archive');
         $page->set('title',__('归档') . $dateShow .' | dxkite 的博客');
