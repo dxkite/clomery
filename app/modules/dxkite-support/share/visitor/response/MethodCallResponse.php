@@ -45,7 +45,7 @@ abstract class MethodCallResponse extends Response
         if ($request->hasHeader('XRPC-Method')) {
             $method = trim($request->getHeader('XRPC-Method'));
         } else {
-            $method=$request->get('method', $this->defaultMethod);
+            $method = $request->get('method', $this->defaultMethod);
         }
         $paramSourceFrom= $this->getParameterFrom($this->export[$method]['comment'] ?? '');
         if (array_key_exists($method, $this->export)) {
@@ -65,7 +65,7 @@ abstract class MethodCallResponse extends Response
     {
         if ($responseObject instanceof ResponseObject) {
             $responseObject->makeResponse($this);
-        } elseif (\is_array($responseObject) || $responseObject instanceof JsonSerializable) {
+        } elseif (in_array(\gettype($responseObject), ['boolean','bool','integer','int','float','string','array', 'null']) || $responseObject instanceof JsonSerializable) {
             $this->json($responseObject);
         } else {
             return $responseObject;

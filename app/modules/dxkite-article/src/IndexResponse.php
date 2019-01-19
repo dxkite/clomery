@@ -14,7 +14,7 @@ class IndexResponse extends Response
     {
         $provider = new ArticleProvider;
         $pageCurrent = request()->get('page',1);
-        $articleData = $provider->getList(null,$page);
+        $articleData = $provider->getList(null,$pageCurrent);
         $page = $this->page('index');
         $page->set('title', 'dxkite 的博客');
         $page->set('articles', $articleData->getRows());

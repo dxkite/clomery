@@ -1,5 +1,6 @@
 {
     "v1.0": {
-        "archive": "dxkite.clomery.main.provider.ArchiveProvider"
+        "archive": "dxkite.clomery.main.provider.ArchiveProvider",
+        "post": "dxkite.clomery.main.provider.PostProvider"
     }
 }

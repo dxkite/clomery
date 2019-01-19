@@ -58,6 +58,7 @@ class ArticleProvider
      * @param array|null $tags
      * @param Content $excerpt 文章摘要
      * @param Content $content 文章内容
+     * @param integer|null $create
      * @param integer|null $modify 文章修改时间
      * @param integer $status 文章状态
      * @return integer 文章id
@@ -71,11 +72,18 @@ class ArticleProvider
         ?array $tags= null,
         Content $excerpt,
         Content $content,
+        ?int $create=null,
         ?int $modify=null,
         int $status=ArticleTable::STATUS_DRAFT
     ) :int {
         \visitor()->requirePermission('article.write:article');
-        $articleId = $this->article->save($id, \get_user_id(), $title, $slug, $category, $cover, $excerpt, $content, $modify, $status);
+        if (!is_null($slug)) {
+            $article =  $this->article->getArticleBySlug($slug);
+            if (!is_null($article)) {
+                $id = $article['id'];
+            }
+        }
+        $articleId = $this->article->save($id, \get_user_id(), $title, $slug, $category, $cover, $excerpt, $content, $create, $modify, $status);
         $this->category->count($articleId, $category);
         if (is_array($tags)) {
             $this->tag->addTags($articleId, $tags, \visitor()->hasPermission('article.write:tag'));

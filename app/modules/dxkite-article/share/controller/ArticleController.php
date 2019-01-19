@@ -42,6 +42,7 @@ class ArticleController
         $this->table->order($field, $type);
     }
 
+    
     /**
      * 保存文章内容
      *
@@ -53,6 +54,7 @@ class ArticleController
      * @param integer $cover
      * @param Content $excerpt
      * @param Content $content
+     * @param integer|null $create
      * @param integer|null $modify
      * @param integer $status
      * @return integer
@@ -68,6 +70,7 @@ class ArticleController
         Content $excerpt,
         Content $content,
         
+        ?int $create=null,
         ?int $modify=null,
         int $status=ArticleTable::STATUS_DRAFT
     ) :int {
@@ -82,7 +85,7 @@ class ArticleController
                 'excerpt' => $excerpt,
                 'content'=> $content,
                 
-                'create'=> time(),
+                'create'=> $create ?? time(),
                 'modify'=> $modify ?? time(),
     
                 'views'=> 0,
@@ -171,6 +174,25 @@ class ArticleController
         $condition = 'id = :id';
         $parameter = [
             'id' => $article,
+        ];
+        list($cond, $par) = self::getUserViewCondition($user);
+        $condition = $condition .' AND '. $cond;
+        $parameter = array_merge($parameter, $par);
+        return $this->table->select(ArticleController::$viewFields, $condition, $parameter)->fetch();
+    }
+
+    /**
+     * 根据标题缩写获取文章
+     *
+     * @param integer|null $user
+     * @param integer $slug
+     * @return array|null
+     */
+    public function getArticleBySlug(?int $user=null, string $slug):?array
+    {
+        $condition = 'LOWER(slug)=LOWER(:slug)';
+        $parameter = [
+            'slug' => $slug,
         ];
         list($cond, $par) = self::getUserViewCondition($user);
         $condition = $condition .' AND '. $cond;

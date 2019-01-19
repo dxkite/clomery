@@ -8,7 +8,7 @@
     @endforeach
 </section>
 @if($?:page)
-@if ($:page.total > 1)
+@if ($:page.size > 1)
 <nav class="paginator scrollIn">
     <% if (page.prev) { %>
     @if ($:page.previous)

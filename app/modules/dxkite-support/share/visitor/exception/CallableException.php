@@ -30,11 +30,13 @@ class CallableException extends \Exception
     {
         return $this->data;
     }
+    
     public function setId(int $id)
     {
         $this->id=$id;
         return $this;
     }
+
     public function getName()
     {
         return $this->name??__CLASS__;
