@@ -185,7 +185,7 @@ class ArticleController
      * 根据标题缩写获取文章
      *
      * @param integer|null $user
-     * @param integer $slug
+     * @param string $slug
      * @return array|null
      */
     public function getArticleBySlug(?int $user=null, string $slug):?array

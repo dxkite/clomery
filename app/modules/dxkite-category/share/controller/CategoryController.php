@@ -64,9 +64,9 @@ class CategoryController
         return $this->table->select($this->table->getFields(), ' LOWER(slug)=LOWER(:slug) ', ['slug'=>$slug])->fetch();
     }
     
-    public function count(int $article, int $category)
+    public function count(int $articleId, int $category)
     {
-        $article = $this->target->getByPrimaryKey($article);
+        $article = $this->target->getByPrimaryKey($articleId);
         if (\is_array($article)) {
             if ($category !== $article['category']) {
                 $this->countCate($category);

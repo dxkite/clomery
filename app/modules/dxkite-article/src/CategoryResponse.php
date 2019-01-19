@@ -13,10 +13,10 @@ class CategoryResponse extends Response
     public function onVisit(Context $context)
     {
         $provider = new ArticleCategoryProvider;
-        $tags = $provider->getList();
+        $categorys = $provider->getList();
         $page = $this->page('category');
         $page->set('title',__('分类列表'). '| dxkite 的博客');
-        $page ->set('categorys', $tags->getRows());
+        $page ->set('categorys', $categorys->getRows());
         return $page;
     }
 }

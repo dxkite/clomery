@@ -77,14 +77,17 @@ class ArticleProvider
         int $status=ArticleTable::STATUS_DRAFT
     ) :int {
         \visitor()->requirePermission('article.write:article');
+        $userid = \get_user_id();
         if (!is_null($slug)) {
-            $article =  $this->article->getArticleBySlug($slug);
+            $article =  $this->article->getArticleBySlug($userid, $slug);
             if (!is_null($article)) {
                 $id = $article['id'];
             }
         }
-        $articleId = $this->article->save($id, \get_user_id(), $title, $slug, $category, $cover, $excerpt, $content, $create, $modify, $status);
-        $this->category->count($articleId, $category);
+        if (!is_null($id)) {
+            $this->category->count($id, $category);
+        }
+        $articleId = $this->article->save($id, $userid, $title, $slug, $category, $cover, $excerpt, $content, $create, $modify, $status);
         if (is_array($tags)) {
             $this->tag->addTags($articleId, $tags, \visitor()->hasPermission('article.write:tag'));
         }

@@ -68,7 +68,7 @@ class PostProvider
         $canCreateCategory = visitor()->hasPermission('article.write:category');
         if ($categoryInfo = $this->categoryController->getByName($category)) {
             $categoryId = $categoryInfo['id'];
-        } elseif ($canCreateCategory) {
+        } elseif ($canCreateCategory && strlen($category) > 0) {
             $categoryId = $this->categoryController->add(\visitor()->getId(), $category, Pinyin::getAll($category));
         } else {
             $categoryId = 0;
