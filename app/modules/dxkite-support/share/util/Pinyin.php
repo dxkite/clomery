@@ -59,7 +59,7 @@ class Pinyin
      * @param integer $charset 字符集，默认UTF8
      * @return string 拼音
      */
-    public static function getAll(string $chinese, string $delimiter = '', int $length = 0, int $charset=self::UTF8)
+    public static function getAll(string $chinese, string $delimiter = '-', int $length = 0, int $charset=self::UTF8)
     {
         // 提取中文
         $py= preg_replace_callback('/([\x{4e00}-\x{9aff}]+)/u', function ($matchs) use ($delimiter, $charset) {
@@ -69,7 +69,8 @@ class Pinyin
         if ($length) {
             $py = substr($py, 0, $length);
         }
-        return preg_replace(['/\s+/','/\-+/'],['-','-'],$py);
+        $py = preg_replace(['/\s+/','/('.\preg_quote($delimiter).')+/'],$delimiter,$py);
+        return $py;
     }
 
     /**
@@ -117,9 +118,7 @@ class Pinyin
         return iconv('UTF-8', 'GB2312', $_String);
     }
  
-
-      
-    private static function zh2pys(string $chinese, string $delimiter = ' ', int $first=0)
+    private static function zh2pys(string $chinese, string $delimiter = '-', int $first=0)
     {
         $result = array();
         for ($i=0; $i<strlen($chinese); $i++) {
