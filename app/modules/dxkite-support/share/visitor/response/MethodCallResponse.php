@@ -44,9 +44,9 @@ abstract class MethodCallResponse extends Response
         $this->request=$request;
         if ($request->hasHeader('XRPC-Method')) {
             $method = trim($request->getHeader('XRPC-Method'));
-            $id = $request->getHeader('XPRC-Id', 'rpc/'.microtime(true));
-            $this->addHeader('XRPC-Method', $method);
+            $id = $request->getHeader('XRPC-Id', 'rpc/'.microtime(true));
             $this->addHeader('XRPC-Id', $id);
+            $this->addHeader('XRPC-Method', $method);
         } else {
             $method = $request->get('method', $this->defaultMethod);
         }
