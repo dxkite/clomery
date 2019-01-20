@@ -93,6 +93,7 @@ class CategoryController
         return $this->table->insert([
             'name'=>$name,
             'slug'=>$slug,
+            'count'=> 0,
             'parent'=>$parent,
             'user'=>$uid,
         ]);
