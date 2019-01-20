@@ -86,6 +86,11 @@ class PostProvider
         return $this->provider->save($id, $title, $slug, $categoryId, $cover, $tags, $excerpt, $content, $create, $modify, $status);
     }
 
+    public function delete(int $article):int
+    {
+        return $this->provider->delete($article);
+    }
+    
     public function saveImage(int $article, ?string $name=null, File $image):?UploadFile
     {
         return $this->attachmentController->addImage($article, $name ?? $image->getName(), $image);
@@ -93,6 +98,6 @@ class PostProvider
 
     public function saveAttachment(int $article, string $name, File $attachment):?UploadFile
     {
-        return $this->attachmentController->addAttachment($article, $name , $attachment);
+        return $this->attachmentController->addAttachment($article, $name, $attachment);
     }
 }
