@@ -126,10 +126,10 @@ class RemoteClass
         curl_setopt($curl, CURLOPT_AUTOREFERER, 1);
         curl_setopt($curl, CURLOPT_POST, 1);
         curl_setopt($curl, CURLOPT_SAFE_UPLOAD, 1);
-        curl_setopt($curl, CURLOPT_TIMEOUT, 30);
+        curl_setopt($curl, CURLOPT_TIMEOUT, $this->config->getTimeout());
         curl_setopt($curl, CURLOPT_COOKIEFILE, $this->config->getCookiePath());
         curl_setopt($curl, CURLOPT_COOKIEJAR, $this->config->getCookiePath());
-        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 30);
+        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, $this->config->getTimeout());
         
         if ($this->config->getEnableProxy()) {
             curl_setopt($curl, CURLOPT_PROXY, $this->config->getProxyHost());
