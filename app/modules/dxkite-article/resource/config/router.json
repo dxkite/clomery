@@ -11,6 +11,10 @@
         "url": "/{article:int}",
         "class": "dxkite.article.response.ArticleResponse"
     },
+    "read-article-by-slug": {
+        "url": "/article/{article:string}",
+        "class": "dxkite.article.response.ArticleResponse"
+    },
     "tags": {
         "url": "/tags",
         "class": "dxkite.article.response.TagResponse"

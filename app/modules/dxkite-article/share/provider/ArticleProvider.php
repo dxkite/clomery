@@ -208,4 +208,24 @@ class ArticleProvider
         $article = $this->article->getArticle($userid, $article);
         return $this->view->article($article);
     }
+
+    /**
+     * 根据缩写获取文章
+     *
+     * @param string $article
+     * @return array|null
+     */
+    public function getArticleBySlug(string $article):?array {
+        $userid = null;
+        if (!\visitor()->isGuest()) {
+            $userid = \get_user_id();
+        }
+        $articleData = $this->article->getArticleBySlug($userid, $article);
+        $articleId = $articleData['id'];
+        if (!session()->has('article.view.'.$articleId)) {
+            $this->article->updateArticleViewCount($articleId);
+            session()->set('article.view.'.$articleId, 1);
+        }
+        return $this->view->article($articleData);
+    }
 }

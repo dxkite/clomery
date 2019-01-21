@@ -13,8 +13,12 @@ class ArticleResponse extends Response
     public function onVisit(Context $context)
     {
         $provider = new ArticleProvider;
-        $articleId = request()->get('article');
-        $articleData = $provider->getArticle($articleId);
+        $article = request()->get('article');
+        if (\is_numeric($article)) {
+            $articleData = $provider->getArticle($article);
+        } else {
+            $articleData  = $provider->getArticleBySlug($article);
+        }
         if (\is_null($articleData)) {
             hook()->exec('suda:system:error::404');
             return;
