@@ -16,6 +16,10 @@ class ArticleTagResponse extends Response
         $tagName = request()->get('tag');
         $pageCurrent = request()->get('page',1);
         $tag = $provider->getTagByName($tagName);
+        if (\is_null($tag)) {
+            hook()->exec('suda:system:error::404');
+            return;
+        }
         $articles = $provider->getArticleByTag($tag['id'],$pageCurrent);
         $page = $this->page('article-tag');
         $page->set('tag',$tag);

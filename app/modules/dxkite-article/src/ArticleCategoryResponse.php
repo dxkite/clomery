@@ -18,6 +18,10 @@ class ArticleCategoryResponse extends Response
         $slug = request()->get('slug');
         $pageCurrent = request()->get('page',1);
         $category = $provider->getBySlug($slug);
+        if (\is_null($category)) {
+            hook()->exec('suda:system:error::404');
+            return;
+        }
         $articles = $articleProvider->getList($category['id'],$pageCurrent);
         $page = $this->page('article-category');
         $page->set('category',$category);

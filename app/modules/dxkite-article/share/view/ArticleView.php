@@ -36,8 +36,11 @@ class ArticleView
         $this->tag = $tag;
     }
 
-    public function article(array $article):array
+    public function article(?array $article):?array
     {
+        if (\is_null($article)) {
+            return null;
+        }
         $article = $this->articleInfo($article);
         $userid = null;
         if (!\visitor()->isGuest()) {
