@@ -219,6 +219,8 @@ class UploadFile implements \JsonSerializable
                 if ($this->password) {
                     $this->passwordHash=password_hash($this->password, PASSWORD_DEFAULT);
                     $newData['password']=$this->passwordHash;
+                } else {
+                    $newData['password']='';
                 }
                 $uploadId = $upload->insert($newData);
                 // 引用次数+1
