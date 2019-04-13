@@ -1,0 +1,22 @@
+{
+    "name": "dxkite\/content-parser",
+    "homepage": "http:\/\/dxkite.cn",
+    "version": "1.0.0",
+    "locale": "zh-CN",
+    "namespace": "dxkite\\content\\parser",
+    "suda": ">=2.0.0",
+    "discription": "内容处理模块",
+    "authors": [{
+        "name": "dxkite",
+        "email": "dxkite@qq.com"
+    }],
+    "import": {
+        "share": {
+            "dxkite\\content\\parser": "share",
+            "text_content": "share/function.php"
+        },
+        "src": {
+            "dxkite\\content\\parser\\response": "src"
+        }
+    }
+}

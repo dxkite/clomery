@@ -80,7 +80,8 @@ class ArticleAttachmentController
                 'fid'=>$resource,
                 'time'=>time(),
                 'ip'=>request()->ip(),
-                'type'=> $type
+                'type'=> $type,
+                'status' => 1,
             ]) > 0) {
             return true;
         }

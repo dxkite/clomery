@@ -1,0 +1,15 @@
+{
+    "name": "dxkite/dxkite-content-parser",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "DXkite",
+            "email": "DXkite@163.com"
+        }
+    ],
+    "require": {
+        "joyqi/hyper-down": "dev-master",
+        "ezyang/htmlpurifier": "^4.10"
+    }
+}

@@ -22,7 +22,8 @@
                 <td> {{ $item['parent'] }}</td>
                 <td>
                     <div class="btn-group btn-group-toggle">
-                        <a class="btn btn-secondary btn-sm" href="@u( $:module .':setting_category_edit',$item['id'])">编辑</a>
+                        <a class="btn btn-secondary btn-sm"
+                            href="@u( $:module .':setting_category_edit',$item['id'])">编辑</a>
                         <a class="btn btn-danger btn-sm" href="@u(['delete'=>$item['id']])">删除</a>
                     </div>
 
