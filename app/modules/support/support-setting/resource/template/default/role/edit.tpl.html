@@ -1,0 +1,46 @@
+@extend ('setting-view')
+@startInsert('admin-content')
+@if($:invaildId(false))
+<div class="jumbotron">
+    <h1 class="display-3">{= 分组不存在}</h1>
+    <p class="lead">{= 请仔细确认ID后再开始编辑用户分组}</p>
+</div>
+@else
+<form method="POST" action="@u">
+    <div class="form-group row">
+        <label for="colFormLabel" class="col-sm-2 col-form-label">角色名</label>
+        <div class="col-sm-10">
+            <input type="text" name="name" class="form-control" value="{{$:name('')}}">
+        </div>
+    </div>
+    @foreach($:auths as $name=>$body)
+    <li class="form-check">
+        <label class="form-check-label">
+            <input 
+            class="form-check-input" 
+            type="checkbox" 
+            name="auths[{{$name}}]" 
+            value="1" 
+            @if($:permission->surpass(new support\openmethod\Permission([$name]))) checked @endif> {{__($body['name'])}}
+        </label>
+        <ul>
+            @foreach($body['childs'] as $id=>$auth)
+            <li class="form-check">
+                <label class="form-check-label">
+                    <input 
+                    class="form-check-input" 
+                    type="checkbox" 
+                    name="auths[{{$name}}.{{$id}}]" 
+                    value="1" 
+                    @if($:permission->surpass(new support\openmethod\Permission([$name.'.'.$id]))) checked @endif >
+                    {{__($auth)}}
+                </label>
+            </li>
+            @endforeach
+        </ul>
+    </li>@endforeach
+
+    <button type="submit" class="btn btn-primary">{= 编辑角色 }</button>
+</form>
+@endif
+@endInsert

@@ -1,0 +1,23 @@
+{
+    "open-user": {
+        "name": "管理用户",
+        "childs": {
+            "add": "添加用户",
+            "delete": "删除用户",
+            "list": "显示用户",
+            "edit": "编辑用户",
+            "status": "编辑状态"
+        }
+    },
+    "open-client": {
+        "name": "管理用户",
+        "childs": {
+            "add": "添加用户",
+            "delete": "删除用户",
+            "list": "显示用户",
+            "edit": "编辑用户",
+            "token": "刷新Token",
+            "status": "编辑状态"
+        }
+    }
+}

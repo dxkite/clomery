@@ -1,0 +1,40 @@
+@extend ('support/setting:setting-view')
+@startInsert('admin-content')
+<div class="row">
+    <h4>网站信息</h4>
+</div>
+<div class="form-group row">
+    <label class="col-sm-2 col-form-label">{= 站点名称 }</label>
+    <div class="col-sm-10">
+        {{ $:site.name }}
+    </div>
+</div>
+<div class="form-group row">
+    <label class="col-sm-2 col-form-label">{= Appid }</label>
+    <div class="col-sm-10">
+        {{ $:site.appid }}
+    </div>
+</div>
+<div class="form-group row">
+    <label class="col-sm-2 col-form-label">{= Secret }</label>
+    <div class="col-sm-10">
+        <span class="pr-2">{{ $:site.secret }}</span> 
+        <a class="btn btn-primary btn-sm"
+            href="@u(['refresh'=>$:site.id])">更换</a>
+    </div>
+</div>
+<div class="form-group row">
+    <label class="col-sm-2 col-form-label">{= 限制域 }</label>
+    <div class="col-sm-10">
+        {{ $:site.hostname('无限制') }}
+    </div>
+</div>
+<div class="form-group row">
+    <label for="description" class="col-sm-2 col-form-label">{= 具体描述 }</label>
+    <div class="col-sm-10">
+        {{$:site.description}}
+    </div>
+</div>
+</form>
+
+@endInsert

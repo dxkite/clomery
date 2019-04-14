@@ -1,0 +1,53 @@
+@extend ('support/setting:bootstrap')
+
+@startInsert('bs-head')
+<link rel="stylesheet" href="@static/home.css"> 
+@endInsert 
+@startInsert('bs-content')
+
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="#">{= 用户中心 }</a>
+        <a class="btn btn-light btn-sm" href="@u('signout')" role="button">{=退出登录}</a>
+    </div>
+</nav>
+<div class="container">
+    <div class="row">
+
+        <div class="col-sm-4">
+            @if (strlen($:user.headimg('')))
+            <img class="user-avatar rounded-circle" src="/upload/{{ $:user.headimg }}-100x100-q80.jpg" alt="User Avatar">
+            @else
+            <img class="user-avatar rounded-circle" src="@static/image/avatar.png" alt="User Avatar">
+            @endif
+            <h4 class="user-name">{{ $:user.name('用户名') }}</h4>
+            @insert('home-sidebar') {:user.home.sidebar}
+        </div>
+        <div class="col-sm-8 p-2">
+            @if ($?:error)
+            <div class="alert alert-{{$:error.type}} p-2" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                @if ($?:error.title)
+                <h5 class="alert-heading">{{$:error.title}}</h5>
+                @endif 
+                {{$:error.message}}
+            </div>
+            @endif
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link {{ $this->is('home')?'active':'' }}" href="@u('home')">个人信息</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ $this->is('setting')?'active':'' }}" href="@u('setting')">编辑信息</a>
+                </li>
+                @insert('home-navtabs') {:user.home.navtabs}
+            </ul>
+            <main class="main">
+                @insert('home-content') {:user.home.content}
+            </main>
+        </div>
+    </div>
+</div>
+@endInsert 

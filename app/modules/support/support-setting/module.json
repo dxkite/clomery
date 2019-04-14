@@ -1,0 +1,22 @@
+{
+    "name": "support/setting",
+    "version": "0.0.1",
+    "import": {
+        "share": {
+            "support\\setting": "share",
+            "global": "share/functions.php"
+        },
+        "src": {
+            "support\\setting\\response": "src"
+        }
+    },
+    "route-prefix": {
+        "setting": "/setting",
+        "open-method": "/setting-provider"
+    },
+    "discription": "设置模块",
+    "require": {
+        "support/open-method": "",
+        "support/session": ""
+    }
+}

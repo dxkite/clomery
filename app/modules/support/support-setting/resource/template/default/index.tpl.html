@@ -1,0 +1,41 @@
+@extend ('setting-view')
+@startInsert('admin-content')
+@insert('setting-index-panel:before')
+<h4> {= 当前环境信息 }</h4>
+<table class="table">
+    <thead>
+        <tr>
+            <th>{= 配置项 }</th>
+            <th>{= 信息 }</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td> {= 服务器 } </td>
+            <td>{{ $:version.server }}</td>
+        </tr>
+        <tr>
+            <td>PHP </td>
+            <td>{{$:version.php}}</td>
+        </tr>
+        <tr>
+            <td>{= 框架 } </td>
+            <td>{{ $:version.suda }}</td>
+        </tr>
+        <tr>
+            <td>{= GD库 } </td>
+            <td>{{ $:version.gd }}</td>
+        </tr>
+        <tr>
+            <td>{= 文件上传限制大小 } </td>
+            <td>{{ $:upload }}</td>
+        </tr>
+        <tr>
+            <td>{= 时间 }</td>
+            <td>{{ date('Y-m-d H:i:s') }}</td>
+        </tr>
+    </tbody>
+</table>
+{:setting-index-panel:after}
+@insert('setting-index-panel:after')
+@endInsert

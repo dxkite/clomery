@@ -1,0 +1,5 @@
+{
+    "application:load-config": [
+        "support.setting.event.GlobalObject::loadApplication"
+    ]
+}

@@ -1,0 +1,30 @@
+{
+    "setting:user": {
+        "name": "管理用户",
+        "childs": {
+            "add": "添加用户",
+            "delete": "删除用户",
+            "list": "显示用户",
+            "edit": "编辑用户",
+            "role": "编辑权限",
+            "status": "编辑状态"
+        }
+    },
+    "setting:visitor": {
+        "name": "管理访问者",
+        "childs": {
+            "simulate": "切换用户"
+        }
+    },
+    "setting:role": {
+        "name": "管理授权",
+        "childs": {
+            "create": "添加授权",
+            "grant": "赋予授权",
+            "edit": "权限编辑",
+            "list": "列出权限",
+            "delete": "删除权限",
+            "revoke": "撤销权限"
+        }
+    }
+}

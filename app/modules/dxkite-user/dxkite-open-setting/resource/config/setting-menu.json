@@ -1,0 +1,42 @@
+{
+    "${module}@${group}:user_list": {
+        "name": "用户管理",
+        "acl": [
+            "open-user.list"
+        ],
+        "child": {
+            "${module}@${group}:user_list": {
+                "acl": [
+                    "open-user.list"
+                ],
+                "name": "用户列表"
+            },
+            "${module}@${group}:user_add": {
+                "acl": [
+                    "open-user.add"
+                ],
+                "name": "添加用户"
+            }
+        }
+    },
+    "${module}@${group}:client_list": {
+        "name": "网站授权",
+        "acl": [
+            "open-client.list"
+        ],
+        "child": {
+            "${module}@${group}:client_list": {
+                "acl": [
+                    "open-client.list"
+                ],
+                "name": "网站列表"
+            },
+            "${module}@${group}:client_add": {
+                "acl": [
+                    "open-client.add"
+                ],
+                "name": "添加网站"
+            }
+        }
+    }
+}

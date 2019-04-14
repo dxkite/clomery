@@ -1,0 +1,29 @@
+{
+    "${module}@${group}:index": {
+        "name": "网站环境",
+        "sort": 999
+    },
+    "${module}@${group}:user_list": {
+        "name": "系统管理",
+        "sort": 998,
+        "acl": ["setting:user.list"],
+        "child": {
+            "${module}@${group}:user_list": {
+                "acl": ["setting:user.list"],
+                "name": "管理列表"
+            },
+            "${module}@${group}:user_add": {
+                "acl": ["setting:user.add"],
+                "name": "添加管理"
+            },
+            "${module}@${group}:role_list": {
+                "acl": ["setting:role.list"],
+                "name": "角色列表"
+            },
+            "${module}@${group}:role_add": {
+                "acl": ["setting:role.add"],
+                "name": "添加角色"
+            }
+        }
+    }
+}

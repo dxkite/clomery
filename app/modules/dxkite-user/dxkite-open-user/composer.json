@@ -1,0 +1,5 @@
+{
+    "require": {
+        "qcloudsms/qcloudsms_php": "^0.1.4"
+    }
+}

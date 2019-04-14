@@ -1,0 +1,13 @@
+{
+    "master": {
+        "enable": true,
+        "prefix": "dx_",
+        "mode": "read+write",
+        "host": "127.0.0.1",
+        "port": 3306,
+        "name": "clomery_blog",
+        "user": "root",
+        "password": "root",
+        "charset": "utf8"
+    }
+}

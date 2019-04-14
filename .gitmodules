@@ -1,0 +1,3 @@
+[submodule "nebula"]
+	path = nebula
+	url = git@github.com:dxkite/nebula.git

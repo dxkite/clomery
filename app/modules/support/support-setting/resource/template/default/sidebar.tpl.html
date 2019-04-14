@@ -1,0 +1,23 @@
+<nav class="col-md-2 bg-light sidebar">
+    <div class="sidebar-sticky">
+        <!-- 侧边栏 -->
+        @foreach($:menuTree([]) as $item)
+        @if(count($item['child']) > 0)
+        <a class="sidebar-heading" href="#{{$item['name']}}" data-toggle="collapse"
+        aria-expanded="{{$item['select']?'true':'false'}}">{{$item['name']}}</a>
+        <div class="sidebar-body collapse {{$item['select']?'show':''}}" id="{{$item['name']}}">
+            <ul class="nav flex-column">
+                @foreach($item['child'] as $subitem)
+                <li class="nav-item">
+                    <a class="nav-link @if($subitem['select']) active @endif" href="{{$subitem['link']}}">
+                        {{$subitem['name']}}
+                    </a>
+                </li>
+                @endforeach
+            </ul>
+        </div>
+        @else
+        <a class="sidebar-heading {{$item['select']?'active':''}}" href="{{$item['link']}}">{{$item['name']}}</a>
+        @endif @endforeach
+    </div>
+</nav>

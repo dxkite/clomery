@@ -1,0 +1,19 @@
+{
+    "name": "clomory-blog-system",
+    "version": "2.0-dev",
+    "language": "zh-CN",
+    "module-paths": [
+        "modules/support",
+        "modules/dxkite-user",
+        "modules/clomery"
+    ],
+    "route-group": [
+        "default",
+        "setting"
+    ],
+    "url": {
+        "mode": 0,
+        "beautify": true,
+        "rewrite": true
+    }
+}

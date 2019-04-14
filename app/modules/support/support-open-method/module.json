@@ -1,0 +1,10 @@
+{
+    "name": "support/open-method",
+    "version": "0.0.1",
+    "import": {
+        "share": {
+            "support\\openmethod": "share"
+        }
+    },
+    "discription": "开放API接口"
+}

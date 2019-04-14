@@ -1,0 +1,5 @@
+/app/data
+/.vscode
+vendor/
+/public/assets
+composer.lock

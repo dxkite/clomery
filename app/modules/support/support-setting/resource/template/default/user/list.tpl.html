@@ -1,0 +1,54 @@
+@extend ('setting-view')
+@startInsert('admin-content')
+<div class="row justify-content-between p-2">
+    <div class="col">
+        <a href="@u('user_add')" class="btn btn-success">添加用户</a>
+    </div>
+    <div class="col col-md-auto">
+        <form class="form-inline input-group" method="get" action="@u">
+            <input type="text" name="search" class="form-control" id="searchbox" placeholder="搜索..." value="{{$:search('')}}">
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary">搜索</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<table class="table table-hover">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">{= 用户名}</th>
+            <th scope="col">{= 邮箱}</th>
+            <th scope="col">{= 手机号}</th>
+            <th scope="col">{= 注册时间}</th>
+            <th scope="col">{= 操作}</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ($:list as $item)
+        <tr>
+            <td>{{ $item['id'] }}</td>
+            <td>{{ $item['name'] ?? ''}}</td>
+            <td>{{ $item['email'] ?? '' }} </td>
+            <td>{{ $item['mobile'] ?? '' }} </td>
+            <td>{{ date('Y-m-d H:i:s',$item['create_time']) }} </td>
+            <td>
+                <div class="btn-group btn-group-toggle">
+                    <a class="btn btn-outline-secondary btn-sm" href="@u('user_edit',['id'=>$item['id']])">编辑</a>
+                    @if( $item['status'] == 1)
+                    <a class="btn btn-outline-success btn-sm" href="@u(['freeze'=>$item['id']])">禁用登录</a>
+                    @else
+                    <a class="btn btn-success btn-sm" href="@u(['active'=>$item['id']])">允许登陆</a>
+                    @endif
+                    <a class="btn btn-outline-info btn-sm" href="@u('user_role',['id'=>$item['id']])">权限</a>
+                    <a class="btn btn-danger btn-sm" href="@u(['delete'=>$item['id']])">删除</a>
+                </div>
+            </td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>
+
+@data('support\setting\Bootstrap::page')
+@endInsert

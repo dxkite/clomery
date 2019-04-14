@@ -1,0 +1,83 @@
+@extend('support/setting:bootstrap')
+
+@set('title', '用户注册页面') 
+@set('lang','zh-CN') 
+@startInsert('bs-head')
+<link href="@static('support/setting')/sign.css" rel="stylesheet"> 
+@endInsert 
+@startInsert('bs-content')
+<div class="container">
+    <form class="form-sign" id="form-signup" action="@u($_GET)" method="POST">
+
+        <ul class="nav nav-pills nav-fill mb-2">
+            <li class="nav-item">
+                <a class="nav-link {{ $:type=='mobile'?'active':''}}" href="@u(['type'=>'mobile'])">手机注册</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {{ $:type=='email'?'active':''}}" href="@u(['type'=>'email'])">邮箱注册</a>
+            </li>
+        </ul>
+
+        <div class="form-group">
+            <label for="username" class="sr-only">{= 用户名 }</label>
+            <input type="text" name="name" id="username" class="form-control  @if($:invaildName(false)) is-invalid @endif" placeholder="{= 用户名 }"
+                required autofocus value="{{$:name('')}}"> @if($:invaildName(false))
+            <div id="name_error" class="invalid-feedback"> {{ __($:invaildName) }}</div>
+            @else
+            <small id="nameHelpInline" class="form-text text-muted"> {= 用户名可以为中文、英文、数字、下划线，长度在4~13个字符之间。 } </small>
+            @endif
+        </div>
+        @if ($:type == 'email' )
+        <div class="form-group">
+            <label for="email" class="sr-only">{= 邮箱 }</label>
+            <input type="email" name="email" id="email" class="form-control  @if($:invaildEmail(false)) is-invalid @endif" placeholder="{= 邮箱 }"
+                required value="{{$:email('')}}"> @if($:invaildEmail(false))
+            <div id="email_error" class="invalid-feedback"> {{ __($:invaildEmail) }}</div>
+            @endif
+        </div>
+        @else
+        <div class="form-group">
+            <label for="mobile" class="sr-only">{= 手机号 }</label>
+            <input type="mobile" name="mobile" id="mobile" class="form-control  @if($:invaildMobile(false)) is-invalid @endif" placeholder="{= 手机号 }"
+                required value="{{$:mobile('')}}"> @if($:invaildMobile(false))
+            <div id="mobile_error" class="invalid-feedback"> {{ __($:invaildMobile) }}</div>
+            @endif
+        </div>
+        @endif
+        <div class="form-group">
+            <label for="passworld" class="sr-only">{= 密码 }</label>
+            <input type="password" name="password" id="password" class="form-control" placeholder="{= 密码 }" required>
+        </div>
+        <div class="form-group">
+            <label for="repeat" class="sr-only">{= 重复输入 }</label>
+            <input type="password" name="repeat" id="repeat" class="form-control  @if($:passwordError(false)) is-invalid @endif" placeholder="{= 重复输入 }"
+                required> @if($:passwordError(false))
+            <div class="invalid-feedback"> {= 两次输入的密码不相同 }</div>
+            @endif
+        </div>
+        <div class="form-group" id="verify-image">
+            <div class="input-group">
+                <div class="input-group-prepend ">
+                    <img id="verify_code_image" src="@u('verify')" class="input-group-text verify-image" alt="verfiy">
+                </div>
+                <input type="text" name="code" class="form-control  @if($:invaildCode(false)) is-invalid @endif" id="verifycode" placeholder="{= 验证码 }"> @if($:invaildCode(false))
+                <div id="invaildCode" class="invalid-feedback"> {= 验证码错误 }</div>
+                @endif
+            </div>
+        </div>
+        <button id="signup-button" class="btn btn-lg btn-primary btn-block" type="submit"> {= 注册 } </button>
+        <a href="@u('signin')"> {= 登陆账号 }</a>
+    </form>
+</div>
+@endInsert 
+
+@startInsert('bs-footer')
+<script @nonce>
+    $(function () {
+        var src = $('#verify_code_image').attr('src');
+        $('#verify_code_image').on('click', function () {
+            this.src = src + '?' + new Date().getTime();
+        });
+    });
+</script>
+@endInsert

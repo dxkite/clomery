@@ -1,0 +1,17 @@
+{
+    "name": "dxkite/open-setting",
+    "version": "0.0.1",
+    "import": {
+        "share": {
+            "dxkite\\openuser\\setting": "share"
+        },
+        "src": {
+            "dxkite\\openuser\\setting\\response": "src"
+        }
+    },
+    "route-prefix": {
+        "setting": "/setting/open-user",
+        "open-method": "/open-user"
+    },
+    "description": "设置模块"
+}

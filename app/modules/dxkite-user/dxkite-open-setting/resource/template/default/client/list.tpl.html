@@ -1,0 +1,40 @@
+@extend ('support/setting:setting-view')
+@startInsert('admin-content')
+<div class="row p-2">
+    <a href="@u('client_add')" class="btn btn-primary">添加网站</a>
+</div>
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>网站名称</th>
+                <th>网站说明</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($:list([]) as $item)
+            <tr>
+                <td>{{ $item['id'] }}</td>
+                <td class="text-nowrap">{{ $item['name'] ?? '' }}</td>
+                <td>
+                    {{ $item['description'] ?? '' }}
+                </td>
+               
+                <td>
+                    <div class="btn-group btn-group-toggle">
+                        <a class="btn btn-success btn-sm" href="@u('client_info',$item['id'])">查看</a>
+                        <a class="btn btn-secondary btn-sm" href="@u('client_edit',$item['id'])">编辑</a>
+                        <a class="btn btn-primary btn-sm" href="@u(['refresh'=>$item['id']])">更新Token</a>
+                        <a class="btn btn-danger btn-sm" href="@u(['delete'=>$item['id']])">删除</a>
+                    </div>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+
+@data('support\setting\Bootstrap::page')
+@endInsert

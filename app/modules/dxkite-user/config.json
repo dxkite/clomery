@@ -1,0 +1,12 @@
+{
+    "loaded": [
+        "dxkite/open-user",
+        "dxkite/open-client",
+        "dxkite/open-setting"
+    ],
+    "reachable": [
+        "dxkite/open-user",
+        "dxkite/open-client",
+        "dxkite/open-setting"
+    ]
+}
