@@ -9,5 +9,5 @@ use suda\application\Application;
  */
 interface MethodParameterInterface
 {
-    public static function createParameterFromRequest(int $position, string $name, string $from, Application $application, Request $request);
+    public static function createParameterFromRequest(int $position, string $name, string $from, Application $application, Request $request, $json);
 }

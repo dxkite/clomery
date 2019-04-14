@@ -29,9 +29,10 @@ class FileArray implements IteratorAggregate, MethodParameterInterface
      * @param string $from
      * @param \suda\application\Application $application
      * @param \suda\framework\Request $request
+     * @param mixed $json
      * @return mixed
      */
-    public static function createParameterFromRequest(int $position, string $name, string $from, Application $application, Request $request)
+    public static function createParameterFromRequest(int $position, string $name, string $from, Application $application, Request $request, $json)
     {
         $parameter = new self;
         $options = $request->post($name, '');

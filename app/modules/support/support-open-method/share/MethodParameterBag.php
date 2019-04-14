@@ -48,7 +48,7 @@ class MethodParameterBag
      */
     protected $sourceFrom;
 
-    public function __construct(Application $app, Request $request, ExportMethod $method, ?array $json = null)
+    public function __construct(Application $app, Request $request, ExportMethod $method, $json = null)
     {
         $this->applcation = $app;
         $this->request = $request;
@@ -134,7 +134,7 @@ class MethodParameterBag
         $typeName = $parameter->getType()->__toString();
         $typeRef = new ReflectionClass($typeName);
         if ($typeRef->implementsInterface(MethodParameterInterface::class) || $typeRef->hasMethod('createParameterFromRequest')) {
-            return $typeName::createParameterFromRequest($position, $name, $from, $this->applcation, $this->request);
+            return $typeName::createParameterFromRequest($position, $name, $from, $this->applcation, $this->request, $this->json);
         }
         if ($typeRef->isSubclassOf(UploadedFile::class) && $from === 'POST') {
             return $this->request->file($name);

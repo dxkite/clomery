@@ -140,10 +140,14 @@ class File extends SplFileObject implements ResultProcessor, MethodParameterInte
      * @param string $from
      * @param \suda\application\Application $application
      * @param \suda\framework\Request $request
+     * @param array|null $json
      * @return mixed
      */
-    public static function createParameterFromRequest(int $position, string $name, string $from, Application $application, Request $request)
+    public static function createParameterFromRequest(int $position, string $name, string $from, Application $application, Request $request, $json)
     {
+        if ($request->hasPost('name')) {
+            return null;
+        }
         return new self($request->getFile($name));
     }
 }
