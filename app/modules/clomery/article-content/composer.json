@@ -1,0 +1,6 @@
+{
+    "require": {
+        "joyqi/hyper-down": "dev-master",
+        "ezyang/htmlpurifier": "^4.10"
+    }
+}
