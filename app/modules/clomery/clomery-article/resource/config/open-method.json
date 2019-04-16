@@ -1,0 +1,8 @@
+{
+    "article": {
+        "url": "article[/{_method:string}]",
+        "class": [
+            "clomery.article.provider.ArticleProvider"
+        ]
+    }
+} 

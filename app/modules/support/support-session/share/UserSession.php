@@ -1,11 +1,13 @@
 <?php
 namespace support\session;
 
+use ReflectionMethod;
 use suda\framework\Request;
 use suda\framework\Response;
 use suda\framework\http\Cookie;
 use suda\application\Application;
 use support\session\table\SessionTable;
+use support\openmethod\MethodParameterBag;
 use support\openmethod\MethodParameterInterface;
 use support\openmethod\processor\ResultProcessor;
 
@@ -228,17 +230,17 @@ class UserSession implements MethodParameterInterface, ResultProcessor
     }
 
     /**
-     * 从请求中创建
+     * 创建参数
      *
      * @param integer $position
      * @param string $name
      * @param string $from
-     * @param \suda\application\Application $application
-     * @param \suda\framework\Request $request
-     * @return self
+     * @param \support\openmethod\MethodParameterBag $bag
+     * @return mixed
      */
-    public static function createParameterFromRequest(int $position, string $name, string $from, Application $application, Request $request)
+    public static function createParameterFromRequest(int $position, string $name, string $from, MethodParameterBag $bag)
     {
+        $request = $bag->getRequest();
         $group = $request->getHeader('x-token-group', $request->getCookie('x-token-group', 'system'));
         return static::createFromRequest($request, $group);
     }

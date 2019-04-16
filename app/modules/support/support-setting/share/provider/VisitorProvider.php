@@ -1,7 +1,6 @@
 <?php
 namespace support\setting\provider;
 
-use suda\orm\TableStruct;
 use support\setting\Visitor;
 use support\setting\PageData;
 use support\session\UserSession;
@@ -86,9 +85,9 @@ class VisitorProvider extends UserSessionAwareProvider
      *
      * @acl setting:role.edit
      * @param integer $id
-     * @return TableStruct|null
+     * @return array|null
      */
-    public function getRole(int $id):?TableStruct
+    public function getRole(int $id):?array
     {
         return $this->controller->getRole($id);
     }

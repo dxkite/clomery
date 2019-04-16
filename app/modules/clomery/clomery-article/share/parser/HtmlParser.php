@@ -1,5 +1,5 @@
 <?php
-namespace dxkite\content\parser;
+namespace clomery\article\parser;
 
 class HtmlParser extends AbstractParser
 {

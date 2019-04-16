@@ -158,9 +158,9 @@ class Oauth2Provider extends VisitorAwareProvider
      * @param-source GET
      * @param string $user
      * @param string $access_token
-     * @return TableStruct
+     * @return array
      */
-    public function userinfo(string $access_token, string $user):TableStruct
+    public function userinfo(string $access_token, string $user):array
     {
         $this->auth($access_token, $user);
         list($appid, $real_user) = $this->unpackToken($access_token, 'invalid access token', Oauth2Exception::ERR_ACCESS_TOKEN);

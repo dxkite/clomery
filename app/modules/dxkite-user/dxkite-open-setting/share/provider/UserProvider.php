@@ -73,9 +73,9 @@ class UserProvider extends UserSessionAwareProvider
      *
      * @acl open-user.edit
      * @param string $name
-     * @return TableStruct|null
+     * @return array|null
      */
-    public function getInfoById(string $id):?TableStruct
+    public function getInfoById(string $id):?array
     {
         return $this->controller->getInfoById($id);
     }

@@ -1,7 +1,7 @@
 <?php
 namespace support\setting\controller;
 
-use suda\orm\TableStruct;
+
 use support\setting\PageData;
 use suda\orm\exception\SQLException;
 use support\setting\table\UserTable;
@@ -32,9 +32,9 @@ class UserController
      *
      * @param string $account 账号
      * @param string $password 密码
-     * @return null|TableStruct 能登陆则非空
+     * @return null|array 能登陆则非空
      */
-    public function signin(string $account, string $password): ?TableStruct
+    public function signin(string $account, string $password): ?array
     {
         $user = $this->getByAccount($account);
         if ($user['status'] == UserTable::FREEZE) {
@@ -139,7 +139,7 @@ class UserController
      * @param string $name
      * @return array|null
      */
-    public function getByName(string $name):?TableStruct
+    public function getByName(string $name):?array
     {
         return $this->table->read('*')->where('LOWER(name)=LOWER(:name)', ['name' => $name])->one();
     }
@@ -150,7 +150,7 @@ class UserController
      * @param string $name
      * @return array|null
      */
-    public function getById(string $id):?TableStruct
+    public function getById(string $id):?array
     {
         return $this->table->read('*')->where('id = ?', $id)->one();
     }
@@ -159,9 +159,9 @@ class UserController
      * 通过用户ID获取用户名和头像
      *
      * @param string $name
-     * @return TableStruct|null
+     * @return array|null
      */
-    public function getBaseInfoById(string $id):?TableStruct
+    public function getBaseInfoById(string $id):?array
     {
         return $this->table->read('name', 'headimg', 'create_time')->where('id = ?', $id)->one();
     }
@@ -170,9 +170,9 @@ class UserController
      * 通过用户ID获取用户信息
      *
      * @param string $name
-     * @return TableStruct|null
+     * @return array|null
      */
-    public function getInfoById(string $id):?TableStruct
+    public function getInfoById(string $id):?array
     {
         return $this->table->read('id', 'headimg', 'name', 'email', 'mobile', 'create_time', 'create_by', 'create_ip', 'status')->where('id = ?', $id)->one();
     }
@@ -181,9 +181,9 @@ class UserController
      * 通过用户邮箱获取用户
      *
      * @param string $email
-     * @return TableStruct|null
+     * @return array|null
      */
-    public function getByEmail(string $email):?TableStruct
+    public function getByEmail(string $email):?array
     {
         return $this->table->read('*')->where('LOWER(email)=LOWER(:email)', ['email' => $email])->one();
     }
@@ -192,9 +192,9 @@ class UserController
      * 通过手机号获取用户
      *
      * @param string $mobile
-     * @return TableStruct|null
+     * @return array|null
      */
-    public function getByMobile(string $mobile):?TableStruct
+    public function getByMobile(string $mobile):?array
     {
         return $this->table->read('*')->where(['mobile' => $email])->one();
     }
@@ -203,9 +203,9 @@ class UserController
      * 获取账户
      *
      * @param string $account
-     * @return \suda\orm\TableStruct
+     * @return array
      */
-    public function getByAccount(string $account):TableStruct
+    public function getByAccount(string $account):array
     {
         if (preg_match(UserController::EMAIL_PREG, $account)) {
             $accountData = $this->getByEmail($account);

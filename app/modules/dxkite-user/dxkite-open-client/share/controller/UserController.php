@@ -87,9 +87,9 @@ class UserController
      * 检查是否需要数据
      *
      * @param string $id
-     * @return TableStruct|null
+     * @return array|null
      */
-    public function getInfoById(string $id):?TableStruct
+    public function getInfoById(string $id):?array
     {
         if ($data = $this->table->read(['name','headimg'])->where(['id' => $id])->one()) {
             return $data;
@@ -101,9 +101,9 @@ class UserController
      * 检查是否需要数据
      *
      * @param string $id
-     * @return TableStruct|null
+     * @return array|null
      */
-    public function getById(string $id):?TableStruct
+    public function getById(string $id):?array
     {
         if ($data = $this->table->read('*')->where(['id' => $id])->one()) {
             return $data;

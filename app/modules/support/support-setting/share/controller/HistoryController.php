@@ -1,7 +1,6 @@
 <?php
 namespace support\setting\controller;
 
-use suda\orm\TableStruct;
 use suda\framework\Request;
 use support\setting\table\HistoryTable;
 

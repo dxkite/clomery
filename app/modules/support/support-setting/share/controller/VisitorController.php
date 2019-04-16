@@ -2,7 +2,6 @@
 namespace support\setting\controller;
 
 use ArrayObject;
-use suda\orm\TableStruct;
 use support\setting\Visitor;
 use support\setting\PageData;
 use support\session\UserSession;
@@ -103,9 +102,9 @@ class VisitorController
      * 获取
      *
      * @param integer $id
-     * @return TableStruct|null
+     * @return array|null
      */
-    public function getRole(int $id):?TableStruct
+    public function getRole(int $id):?array
     {
         return $this->role->read('*')->where(['id' => $id])->one();
     }
@@ -199,7 +198,7 @@ class VisitorController
         $visitor->setPermission($ctr->loadPermission($session->getUserId()));
         $uCtr = new UserController;
         $data = $uCtr->getInfoById($session->getUserId());
-        $visitor->setAttributes($data?$data->toArray():[]);
+        $visitor->setAttributes($data ?? []);
         return $visitor;
     }
 }

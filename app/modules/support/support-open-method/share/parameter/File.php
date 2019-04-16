@@ -1,14 +1,16 @@
 <?php
 namespace support\openmethod\parameter;
 
+use SplFileObject;
+use ReflectionMethod;
 use suda\framework\Request;
 use suda\framework\Response;
 use suda\application\Application;
 use suda\framework\http\UploadedFile;
+use support\openmethod\MethodParameterBag;
 use support\openmethod\MethodParameterInterface;
 use support\openmethod\processor\ResultProcessor;
 use suda\application\processor\FileRangeProccessor;
-use SplFileObject;
 
 /**
  * 表单文件
@@ -133,18 +135,17 @@ class File extends SplFileObject implements ResultProcessor, MethodParameterInte
     }
 
     /**
-     * 从请求中创建文件
+     * 创建参数
      *
      * @param integer $position
      * @param string $name
      * @param string $from
-     * @param \suda\application\Application $application
-     * @param \suda\framework\Request $request
-     * @param array|null $json
+     * @param \support\openmethod\MethodParameterBag $bag
      * @return mixed
      */
-    public static function createParameterFromRequest(int $position, string $name, string $from, Application $application, Request $request, $json)
+    public static function createParameterFromRequest(int $position, string $name, string $from, MethodParameterBag $bag)
     {
+        $request = $bag->getRequest();
         if ($request->hasPost('name')) {
             return null;
         }

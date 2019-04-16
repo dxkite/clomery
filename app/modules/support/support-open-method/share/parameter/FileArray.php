@@ -1,10 +1,13 @@
 <?php
 namespace support\openmethod\parameter;
 
+use ArrayIterator;
+use ReflectionMethod;
 use IteratorAggregate;
 use suda\framework\Request;
 use suda\application\Application;
 use support\openmethod\parameter\File;
+use support\openmethod\MethodParameterBag;
 use support\openmethod\MethodParameterInterface;
 use support\openmethod\processor\ResultProcessor;
 
@@ -22,19 +25,18 @@ class FileArray implements IteratorAggregate, MethodParameterInterface
     protected $files;
 
     /**
-     * 从请求中创建文件
+     * 创建参数
      *
      * @param integer $position
      * @param string $name
      * @param string $from
-     * @param \suda\application\Application $application
-     * @param \suda\framework\Request $request
-     * @param mixed $json
+     * @param \support\openmethod\MethodParameterBag $bag
      * @return mixed
      */
-    public static function createParameterFromRequest(int $position, string $name, string $from, Application $application, Request $request, $json)
+    public static function createParameterFromRequest(int $position, string $name, string $from, MethodParameterBag $bag)
     {
         $parameter = new self;
+        $request = $bag->getRequest();
         $options = $request->post($name, '');
         $ignoreError = preg_match('/ignore\s+error/i', $options)?true:false;
         $onlyImage = preg_match('/only_*image/i', $name)?true:false;

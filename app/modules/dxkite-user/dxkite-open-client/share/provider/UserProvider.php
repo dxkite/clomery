@@ -115,9 +115,9 @@ class UserProvider extends VisitorAwareProvider
     /**
      * 获取当前用户信息
      *
-     * @return \suda\orm\TableStruct|null
+     * @return array|null
      */
-    public function userinfo():?TableStruct
+    public function userinfo():?array
     {
         $data = $this->controller->getInfoById($this->visitor->getId());
         return $data;

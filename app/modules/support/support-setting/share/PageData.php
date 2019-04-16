@@ -160,6 +160,7 @@ class PageData implements JsonSerializable
         if ($page !== null) {
             $statement->page($page, $row);
         }
+        $totalQuery->wantType(null);
         $data = $totalQuery->one();
         $total = intval($data['count']);
         return PageData::build($statement->all(), $total, $page, $row);

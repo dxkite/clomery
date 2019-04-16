@@ -52,9 +52,9 @@ class ClienProvider extends UserSessionAwareProvider
      * 获取一条记录
      *
      * @param string $id
-     * @return \suda\orm\TableStruct|null
+     * @return array|null
      */
-    public function get(string $id):?TableStruct {
+    public function get(string $id):?array {
         return $this->controller->get($id);
     }
 

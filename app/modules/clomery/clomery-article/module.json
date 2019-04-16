@@ -1,0 +1,10 @@
+{
+    "name": "clomery/article",
+    "version": "0.0.1",
+    "import": {
+        "share": {
+            "clomery\\article": "share"
+        }
+    },
+    "description": "文章系统"
+}

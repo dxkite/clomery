@@ -1,7 +1,6 @@
 <?php
 namespace support\setting\provider;
 
-use suda\orm\TableStruct;
 use support\setting\PageData;
 use support\session\UserSession;
 use support\setting\VerifyImage;
@@ -101,9 +100,9 @@ class UserProvider extends UserSessionAwareProvider
      * 
      * @acl setting:user.edit
      * @param string $name
-     * @return TableStruct|null
+     * @return array|null
      */
-    public function getInfoById(string $id):?TableStruct
+    public function getInfoById(string $id):?array
     {
         return $this->controller->getInfoById($id);
     }
