@@ -18,15 +18,13 @@ use support\openmethod\exception\PermissionException;
 class Permission implements \JsonSerializable, IteratorAggregate, Countable
 {
     // 权限表,包含所有的权限结构
-    private static $permissionTable = [];
+    protected static $permissionTable = [];
     // 权限配置
-    private static $permissionConfig = [];
+    protected static $permissionConfig = [];
     // 所有权限列表，过滤用
-    private static $permissionFilter = [];
-    // 是否读取了权限表
-    private static $readtable = false;
+    protected static $permissionFilter = [];
     // 私有权限（完整权限）
-    private $permissions = [];
+    protected $permissions = [];
 
     public function __construct(array $permissions = null)
     {
@@ -91,9 +89,10 @@ class Permission implements \JsonSerializable, IteratorAggregate, Countable
      * @param \support\openmethod\Permission $anthor
      * @return bool
      */
-    public function assert(Permission $anthor) {
+    public function assert(Permission $anthor)
+    {
         $need = $this->need($anthor);
-        if (count($need) > 0 ) {
+        if (count($need) > 0) {
             throw new PermissionException($need);
         }
     }
@@ -107,7 +106,7 @@ class Permission implements \JsonSerializable, IteratorAggregate, Countable
     public function need(Permission $anthor)
     {
         if (empty($this->permissions) && empty($anthor->permissions)) {
-            return true;
+            return [];
         }
         list($this_parent, $this_childs) = $this->explode($this->permissions);
         list($anthor_parent, $anthor_childs) = $this->explode($anthor->permissions);
@@ -119,7 +118,7 @@ class Permission implements \JsonSerializable, IteratorAggregate, Countable
         foreach ($this_parent as $parent) {
             $anthor_childs = $this->removeChilds($parent, $anthor_childs);
         }
-        $need  = array_diff($anthor_childs, $this_childs);
+        $need = array_diff($anthor_childs, $this_childs);
         if (count($need) > 0) {
             return $need;
         }
@@ -136,7 +135,7 @@ class Permission implements \JsonSerializable, IteratorAggregate, Countable
     {
         list($this_parent, $this_childs) = $this->explode($this->permissions);
         if (static::isParent($name)) {
-            return is_array($name, $this_parent);
+            return in_array($name, $this_parent);
         } elseif (in_array($name, $this_childs)) {
             return true;
         } else {
@@ -199,7 +198,7 @@ class Permission implements \JsonSerializable, IteratorAggregate, Countable
 
     protected function canLevelUp(string $parent, array $childs)
     {
-        if (array_key_exists($parent,static::$permissionTable) && count(static::$permissionTable[$parent]) === count($childs)) {
+        if (array_key_exists($parent, static::$permissionTable) && count(static::$permissionTable[$parent]) === count($childs)) {
             return true;
         }
         return false;
@@ -275,7 +274,7 @@ class Permission implements \JsonSerializable, IteratorAggregate, Countable
             if (static::isParent($parent) && static::isChild($parent, $child)) {
                 return static::$permissionConfig[$parent]['childs'][$child];
             }
-        }else{
+        } else {
             return static::$permissionConfig[$permission]['name'];
         }
         return $permission;
@@ -296,8 +295,10 @@ class Permission implements \JsonSerializable, IteratorAggregate, Countable
         // -[x] group.[auth1,auth2]
  
         if ($method instanceof \ReflectionMethod || $method instanceof \ReflectionFunction) {
-        } elseif (count($method) > 1) {
+        } elseif (is_array($method) && count($method) > 1) {
             $method = new ReflectionMethod($method[0], $method[1]);
+        } elseif (is_array($method) && count($method) === 1) {
+            $method = new ReflectionFunction($method[0]);
         } else {
             $method = new ReflectionFunction($method);
         }
