@@ -27,7 +27,7 @@ class ArticleController
      */
     public function save(ArticleData $data, int $user = null):int
     {
-        $access = DataAccess::create($data);
+        $access = DataAccess::new(ArticleData::class);
         if (isset($data->id)) {
             unset($data->create);
             $data->slug = $data->slug ?? Pinyin::getAll($data->title, '-', 255);
@@ -67,7 +67,7 @@ class ArticleController
             $parameter['category'] = $categoryId;
             $condition = 'category = :category AND ' .  $condition;
         }
-        return PageData::create(DataAccess::create(new ArticleData)->read(static::$showFields)->where($condition, $parameter), $page, $count);
+        return PageData::create(DataAccess::new(ArticleData::class)->read(static::$showFields)->where($condition, $parameter), $page, $count);
     }
 
     /**

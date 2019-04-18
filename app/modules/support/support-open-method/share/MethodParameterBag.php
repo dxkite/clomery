@@ -37,7 +37,7 @@ class MethodParameterBag
     /**
      * 是否含JSON数据
      *
-     * @var array|null
+     * @var mixed
      */
     protected $json;
     
@@ -169,7 +169,7 @@ class MethodParameterBag
     /**
      * Get 是否含JSON数据
      *
-     * @return  array|null
+     * @return  mixed
      */ 
     public function getJson()
     {
@@ -179,7 +179,7 @@ class MethodParameterBag
     /**
      * Set 是否含JSON数据
      *
-     * @param  array|null  $json  是否含JSON数据
+     * @param  mixed  $json  是否含JSON数据
      *
      * @return  self
      */ 

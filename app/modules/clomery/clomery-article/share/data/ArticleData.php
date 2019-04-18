@@ -4,8 +4,11 @@ namespace clomery\article\data;
 use JsonSerializable;
 use suda\orm\TableStruct;
 use clomery\article\Content;
+use suda\orm\middleware\Middleware;
 use suda\application\database\DataObject;
+use suda\orm\middleware\CommonMiddleware;
 use support\openmethod\RequestInputTrait;
+use suda\orm\middleware\ObjectMiddlewareTrait;
 use support\openmethod\MethodParameterInterface;
 
 /**
@@ -15,7 +18,6 @@ class ArticleData extends DataObject implements MethodParameterInterface, JsonSe
 {
     use RequestInputTrait;
 
-    
     const STATUS_DELETE = 0;     // 删除
     const STATUS_DRAFT = 1;      // 草稿
     const STATUS_PUBLISH = 2;    // 发布
@@ -41,54 +43,27 @@ class ArticleData extends DataObject implements MethodParameterInterface, JsonSe
         return $struct;
     }
     
-    /**
-     * 使用Markdown 对内容进行默认编码
-     *
-     * @param string|Content $content
-     * @return string
-     */
-    protected function _inputContentField($content)
+    public static function createMiddleware(TableStruct $struct):Middleware
     {
-        if (\is_string($content)) {
-            return \serialize(new Content($content));
-        }
-        return  serialize($content);
-    }
-
-    /**
-     * 将内容解码
-     *
-     * @param string $content
-     * @return Content
-     */
-    protected function _outputContentField($content)
-    {
-        return $content?unserialize($content) : new Content('');
-    }
-
-    
-    /**
-     * 使用Markdown 对内容进行默认编码
-     *
-     * @param string|Content $excerpt
-     * @return string
-     */
-    protected function _inputExcerptField($excerpt)
-    {
-        if (\is_string($excerpt)) {
-            return \serialize(new Content($excerpt));
-        }
-        return serialize($excerpt);
-    }
-
-    /**
-     * 将内容解码
-     *
-     * @param string $excerpt
-     * @return Content
-     */
-    protected function _outputExcerptField($excerpt)
-    {
-        return $excerpt? unserialize($excerpt) : new Content('');
+        $middile = new CommonMiddleware;
+        $middile->registerInput('excerpt', function ($content) {
+            if (\is_string($content)) {
+                return \serialize(new Content($content));
+            }
+            return  serialize($content);
+        });
+        $middile->registerInput('content', function ($content) {
+            if (\is_string($content)) {
+                return \serialize(new Content($content));
+            }
+            return  serialize($content);
+        });
+        $middile->registerOutput('content', function ($content) {
+            return $content?unserialize($content) : new Content('');
+        });
+        $middile->registerOutput('excerpt', function ($content) {
+            return $content?unserialize($content) : new Content('');
+        });
+        return $middile;
     }
 }

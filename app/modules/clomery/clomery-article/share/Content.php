@@ -6,7 +6,6 @@ use JsonSerializable;
 use suda\framework\Request;
 use suda\application\Application;
 use clomery\article\parser\HtmlParser;
-use clomery\article\parser\TextParser;
 use clomery\article\parser\MarkdownParser;
 use support\openmethod\MethodParameterBag;
 use support\openmethod\MethodParameterInterface;
@@ -58,7 +57,6 @@ class Content implements Serializable, JsonSerializable, MethodParameterInterfac
     public function unserialize($serialized)
     {
         list($this->type, $this->content) = \json_decode($serialized);
-        return $this;
     }
 
     /**
