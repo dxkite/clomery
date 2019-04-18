@@ -1,8 +1,8 @@
 <?php
 namespace clomery\article\parser;
 
-
-abstract class AbstractParser {
+abstract class AbstractParser
+{
 
     /**
      * 内容
@@ -11,13 +11,15 @@ abstract class AbstractParser {
      */
     protected $content;
 
-    public function __construct(string $content) {
+    public function __construct(string $content)
+    {
         $this->content = $content;
     }
 
-    public function raw() { 
+    public function raw()
+    {
         return $this->content;
     }
 
-    abstract function html();
+    abstract public function html();
 }

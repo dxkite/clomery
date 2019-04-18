@@ -45,25 +45,25 @@ class ArticleData extends DataObject implements MethodParameterInterface, JsonSe
     
     public static function createMiddleware(TableStruct $struct):Middleware
     {
-        $middile = new CommonMiddleware;
-        $middile->registerInput('excerpt', function ($content) {
+        $middle = new CommonMiddleware;
+        $middle->registerInput('excerpt', function ($content) {
             if (\is_string($content)) {
                 return \serialize(new Content($content));
             }
             return  serialize($content);
         });
-        $middile->registerInput('content', function ($content) {
+        $middle->registerInput('content', function ($content) {
             if (\is_string($content)) {
                 return \serialize(new Content($content));
             }
             return  serialize($content);
         });
-        $middile->registerOutput('content', function ($content) {
+        $middle->registerOutput('content', function ($content) {
             return $content?unserialize($content) : new Content('');
         });
-        $middile->registerOutput('excerpt', function ($content) {
+        $middle->registerOutput('excerpt', function ($content) {
             return $content?unserialize($content) : new Content('');
         });
-        return $middile;
+        return $middle;
     }
 }

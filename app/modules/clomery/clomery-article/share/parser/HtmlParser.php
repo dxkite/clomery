@@ -1,6 +1,8 @@
 <?php
 namespace clomery\article\parser;
 
+use suda\framework\filesystem\FileSystem;
+
 class HtmlParser extends AbstractParser
 {
     public function html()
