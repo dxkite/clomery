@@ -1,6 +1,7 @@
 <?php
 namespace clomery\article\data;
 
+use JsonSerializable;
 use suda\orm\TableStruct;
 use clomery\article\Content;
 use suda\application\database\DataObject;
@@ -10,10 +11,11 @@ use support\openmethod\MethodParameterInterface;
 /**
  * 文章数据表
  */
-class ArticleData extends DataObject implements MethodParameterInterface
+class ArticleData extends DataObject implements MethodParameterInterface, JsonSerializable
 {
     use RequestInputTrait;
 
+    
     const STATUS_DELETE = 0;     // 删除
     const STATUS_DRAFT = 1;      // 草稿
     const STATUS_PUBLISH = 2;    // 发布
