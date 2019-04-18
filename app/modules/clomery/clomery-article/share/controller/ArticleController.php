@@ -19,6 +19,19 @@ class ArticleController
     public static $showFields = ['id','title','slug','user','create','modify','category','excerpt' ,'image','views','status'];
     public static $viewFields = ['id','title','slug','user','create','modify','category','excerpt','content' ,'image','views','status'];
     
+
+    /**
+     * 控制器
+     *
+     * @var DataAccess
+     */
+    protected $access;
+
+    public function __construct(string $name = ArticleData::class)
+    {
+        $this->access = DataAccess::new($name);
+    }
+
     /**
      * 文章数据
      *
@@ -27,7 +40,6 @@ class ArticleController
      */
     public function save(ArticleData $data, int $user = null):int
     {
-        $access = DataAccess::new(ArticleData::class);
         if (isset($data->id)) {
             unset($data->create);
             $data->slug = $data->slug ?? Pinyin::getAll($data->title, '-', 255);
@@ -36,7 +48,7 @@ class ArticleController
             if ($user !== null) {
                 $where['user'] = $user;
             }
-            if ($access->write($data)->where($where)->ok()) {
+            if ($this->access->write($data)->where($where)->ok()) {
                 return $data->id;
             }
         } else {
@@ -45,7 +57,7 @@ class ArticleController
             $data->modify = $data->modify ?? time();
             $data->views = 0;
             $data->status = $data->status ?? ArticleData::STATUS_PUBLISH;
-            return $access->write($data)->id();
+            return $this->access->write($data)->id();
         }
         return 0;
     }
@@ -67,17 +79,36 @@ class ArticleController
             $parameter['category'] = $categoryId;
             $condition = 'category = :category AND ' .  $condition;
         }
-        return PageData::create(DataAccess::new(ArticleData::class)->read(static::$showFields)->where($condition, $parameter), $page, $count);
+        return PageData::create($this->access->read(static::$showFields)->where($condition, $parameter), $page, $count);
+    }
+
+    /**
+     * 获取置顶文章
+     *
+     * @param integer|null $user 当前登陆的用户
+     * @param integer|null $categoryId 当前选择的分类
+     * @param integer $page 当前页
+     * @param integer $count 页大小
+     * @return PageData
+     */
+    public function getStickList(?int $user = null, ?int $categoryId = null, int $page = null, int $count = 10):PageData
+    {
+        list($condition, $parameter) = self::getUserViewCondition($user);
+        if (null !== $categoryId) {
+            $parameter['category'] = $categoryId;
+            $condition = ' stick =1 AND category = :category AND ' .  $condition;
+        }
+        return PageData::create($this->access->read(static::$showFields)->where($condition, $parameter), $page, $count);
     }
 
     /**
      * 获取文章内容
      *
-     * @param integer|null $user 登陆用户ID
-     * @param integer $article 当前文章ID
-     * @return \suda\orm\TableStruct|null
+     * @param integer|null $user
+     * @param integer $article
+     * @return \clomery\article\data\ArticleData|null
      */
-    public function getArticle(?int $user = null, int $article):?TableStruct
+    public function getArticle(?int $user = null, int $article):?ArticleData
     {
         $condition = 'id = :id';
         $parameter = [
@@ -86,7 +117,7 @@ class ArticleController
         list($cond, $par) = self::getUserViewCondition($user);
         $condition = $condition .' AND '. $cond;
         $parameter = array_merge($parameter, $par);
-        return (new ArticleData)->read(static::$viewFields)->where($condition, $parameter)->one();
+        return $this->access->read(static::$viewFields)->where($condition, $parameter)->one();
     }
 
     /**
@@ -94,9 +125,9 @@ class ArticleController
      *
      * @param integer|null $user
      * @param string $slug
-     * @return \suda\orm\TableStruct|null
+     * @return \clomery\article\data\ArticleData|null
      */
-    public function getArticleBySlug(?int $user = null, string $slug):?TableStruct
+    public function getArticleBySlug(?int $user = null, string $slug):?ArticleData
     {
         $condition = 'LOWER(slug)=LOWER(:slug)';
         $parameter = [
@@ -105,7 +136,7 @@ class ArticleController
         list($cond, $par) = self::getUserViewCondition($user);
         $condition = $condition .' AND '. $cond;
         $parameter = array_merge($parameter, $par);
-        return (new ArticleData)->read(static::$viewFields)->where($condition, $parameter)->one();
+        return $this->access->read(static::$viewFields)->where($condition, $parameter)->one();
     }
 
     /**
@@ -116,7 +147,7 @@ class ArticleController
      */
     public function updateArticleViewCount(int $article):int
     {
-        return (new ArticleData)->write('views = views + 1')->where(['id' => $article])->rows();
+        return $this->access->write('views = views + 1')->where(['id' => $article])->rows();
     }
 
     /**
@@ -128,7 +159,7 @@ class ArticleController
      */
     public function getNearArticle(?int $user = null, int $article):array
     {
-        $create = (new ArticleData)->read('create')->where(['id' => $article]);
+        $create = $this->access->read('create')->where(['id' => $article]);
         return $this->getNearArticleByTime($user, $create['create']);
     }
 
@@ -145,9 +176,8 @@ class ArticleController
         $previousCondition = '`create` < :create  AND ' . $condition;
         $nextCondition = '`create` > :create AND ' . $condition;
         $parameter['create'] = $create;
-        $table = new ArticleData;
-        $previous = $table->read(ArticleData::$showFields)->where($previousCondition)->orderBy('create', 'DESC')->one();
-        $next = $table->read(ArticleData::$showFields)->where($nextCondition)->orderBy('create')->one();
+        $previous = $this->access->read(ArticleData::$showFields)->where($previousCondition)->orderBy('create', 'DESC')->one();
+        $next = $this->access->read(ArticleData::$showFields)->where($nextCondition)->orderBy('create')->one();
         return [$previous,$next];
     }
 
@@ -189,7 +219,7 @@ class ArticleController
             $condition = 'category = :category AND '. $condition;
             $parameter['category'] = $categoryId;
         }
-        return (new ArticleData)->countIf($condition, $parameter);
+        return $this->access->count($condition, $parameter);
     }
 
     use PrepareTrait;
@@ -212,7 +242,7 @@ class ArticleController
         list($condition, $binder) = self::getUserViewCondition($user);
         $query = $query.' WHERE '. $condition;
         $binder['tag'] = $tagId;
-        return PageData::create((new ArticleData)->query($query, $parameter), $page, $count);
+        return PageData::create($this->access->query($query, $parameter), $page, $count);
     }
 
     /**
@@ -234,7 +264,7 @@ class ArticleController
         if (null !== $category) {
             $where ['category'] = $category;
         }
-        return PageData::create((new ArticleData)->read(ArticleData::$showFields)->where($where), $page, $count);
+        return PageData::create($this->access->read(ArticleData::$showFields)->where($where), $page, $count);
     }
 
     /**
@@ -248,7 +278,7 @@ class ArticleController
         if (strlen($search) > 80) {
             $search = substr($search, 0, 80);
         }
-        $search = preg_replace('/%/', '', $search);
+        $search = str_replace('%', '', $search);
         $search = preg_split('/\s+/', $search);
         array_filter($search);
         return '%'.implode('%', $search) .'%';
@@ -263,10 +293,9 @@ class ArticleController
      */
     public function delete(int $article, ?int $userId = null):int
     {
-        $data = new ArticleData;
         if ($userId) {
-            return $data->write(['status' => ArticleTable::STATUS_DELETE])->where(['id' => $article, 'user' => $userId])->rows();
+            return $this->access->write(['status' => ArticleTable::STATUS_DELETE])->where(['id' => $article, 'user' => $userId])->rows();
         }
-        return $data->write(['status' => ArticleTable::STATUS_DELETE])->where(['id' => $article])->rows();
+        return $this->access->write(['status' => ArticleTable::STATUS_DELETE])->where(['id' => $article])->rows();
     }
 }

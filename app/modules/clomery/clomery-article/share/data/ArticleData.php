@@ -32,12 +32,14 @@ class ArticleData extends DataObject implements MethodParameterInterface, JsonSe
             $struct->field('category', 'bigint', 20)->key()->comment('文章分类'),
             $struct->field('slug', 'varchar', 255)->key()->comment('缩写'),
             $struct->field('image', 'varchar', 255)->comment('封面'),
+            $struct->field('video', 'varchar', 255)->comment('视频'),
             $struct->field('excerpt', 'text')->comment('摘要'),
             $struct->field('content', 'text')->comment('内容'),
             $struct->field('create', 'int', 11)->key()->comment('创建时间'),
             $struct->field('modify', 'int', 11)->key()->comment('修改时间'),
             $struct->field('ip', 'varchar', 32)->comment('编辑IP'),
             $struct->field('views', 'int', 11)->key()->comment('阅读量'),
+            $struct->field('stick', 'tinyint', 1)->comment('置顶'),
             $struct->field('status', 'tinyint', 1)->key()->comment('状态'),
         ]);
         return $struct;

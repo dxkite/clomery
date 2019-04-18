@@ -68,9 +68,6 @@ trait RequestInputTrait
                 $property = $reflectClass->getProperty($name);
                 $property->setAccessible(true);
                 $property->setValue($object, $value);
-            } else {
-                // 属性不存在则尝试直接赋值
-                $object->$name = $value;
             }
         }
     }
