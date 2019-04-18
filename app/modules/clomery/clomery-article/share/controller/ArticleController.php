@@ -7,6 +7,7 @@ use clomery\article\Pinyin;
 use support\setting\PageData;
 use suda\orm\statement\PrepareTrait;
 use clomery\article\data\ArticleData;
+use suda\application\database\DataAccess;
 
 /**
  * 文章控制器
@@ -26,6 +27,7 @@ class ArticleController
      */
     public function save(ArticleData $data, int $user = null):int
     {
+        $access = DataAccess::create($data);
         if (isset($data->id)) {
             unset($data->create);
             $data->slug = $data->slug ?? Pinyin::getAll($data->title, '-', 255);
@@ -34,7 +36,7 @@ class ArticleController
             if ($user !== null) {
                 $where['user'] = $user;
             }
-            if ($data->write()->where($where)->ok()) {
+            if ($access->write($data)->where($where)->ok()) {
                 return $data->id;
             }
         } else {
@@ -43,7 +45,7 @@ class ArticleController
             $data->modify = $data->modify ?? time();
             $data->views = 0;
             $data->status = $data->status ?? ArticleData::STATUS_PUBLISH;
-            return $data->write()->id();
+            return $access->write($data)->id();
         }
         return 0;
     }
@@ -65,7 +67,7 @@ class ArticleController
             $parameter['category'] = $categoryId;
             $condition = 'category = :category AND ' .  $condition;
         }
-        return PageData::create((new ArticleData)->read(static::$showFields)->where($condition, $parameter), $page, $count);
+        return PageData::create(DataAccess::create(new ArticleData)->read(static::$showFields)->where($condition, $parameter), $page, $count);
     }
 
     /**
