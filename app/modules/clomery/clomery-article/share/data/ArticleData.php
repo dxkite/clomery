@@ -13,22 +13,6 @@ use support\openmethod\MethodParameterInterface;
 
 /**
  * 文章数据
- * 
- * @property int $id
- * @property int $user
- * @property string $title
- * @property int $category
- * @property string $slug
- * @property string $image
- * @property string $video
- * @property string|Content $excerpt
- * @property string|Content $content
- * @property int $create
- * @property int $modify
- * @property string $ip
- * @property int $views
- * @property int $stick
- * @property int $status
  */
 class ArticleData extends DataObject implements MethodParameterInterface, JsonSerializable
 {

@@ -38,11 +38,11 @@ class ArticleLogic
      */
     public function save(ArticleData $data, int $user = null):int
     {
-        if (isset($data->id)) {
-            unset($data->create);
-            $data->slug = $data->slug ?? Pinyin::getAll($data->title, '-', 255);
-            $data->modify = $data->modify ?? time();
-            $where = ['id' => $data->id ];
+        if (isset($data['id'])) {
+            unset($data['create']);
+            $data['slug'] = $data['slug'] ?? Pinyin::getAll($data['title'], '-', 255);
+            $data['modify'] = $data['modify'] ?? time();
+            $where = ['id' => $data['id'] ];
             if ($user !== null) {
                 $where['user'] = $user;
             }
@@ -50,11 +50,11 @@ class ArticleLogic
                 return $data->id;
             }
         } else {
-            $data->slug = $data->slug ?? Pinyin::getAll($data->title, '-', 255);
-            $data->create = $data->create ?? time();
-            $data->modify = $data->modify ?? time();
-            $data->views = 0;
-            $data->status = $data->status ?? ArticleData::STATUS_PUBLISH;
+            $data['slug'] = $data['slug'] ?? Pinyin::getAll($data['title'], '-', 255);
+            $data['create'] = $data['create'] ?? time();
+            $data['modify'] = $data['modify'] ?? time();
+            $data['views'] = 0;
+            $data['status'] = $data['status'] ?? ArticleData::STATUS_PUBLISH;
             return $this->access->write($data)->id();
         }
         return 0;
