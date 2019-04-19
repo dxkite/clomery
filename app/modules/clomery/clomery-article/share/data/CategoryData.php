@@ -1,28 +1,27 @@
 <?php
 namespace clomery\article\data;
 
-use clomery\article\TableData;
+use JsonSerializable;
+use suda\application\database\DataObject;
+use support\openmethod\RequestInputTrait;
+use support\openmethod\MethodParameterInterface;
+
 
 /**
- * 分类数据表
+ * @table category
+ * @field id bigint(20) primary unsigned auto
+ * @field name varchar(255) unique comment("名称")
+ * @field slug varchar(255) unique comment("缩写")
+ * @field image varchar(255) comment("图标")
+ * @field-serialize description text comment("描述")
+ * @field count int comment("数量")
+ * @field parent bigint(20) unsigned
+ * @field user bigint(20) unsigned key comment("创建用户")
+ * @field index int(11) key comment("排序")
+ * @field time int(11) key comment("创建时间")
  */
-class CategoryData extends TableData
+class CategoryData  extends DataObject implements MethodParameterInterface, JsonSerializable
 {
-    
-    public function __construct(string $name = null)
-    {
-        parent::__construct($name ?? 'category');
-    }
-
-    public function defineFields():array
-    {
-        return [
-            $this->field('id', 'bigint', 20)->primary()->unsigned()->auto(),
-            $this->field('name', 'varchar', 255)->unique()->comment("分类名"),
-            $this->field('slug', 'varchar', 255)->unique()->comment("分类缩写"),
-            $this->field('user', 'bigint', 20)->unsigned()->key()->comment("创建用户"),
-            $this->field('count', 'bigint', 20)->key()->comment("文章统计"),
-            $this->field('parent', 'bigint', 20)->key()->comment("父分类")
-        ];
-    }
+    use RequestInputTrait;
 }
+

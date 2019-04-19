@@ -4,12 +4,10 @@ namespace clomery\article\data;
 use JsonSerializable;
 use suda\orm\TableStruct;
 use clomery\article\Content;
-use suda\orm\middleware\Middleware;
 use suda\application\database\DataObject;
 use suda\orm\middleware\CommonMiddleware;
-use support\openmethod\RequestInputTrait;
-use suda\orm\middleware\ObjectMiddlewareTrait;
 use support\openmethod\MethodParameterInterface;
+
 
 /**
  * 文章数据

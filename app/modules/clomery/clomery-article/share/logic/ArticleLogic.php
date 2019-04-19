@@ -5,8 +5,10 @@ use ArrayObject;
 use suda\orm\TableStruct;
 use clomery\article\Pinyin;
 use support\setting\PageData;
+use clomery\article\logic\LogicUnit;
 use suda\orm\statement\PrepareTrait;
 use clomery\article\data\ArticleData;
+use clomery\article\data\CategoryData;
 use suda\application\database\DataAccess;
 
 /**
@@ -16,7 +18,13 @@ class ArticleLogic
 {
     public static $showFields = ['id','title','slug','user','create','modify','category','excerpt' ,'image','views','status'];
     public static $viewFields = ['id','title','slug','user','create','modify','category','excerpt','content' ,'image','views','status'];
-    
+
+    /**
+     * 逻辑单元
+     *
+     * @var LogicUnit
+     */
+    protected $unit;
 
     /**
      * 控制器
@@ -25,18 +33,31 @@ class ArticleLogic
      */
     protected $access;
 
-    public function __construct(string $name = ArticleData::class)
+    public function __construct(LogicUnit $unit = null)
     {
-        $this->access = DataAccess::new($name);
+        $this->unit = $unit ?? $this->createUnit();
+        $this->access = $unit->unit(ArticleData::class);
+    }
+
+    protected function createUnit()
+    {
+        $unit = new LogicUnit;
+        $unit->push(ArticleData::class);
+        $unit->push(CategoryData::class);
+        $unit->push(TagData::class);
+        $unit->push(TagRelateData::class);
+        return $unit;
     }
 
     /**
-     * 文章数据
+     * 保存文章数据
      *
-     * @param ArticleData $data
+     * @param \clomery\article\data\ArticleData $data
+     * @param array $tag 标签名称
+     * @param integer $user
      * @return integer
      */
-    public function save(ArticleData $data, int $user = null):int
+    public function save(ArticleData $data, array $tag, int $user = null):int
     {
         if (isset($data['id'])) {
             unset($data['create']);
@@ -47,7 +68,7 @@ class ArticleLogic
                 $where['user'] = $user;
             }
             if ($this->access->write($data)->where($where)->ok()) {
-                return $data->id;
+                return $data['id'];
             }
         } else {
             $data['slug'] = $data['slug'] ?? Pinyin::getAll($data['title'], '-', 255);
