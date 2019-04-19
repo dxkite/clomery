@@ -13,6 +13,9 @@ use support\openmethod\MethodParameterInterface;
 
 /**
  * 文章数据表
+ * 
+ * @property int $id
+ * @property int $user
  */
 class ArticleData extends DataObject implements MethodParameterInterface, JsonSerializable
 {
@@ -29,9 +32,9 @@ class ArticleData extends DataObject implements MethodParameterInterface, JsonSe
             $struct->field('id', 'bigint', 20)->primary()->unsigned()->auto(),
             $struct->field('user', 'bigint', 20)->unsigned()->key()->comment('作者'),
             $struct->field('title', 'varchar', 255)->key()->comment('标题'),
-            $struct->field('category', 'bigint', 20)->key()->comment('文章分类'),
+            $struct->field('category', 'bigint', 20)->key()->comment('分类'),
             $struct->field('slug', 'varchar', 255)->key()->comment('缩写'),
-            $struct->field('image', 'varchar', 255)->comment('封面'),
+            $struct->field('image', 'varchar', 255)->comment('图片'),
             $struct->field('video', 'varchar', 255)->comment('视频'),
             $struct->field('excerpt', 'text')->comment('摘要'),
             $struct->field('content', 'text')->comment('内容'),
