@@ -1,5 +1,5 @@
 <?php
-namespace clomery\article\logic;
+namespace clomery\article\controller;
 
 use ArrayObject;
 use suda\orm\TableStruct;
@@ -12,6 +12,7 @@ use clomery\article\data\ArticleData;
 use clomery\article\data\CategoryData;
 use clomery\article\data\TagRelateData;
 use suda\application\database\DataAccess;
+use suda\application\database\DataObject;
 
 /**
  * 文章处理逻辑
@@ -59,12 +60,12 @@ class ArticleController
     /**
      * 保存文章数据
      *
-     * @param \clomery\article\data\ArticleData $data
-     * @param array $tag 标签名称
+     * @param \suda\application\database\DataObject $data
+     * @param array $tag
      * @param string|null $user
      * @return string
      */
-    public function save(ArticleData $data, array $tag, ?string $user = null):string
+    public function save(DataObject $data, array $tag, ?string $user = null):string
     {
         $article = $this->saveArticle($data, $user);
         if (strlen($article) > 0) {
@@ -80,11 +81,11 @@ class ArticleController
     /**
      * 保存文章
      *
-     * @param \clomery\article\data\ArticleData $data
+     * @param \suda\application\database\DataObject $data
      * @param string|null $user
      * @return string
      */
-    public function saveArticle(ArticleData $data, ?string $user = null):string
+    public function saveArticle(DataObject $data, ?string $user = null):string
     {
         if (isset($data['id'])) {
             unset($data['create']);
@@ -151,9 +152,9 @@ class ArticleController
      *
      * @param integer|null $user
      * @param integer $article
-     * @return \clomery\article\data\ArticleData|null
+     * @return \suda\application\database\DataObject|null
      */
-    public function getArticle(?int $user = null, int $article):?ArticleData
+    public function getArticle(?int $user = null, int $article):?DataObject
     {
         $condition = 'id = :id';
         $parameter = [
@@ -170,9 +171,9 @@ class ArticleController
      *
      * @param integer|null $user
      * @param string $slug
-     * @return \clomery\article\data\ArticleData|null
+     * @return \suda\application\database\DataObject|null
      */
-    public function getArticleBySlug(?int $user = null, string $slug):?ArticleData
+    public function getArticleBySlug(?int $user = null, string $slug):?DataObject
     {
         $condition = 'LOWER(slug)=LOWER(:slug)';
         $parameter = [
@@ -284,25 +285,38 @@ class ArticleController
     {
         $wants = $this->prepareReadFields(static::$showFields, 'article');
         if (\is_array($tagId)) {
-            $query = $this->buildSelection($wants, $tagId, $parameter);
+            $query = $this->buildTagArrayFilter($wants, $tagId, $parameter);
         } else {
-            $query = $this->buildSelectionSimple($wants, $parameter);
+            $query = $this->buildSimple($wants, $parameter);
         }
         list($condition, $binder) = self::getUserViewCondition($user);
-        if ($category !== null) {
-            $condition = 'category = :category AND '. $condition;
-            $binder['category'] = $category;
-        }
-        if ($search !== null && \mb_strlen($search) > 2) {
-            $condition = 'title = LIKE :search AND '. $condition;
-            $binder['title'] = $this->buildSearch($search);
-        }
+        $condition = $this->buildCategoryFilter($search, $condition, $binder);
+        $condition = $this->buildSearchFilter($search, $condition, $binder);
         $query = $query.' WHERE '. $condition;
         $parameter = array_merge($binder, $parameter);
         return PageData::create($this->access->query($query, $parameter), $page, $count);
     }
 
-    protected function buildSelectionSimple(string $wants, array & $binder):string
+    
+    protected function buildSearchFilter(?string $search = null, string $condition, array & $binder):string
+    {
+        if ($search !== null && \mb_strlen($search) > 2) {
+            $condition = 'title = LIKE :search AND '. $condition;
+            $binder['title'] = $this->buildSearch($search);
+        }
+        return $condition;
+    }
+
+    protected function buildCategoryFilter(?string $category = null, string $condition, array & $binder):string
+    {
+        if ($category !== null) {
+            $condition = 'category = :category AND '. $condition;
+            $binder['category'] = $category;
+        }
+        return $condition;
+    }
+
+    protected function buildSimple(string $wants, array & $binder):string
     {
         $articleName = $this->access->getName();
         $query = "SELECT {$wants} FROM _:{$articleName}";
@@ -310,7 +324,7 @@ class ArticleController
         return $query;
     }
 
-    protected function buildSelection(string $wants, array $tagId, array & $binder):string
+    protected function buildTagArrayFilter(string $wants, array $tagId, array & $binder):string
     {
         $tag = $this->unit->unit(TagData::class);
         $tagTableName = $tag->getName();
