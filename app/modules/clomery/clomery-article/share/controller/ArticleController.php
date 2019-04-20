@@ -6,9 +6,11 @@ use suda\orm\TableStruct;
 use clomery\article\Pinyin;
 use clomery\article\DataUnit;
 use support\setting\PageData;
+use clomery\article\data\TagData;
 use suda\orm\statement\PrepareTrait;
 use clomery\article\data\ArticleData;
 use clomery\article\data\CategoryData;
+use clomery\article\data\TagRelateData;
 use suda\application\database\DataAccess;
 
 /**
@@ -36,7 +38,7 @@ class ArticleController
     public function __construct(DataUnit $unit = null)
     {
         $this->unit = $unit ?? $this->createUnit();
-        $this->access = $unit->unit(ArticleData::class);
+        $this->access = $this->unit->unit(ArticleData::class);
     }
 
     /**
@@ -334,23 +336,26 @@ class ArticleController
             $search = substr($search, 0, 80);
         }
         $search = str_replace('%', '', $search);
-        $search = preg_split('/\s+/', $search);
-        array_filter($search);
-        return '%'.implode('%', $search) .'%';
+        $split = preg_split('/\s+/', $search);
+        if (is_array($split)) {
+            array_filter($split);
+            return '%'.implode('%', $split) .'%';
+        }
+        return $search;
     }
 
     /**
      * 删除文章
      *
-     * @param integer $article 文章ID
-     * @param integer|null $userId 指定用户的文章
+     * @param string $article 文章ID
+     * @param string|null $userId 指定用户的文章
      * @return integer
      */
-    public function delete(int $article, ?int $userId = null):int
+    public function delete(string $article, ?string $userId = null):int
     {
-        if ($userId) {
-            return $this->access->write(['status' => ArticleTable::STATUS_DELETE])->where(['id' => $article, 'user' => $userId])->rows();
+        if ($userId !== null) {
+            return $this->access->write(['status' => ArticleData::STATUS_DELETE])->where(['id' => $article, 'user' => $userId])->rows();
         }
-        return $this->access->write(['status' => ArticleTable::STATUS_DELETE])->where(['id' => $article])->rows();
+        return $this->access->write(['status' => ArticleData::STATUS_DELETE])->where(['id' => $article])->rows();
     }
 }
