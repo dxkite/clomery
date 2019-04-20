@@ -196,8 +196,8 @@ class UserSession implements MethodParameterInterface, ResultProcessor
      */
     public function processor(Application $application, Request $request, Response $response)
     {
-        $response->setCookie('x-'.$this->group.'-token', $this->token);
-        $response->setCookie('x-token-group', $this->group);
+        $response->setCookie('x-'.$this->group.'-token', $this->token)->httpOnly();
+        $response->setCookie('x-token-group', $this->group)->httpOnly();
         return [
             'id' => $this->id,
             'user' => $this->userId,

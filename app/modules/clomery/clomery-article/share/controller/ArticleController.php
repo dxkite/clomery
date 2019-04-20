@@ -82,7 +82,8 @@ class ArticleController
      * @param string|null $user
      * @return string
      */
-    public function saveArticle(ArticleData $data, ?string $user = null):string {
+    public function saveArticle(ArticleData $data, ?string $user = null):string
+    {
         if (isset($data['id'])) {
             unset($data['create']);
             $data['slug'] = $data['slug'] ?? Pinyin::getAll($data['title'], '-', 255);
@@ -218,8 +219,8 @@ class ArticleController
         $previousCondition = '`create` < :create  AND ' . $condition;
         $nextCondition = '`create` > :create AND ' . $condition;
         $parameter['create'] = $create;
-        $previous = $this->access->read(ArticleData::$showFields)->where($previousCondition)->orderBy('create', 'DESC')->one();
-        $next = $this->access->read(ArticleData::$showFields)->where($nextCondition)->orderBy('create')->one();
+        $previous = $this->access->read(static::$showFields)->where($previousCondition)->orderBy('create', 'DESC')->one();
+        $next = $this->access->read(static::$showFields)->where($nextCondition)->orderBy('create')->one();
         return [$previous,$next];
     }
 
@@ -267,46 +268,58 @@ class ArticleController
     use PrepareTrait;
 
     /**
-     * 根据Id获取列表
+     * 筛选文章
      *
      * @param integer|null $user
-     * @param array $ids
+     * @param string $search
+     * @param string $category
+     * @param array $tagId
      * @param integer|null $page
      * @param integer $count
-     * @return PageData
+     * @return \support\setting\PageData
      */
-    public function getArticleListByTag(?int $user = null, int $tagId, ?int $page, int $count):PageData
+    public function getArticleList(?int $user = null, string $search = null, string $category = null, array $tagId = null, ?int $page, int $count):PageData
     {
-        $wants = $this->prepareReadFields(ArticleData::$showFields, 'article');
-        $query = "SELECT {$wants} FROM _:tag 
-        JOIN _:tag_relation ON `_:tag_relation`.`tag` = :tag  
-        JOIN _:article ON `_:article`.`id` = `_:tag_relation`.`tag`";
+        $wants = $this->prepareReadFields(static::$showFields, 'article');
+        if (\is_array($tagId)) {
+            $query = $this->buildSelection($wants, $tagId, $parameter);
+        } else {
+            $query = $this->buildSelectionSimple($wants, $parameter);
+        }
         list($condition, $binder) = self::getUserViewCondition($user);
+        if ($category !== null) {
+            $condition = 'category = :category AND '. $condition;
+            $binder['category'] = $category;
+        }
+        if ($search !== null && \mb_strlen($search) > 2) {
+            $condition = 'title = LIKE :search AND '. $condition;
+            $binder['title'] = $this->buildSearch($search);
+        }
         $query = $query.' WHERE '. $condition;
-        $binder['tag'] = $tagId;
+        $parameter = array_merge($binder, $parameter);
         return PageData::create($this->access->query($query, $parameter), $page, $count);
     }
 
-    /**
-     * 搜索标题
-     *
-     * @param string $title 标题关键字
-     * @param integer|null $user 指定用户
-     * @param integer|null $category 指定分类
-     * @param integer|null $page
-     * @param integer $count
-     * @return PageData
-     */
-    public function search(string $title, ?int $user = null, ?int $category = null, ?int $page, int $count = 10):PageData
+    protected function buildSelectionSimple(string $wants, array & $binder):string
     {
-        $where = [
-            'status' => ArticleTable::STATUS_PUBLISH,
-            'title' => ['like' , $this->buildSearch($title) ],
-        ];
-        if (null !== $category) {
-            $where ['category'] = $category;
-        }
-        return PageData::create($this->access->read(ArticleData::$showFields)->where($where), $page, $count);
+        $articleName = $this->access->getName();
+        $query = "SELECT {$wants} FROM _:{$articleName}";
+        $binder = [];
+        return $query;
+    }
+
+    protected function buildSelection(string $wants, array $tagId, array & $binder):string
+    {
+        $tag = $this->unit->unit(TagData::class);
+        $tagTableName = $tag->getName();
+        $tagRelate = $this->unit->unit(TagRelateData::class);
+        $tagRelateTableName = $tagRelate->getName();
+        $articleName = $this->access->getName();
+        $query = "SELECT {$wants} FROM _:{$tagTableName} 
+        JOIN _:{$tagRelateTableName} ON `_:$tagRelateTableName`.`tag` IN (:tag)  
+        JOIN _:{$articleName} ON `_:{$articleName}`.`id` = `_:$tagRelateTableName`.`tag`";
+        $binder['tag'] = new ArrayObject($tagId);
+        return $query;
     }
 
     /**
