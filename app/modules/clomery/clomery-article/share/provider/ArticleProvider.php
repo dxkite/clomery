@@ -3,7 +3,7 @@ namespace clomery\article\provider;
 
 use clomery\article\data\ArticleData;
 use clomery\article\controller\ArticleController;
-
+use support\openmethod\FrameworkContextAwareInterface;
 
 
 /**
@@ -11,7 +11,7 @@ use clomery\article\controller\ArticleController;
  *
  * 控制文章的内容处理
  */
-class ArticleProvider
+class ArticleProvider extends VisitorAwareProvider
 {
     
     /**

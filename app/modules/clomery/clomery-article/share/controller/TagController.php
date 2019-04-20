@@ -1,5 +1,5 @@
 <?php
-namespace clomery\article\logic;
+namespace clomery\article\controller;
 
 use clomery\article\DataUnit;
 use clomery\article\data\TagData;

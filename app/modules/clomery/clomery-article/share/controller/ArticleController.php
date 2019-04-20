@@ -290,7 +290,7 @@ class ArticleController
             $query = $this->buildSimple($wants, $parameter);
         }
         list($condition, $binder) = self::getUserViewCondition($user);
-        $condition = $this->buildCategoryFilter($search, $condition, $binder);
+        $condition = $this->buildCategoryFilter($search, $category, $binder);
         $condition = $this->buildSearchFilter($search, $condition, $binder);
         $query = $query.' WHERE '. $condition;
         $parameter = array_merge($binder, $parameter);
@@ -315,7 +315,7 @@ class ArticleController
         }
         return $condition;
     }
-
+    
     protected function buildSimple(string $wants, array & $binder):string
     {
         $articleName = $this->access->getName();
