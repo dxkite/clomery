@@ -14,7 +14,6 @@ use support\openmethod\MethodParameterInterface;
  * @field image varchar(255) comment("图标")
  * @field-serialize description text comment("描述")
  * @field count int comment("数量")
- * @field parent bigint(20) unsigned
  * @field user bigint(20) unsigned key comment("创建用户")
  * @field index int(11) key comment("排序")
  * @field time int(11) key comment("创建时间")

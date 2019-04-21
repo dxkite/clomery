@@ -1,6 +1,7 @@
 <?php
 namespace support\openmethod\processor;
 
+use Throwable;
 use ReflectionClass;
 use ReflectionMethod;
 use RuntimeException;
@@ -31,8 +32,27 @@ class MethodInterfaceProcessor
      */
     protected $exportClasses;
 
+    /**
+     * 响应请求
+     *
+     * @var Response
+     */
+    protected $response;
+
+    /**
+     * 应用
+     *
+     * @var Application
+     */
+    protected $application;
+
     final public function onRequest(Application $application, Request $request, Response $response)
     {
+        $this->response = $response;
+        $this->application = $application;
+
+        set_exception_handler([$this,'uncaughtException']);
+
         $this->exportClasses = $this->getExportClasses($request->getAttribute('open-method'));
         $method = $request->getHeader('x-method', $request->get('_method'));
         $id = $request->getHeader('x-method-id', $request->get('_method_id'));
@@ -62,19 +82,32 @@ class MethodInterfaceProcessor
                     'result' => $result,
                 ];
             }
-        } catch (\Throwable $e) {
-            if ($e instanceof BadMethodCallException || $e instanceof InvalidArgumentException) {
-                $response->status(400);
-            }
-            return [
-                'id' => null,
-                'error' => [
-                    'name' => get_class($e),
-                    'message' => $e->getMessage(),
-                    'code' => $e->getCode(),
-                ],
-            ];
+        } catch (Throwable $e) {
+            return $this->getExceptionJson($e, $response);
         }
+    }
+
+    public function uncaughtException(Throwable $throwable) {
+        $this->application->debug()->addIgnoreTraces(__FILE__);
+        $this->application->debug()->uncaughtException($throwable);
+        if ($this->response->isSended() === false) {
+            $this->response->sendContent($this->getExceptionJson($throwable, $this->response));
+            $this->response->end();
+        }
+    }
+
+    protected function getExceptionJson(Throwable $e, Response $response):array {
+        if ($e instanceof BadMethodCallException || $e instanceof InvalidArgumentException) {
+            $response->status(400);
+        }
+        return [
+            'id' => null,
+            'error' => [
+                'name' => get_class($e),
+                'message' => $e->getMessage(),
+                'code' => $e->getCode(),
+            ],
+        ]; 
     }
 
     protected function invokeMethod(MethodParameterBag $parameterBag, Application $application, Request $request, Response $response)

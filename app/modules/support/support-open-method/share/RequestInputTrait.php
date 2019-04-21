@@ -4,8 +4,6 @@ namespace support\openmethod;
 use ReflectionClass;
 use support\openmethod\MethodParameterBag;
 
-
-
 /**
  * 从Request中获取数据
  */
@@ -23,26 +21,43 @@ trait RequestInputTrait
     public static function createParameterFromRequest(int $position, string $name, string $from, MethodParameterBag $bag)
     {
         $json = $bag->getJson();
-        if ($from === 'JSON' && $json !== null && \is_array($json) && \array_key_exists($name, $json)) {
+        if ($from === 'JSON' && $json !== null && \is_array($json)) {
             if ($bag->getMethod()->getReflectionMethod()->getNumberOfParameters() === 1) {
                 return static::createFromRequest($json);
             }
-            return static::createFromRequest($json[$name]);
+            if (\array_key_exists($name, $json)) {
+                return static::createFromRequest($json[$name]);
+            }
         }
         if ($from === 'POST') {
             $request = $bag->getRequest();
             if ($bag->getMethod()->getReflectionMethod()->getNumberOfParameters() === 1) {
                 return static::createFromRequest($request->post());
             }
-            if ($request->hasPost($name)) {
-                $data = $request->post($name);
+            if ($request->hasPost($name) && is_array($data = $request->post($name))) {
                 return static::createFromRequest($data);
+            }
+            if (count($data = static::createFromRequestPost($name)) > 0) {
+                return $data;
             }
         }
         return null;
     }
 
-    protected static function createFromRequest(array $data) {
+    protected static function createFromRequestPost(string $name)
+    {
+        $data = [];
+        foreach ($request->post() as $val => $value) {
+            if (strpos($val, $name.'.') === 0) {
+                $vname = \substr($val, strlen($name) + 1);
+                $data[$vname] = $value;
+            }
+        }
+        return $data;
+    }
+
+    protected static function createFromRequest(array $data)
+    {
         $reflectClass = new \ReflectionClass(static::class);
         $object = $reflectClass->newInstance();
         if (\method_exists($object, '__set')) {

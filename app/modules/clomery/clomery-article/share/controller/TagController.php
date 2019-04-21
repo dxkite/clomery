@@ -31,6 +31,16 @@ class TagController
     {
         $this->access = $unit->unit(TagData::class);
         $this->unit = $unit;
+        
+    }
+
+    public function saveTag(string $article, array $tag, bool $create) {
+        foreach ($tag as $name) {
+            $tagid = $create?$this->save($name):$this->getId($name);
+            if (strlen($tagid)) {
+                $this->relate($tagid, $article);
+            }
+        }
     }
 
     /**
@@ -39,9 +49,9 @@ class TagController
      * @param TagData $data
      * @return string
      */
-    public function save(TagData $data):string
+    public function save(string $name):string
     {
-        $tag = $this->access->read(['id'])->where(['name' => $data['name']])->one();
+        $tag = $this->access->read(['id'])->where(['name' => $name])->one();
         if ($tag) {
             unset($data['count']);
             unset($data['time']);
@@ -49,11 +59,13 @@ class TagController
                 return $tag['id'];
             }
         } else {
+            $data = new TagData;
+            $data['name'] = $name;
             $data['time'] = $data['time'] ?? time();
             $data['count'] = 0;
             return $this->access->write($data)->id();
         }
-        return 0;
+        return '';
     }
 
     /**
@@ -64,7 +76,7 @@ class TagController
      */
     public function getId(string $name):string
     {
-        $tag = $this->access->read(['id'])->where(['name' => $data['name']])->one();
+        $tag = $this->access->read(['id'])->where(['name' => $name])->one();
         if ($tag) {
             unset($data['count']);
             unset($data['time']);
@@ -72,7 +84,7 @@ class TagController
                 return $tag['id'];
             }
         }
-        return 0;
+        return '';
     }
 
     public function relate(string $tag, string $relate):bool

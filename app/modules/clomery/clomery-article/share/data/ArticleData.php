@@ -4,23 +4,33 @@ namespace clomery\article\data;
 use JsonSerializable;
 use suda\orm\TableStruct;
 use clomery\article\Content;
+use suda\orm\middleware\Middleware;
 use suda\application\database\DataObject;
 use suda\orm\middleware\CommonMiddleware;
+use support\openmethod\RequestInputTrait;
+use suda\orm\struct\TableStructAwareInterface;
 use support\openmethod\MethodParameterInterface;
-
+use suda\orm\middleware\MiddlewareAwareInterface;
 
 /**
  * 文章数据
  */
-class ArticleData extends DataObject implements MethodParameterInterface, JsonSerializable
+class ArticleData extends DataObject implements MethodParameterInterface, JsonSerializable, TableStructAwareInterface, MiddlewareAwareInterface
 {
     use RequestInputTrait;
+
+    /**
+     * 表结构
+     *
+     * @var TableStruct
+     */
+    protected static $struct;
 
     const STATUS_DELETE = 0;     // 删除
     const STATUS_DRAFT = 1;      // 草稿
     const STATUS_PUBLISH = 2;    // 发布
 
-    public static function createStruct():TableStruct
+    public static function getTableStruct():TableStruct
     {
         $struct = new TableStruct('article');
         $struct->fields([
@@ -49,7 +59,7 @@ class ArticleData extends DataObject implements MethodParameterInterface, JsonSe
         return $struct;
     }
     
-    public static function createMiddleware(TableStruct $struct):Middleware
+    public static function getMiddleware(TableStruct $struct):Middleware
     {
         $middle = new CommonMiddleware;
         $middle->registerInput('excerpt', function ($content) {

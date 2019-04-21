@@ -6,5 +6,8 @@
             "clomery\\article": "share"
         }
     },
-    "description": "文章系统"
+    "description": "文章系统",
+    "route-prefix": {
+        "open-method": "/api/clomery"
+    }
 }

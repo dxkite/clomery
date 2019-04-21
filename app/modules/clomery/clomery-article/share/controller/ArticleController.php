@@ -65,19 +65,16 @@ class ArticleController
      * @param string|null $user
      * @return string
      */
-    public function save(DataObject $data, array $tag, ?string $user = null):string
+    public function save(DataObject $data, array $tag, ?string $user = null, bool $createTag = false):string
     {
         $article = $this->saveArticle($data, $user);
         if (strlen($article) > 0) {
             $tagController = new TagController($this->unit);
-            foreach ($tag as $name) {
-                $tagid = $tagController->getId($name);
-                $tagController->relate($tagid, $article);
-            }
+            $tagController->saveTag($article, $tag, $createTag);
         }
         return $article;
     }
-   
+
     /**
      * 保存文章
      *

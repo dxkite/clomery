@@ -10,6 +10,7 @@
     ],
     "route-group": [
         "default",
+        "open-method",
         "setting"
     ],
     "url": {
