@@ -2,6 +2,7 @@
 namespace clomery\article\controller;
 
 use clomery\article\DataUnit;
+use suda\orm\statement\Statement;
 use clomery\article\data\IndexData;
 use suda\application\database\DataAccess;
 use suda\framework\arrayobject\ArrayDotAccess;
@@ -78,9 +79,10 @@ class IndexController
      * @param array $attribute
      * @param string $parent
      * @param string $item
+     * @param array $where
      * @return array
      */
-    public function node(array $attribute, string $parent = '', string $item = 'node'):array
+    public function node(array $attribute, string $parent = '', string $item = 'node', array $where = []):array
     {
         $index = '.';
         if ($parent !== '.' && \strlen($parent) !== 0) {
@@ -89,8 +91,23 @@ class IndexController
             }
         }
         $attribute = array_unique(array_merge($attribute, ['index', 'count', 'order']));
-        $statement = $this->access->read($attribute)->where(['index' => ['like', $index.'%']])->scroll();
+        $where['index'] = ['like', $index.'%'];
+        $statement = $this->access->read($attribute)->where($where);
+        return $this->buildNode($index, $item, $statement);
+    }
+
+    /**
+     * 构建节点
+     *
+     * @param string $index 起始值
+     * @param string $item 子节点名称
+     * @param \suda\orm\statement\Statement $statement
+     * @return array
+     */
+    public function buildNode(string $index, string $item, Statement $statement):array
+    {
         $nodes = [];
+        $statement->scroll();
         while ($node = $this->access->run($statement->wantOne())) {
             $nodeIndex = trim(substr($node['index'], strlen($index)), '.');
             if (\strlen($nodeIndex) == 0) {
