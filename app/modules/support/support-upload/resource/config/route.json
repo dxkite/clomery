@@ -1,10 +1,10 @@
 {
     "upload_image": {
         "class": "support.upload.response.UploadImageResponse",
-        "url": "\/upload\/image\/{type:string}\/{hash:string}[\/{options:url}]"
+        "uri": "\/upload\/image\/{type:string}\/{hash:string}[\/{options:url}]"
     },
     "upload_file": {
         "class": "support.upload.response.UploadResponse",
-        "url": "\/upload\/{type:string}\/{path:string}"
+        "uri": "\/upload\/{type:string}\/{path:string}"
     }
 }

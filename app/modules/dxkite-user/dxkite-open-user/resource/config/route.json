@@ -1,26 +1,26 @@
 {
     "verify": {
         "class": "dxkite.openuser.response.VerifyImageResponse",
-        "url": "\/verify-image"
+        "uri": "\/verify-image"
     },
     "signin": {
         "class": "dxkite.openuser.response.SigninResponse",
-        "url": "\/signin"
+        "uri": "\/signin"
     },
     "signup": {
         "class": "dxkite.openuser.response.SignupResponse",
-        "url": "\/signup"
+        "uri": "\/signup"
     },    
     "signout": {
         "class": "dxkite.openuser.response.SignoutResponse",
-        "url": "\/signout"
+        "uri": "\/signout"
     },
     "home": {
         "class": "dxkite.openuser.response.HomeResponse",
-        "url": "\/home"
+        "uri": "\/home"
     },
     "setting": {
         "class": "dxkite.openuser.response.HomeSettingResponse",
-        "url": "\/home\/setting"
+        "uri": "\/home\/setting"
     }
 }

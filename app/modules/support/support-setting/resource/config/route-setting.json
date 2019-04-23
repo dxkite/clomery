@@ -1,46 +1,46 @@
 {
     "index": {
         "class": "support.setting.response.IndexResponse",
-        "url": "\/"
+        "uri": "\/"
     },
     "signin": {
         "class": "support.setting.response.user.SigninResponse",
-        "url": "\/signin"
+        "uri": "\/signin"
     },
     "signout": {
         "class": "support.setting.response.user.SignoutResponse",
-        "url": "\/signout"
+        "uri": "\/signout"
     },
     "verify": {
         "class": "support.setting.response.user.VerifyImageResponse",
-        "url": "\/verify-image"
+        "uri": "\/verify-image"
     },
     "role_list": {
         "class": "support.setting.response.role.ListResponse",
-        "url": "\/role[\/{page:int}]"
+        "uri": "\/role[\/{page:int}]"
     },
     "role_add": {
         "class": "support.setting.response.role.AddResponse",
-        "url": "\/role\/add"
+        "uri": "\/role\/add"
     },
     "role_edit": {
         "class": "support.setting.response.role.EditResponse",
-        "url": "\/role\/{id:int}\/edit"
+        "uri": "\/role\/{id:int}\/edit"
     },
     "user_list": {
         "class": "support.setting.response.user.ListResponse",
-        "url": "\/user[\/{page:int}]"
+        "uri": "\/user[\/{page:int}]"
     },
     "user_add": {
         "class": "support.setting.response.user.AddResponse",
-        "url": "\/user\/add"
+        "uri": "\/user\/add"
     },
     "user_edit": {
         "class": "support.setting.response.user.EditResponse",
-        "url": "\/user\/{id:int}\/edit"
+        "uri": "\/user\/{id:int}\/edit"
     },
     "user_role": {
         "class": "support.setting.response.user.RoleResponse",
-        "url": "\/user\/{id:int}\/role"
+        "uri": "\/user\/{id:int}\/role"
     }
 }

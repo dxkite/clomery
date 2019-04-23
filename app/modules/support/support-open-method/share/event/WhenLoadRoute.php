@@ -22,7 +22,7 @@ class WhenLoadRoute
             $attriute['config'] = $config;
             $attriute['route'] = $exname;
             $attriute['application'] = $application;
-            $uri = $config['url'];
+            $uri = $config['uri'];
             $uri = '/'.trim($prefix . $uri, '/');
             $application->request($method, $exname, $uri, $attriute);
         }

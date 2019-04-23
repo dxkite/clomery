@@ -13,7 +13,7 @@
         "open-method",
         "setting"
     ],
-    "url": {
+    "uri": {
         "mode": 0,
         "beautify": true,
         "rewrite": true
