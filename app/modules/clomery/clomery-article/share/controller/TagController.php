@@ -31,10 +31,10 @@ class TagController
     {
         $this->access = $unit->unit(TagData::class);
         $this->unit = $unit;
-        
     }
 
-    public function saveTag(string $article, array $tag, bool $create) {
+    public function saveTag(string $article, array $tag, bool $create)
+    {
         foreach ($tag as $name) {
             $tagid = $create?$this->save($name):$this->getId($name);
             if (strlen($tagid)) {
@@ -51,13 +51,8 @@ class TagController
      */
     public function save(string $name):string
     {
-        $tag = $this->access->read(['id'])->where(['name' => $name])->one();
-        if ($tag) {
-            unset($data['count']);
-            unset($data['time']);
-            if ($this->access->write($data)->where(['id' => $tag['id']])->ok()) {
-                return $tag['id'];
-            }
+        if ($data = $this->access->read(['id'])->where(['name' => $name])->one()) {
+            return $data['id'];
         } else {
             $data = new TagData;
             $data['name'] = $name;

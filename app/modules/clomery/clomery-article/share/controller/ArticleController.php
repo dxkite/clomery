@@ -7,6 +7,7 @@ use clomery\article\Pinyin;
 use clomery\article\DataUnit;
 use support\setting\PageData;
 use clomery\article\data\TagData;
+use clomery\article\data\IndexData;
 use suda\orm\statement\PrepareTrait;
 use clomery\article\data\ArticleData;
 use clomery\article\data\CategoryData;
@@ -51,6 +52,7 @@ class ArticleController
     {
         $unit = new DataUnit;
         $unit->push(ArticleData::class);
+        $unit->push(IndexData::class, ArticleData::class);
         $unit->push(CategoryData::class);
         $unit->push(TagData::class);
         $unit->push(TagRelateData::class);
@@ -71,8 +73,22 @@ class ArticleController
         if (strlen($article) > 0) {
             $tagController = new TagController($this->unit);
             $tagController->saveTag($article, $tag, $createTag);
+            $indexController = new IndexController($this->unit);
+            $indexController->addItem($article, $data['parent'] ?? '', $article);
         }
         return $article;
+    }
+
+    /**
+     * 获取节点索引
+     *
+     * @param string $parant
+     * @return array
+     */
+    public function index(string $parant = ''):array
+    {
+        $indexController = new IndexController($this->unit);
+        return $indexController->node(['id','title', 'slug','image'], $parant);
     }
 
     /**

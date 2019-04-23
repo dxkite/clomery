@@ -37,4 +37,8 @@ class ArticleProvider extends VisitorAwareProvider
     {
         return (new ArticleController)->getList();
     }
+
+    public function index(string $parent = '') {
+        return (new ArticleController)->index($parent);
+    }
 }
