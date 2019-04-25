@@ -170,7 +170,7 @@ class MethodParameterBag
      * Get 是否含JSON数据
      *
      * @return  mixed
-     */ 
+     */
     public function getJson()
     {
         return $this->json;
@@ -182,7 +182,7 @@ class MethodParameterBag
      * @param  mixed  $json  是否含JSON数据
      *
      * @return  self
-     */ 
+     */
     public function setJson($json)
     {
         $this->json = $json;
@@ -194,7 +194,7 @@ class MethodParameterBag
      * Get 数据源
      *
      * @return  array
-     */ 
+     */
     public function getSourceFrom()
     {
         return $this->sourceFrom;
@@ -206,7 +206,7 @@ class MethodParameterBag
      * @param  array  $sourceFrom  数据源
      *
      * @return  self
-     */ 
+     */
     public function setSourceFrom(array $sourceFrom)
     {
         $this->sourceFrom = $sourceFrom;
@@ -218,8 +218,8 @@ class MethodParameterBag
      * Get 响应
      *
      * @return  Requset
-     */ 
-    public function getRequest()
+     */
+    public function getRequest():Requset
     {
         return $this->request;
     }
@@ -230,7 +230,7 @@ class MethodParameterBag
      * @param  Requset  $request  响应
      *
      * @return  self
-     */ 
+     */
     public function setRequest(Requset $request)
     {
         $this->request = $request;
@@ -242,8 +242,8 @@ class MethodParameterBag
      * Get 类引用
      *
      * @return  Application
-     */ 
-    public function getApplcation()
+     */
+    public function getApplcation():Application
     {
         return $this->applcation;
     }
@@ -254,7 +254,7 @@ class MethodParameterBag
      * @param  Application  $applcation  类引用
      *
      * @return  self
-     */ 
+     */
     public function setApplcation(Application $applcation)
     {
         $this->applcation = $applcation;
