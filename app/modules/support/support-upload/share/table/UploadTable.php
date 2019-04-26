@@ -1,5 +1,5 @@
 <?php
-namespace support\session\table;
+namespace support\upload\table;
 
 use suda\orm\TableStruct;
 use support\session\table\AutoCreateTable;

@@ -58,12 +58,27 @@ class BlockFile implements MethodParameterInterface
     {
         $blockFile = new BlockFile;
         $request = $bag->getRequest();
-        $rangeInfo = '';
-        if ($request->hasHeader('content-range')) {
-            $rangeInfo = trim($request->getHeader('content-range'));
-        } elseif ($request->hasPost('content-range')) {
-            $rangeInfo = trim($request->post('content-range'));
+
+        $fileId = '';
+        if ($request->hasHeader('file-id')) {
+            $fileId = trim($request->getHeader('file-id'));
+        } elseif ($request->hasPost('file-id')) {
+            $fileId = trim($request->post('file-id'));
         }
+
+        if (strlen($fileId) <= 0 ) {
+            return null;
+        }
+        
+        $blockFile->id = $fileId;
+
+        $rangeInfo = '';
+        if ($request->hasHeader('file-range')) {
+            $rangeInfo = trim($request->getHeader('file-range'));
+        } elseif ($request->hasPost('file-range')) {
+            $rangeInfo = trim($request->post('file-range'));
+        }
+
         $range = static::getRangeInfo($rangeInfo);
         if ($range === null) {
             return null;
@@ -90,7 +105,7 @@ class BlockFile implements MethodParameterInterface
      */
     public static function getRangeInfo(string $range)
     {
-        if (\preg_match('/^bytes\s+(\d+)\-(\d+)?\/(\d+)$/', $range, $match)) {
+        if (\preg_match('/^(\d+)\-(\d+)?\/(\d+)$/', $range, $match)) {
             $rangeStart = $match[1];
             $fileSize = $match[3];
             $rangeStop = $match[2];

@@ -2,8 +2,8 @@
 namespace support\upload;
 
 use suda\framework\http\UploadedFile;
-use support\session\table\UploadTable;
 use suda\framework\filesystem\FileSystem;
+use support\upload\table\UploadTable;
 
 /**
  * 块文件写入工具
@@ -17,6 +17,7 @@ class BlockFileWriter
      * @param string $md5
      * @param string $user
      * @param string $ip
+     * @param int $status
      * @return null|array
      */
     public static function create(string $name, string $md5, string $user, string $ip, int $status = UploadTable::UPLOADING)
@@ -52,19 +53,31 @@ class BlockFileWriter
      * @param string $tmpPath
      * @param string $id
      * @param BlockFile $file
-     * @return array
+     * @return array|null
      */
     public static function upload(string $tmpPath, BlockFile $file)
     {
         $data = $file->getData();
         $id = $file->getId();
-        $hash = static::getDataHash($data);
-        $file = $hash.'.part';
+        $md5 = static::getDataHash($data);
+        $hash = UploadUtil::md5encode($md5);
+        $filePartName = $hash.'.part';
         $index = 'part.index';
         $savePath = $tmpPath.'/'.$id;
-        FileSystem::makes($savePath);
-        static::saveDataIndex($savePath.'/'.$index, $file);
-        static::saveData($savePath.'/'.$file, $file);
+        FileSystem::make($savePath);
+        $indexOk = static::saveDataIndex($savePath.'/'.$index, $file, $hash);
+        $dataOk = static::saveData($savePath.'/'.$filePartName, $file);
+        if ($dataOk && $dataOk) {
+            return [
+                'md5' => $md5,
+                'range' => [
+                    'start' => $file->getRangeStart(),
+                    'stop' => $file->getRangeStop(),
+                    'size' => $file->getSize(),
+                ],
+            ];
+        }
+        return null;
     }
 
     /**
@@ -76,9 +89,9 @@ class BlockFileWriter
     protected static function getDataHash($data)
     {
         if ($data instanceof UploadedFile) {
-            return  UploadUtil::hash($data->getTempname());
+            return md5_file($data->getTempname());
         } else {
-            return UploadUtil::md5encode(\md5($data));
+            return \md5($data);
         }
     }
 
@@ -87,15 +100,18 @@ class BlockFileWriter
      *
      * @param string $index
      * @param BlockFile $file
-     * @return void
+     * @param string $hash
+     * @return boolean
      */
-    protected static function saveDataIndex(string $index, BlockFile $file)
+    protected static function saveDataIndex(string $index, BlockFile $file, string $hash):bool
     {
-        $indexFile = \fopen($index, 'wb+');
+        $indexFile = \fopen($index, 'ab+');
         if ($indexFile !== false) {
             \fputcsv($indexFile, [$file->getRangeStart(), $file->getRangeStop(), $hash]);
             \fclose($indexFile);
+            return true;
         }
+        return false;
     }
 
     /**
@@ -103,15 +119,15 @@ class BlockFileWriter
      *
      * @param string $path
      * @param BlockFile $file
-     * @return void
+     * @return bool
      */
     protected static function saveData(string $path, BlockFile $file)
     {
         $data = $file->getData();
         if ($data instanceof UploadedFile) {
-            FileSystem::move($data->getTempname(), $path);
+            return FileSystem::move($data->getTempname(), $path);
         } else {
-            FileSystem::put($path, $data);
+            return FileSystem::put($path, $data);
         }
     }
 
@@ -121,25 +137,52 @@ class BlockFileWriter
      * @param string $tmpPath
      * @param string $id
      * @param string $savePath
-     * @return void
+     * @return bool
      */
     public static function finish(string $tmpPath, string $id, string $savePath)
     {
         $indexPath = $tmpPath.'/'.$id.'/part.index';
-        $fileWriter = new FileWriter($savePath);
-        if (($handle = fopen($indexPath, 'rb')) !== false) {
-            while (($data = fgetcsv($handle, 64)) !== false) {
-                list($start, $stop, $partHash) = $data;
-                $blockPath = $tmpPath.'/'.$id.'/'.$partHash.'.part';
-                if (FileSystem::exist($blockPath) === false) {
-                    return false;
+        if (FileSystem::exist($indexPath)) {
+            FileSystem::make(dirname($savePath));
+            $fileWriter = new FileWriter($savePath);
+            if (($handle = fopen($indexPath, 'rb')) !== false) {
+                while (($data = fgetcsv($handle, 64)) !== false) {
+                    list($start, $stop, $partHash) = $data;
+                    $blockPath = $tmpPath.'/'.$id.'/'.$partHash.'.part';
+                    if (FileSystem::exist($blockPath) === false) {
+                        return false;
+                    }
+                    $fileWriter->writeBlock($blockPath, $start, $stop);
                 }
-                $fileWriter->writeBlock($blockPath, $start, $stop);
+                fclose($handle);
+                return static::finishUpload($id);
             }
-            fclose($handle);
-            return true;
         }
         return false;
+    }
+
+    /**
+     * 标记已经完成
+     *
+     * @param string $id
+     * @return bool
+     */
+    protected static function finishUpload(string $id)
+    {
+        $table = new UploadTable;
+        return $table->write(['status' => UploadTable::UPLOADED])->where(['id' => $id])->ok();
+    }
+
+    /**
+     * 获取变量名
+     *
+     * @param string $id
+     * @return array|null
+     */
+    public static function getSaveDataInfo(string $id):?array {
+        $table = new UploadTable;
+        $data =  $table->read(['hash', 'type', 'user', 'name'])->where(['id' => $id])->one();
+        return $data;
     }
 
     /**
@@ -152,6 +195,8 @@ class BlockFileWriter
     public static function cancel(string $tmpPath, string $id)
     {
         $savePath = $tmpPath.'/'.$id;
+        $table = new UploadTable;
+        $table->delete(['id' => $id])->ok();
         return FileSystem::delete($savePath);
     }
 }

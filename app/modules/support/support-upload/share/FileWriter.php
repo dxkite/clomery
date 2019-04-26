@@ -10,14 +10,17 @@ class FileWriter
     /**
      * 文件
      *
-     * @var string
+     * @var resource
      */
     protected $file;
 
     public function __construct(string $path)
     {
-        $this->file = fopen($path, 'wb+');
-        flock($this->file, LOCK_EX);
+        $file = fopen($path, 'wb+');
+        if (\is_resource($file)) {
+            $this->file = $file;
+            flock($this->file, LOCK_EX);
+        }
     }
 
     /**
@@ -25,13 +28,13 @@ class FileWriter
      *
      * @param string $buffer
      * @param integer $start
-     * @param integer|null $end
+     * @param integer|null $stop
      * @return bool
      */
-    public function write(string $buffer, int $start, ?int $end = null)
+    public function write(string $buffer, int $start, ?int $stop = null)
     {
         if (is_resource($this->file)) {
-            $length = $end === null ? null : $end - $start;
+            $length = $stop === null ? null : $stop - $start + 1;
             rewind($this->file);
             fseek($this->file, $start, SEEK_CUR);
             if ($length !== null) {
@@ -49,14 +52,14 @@ class FileWriter
      *
      * @param string $path
      * @param integer $start
-     * @param integer|null $end
+     * @param integer|null $stop
      * @return void
      */
-    public function writeBlock(string $path, int $start, ?int $end = null)
+    public function writeBlock(string $path, int $start, ?int $stop = null)
     {
         $block = fopen($path, 'r');
         if (is_resource($this->file) && is_resource($block)) {
-            $length = $end === null ? -1 : $end - $start;
+            $length = $stop === null ? -1 : $stop - $start + 1;
             rewind($this->file);
             fseek($this->file, $start, SEEK_CUR);
             stream_copy_to_stream($block, $this->file, $length);
@@ -67,7 +70,9 @@ class FileWriter
     
     public function __destruct()
     {
-        flock($this->file, LOCK_UN);
-        fclose($this->file);
+        if (is_resource($this->file)) {
+            flock($this->file, LOCK_UN);
+            fclose($this->file);
+        }
     }
 }

@@ -30,7 +30,7 @@ class MethodParameterBag
     /**
      * 响应
      *
-     * @var Requset
+     * @var Request
      */
     protected $request;
 
@@ -217,9 +217,9 @@ class MethodParameterBag
     /**
      * Get 响应
      *
-     * @return  Requset
+     * @return  Request
      */
-    public function getRequest():Requset
+    public function getRequest():Request
     {
         return $this->request;
     }
@@ -227,11 +227,11 @@ class MethodParameterBag
     /**
      * Set 响应
      *
-     * @param  Requset  $request  响应
+     * @param  Request  $request  响应
      *
      * @return  self
      */
-    public function setRequest(Requset $request)
+    public function setRequest(Request $request)
     {
         $this->request = $request;
 

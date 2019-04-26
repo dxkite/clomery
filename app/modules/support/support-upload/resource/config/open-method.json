@@ -1,0 +1,8 @@
+{
+    "upload-provider": {
+        "uri": "/block-upload[/{_method:string}]",
+        "class": [
+            "support.upload.provider.BlockUploadProvider"
+        ]
+    }
+}
