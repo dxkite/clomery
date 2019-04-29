@@ -3,8 +3,9 @@ namespace support\upload;
 
 use SplFileInfo;
 use support\openmethod\parameter\File;
-use support\session\table\UploadTable;
 use suda\framework\filesystem\FileSystem;
+use support\upload\table\UploadTable;
+
 
 /**
  * 上传处理工具
@@ -68,14 +69,14 @@ class UploadUtil
         return $path;
     }
 
-    public static function saveDb(File $file, string $user, string $ip)
+    public static function saveFileDatabase(File $file, string $user, string $ip)
     {
         $md5 = md5_file($file->getPathname());
-        $file = BlockFileWriter::create($file->getOriginalName(), $md5, $user, $ip, UploadTable::CHECKED);
-        if ($file !== null) {
+        $fileInfo = BlockFileWriter::create($file->getOriginalName(), $md5, $user, $ip, UploadTable::CHECKED);
+        if ($fileInfo !== null) {
             $path = static::saveFile($file, static::md5encode($md5));
-            $file['path'] = $path;
-            return $file;
+            $fileInfo['path'] = $path;
+            return $fileInfo;
         }
         return null;
     }

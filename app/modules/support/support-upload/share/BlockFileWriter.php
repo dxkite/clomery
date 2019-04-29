@@ -67,7 +67,7 @@ class BlockFileWriter
         FileSystem::make($savePath);
         $indexOk = static::saveDataIndex($savePath.'/'.$index, $file, $hash);
         $dataOk = static::saveData($savePath.'/'.$filePartName, $file);
-        if ($dataOk && $dataOk) {
+        if ($indexOk && $dataOk) {
             return [
                 'md5' => $md5,
                 'range' => [
@@ -181,7 +181,7 @@ class BlockFileWriter
      */
     public static function getSaveDataInfo(string $id):?array {
         $table = new UploadTable;
-        $data =  $table->read(['hash', 'type', 'user', 'name'])->where(['id' => $id])->one();
+        $data =  $table->read(['hash', 'type', 'user', 'name', 'status'])->where(['id' => $id])->one();
         return $data;
     }
 

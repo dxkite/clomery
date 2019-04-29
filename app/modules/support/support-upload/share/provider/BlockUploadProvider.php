@@ -1,40 +1,83 @@
 <?php
 namespace support\upload\provider;
 
+use support\exception\BlockFileException;
+use support\openmethod\parameter\File;
 use support\upload\BlockFile;
 use support\upload\BlockFileWriter;
 use support\setting\provider\UserSessionAwareProvider;
+use support\upload\controller\BlockFileController;
+use support\upload\UploadUtil;
 
+/**
+ * 文件分片上传/单个小文件上传接口控制
+ *
+ * Class BlockUploadProvider
+ * @package support\upload\provider
+ */
 class BlockUploadProvider extends UserSessionAwareProvider
 {
+    /**
+     * 创建上传文件
+     * @param string $name
+     * @param string $md5
+     * @return array|null
+     * @throws \support\exception\BlockFileException
+     */
     public function create(string $name, string $md5):?array
     {
-        if ($this->context->getVisitor()->getId()) {
-
-        }
-        return BlockFileWriter::create($name, $md5, $this->context->getVisitor()->getId(), $this->request->getRemoteAddr());
+        $controller = new BlockFileController($this->visitor->getId(), $this->request->getRemoteAddr(),$this->application->getDataPath().'/upload-temp');
+        return $controller->create($name, $md5);
     }
 
-    public function upload(BlockFile $file):?array
+    /**
+     * 分块写入文件
+     * @param BlockFile $file
+     * @return array|null
+     * @throws \support\exception\BlockFileException
+     */
+    public function write(BlockFile $file):?array
     {
-        return BlockFileWriter::upload($this->application->getDataPath().'/upload-temp', $file);
+        $controller = new BlockFileController($this->visitor->getId(), $this->request->getRemoteAddr(),$this->application->getDataPath().'/upload-temp');
+        return $controller->write($file);
     }
 
-    public function finish(string $id):bool
+    /**
+     * 完成文件上传
+     * @param string $id
+     * @return array|null
+     * @throws BlockFileException
+     */
+    public function finish(string $id):?array
     {
-        $tmpPath = $this->application->getDataPath().'/upload-temp';
         $data = BlockFileWriter::getSaveDataInfo($id);
+        if ($data === null) {
+            throw new BlockFileException("error block id", BlockFileException::ERR_BLOCK_ID);
+        }
         $savePath = $this->application->getDataPath().'/upload/'.$data['type'].'/'.$data['hash'].'.'.$data['type'];
-        return BlockFileWriter::finish($tmpPath, $id, $savePath);
+        $controller = new BlockFileController($this->visitor->getId(), $this->request->getRemoteAddr(),$this->application->getDataPath().'/upload-temp');
+        return $controller->finish($id, $savePath);
     }
 
+    /**
+     * 取消文件上传
+     * @param string $id
+     * @return bool
+     * @throws BlockFileException
+     */
     public function cancel(string $id)
     {
-        $tmpPath = $this->application->getDataPath().'/upload-temp';
-        $data = BlockFileWriter::getSaveDataInfo($id);
-        if ($data['user'] == $this->context->getVisitor()->getId()) {
-            return BlockFileWriter::cancel($tmpPath, $id);
-        }
-        return false;
+        $controller = new BlockFileController($this->visitor->getId(), $this->request->getRemoteAddr(),$this->application->getDataPath().'/upload-temp');
+        return $controller->cancel($id);
+    }
+
+    /**
+     * 上传文件直接上传
+     *
+     * @param File $file
+     * @return array|null
+     */
+    public function upload(File $file) {
+        return UploadUtil::saveFileDatabase($file, $this->visitor->getId(), $this->request->getRemoteAddr());
     }
 }

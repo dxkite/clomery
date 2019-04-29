@@ -1,6 +1,7 @@
 <?php
 namespace support\openmethod\processor;
 
+use suda\application\template\RawTemplate;
 use Throwable;
 use ReflectionClass;
 use ReflectionMethod;
@@ -46,6 +47,13 @@ class MethodInterfaceProcessor
      */
     protected $application;
 
+    /**
+     * 请求处理
+     * @param Application $application
+     * @param Request $request
+     * @param Response $response
+     * @return array|null
+     */
     final public function onRequest(Application $application, Request $request, Response $response)
     {
         $this->response = $response;
@@ -71,11 +79,12 @@ class MethodInterfaceProcessor
             $application->debug()->timeEnd('build parameter');
             $result = $this->invokeMethod($parameterBag, $application, $request, $response);
             if ($result === null) {
-                return;
+                return null;
             } elseif ($result instanceof ResultProcessor) {
                 return $result->processor($application, $request, $response);
             } elseif ($result instanceof RawTemplate) {
-                return (new TemplateResultProcessor($result))->processor($application, $request, $response);
+                (new TemplateResultProcessor($result))->processor($application, $request, $response);
+                return null;
             } else {
                 return [
                     'id' => $id,
@@ -132,7 +141,7 @@ class MethodInterfaceProcessor
 
     protected function contextAware($object, ExportMethod $export, Application $application, Request $request, Response $response)
     {
-        $hasMethod = $export->getReflectionClass()->implementsInterface(FrameworkContextAwareInterface::class) || $export->getReflectionClass()->hasMethod('setContext');
+        $hasMethod = $export->getReflectionClass()->implementsInterface(FrameworkContextAwareInterface::class);
         if ($hasMethod) {
             $setContext = $export->getReflectionClass()->getMethod('setContext');
             if ($setContext->isStatic()) {

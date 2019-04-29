@@ -1,15 +1,13 @@
 <?php
+
 namespace dxkite\openclient\provider;
 
-use suda\orm\TableStruct;
+use dxkite\openuser\provider\VisitorAwareProvider;
 use suda\framework\Config;
-use support\setting\PageData;
 use suda\application\Resource;
 use dxkite\openclient\HTTPUtil;
 use support\session\UserSession;
-use support\openmethod\parameter\File;
 use dxkite\openclient\controller\UserController;
-use dxkite\openclient\provider\VisitorAwareProvider;
 
 class UserProvider extends VisitorAwareProvider
 {
@@ -27,7 +25,6 @@ class UserProvider extends VisitorAwareProvider
      */
     protected $config;
 
- 
 
     public function __construct()
     {
@@ -46,7 +43,7 @@ class UserProvider extends VisitorAwareProvider
     {
         if ($this->visitor->isGuest()) {
             $this->config['server'];
-            $redirect_uri = $this->application->getUribase($this->request).$this->getUrl('user', ['redirect_uri' => $redirect_uri, '_method' => 'authorize' ]);
+            $redirect_uri = $this->application->getUribase($this->request) . $this->getUrl('user', ['redirect_uri' => $redirect_uri, '_method' => 'authorize']);
             $url = $this->prepareUrl('signin', [
                 'server' => $this->config['server'],
                 'redirect_uri' => $redirect_uri,
@@ -62,7 +59,10 @@ class UserProvider extends VisitorAwareProvider
      * 登陆
      * @param-source GET
      * @param string $redirect_uri
+     * @param string $code
+     * @param string $state
      * @return \support\session\UserSession
+     * @throws \Exception
      */
     public function authorize(string $redirect_uri, string $code, string $state): UserSession
     {
@@ -85,7 +85,7 @@ class UserProvider extends VisitorAwareProvider
             if ($this->controller->wantUserInfo($data['user'])) {
                 $userinfo = $this->prepareUrl('userinfo', [
                     'server' => $this->config['server'],
-                    'user' => $data['user'] ,
+                    'user' => $data['user'],
                     'access_token' => $data['access_token']
                 ]);
                 $userinfo_data = HTTPUtil::get($userinfo);
@@ -111,13 +111,13 @@ class UserProvider extends VisitorAwareProvider
         UserSession::expire($this->visitor->getId(), $this->group);
         $this->response->redirect($redirect_uri);
     }
-    
+
     /**
      * 获取当前用户信息
      *
      * @return array|null
      */
-    public function userinfo():?array
+    public function userinfo(): ?array
     {
         $data = $this->controller->getInfoById($this->visitor->getId());
         return $data;
@@ -134,13 +134,13 @@ class UserProvider extends VisitorAwareProvider
             $this->config = [];
         }
     }
-    
+
     protected function prepareUrl(string $name, array $parameter)
     {
         $url = $this->config[$name];
         $keys = [];
         foreach ($parameter as $key => $value) {
-            $keys[] = '{'.$key.'}';
+            $keys[] = '{' . $key . '}';
         }
         return \str_replace($keys, \array_values($parameter), $url);
     }

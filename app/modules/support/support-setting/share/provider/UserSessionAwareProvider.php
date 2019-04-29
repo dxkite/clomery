@@ -59,7 +59,7 @@ class UserSessionAwareProvider implements FrameworkContextAwareInterface
         $processor = new SettingContextProcessor;
         $this->setBaseContext($application, $request, $response);
         $this->context = $processor->onRequest($application, $request, $response);
-        $this->session = UserSession::createFromRequest($request, $this->group);
+        $this->session = UserSession::createFromRequest($request, $this->getGroup());
         $this->visitor = $this->context->getVisitor();
     }
 
@@ -75,5 +75,22 @@ class UserSessionAwareProvider implements FrameworkContextAwareInterface
         $this->setBaseContext($context->getApplication(), $context->getRequest(), $context->getResponse());
         $this->session = UserSession::createFromRequest($this->request, $this->group);
         $this->visitor = $context->getVisitor();
+    }
+
+    /**
+     * @return string
+     */
+    public function getGroup(): string
+    {
+        return $this->group;
+    }
+
+    /**
+     * 设置会话用户组别
+     * @param string $group
+     */
+    public function setGroup(string $group): void
+    {
+        $this->group = $group;
     }
 }

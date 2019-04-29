@@ -62,17 +62,21 @@ class ArticleController
     /**
      * 保存文章数据
      *
-     * @param \suda\application\database\DataObject $data
-     * @param array $tag
-     * @param string|null $user
+     * @param \suda\application\database\DataObject $data 文章数据
+     * @param array $tag 标签
+     * @param string|null $user 创建的用户
+     * @param bool $createTag 是否自动创建不存在的标签
+     * @param bool $createCategory 是否自动创建不存在的分类
      * @return string
      */
-    public function save(DataObject $data, array $tag, ?string $user = null, bool $createTag = false):string
+    public function save(DataObject $data, array $tag, ?string $user = null, bool $createTag = false, bool $createCategory = false):string
     {
         $article = $this->saveArticle($data, $user);
         if (strlen($article) > 0) {
+            // 处理标签
             $tagController = new TagController($this->unit);
             $tagController->saveTag($article, $tag, $createTag);
+            // 处理目录
             $indexController = new IndexController($this->unit);
             $indexController->addItem($article, $data['parent'] ?? '', $article);
         }

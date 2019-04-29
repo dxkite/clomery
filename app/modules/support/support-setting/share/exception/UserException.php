@@ -10,7 +10,7 @@ class UserException extends RuntimeException
     const ERR_NAME_EXISTS = 3;
     const ERR_EMAIL_EXISTS = 4;
     const ERR_ACCOUNT_NOT_FOUND = 5;
-    const ERR_USER_FREEZED = 6;
+    const ERR_USER_FREEZE = 6;
     const ERR_CODE = 7;
     const ERR_ACCOUNT_IS_NOT_ACTIVE = 8;
     const ERR_MOBILE_FORMAT = 9;

@@ -1,4 +1,5 @@
 <?php
+
 namespace clomery\article\controller;
 
 use clomery\article\DataUnit;
@@ -11,7 +12,7 @@ use suda\application\database\DataAccess;
  */
 class TagController
 {
-    
+
     /**
      * 逻辑单元
      *
@@ -36,7 +37,7 @@ class TagController
     public function saveTag(string $article, array $tag, bool $create)
     {
         foreach ($tag as $name) {
-            $tagid = $create?$this->save($name):$this->getId($name);
+            $tagid = $create ? $this->save($name) : $this->getId($name);
             if (strlen($tagid)) {
                 $this->relate($tagid, $article);
             }
@@ -46,21 +47,19 @@ class TagController
     /**
      * 保存标签
      *
-     * @param TagData $data
+     * @param string $name
      * @return string
      */
-    public function save(string $name):string
+    public function save(string $name): string
     {
         if ($data = $this->access->read(['id'])->where(['name' => $name])->one()) {
             return $data['id'];
-        } else {
-            $data = new TagData;
-            $data['name'] = $name;
-            $data['time'] = $data['time'] ?? time();
-            $data['count'] = 0;
-            return $this->access->write($data)->id();
         }
-        return '';
+        $data = new TagData;
+        $data['name'] = $name;
+        $data['time'] = $data['time'] ?? time();
+        $data['count'] = 0;
+        return $this->access->write($data)->id();
     }
 
     /**
@@ -69,20 +68,16 @@ class TagController
      * @param string $name
      * @return string
      */
-    public function getId(string $name):string
+    public function getId(string $name): string
     {
         $tag = $this->access->read(['id'])->where(['name' => $name])->one();
         if ($tag) {
-            unset($data['count']);
-            unset($data['time']);
-            if ($this->access->write($data)->where(['id' => $tag['id']])->ok()) {
-                return $tag['id'];
-            }
+            return $tag['id'];
         }
         return '';
     }
 
-    public function relate(string $tag, string $relate):bool
+    public function relate(string $tag, string $relate): bool
     {
         $unit = $this->unit->unit(TagRelateData::class);
         if ($unit->read(['id'])->where(['tag' => $tag, 'relate' => $relate])->one()) {

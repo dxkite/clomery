@@ -35,16 +35,17 @@ class Oauth2Provider extends VisitorAwareProvider
         $this->client = new ClientTable;
         $this->auth = new AuthClientTable;
     }
-    
+
     /**
      * 验证登陆
      *
      * @param-source GET
      * @param string $appid
      * @param string $redirect_uri
-     * @param string $code
+     * @param string $state
      * @param string $grant_type
      * @return void
+     * @throws Oauth2Exception
      */
     public function authorize(string $appid, string $redirect_uri, string $state, string $grant_type)
     {
@@ -79,6 +80,7 @@ class Oauth2Provider extends VisitorAwareProvider
      * @param string $code
      * @param string $grant_type
      * @return array
+     * @throws Oauth2Exception
      */
     public function access_token(string $appid, string $secret, string $code, string $grant_type):array
     {
@@ -124,6 +126,7 @@ class Oauth2Provider extends VisitorAwareProvider
      * @param string $appid
      * @param string $refresh_token
      * @return array
+     * @throws Oauth2Exception
      */
     public function refresh_token(string $appid, string $refresh_token):array
     {
@@ -159,6 +162,7 @@ class Oauth2Provider extends VisitorAwareProvider
      * @param string $user
      * @param string $access_token
      * @return array
+     * @throws Oauth2Exception
      */
     public function userinfo(string $access_token, string $user):array
     {
@@ -182,6 +186,7 @@ class Oauth2Provider extends VisitorAwareProvider
      * @param string $access_token
      * @param string $user
      * @return bool
+     * @throws Oauth2Exception
      */
     public function auth(string $access_token, string $user):bool
     {
@@ -219,6 +224,14 @@ class Oauth2Provider extends VisitorAwareProvider
         return $target;
     }
 
+    /**
+     * 解包Token
+     * @param string $token
+     * @param string $message
+     * @param int $errcode
+     * @return array
+     * @throws Oauth2Exception
+     */
     protected function unpackToken(string $token, string $message, int $errcode):array
     {
         $target = UserSession::decode($token);

@@ -10,7 +10,7 @@ use support\openmethod\MethodParameterInterface;
 /**
  * @table category
  * @field id bigint(20) primary unsigned auto
- * @field name varchar(255) unique comment("名称")
+ * @field name varchar(255) comment("名称")
  * @field slug varchar(255) unique comment("缩写")
  * @field image varchar(255) comment("图标")
  * @field-serialize description text comment("描述")
