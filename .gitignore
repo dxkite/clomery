@@ -3,3 +3,4 @@
 vendor/
 /public/assets
 composer.lock
+.idea/workspace.xml
