@@ -10,10 +10,15 @@ use support\openmethod\MethodParameterInterface;
 
 
 /**
- * Class TagRelateData
- * @package clomery\article\data
+ * @table attachment
+ * @field id bigint(20) primary unsigned auto
+ * @field name varchar(255) comment("附件名")
+ * @field path varchar(255) comment("文件路径")
+ * @field hash varchar(32) key comment("文件HASH")
+ * @field ip varchar(32) comment("文件IP")
+ * @field time int(11) comment("创建时间")
  */
-class TagRelateData  extends DataObject implements MethodParameterInterface, JsonSerializable, TableStructCreateInterface
+class AttachmentData  extends DataObject implements MethodParameterInterface, JsonSerializable, TableStructCreateInterface
 {
     use RequestInputTrait;
 
@@ -25,12 +30,8 @@ class TagRelateData  extends DataObject implements MethodParameterInterface, Jso
      */
     public static function createTableStruct(TableStruct $struct): TableStruct
     {
-        $struct->setName('tag_relate');
-        $struct->fields([
-            $struct->field('id', 'bigint', 20)->primary()->unsigned()->auto(),
-            $struct->field('relate', 'bigint', 20)->unsigned()->key()->comment('相关对象'),
-            $struct->field('tag', 'bigint', 20)->unsigned()->key()->comment('标签'),
-        ]);
+        $struct->setName('attachment');
+
         return $struct;
     }
 }

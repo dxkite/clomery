@@ -3,11 +3,10 @@ namespace dxkite\category\controller;
 
 use clomery\article\data\CategoryData;
 use clomery\article\DataUnit;
+use ReflectionException;
 use suda\application\database\DataAccess;
-use suda\tool\Command;
-use dxkite\support\view\PageData;
-use dxkite\support\view\TablePager;
-use dxkite\category\table\CategoryTable;
+use suda\orm\exception\SQLException;
+
 
 class CategoryController
 {
@@ -37,12 +36,27 @@ class CategoryController
      * 创建分类
      * @param CategoryData $data
      * @return CategoryData
+     * @throws ReflectionException
+     * @throws SQLException
      */
     public function create(CategoryData $data) {
-        if ($data = $this->access->read(['id'])->where(['slug' => $data['slug']])->one()) {
+        if ($row = $this->access->read(['id'])->where(['slug' => $data['slug']])->one()) {
+            $data['id']  = $row['id'];
             return $data;
         }
         $data['id'] = $this->access->write($data)->id();
         return $data;
+    }
+
+    /**
+     * 根据简写获取ID
+     * @param string $slug
+     * @return null|string
+     */
+    public function getId(string $slug):?string {
+        if ($row = $this->access->read(['id'])->where(['slug' => $slug])->one()) {
+            return $row['id'];
+        }
+        return null;
     }
 }

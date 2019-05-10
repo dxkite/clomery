@@ -5,7 +5,9 @@ namespace clomery\article\controller;
 use clomery\article\DataUnit;
 use clomery\article\data\TagData;
 use clomery\article\data\TagRelateData;
+use ReflectionException;
 use suda\application\database\DataAccess;
+use suda\orm\exception\SQLException;
 
 /**
  * 标签
@@ -34,6 +36,13 @@ class TagController
         $this->unit = $unit;
     }
 
+    /**
+     * @param string $article
+     * @param array $tag
+     * @param bool $create
+     * @throws ReflectionException
+     * @throws SQLException
+     */
     public function saveTag(string $article, array $tag, bool $create)
     {
         foreach ($tag as $name) {
@@ -49,6 +58,8 @@ class TagController
      *
      * @param string $name
      * @return string
+     * @throws ReflectionException
+     * @throws SQLException
      */
     public function save(string $name): string
     {
@@ -67,6 +78,7 @@ class TagController
      *
      * @param string $name
      * @return string
+     * @throws SQLException
      */
     public function getId(string $name): string
     {
@@ -77,6 +89,13 @@ class TagController
         return '';
     }
 
+    /**
+     * @param string $tag
+     * @param string $relate
+     * @return bool
+     * @throws ReflectionException
+     * @throws SQLException
+     */
     public function relate(string $tag, string $relate): bool
     {
         $unit = $this->unit->unit(TagRelateData::class);

@@ -2,7 +2,7 @@
     "article": {
         "uri": "/article[/{_method:string}]",
         "class": [
-            "clomery.article.provider.ArticleProvider"
+            "clomery.article.provider.ContentProvider"
         ]
     }
 } 

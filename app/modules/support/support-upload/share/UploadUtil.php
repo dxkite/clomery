@@ -62,6 +62,7 @@ class UploadUtil
         } else {
             $extension = strtolower(\pathinfo($file->getOriginalName(), PATHINFO_EXTENSION));
             $savePath = $extension.'/'.$hash.'.'.$extension;
+            $path = $savePath;
         }
         $save = SUDA_DATA.'/upload/'.$savePath;
         FileSystem::make(dirname($save));

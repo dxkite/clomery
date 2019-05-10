@@ -3,28 +3,47 @@ namespace clomery\article\data;
 
 use JsonSerializable;
 use suda\application\database\DataObject;
+use suda\orm\middleware\CommonMiddleware;
+use suda\orm\middleware\Middleware;
+use suda\orm\middleware\MiddlewareAwareInterface;
+use suda\orm\struct\TableStruct;
 use support\openmethod\RequestInputTrait;
 use support\openmethod\MethodParameterInterface;
 
 
 /**
- * @table category
- * @field id bigint(20) primary unsigned auto
- * @field name varchar(255) comment("名称")
- * @field slug varchar(255) unique comment("缩写")
- * @field image varchar(255) comment("图标")
- * @field-serialize description text comment("描述")
- * 
- * @field count int(11) key comment("数量")
- * @field parent bigint(20) key comment("父级")
- * @field index varchar(255) key comment("索引")
- * @field order int(11) key comment("排序")
- * 
- * @field user bigint(20) unsigned key comment("创建用户")
- * @field time int(11) key comment("创建时间")
+ * Class CategoryData
+ * @package clomery\article\data
  */
-class CategoryData  extends DataObject implements MethodParameterInterface, JsonSerializable
+class CategoryData  extends IndexData implements MiddlewareAwareInterface
 {
     use RequestInputTrait;
+
+    public static function createTableStruct(TableStruct $struct): TableStruct
+    {
+        $struct = parent::createTableStruct($struct);
+        $struct->setName('category');
+        $struct->fields([
+            $struct->field('id', 'bigint', 20)->primary()->unsigned()->auto(),
+            $struct->field('name', 'varchar', 255)->comment('名称'),
+            $struct->field('slug', 'varchar', 128)->unique()->comment('缩写'),
+            $struct->field('image', 'varchar', 255)->comment('图标'),
+            $struct->field('user', 'bigint', 20)->unsigned()->key()->comment('创建用户'),
+            $struct->field('time', 'int', 11)->key()->comment('创建时间'),
+            $struct->field('status', 'tinyint', 1)->key()->comment('状态'),
+        ]);
+        return $struct;
+    }
+
+    /**
+     * @param TableStruct $struct
+     * @return Middleware
+     */
+    public static function getMiddleware(TableStruct $struct): Middleware
+    {
+        $middle = new CommonMiddleware;
+        $middle->serializeIt('description');
+        return $middle;
+    }
 }
 

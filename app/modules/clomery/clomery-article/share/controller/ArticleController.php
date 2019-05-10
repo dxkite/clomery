@@ -2,6 +2,10 @@
 namespace clomery\article\controller;
 
 use ArrayObject;
+use function is_array;
+use function mb_strlen;
+use ReflectionException;
+use suda\orm\exception\SQLException;
 use suda\orm\TableStruct;
 use clomery\article\Pinyin;
 use clomery\article\DataUnit;
@@ -66,10 +70,11 @@ class ArticleController
      * @param array $tag 标签
      * @param string|null $user 创建的用户
      * @param bool $createTag 是否自动创建不存在的标签
-     * @param bool $createCategory 是否自动创建不存在的分类
      * @return string
+     * @throws ReflectionException
+     * @throws SQLException
      */
-    public function save(DataObject $data, array $tag, ?string $user = null, bool $createTag = false, bool $createCategory = false):string
+    public function save(DataObject $data, array $tag, ?string $user = null, bool $createTag = false):string
     {
         $article = $this->saveArticle($data, $user);
         if (strlen($article) > 0) {
@@ -88,6 +93,7 @@ class ArticleController
      *
      * @param string $parant
      * @return array
+     * @throws SQLException
      */
     public function index(string $parant = ''):array
     {
@@ -101,6 +107,8 @@ class ArticleController
      * @param \suda\application\database\DataObject $data
      * @param string|null $user
      * @return string
+     * @throws ReflectionException
+     * @throws SQLException
      */
     public function saveArticle(DataObject $data, ?string $user = null):string
     {
@@ -134,6 +142,7 @@ class ArticleController
      * @param integer $page 当前页
      * @param integer $count 页大小
      * @return PageData
+     * @throws SQLException
      */
     public function getList(?int $user = null, ?int $categoryId = null, int $page = null, int $count = 10):PageData
     {
@@ -153,6 +162,7 @@ class ArticleController
      * @param integer $page 当前页
      * @param integer $count 页大小
      * @return PageData
+     * @throws SQLException
      */
     public function getStickList(?int $user = null, ?int $categoryId = null, int $page = null, int $count = 10):PageData
     {
@@ -170,8 +180,9 @@ class ArticleController
      * @param integer|null $user
      * @param integer $article
      * @return \suda\application\database\DataObject|null
+     * @throws SQLException
      */
-    public function getArticle(?int $user = null, int $article):?DataObject
+    public function getArticle(?int $user, int $article):?DataObject
     {
         $condition = 'id = :id';
         $parameter = [
@@ -189,8 +200,9 @@ class ArticleController
      * @param integer|null $user
      * @param string $slug
      * @return \suda\application\database\DataObject|null
+     * @throws SQLException
      */
-    public function getArticleBySlug(?int $user = null, string $slug):?DataObject
+    public function getArticleBySlug(?int $user, string $slug):?DataObject
     {
         $condition = 'LOWER(slug)=LOWER(:slug)';
         $parameter = [
@@ -207,6 +219,8 @@ class ArticleController
      *
      * @param integer $article
      * @return integer
+     * @throws ReflectionException
+     * @throws SQLException
      */
     public function updateArticleViewCount(int $article):int
     {
@@ -219,8 +233,9 @@ class ArticleController
      * @param integer|null $user
      * @param integer $article
      * @return array
+     * @throws SQLException
      */
-    public function getNearArticle(?int $user = null, int $article):array
+    public function getNearArticle(?int $user, int $article):array
     {
         $create = $this->access->read('create')->where(['id' => $article]);
         return $this->getNearArticleByTime($user, $create['create']);
@@ -229,11 +244,12 @@ class ArticleController
     /**
      * 根据时间获取相近文章
      *
-     * @param integer|null $user
+     * @param string|null $user
      * @param integer $create
      * @return array
+     * @throws SQLException
      */
-    public function getNearArticleByTime(?int $user = null, int $create):array
+    public function getNearArticleByTime(?string $user, int $create):array
     {
         list($condition, $parameter) = self::getUserViewCondition($user);
         $previousCondition = '`create` < :create  AND ' . $condition;
@@ -250,7 +266,7 @@ class ArticleController
      * @param integer|null $user
      * @return array
      */
-    public static function getUserViewCondition(?int $user = null):array
+    public static function getUserViewCondition(?string $user = null):array
     {
         if (null === $user) {
             $condition = 'status = :publish';
@@ -271,11 +287,13 @@ class ArticleController
     /**
      * 获取文章数目
      *
-     * @param integer $user
+     * @param string $user
      * @param integer|null $categoryId
      * @return integer
+     * @throws ReflectionException
+     * @throws SQLException
      */
-    public function getArticleCount(int $user = null, ?int $categoryId = null):int
+    public function getArticleCount(string $user = null, ?int $categoryId = null):int
     {
         list($condition, $parameter) = self::getUserViewCondition($user);
         if ($categoryId !== null) {
@@ -289,25 +307,24 @@ class ArticleController
 
     /**
      * 筛选文章
-     *
-     * @param integer|null $user
-     * @param string $search
-     * @param string $category
-     * @param array $tagId
-     * @param integer|null $page
-     * @param integer $count
-     * @return \support\setting\PageData
+     * @param null|string $user
+     * @param null|string $search
+     * @param null|string $category
+     * @param array|null $tags
+     * @param int|null $page
+     * @param int $count
+     * @return PageData
      */
-    public function getArticleList(?int $user = null, string $search = null, string $category = null, array $tagId = null, ?int $page, int $count):PageData
+    public function getArticleList(?string $user, ?string $search, ?string $category, ?array $tags, ?int $page, int $count):PageData
     {
         $wants = $this->prepareReadFields(static::$showFields, 'article');
-        if (\is_array($tagId)) {
-            $query = $this->buildTagArrayFilter($wants, $tagId, $parameter);
+        if (is_array($tags) && count($tags) > 0) {
+            $query = $this->buildTagArrayFilter($wants, $tags, $parameter);
         } else {
             $query = $this->buildSimple($wants, $parameter);
         }
         list($condition, $binder) = self::getUserViewCondition($user);
-        $condition = $this->buildCategoryFilter($search, $category, $binder);
+        $condition = $this->buildCategoryFilter($category, $condition, $binder);
         $condition = $this->buildSearchFilter($search, $condition, $binder);
         $query = $query.' WHERE '. $condition;
         $parameter = array_merge($binder, $parameter);
@@ -315,16 +332,16 @@ class ArticleController
     }
 
     
-    protected function buildSearchFilter(?string $search = null, string $condition, array & $binder):string
+    protected function buildSearchFilter(?string $search , string $condition, array & $binder):string
     {
-        if ($search !== null && \mb_strlen($search) > 2) {
+        if ($search !== null && mb_strlen($search) > 2) {
             $condition = 'title = LIKE :search AND '. $condition;
             $binder['title'] = $this->buildSearch($search);
         }
         return $condition;
     }
 
-    protected function buildCategoryFilter(?string $category = null, string $condition, array & $binder):string
+    protected function buildCategoryFilter(?string $category, string $condition, array & $binder):string
     {
         if ($category !== null) {
             $condition = 'category = :category AND '. $condition;
@@ -381,6 +398,8 @@ class ArticleController
      * @param string $article 文章ID
      * @param string|null $userId 指定用户的文章
      * @return integer
+     * @throws ReflectionException
+     * @throws SQLException
      */
     public function delete(string $article, ?string $userId = null):int
     {
