@@ -25,7 +25,8 @@ class HistoryController
      * @param string $session
      * @param \suda\framework\Request $request
      * @param string $userId
-     * @return void
+     * @return bool
+     * @throws \suda\orm\exception\SQLException
      */
     public function log(string $session, Request $request , string $userId = null)
     {

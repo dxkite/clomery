@@ -48,7 +48,7 @@ class VisitorProvider extends UserSessionAwareProvider
     {
         $permission = new Permission($permission);
         $this->visitor->getPermission()->assert($permission);
-        return $this->controller->createRole($name, new Permission($permission), $sort);
+        return $this->controller->createRole($name, $permission, $sort);
     }
 
     /**

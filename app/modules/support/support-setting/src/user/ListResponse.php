@@ -2,7 +2,7 @@
 namespace support\setting\response\user;
 
 use suda\framework\Request;
-use support\openmethod\Permission;
+use suda\application\template\RawTemplate;
 use support\setting\provider\UserProvider;
 use support\setting\response\SettingResponse;
 
@@ -13,7 +13,7 @@ class ListResponse extends SettingResponse
      *
      * @acl setting:user.list
      * @param Request $request
-     * @return RawTemplate
+     * @return RawTemplate|void
      */
     public function onSettingVisit(Request $request)
     {

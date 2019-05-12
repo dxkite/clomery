@@ -150,7 +150,7 @@ class PageData implements JsonSerializable
     public static function create($statement, int $page = null, int $row = 10): PageData
     {
         $access = $statement->getAccess();
-        $fields = $access->getStruct()->getFields()->all();
+        $fields = $access->getStruct()->all();
         $total = clone $statement;
         if (count($fields) > 0 ){
             $field = \array_shift($fields);

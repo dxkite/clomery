@@ -17,7 +17,7 @@ class UserSessionAwareProvider implements FrameworkContextAwareInterface
     use FrameworkContextAwareTrait {
         setContext as setBaseContext;
     }
-    
+
     /**
      * 用户会话
      *
@@ -56,11 +56,12 @@ class UserSessionAwareProvider implements FrameworkContextAwareInterface
      */
     public function setContext(Application $application, Request $request, Response $response)
     {
-        $processor = new SettingContextProcessor;
         $this->setBaseContext($application, $request, $response);
-        $this->context = $processor->onRequest($application, $request, $response);
-        $this->session = UserSession::createFromRequest($request, $this->getGroup());
-        $this->visitor = $this->context->getVisitor();
+        $this->context = new Context($application, $request, $response);
+        $vp = new VisitorProvider();
+        $this->session = UserSession::createFromRequest($request, $this->getGroup(), $application->conf("app.debug-key", ''));
+        $this->visitor = $vp->getVisitor($this->session);
+        $this->context->setVisitor($this->visitor);
     }
 
     /**
@@ -73,7 +74,7 @@ class UserSessionAwareProvider implements FrameworkContextAwareInterface
     {
         $this->context = $context;
         $this->setBaseContext($context->getApplication(), $context->getRequest(), $context->getResponse());
-        $this->session = UserSession::createFromRequest($this->request, $this->group);
+        $this->session = UserSession::createFromRequest($this->request, $this->group, $context->getApplication()->conf("app.debug-key", ''));
         $this->visitor = $context->getVisitor();
     }
 
@@ -86,11 +87,35 @@ class UserSessionAwareProvider implements FrameworkContextAwareInterface
     }
 
     /**
+     * @return UserSession
+     */
+    public function getSession(): UserSession
+    {
+        return $this->session;
+    }
+
+    /**
+     * @param UserSession $session
+     */
+    public function setSession(UserSession $session): void
+    {
+        $this->session = $session;
+    }
+
+    /**
      * 设置会话用户组别
      * @param string $group
      */
     public function setGroup(string $group): void
     {
         $this->group = $group;
+    }
+
+    /**
+     * @return Context
+     */
+    public function getContext(): Context
+    {
+        return $this->context;
     }
 }

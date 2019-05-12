@@ -60,6 +60,7 @@ class VisitorController
      * @param \support\openmethod\Permission $permission 权限
      * @param integer $sort 排序
      * @return int 角色ID
+     * @throws \suda\orm\exception\SQLException
      */
     public function createRole(string $name, Permission $permission, int $sort = 0):int
     {

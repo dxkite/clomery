@@ -1,7 +1,7 @@
 <?php
 namespace support\setting\table;
 
-use suda\orm\TableStruct;
+use suda\orm\struct\TableStruct;
 use support\openmethod\Permission;
 use support\setting\table\AutoCreateTable;
 
@@ -23,7 +23,7 @@ class RoleTable extends AutoCreateTable
     {
         return $struct->fields([
             $struct->field('id', 'bigint', 20)->primary()->unsigned()->auto(),
-            $struct->field('name', 'varchar', 255)->unique()->comment('角色名'),
+            $struct->field('name', 'varchar', 128)->unique()->comment('角色名'),
             $struct->field('permission', 'text')->comment('权限控制对象'),
             $struct->field('sort', 'int', 11)->key()->default(0)->comment('排序索引')
         ]);

@@ -1,7 +1,7 @@
 <?php
 namespace support\setting\table;
 
-use suda\orm\TableStruct;
+use suda\orm\struct\TableStruct;
 use support\setting\table\AutoCreateTable;
 
 /**
@@ -22,9 +22,9 @@ class UserTable extends AutoCreateTable
     {
         return $struct->fields([
             $struct->field('id', 'bigint', 20)->auto()->primary(),
-            $struct->field('name', 'varchar', 255)->unique()->comment('用户名'),
-            $struct->field('email', 'varchar', 255)->unique()->default(null)->comment('邮箱'),
-            $struct->field('mobile', 'varchar', 255)->unique()->default(null)->comment('手机号'),
+            $struct->field('name', 'varchar', 128)->unique()->comment('用户名'),
+            $struct->field('email', 'varchar', 128)->unique()->default(null)->comment('邮箱'),
+            $struct->field('mobile', 'varchar', 128)->unique()->default(null)->comment('手机号'),
             $struct->field('password', 'varchar', 255)->comment('密码'),
             $struct->field('headimg', 'varchar', 512)->comment('头像'),
             $struct->field('create_ip', 'varchar', 32)->comment('创建IP'),

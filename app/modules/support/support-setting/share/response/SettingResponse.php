@@ -11,9 +11,8 @@ abstract class SettingResponse extends SignedResponse
 {
     public function onAccessVisit(Request $request)
     {
-        
-        $visiter = $this->context->getVisitor();
-        if ($visiter->canAccess([$this,'onSettingVisit'])) {
+        $visitor = $this->context->getVisitor();
+        if ($visitor->canAccess([$this,'onSettingVisit'])) {
             try {
                 return $this->onSettingVisit($request);
             } catch (PermissionException $e) {

@@ -1,7 +1,7 @@
 <?php
 namespace support\upload\table;
 
-use suda\orm\TableStruct;
+use suda\orm\struct\TableStruct;
 use support\session\table\AutoCreateTable;
 
 /**
