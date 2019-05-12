@@ -1,0 +1,6 @@
+{
+  "route-prefix": {
+    "setting": "/setting/open-user",
+    "open-method": "/open-user"
+  }
+}

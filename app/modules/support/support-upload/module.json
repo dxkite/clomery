@@ -9,7 +9,7 @@
             "support\\upload\\response": "src"
         }
     },
-    "discription": "上传控制",
+    "description": "上传控制",
     "require": {
         "support/open-method": ""
     }

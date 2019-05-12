@@ -9,9 +9,5 @@
             "dxkite\\openuser\\setting\\response": "src"
         }
     },
-    "route-prefix": {
-        "setting": "/setting/open-user",
-        "open-method": "/open-user"
-    },
     "description": "设置模块"
 }

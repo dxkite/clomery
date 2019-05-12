@@ -10,11 +10,7 @@
             "support\\setting\\response": "src"
         }
     },
-    "route-prefix": {
-        "setting": "/setting",
-        "open-method": "/setting-provider"
-    },
-    "discription": "设置模块",
+    "description": "设置模块",
     "require": {
         "support/open-method": "",
         "support/session": ""

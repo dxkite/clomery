@@ -9,9 +9,5 @@
             "dxkite\\openclient\\response": "src"
         }
     },
-    "route-prefix": {
-        "setting": "/setting",
-        "open-method": "/open-client"
-    },
     "description": "开放接口"
 }

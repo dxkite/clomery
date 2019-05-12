@@ -1,0 +1,5 @@
+{
+  "route-prefix": {
+    "open-method": "/api/content"
+  }
+}
