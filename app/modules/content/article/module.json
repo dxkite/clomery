@@ -1,0 +1,13 @@
+{
+    "name": "content/article",
+    "version": "0.0.1",
+    "import": {
+        "share": {
+            "content\\article": "share"
+        }
+    },
+    "description": "文章系统",
+    "route-prefix": {
+        "open-method": "/api/content"
+    }
+}

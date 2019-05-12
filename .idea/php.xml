@@ -1,4 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="PhpIncludePathManager">
+    <include_path>
+      <path value="$PROJECT_DIR$/nebula/vendor/sebastian/object-reflector" />
+      <path value="$PROJECT_DIR$/nebula/vendor/sebastian/resource-operations" />
+      <path value="$PROJECT_DIR$/nebula/vendor/sebastian/version" />
+      <path value="$PROJECT_DIR$/nebula/vendor/mustangostang/spyc" />
+      <path value="$PROJECT_DIR$/nebula/vendor/composer" />
+      <path value="$PROJECT_DIR$/nebula/vendor/sebastian/global-state" />
+      <path value="$PROJECT_DIR$/nebula/vendor/sebastian/recursion-context" />
+      <path value="$PROJECT_DIR$/nebula/vendor/sebastian/object-enumerator" />
+      <path value="$PROJECT_DIR$/nebula/vendor/sebastian/environment" />
+      <path value="$PROJECT_DIR$/nebula/vendor/sebastian/comparator" />
+      <path value="$PROJECT_DIR$/nebula/vendor/sebastian/code-unit-reverse-lookup" />
+      <path value="$PROJECT_DIR$/nebula/vendor/phpunit/php-file-iterator" />
+      <path value="$PROJECT_DIR$/nebula/vendor/phpunit/php-timer" />
+      <path value="$PROJECT_DIR$/nebula/vendor/phpunit/php-text-template" />
+      <path value="$PROJECT_DIR$/nebula/vendor/phpunit/php-token-stream" />
+      <path value="$PROJECT_DIR$/nebula/vendor/phpunit/php-code-coverage" />
+      <path value="$PROJECT_DIR$/nebula/vendor/theseer/tokenizer" />
+      <path value="$PROJECT_DIR$/nebula/vendor/sebastian/diff" />
+      <path value="$PROJECT_DIR$/nebula/vendor/sebastian/exporter" />
+      <path value="$PROJECT_DIR$/nebula/vendor/phpunit/phpunit" />
+      <path value="$PROJECT_DIR$/nebula/vendor/myclabs/deep-copy" />
+      <path value="$PROJECT_DIR$/nebula/vendor/phar-io/manifest" />
+      <path value="$PROJECT_DIR$/nebula/vendor/phar-io/version" />
+      <path value="$PROJECT_DIR$/nebula/vendor/phpspec/prophecy" />
+      <path value="$PROJECT_DIR$/nebula/vendor/symfony/polyfill-ctype" />
+      <path value="$PROJECT_DIR$/nebula/vendor/doctrine/instantiator" />
+      <path value="$PROJECT_DIR$/nebula/vendor/webmozart/assert" />
+      <path value="$PROJECT_DIR$/nebula/vendor/phpdocumentor/reflection-docblock" />
+      <path value="$PROJECT_DIR$/nebula/vendor/phpdocumentor/type-resolver" />
+      <path value="$PROJECT_DIR$/nebula/vendor/phpdocumentor/reflection-common" />
+    </include_path>
+  </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.2" />
 </project>

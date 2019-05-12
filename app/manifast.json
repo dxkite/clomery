@@ -6,6 +6,7 @@
     "module-paths": [
         "modules/support",
         "modules/dxkite-user",
+        "modules/content",
         "modules/clomery"
     ],
     "route-group": [

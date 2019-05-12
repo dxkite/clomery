@@ -1,0 +1,10 @@
+{
+    "name": "content/parser",
+    "version": "0.0.1",
+    "import": {
+        "share": {
+            "content\\parser": "share"
+        }
+    },
+    "description": "文章内容处理"
+}

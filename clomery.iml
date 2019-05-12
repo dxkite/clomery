@@ -1,10 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module type="WEB_MODULE" version="4">
-  <component name="NewModuleRootManager" inherit-compiler-output="true">
-    <exclude-output />
+  <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/nebula/suda/src" isTestSource="false" packagePrefix="suda\" />
       <sourceFolder url="file://$MODULE_DIR$/nebula/tests/src" isTestSource="false" packagePrefix="test\" />
+      <excludeFolder url="file://$MODULE_DIR$/nebula/vendor/composer" />
+      <excludeFolder url="file://$MODULE_DIR$/nebula/vendor/doctrine/instantiator" />
+      <excludeFolder url="file://$MODULE_DIR$/nebula/vendor/mustangostang/spyc" />
+      <excludeFolder url="file://$MODULE_DIR$/nebula/vendor/myclabs/deep-copy" />
+      <excludeFolder url="file://$MODULE_DIR$/nebula/vendor/phar-io/manifest" />
+      <excludeFolder url="file://$MODULE_DIR$/nebula/vendor/phar-io/version" />
+      <excludeFolder url="file://$MODULE_DIR$/nebula/vendor/phpdocumentor/reflection-common" />
+      <excludeFolder url="file://$MODULE_DIR$/nebula/vendor/phpdocumentor/reflection-docblock" />
+      <excludeFolder url="file://$MODULE_DIR$/nebula/vendor/phpdocumentor/type-resolver" />
+      <excludeFolder url="file://$MODULE_DIR$/nebula/vendor/phpspec/prophecy" />
+      <excludeFolder url="file://$MODULE_DIR$/nebula/vendor/phpunit/php-code-coverage" />
+      <excludeFolder url="file://$MODULE_DIR$/nebula/vendor/phpunit/php-file-iterator" />
+      <excludeFolder url="file://$MODULE_DIR$/nebula/vendor/phpunit/php-text-template" />
+      <excludeFolder url="file://$MODULE_DIR$/nebula/vendor/phpunit/php-timer" />
+      <excludeFolder url="file://$MODULE_DIR$/nebula/vendor/phpunit/php-token-stream" />
+      <excludeFolder url="file://$MODULE_DIR$/nebula/vendor/phpunit/phpunit" />
+      <excludeFolder url="file://$MODULE_DIR$/nebula/vendor/sebastian/code-unit-reverse-lookup" />
+      <excludeFolder url="file://$MODULE_DIR$/nebula/vendor/sebastian/comparator" />
+      <excludeFolder url="file://$MODULE_DIR$/nebula/vendor/sebastian/diff" />
+      <excludeFolder url="file://$MODULE_DIR$/nebula/vendor/sebastian/environment" />
+      <excludeFolder url="file://$MODULE_DIR$/nebula/vendor/sebastian/exporter" />
+      <excludeFolder url="file://$MODULE_DIR$/nebula/vendor/sebastian/global-state" />
+      <excludeFolder url="file://$MODULE_DIR$/nebula/vendor/sebastian/object-enumerator" />
+      <excludeFolder url="file://$MODULE_DIR$/nebula/vendor/sebastian/object-reflector" />
+      <excludeFolder url="file://$MODULE_DIR$/nebula/vendor/sebastian/recursion-context" />
+      <excludeFolder url="file://$MODULE_DIR$/nebula/vendor/sebastian/resource-operations" />
+      <excludeFolder url="file://$MODULE_DIR$/nebula/vendor/sebastian/version" />
+      <excludeFolder url="file://$MODULE_DIR$/nebula/vendor/symfony/polyfill-ctype" />
+      <excludeFolder url="file://$MODULE_DIR$/nebula/vendor/theseer/tokenizer" />
+      <excludeFolder url="file://$MODULE_DIR$/nebula/vendor/webmozart/assert" />
     </content>
     <orderEntry type="sourceFolder" forTests="false" />
   </component>

@@ -1,0 +1,8 @@
+{
+    "article": {
+        "uri": "/article[/{_method:string}]",
+        "class": [
+            "content.article.provider.ContentProvider"
+        ]
+    }
+} 

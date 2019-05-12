@@ -1,0 +1,5 @@
+{
+    "content:to-html": [
+        "content.parser.event.ContentToHTML::parse"
+    ]
+}
