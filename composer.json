@@ -1,0 +1,5 @@
+{
+    "require": {
+        "dxkite/suda": "dev-dev"
+    }
+}

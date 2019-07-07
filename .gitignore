@@ -1,0 +1,6 @@
+/data
+/public/assets
+/.vscode
+vendor/
+/.idea
+composer.lock
