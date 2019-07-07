@@ -1,0 +1,8 @@
+{
+    "application:load-config": [
+        "support.openmethod.event.WhenLoadConfig::preparePermission"
+    ],
+    "application:load-route" : [
+        "support.openmethod.event.WhenLoadRoute->registerRoute"
+    ]
+}

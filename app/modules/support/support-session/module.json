@@ -1,0 +1,13 @@
+{
+    "name": "support/session",
+    "version": "0.0.1",
+    "import": {
+        "share": {
+            "support\\session": "share"
+        }
+    },
+    "description": "通用用户session",
+    "require": {
+        "support/open-method": ""
+    }
+}
