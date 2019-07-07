@@ -1,0 +1,36 @@
+{
+    "about": {
+        "uri": "/about",
+        "template": "clomery:about",
+        "data": [
+            {
+                "source": {
+                    "title": "关于"
+                },
+                "assgin": {
+                    "title": "title"
+                }
+            },
+            {
+                "type": "provider",
+                "provider": "dxkite.openuser.provider.UserProvider->getInfo",
+                "set": "user"
+            },
+            {
+                "type": "provider",
+                "provider": "content.article.provider.ContentProvider->list",
+                "params": {
+                    "page": "${get.page}",
+                    "category": "${get.category}",
+                    "tags": "${get.tags}",
+                    "search": "${get.search}",
+                    "row": 10
+                },
+                "assgin": {
+                    "rows": "list",
+                    "page": "page"
+                }
+            }
+        ]
+    }
+}

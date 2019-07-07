@@ -61,6 +61,4 @@ class ContentProvider extends VisitorAwareProvider
     public function index(string $parent) {
         return $this->article->index($parent);
     }
-
-
 }

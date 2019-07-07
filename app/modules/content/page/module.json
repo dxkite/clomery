@@ -1,0 +1,10 @@
+{
+    "name": "content/page",
+    "version": "0.0.1",
+    "import": {
+        "share": {
+            "content\\page": "share"
+        }
+    },
+    "description": "内容页面"
+}
