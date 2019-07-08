@@ -26,7 +26,7 @@ class MethodParameterBag
      *
      * @var Application
      */
-    protected $applcation;
+    protected $application;
 
     /**
      * 响应
@@ -51,7 +51,7 @@ class MethodParameterBag
 
     public function __construct(Application $app, Request $request, ExportMethod $method, $json = null)
     {
-        $this->applcation = $app;
+        $this->application = $app;
         $this->request = $request;
         $this->method = $method;
         $this->json = $json;
@@ -280,21 +280,21 @@ class MethodParameterBag
      *
      * @return  Application
      */
-    public function getApplcation(): Application
+    public function getApplication(): Application
     {
-        return $this->applcation;
+        return $this->application;
     }
 
     /**
      * Set 类引用
      *
-     * @param Application $applcation 类引用
+     * @param Application $application 类引用
      *
      * @return  self
      */
-    public function setApplcation(Application $applcation)
+    public function setApplication(Application $application)
     {
-        $this->applcation = $applcation;
+        $this->application = $application;
 
         return $this;
     }

@@ -87,7 +87,7 @@ class UserSession implements MethodParameterInterface, ResultProcessor, JsonSeri
         $table = new SessionTable;
         $session = new static;
         $session->group = $group;
-        $session->tokenFrom = strlen($tokenFrom)>0?$tokenFrom:'x-'.$group.'-token';
+        $session->tokenFrom = strlen($tokenFrom) > 0 ? $tokenFrom : 'x-' . $group . '-token';
 
         $token = md5(microtime(true) . $userId . $group . $expireIn, true);
         $session->token = static::encode($userId . ':' . $token);
@@ -148,7 +148,7 @@ class UserSession implements MethodParameterInterface, ResultProcessor, JsonSeri
         $session->expireTime = time();
         $session->userId = '';
         $session->token = '';
-        $session->tokenFrom = strlen($tokenFrom)>0?$tokenFrom:'x-'.$group.'-token';
+        $session->tokenFrom = strlen($tokenFrom) > 0 ? $tokenFrom : 'x-' . $group . '-token';
 
         $target = static::decode($token);
         if (strlen($token) < 10 || strlen($token) > 32 || strpos($target, ':') === false) {
@@ -162,8 +162,8 @@ class UserSession implements MethodParameterInterface, ResultProcessor, JsonSeri
             'refresh_expire' => ['>', time()],
         ])->one()) {
             $session->id = $data['id'];
-            $tokenSave = md5(static::decode(microtime(true) .$data['refresh_token']), true);
-            $refreshTokenSave =  md5(microtime(true) .$session->token . $token, true);
+            $tokenSave = md5(static::decode(microtime(true) . $data['refresh_token']), true);
+            $refreshTokenSave = md5(microtime(true) . $session->token . $token, true);
             $session->token = static::encode($user . ':' . $tokenSave);
             $session->refreshToken = static::encode($user . ':' . $refreshTokenSave);
             $session->expireTime = time() + $expireIn;
@@ -215,7 +215,7 @@ class UserSession implements MethodParameterInterface, ResultProcessor, JsonSeri
         $session->expireTime = time();
         $session->userId = '';
         $session->token = '';
-        $session->tokenFrom = strlen($tokenFrom)>0?$tokenFrom:'x-'.$group.'-token';
+        $session->tokenFrom = strlen($tokenFrom) > 0 ? $tokenFrom : 'x-' . $group . '-token';
 
         $target = static::decode($token);
         if (strlen($token) < 10 || strlen($token) > 32 || strpos($target, ':') === false) {
@@ -260,7 +260,7 @@ class UserSession implements MethodParameterInterface, ResultProcessor, JsonSeri
         $session->group = $group;
         $session->expireTime = time() + $expireIn;
         $session->userId = $userId;
-        $session->tokenFrom = strlen($tokenFrom)>0?$tokenFrom:'x-'.$group.'-token';
+        $session->tokenFrom = strlen($tokenFrom) > 0 ? $tokenFrom : 'x-' . $group . '-token';
         $session->token = static::encode(\md5(\microtime(true) . $userId . $group . $expireIn, true));
         return $session;
     }
@@ -317,8 +317,8 @@ class UserSession implements MethodParameterInterface, ResultProcessor, JsonSeri
     {
         $request = $bag->getRequest();
         $group = $request->getHeader('x-token-group', $request->getCookie('x-token-group', 'system'));
-        $tokenFrom = $request->getHeader('x-token-group', $request->getCookie('x-token-group', 'x-'.$group.'-token'));
-        return static::createFromRequest($request,$tokenFrom, $group, $bag->getApplcation()->conf("app.debug-key", ''));
+        $tokenFrom = $request->getHeader('x-token-group', $request->getCookie('x-token-group', 'x-' . $group . '-token'));
+        return static::createFromRequest($request, $tokenFrom, $group, $bag->getApplication()->conf("app.debug-key", ''));
     }
 
     /**

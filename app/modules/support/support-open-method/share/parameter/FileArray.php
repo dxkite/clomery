@@ -22,7 +22,7 @@ class FileArray implements IteratorAggregate, MethodParameterInterface
      *
      * @var File[]
      */
-    protected $files;
+    protected $files = [];
 
     /**
      * 创建参数

@@ -115,6 +115,10 @@ class MethodInterfaceProcessor
             if (count($header) > 0) {
                 $response->setHeader('access-control-allow-headers', implode(',', $header));
             }
+            $maxAge = $config['access-control']['max-age'] ?? 0;
+            if ($maxAge > 0) {
+                $response->setHeader('access-control-max-age', $maxAge);
+            }
             $method = $config['access-control']['allow-method'] ?? [];
             if (count($method) > 0) {
                 $response->setHeader('access-control-allow-methods', implode(',', $method));

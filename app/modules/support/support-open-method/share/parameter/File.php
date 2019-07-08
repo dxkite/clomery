@@ -126,12 +126,12 @@ class File extends SplFileObject implements ResultProcessor, MethodParameterInte
      * @param \suda\application\Application $application
      * @param \suda\framework\Request $request
      * @param \suda\framework\Response $response
-     * @return mixed
+     * @throws \Exception
      */
     public function processor(Application $application, Request $request, Response $response)
     {
         $processor = new FileRangeProccessor($this);
-        return $processor->onRequest($application, $request, $response);
+        $processor->onRequest($application, $request, $response);
     }
 
     /**
@@ -146,9 +146,9 @@ class File extends SplFileObject implements ResultProcessor, MethodParameterInte
     public static function createParameterFromRequest(int $position, string $name, string $from, MethodParameterBag $bag)
     {
         $request = $bag->getRequest();
-        if ($request->hasPost('name')) {
-            return null;
+        if ($file = $request->getFile($name)){
+            return new self($file);
         }
-        return new self($request->getFile($name));
+        return null;
     }
 }
