@@ -10,7 +10,7 @@ use support\session\table\SessionTable;
 use support\openmethod\MethodParameterBag;
 use support\openmethod\MethodParameterInterface;
 use support\openmethod\processor\ResultProcessor;
-use support\setting\event\GlobalObject;
+use support\visitor\event\GlobalObject;
 
 class UserSession implements MethodParameterInterface, ResultProcessor, JsonSerializable
 {

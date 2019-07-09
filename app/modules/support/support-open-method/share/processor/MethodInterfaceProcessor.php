@@ -301,7 +301,7 @@ class MethodInterfaceProcessor
         $json = $this->getJsonFromRequest($request);
         $parameterBag = null;
         if ($method === null && $json !== null) {
-            if ($this->isVaildJsonMethodInvoke($json)) {
+            if ($this->isValidJsonMethodInvoke($json)) {
                 $method = $json['method'];
                 $id = $json['id'];
                 $parameter = $json['params'] ?? [];
@@ -331,7 +331,7 @@ class MethodInterfaceProcessor
         return null;
     }
 
-    protected function isVaildJsonMethodInvoke(array $json): bool
+    protected function isValidJsonMethodInvoke(array $json): bool
     {
         return array_key_exists('method', $json) && array_key_exists('id', $json);
     }

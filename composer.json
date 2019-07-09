@@ -1,5 +1,7 @@
 {
-    "require": {
-        "dxkite/suda": "dev-dev"
-    }
+  "require": {
+    "php": "^7.2",
+    "dxkite/suda": "dev-dev",
+    "ext-json": "*"
+  }
 }

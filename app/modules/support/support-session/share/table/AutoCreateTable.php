@@ -7,8 +7,17 @@ use suda\database\DataSource;
 use suda\database\struct\TableStruct;
 use suda\application\database\Table;
 
+/**
+ * Class AutoCreateTable
+ * @package support\session\table
+ */
 abstract class AutoCreateTable extends Table
 {
+    /**
+     * AutoCreateTable constructor.
+     * @param string $name
+     * @throws \suda\database\exception\SQLException
+     */
     public function __construct(string $name)
     {
         parent::__construct($name);

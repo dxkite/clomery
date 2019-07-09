@@ -1,0 +1,14 @@
+{
+    "name": "support/visitor",
+    "version": "0.0.1",
+    "import": {
+        "share": {
+            "support\\visitor": "share"
+        }
+    },
+    "description": "访客模块：提供权限角色描述",
+    "require": {
+        "support/open-method": "",
+        "support/session": ""
+    }
+}
