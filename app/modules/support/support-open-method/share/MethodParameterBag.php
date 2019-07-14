@@ -78,6 +78,7 @@ class MethodParameterBag
             }
             $parameter[$position] = $value;
         }
+        $this->application->event()->exec('method-parameter-bag::invoke-parameter', [$this, &$parameter]);
         return $parameter;
     }
 
@@ -168,10 +169,10 @@ class MethodParameterBag
      */
     public function buildObject(int $position, string $name, string $from, ReflectionParameter $parameter)
     {
-        $typeName = $parameter->getType()->__toString();
+        $typeName = strval($parameter->getType());
         $typeRef = new ReflectionClass($typeName);
-        if ($typeRef->implementsInterface(MethodParameterInterface::class) || $typeRef->hasMethod('createParameterFromRequest')) {
-            return $typeName::createParameterFromRequest($position, $name, $from, $this);
+        if ($typeRef->implementsInterface(MethodParameterInterface::class)) {
+            return forward_static_call_array([$typeName, 'createParameterFromRequest'], [$position, $name, $from, $this]);
         }
         if ($typeRef->isSubclassOf(UploadedFile::class) && $from === 'POST') {
             return $this->request->file($name);

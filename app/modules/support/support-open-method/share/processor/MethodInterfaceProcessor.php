@@ -371,7 +371,7 @@ class MethodInterfaceProcessor
         $methods = [];
         foreach ($this->exportClasses as $class) {
             if (is_string($class)) {
-                $class = str_replace('.', '\\', $class);
+                $class = trim(str_replace('.', '\\', $class), '\\');
             }
             $methods = $this->getExportMethodFromClass($class, $methods);
         }
