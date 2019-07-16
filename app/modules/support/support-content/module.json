@@ -1,0 +1,10 @@
+{
+    "name": "support/content",
+    "version": "0.0.1",
+    "import": {
+        "share": {
+            "support\\content": "share"
+        }
+    },
+    "description": "内容操作"
+}
