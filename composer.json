@@ -2,6 +2,7 @@
   "require": {
     "php": "^7.2",
     "dxkite/suda": "dev-dev",
-    "ext-json": "*"
+    "ext-json": "*",
+    "symfony/yaml": "^4.3"
   }
 }

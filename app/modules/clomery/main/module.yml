@@ -1,0 +1,8 @@
+name: clomery/main
+version: 0.0.1
+import:
+  share:
+    clomery\main: share
+  src:
+    clomery\main\response: src
+description: 主模块

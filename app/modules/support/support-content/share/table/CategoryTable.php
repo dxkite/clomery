@@ -13,7 +13,6 @@ class CategoryTable extends TreeTable
         $struct = parent::onCreateStruct($table);
         $struct->fields([
             $struct->field('id', 'bigint', 20)->primary()->unsigned()->auto(),
-            $struct->field('name', 'varchar', 255)->comment('名称'),
             $struct->field('slug', 'varchar', 128)->unique()->comment('缩写'),
             $struct->field('description', 'text')->comment('分类描述'),
             $struct->field('image', 'varchar', 255)->comment('图标'),
