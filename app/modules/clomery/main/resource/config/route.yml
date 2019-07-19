@@ -1,0 +1,3 @@
+index:
+  uri: /
+  class: \clomery\main\response\IndexResponse

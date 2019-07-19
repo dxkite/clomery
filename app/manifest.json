@@ -3,7 +3,8 @@
     "version": "1.x",
     "language": "zh-CN",
     "module-paths": [
-        "modules/support"
+        "modules/support",
+        "modules/clomery"
     ],
     "route-group": [
         "default"
