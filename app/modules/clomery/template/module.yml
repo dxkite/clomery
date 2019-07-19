@@ -1,5 +1,5 @@
 name: clomery/template
 version: 0.0.1
 description: 模板专用模块
-module-resource: # 复写其他模块的资源
-  clomery/main: template/default:./main
+module-resource: # 覆盖其他模块的资源
+  clomery/main: template/default:./main # 主模块

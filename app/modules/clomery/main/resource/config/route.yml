@@ -1,3 +1,46 @@
+## 文章
 index:
-  uri: /
+  uri: "/"
+  class: \clomery\main\response\IndexResponse
+index-page:
+  uri: "/page/{page:int}"
+  class: \clomery\main\response\IndexResponse
+article-by-id:
+  uri: "/{article:int}"
+  class: \clomery\main\response\IndexResponse
+article-by-slug:
+  uri: "/article/{article:string}"
+  class: \clomery\main\response\IndexResponse
+article-search:
+  uri: "/search"
+  class: \clomery\main\response\IndexResponse
+## 标签
+tags:
+  uri: "/tags"
+  class: \clomery\main\response\IndexResponse
+article-tag:
+  uri: "/tag/{tag:string}"
+  class: \clomery\main\response\IndexResponse
+article-tag-page:
+  uri: "/tag/{tag:string}/page/{page:int}"
+  class: \clomery\main\response\IndexResponse
+## 分类
+categorys:
+  uri: "/categorys"
+  class: \clomery\main\response\IndexResponse
+article-category:
+  uri: "/category/{slug:string}"
+  class: \clomery\main\response\IndexResponse
+article-category-page:
+  uri: "/category/{slug:string}/page/{page:int}"
+  class: \clomery\main\response\IndexResponse
+## 归档
+archives:
+  uri: "/archives"
+  class: \clomery\main\response\IndexResponse
+article-archive:
+  uri: "/archive/{date:string}"
+  class: \clomery\main\response\IndexResponse
+article-archive-page:
+  uri: "/archive/{date:string}/page/{page:int}"
   class: \clomery\main\response\IndexResponse
