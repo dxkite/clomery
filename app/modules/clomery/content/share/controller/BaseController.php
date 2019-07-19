@@ -4,7 +4,7 @@
 namespace clomery\content\controller;
 
 
-use exception\ContentException;
+use clomery\content\exception\ContentException;
 use suda\application\database\Table;
 
 class BaseController
@@ -72,5 +72,13 @@ class BaseController
         } else {
             return $this->table->delete($data)->ok();
         }
+    }
+
+    /**
+     * @return Table
+     */
+    public function getTable(): Table
+    {
+        return $this->table;
     }
 }

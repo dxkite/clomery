@@ -1,7 +1,7 @@
 <?php
 
 
-namespace exception;
+namespace clomery\content\exception;
 
 
 class ContentException extends \RuntimeException

@@ -6,12 +6,12 @@ namespace clomery\content\controller;
 
 use suda\application\database\Table;
 use suda\database\exception\SQLException;
-use clomery\content\table\TagRelationTable;
+use clomery\content\table\RelationTable;
 
 class TagController extends CategoryController
 {
     /**
-     * @var Table
+     * @var RelationController
      */
     protected $relate;
 
@@ -24,11 +24,12 @@ class TagController extends CategoryController
     public function __construct(Table $table, Table $relate)
     {
         parent::__construct($table);
-        $this->assertSubOf($relate, new TagRelationTable($relate->getName()));
-        $this->relate = $relate;
+        $this->relate = new RelationController($relate);
     }
 
     /**
+     * 创建标签
+     *
      * @param array $data
      * @return array|null
      * @throws SQLException
@@ -43,17 +44,19 @@ class TagController extends CategoryController
     }
 
     /**
+     * 删除标签
+     *
      * @param array $data
      * @return bool
      * @throws SQLException
      */
     public function delete(array $data)
     {
-        if (array_key_exists('id',$data))  {
-            $this->relate->delete(['tag' =>  $data['id']])->ok();
-        }else{
+        if (array_key_exists('id', $data)) {
+            $this->relate->removeItem($data['id']);
+        } else {
             $node = $this->table->read(['id'])->where($data);
-            $this->relate->delete(['tag' => ['in', $node]])->ok();
+            $this->relate->removeItem($node);
         }
         return parent::delete($data);
     }
@@ -61,31 +64,55 @@ class TagController extends CategoryController
     /**
      * 关联标签
      *
-     * @param string $tag
+     * @param array $tagArray
      * @param string $relate
      * @return bool
      * @throws SQLException
      */
-    public function relate(string $tag, string $relate): bool
+    public function linkTag(array $tagArray, string $relate): bool
     {
-        if ($this->relate->read(['id'])->where(['tag' => $tag, 'relate' => $relate])->one()) {
-            return true;
+        $tagUpdate = [];
+        foreach ($tagArray as $index => $tag) {
+            if ($this->relate->relate($tag, $relate)) {
+                $tagUpdate [] = $tag;
+            }
         }
-        if($this->relate->write(['tag' => $tag, 'relate' => $relate])->ok()) {
-            $this->table->write('`count_item` = `count_item` + 1')->write(['id' => $tag])->ok();
-            return true;
-        }
-        return false;
+        return $this->table->write('`count_item` = `count_item` + 1')->write(['id' => new \ArrayObject($tagUpdate)])->ok();
     }
 
     /**
+     * 移除标签
+     *
      * @param string $relate
      * @param array $tagArray
      * @return bool
      * @throws SQLException
      */
-    public function removeRelate(array $tagArray, string $relate) {
+    public function removeTag(array $tagArray, string $relate)
+    {
         $this->table->write('`count_item` = `count_item` - 1')->write(['id' => $tagArray])->ok();
-        return $this->relate->delete(['tag' => $tagArray, 'relate' => $relate])->ok();
+        return $this->relate->remove(new \ArrayObject($tagArray), $relate);
+    }
+
+    /**
+     * 移除所有标签
+     *
+     * @param string $relate
+     * @return bool
+     * @throws SQLException
+     */
+    public function removeTags(string $relate) {
+        return $this->relate->removeRelate($relate);
+    }
+
+    /**
+     * @param string $relate
+     * @param array $fields
+     * @return array
+     * @throws SQLException
+     */
+    public function getTags(string $relate, array $fields = []) {
+        $relate = $this->relate->getTable()->read(['item'])->where(['relate' => $relate]);
+        return $this->table->read($fields?: '*')->where(['id' => ['in', $relate]])->all();
     }
 }
