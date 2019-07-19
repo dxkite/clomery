@@ -1,12 +1,12 @@
 <?php
 
 
-namespace support\content\controller;
+namespace clomery\content\controller;
 
 
 use suda\application\database\Table;
 use suda\database\exception\SQLException;
-use support\content\table\TagRelationTable;
+use clomery\content\table\TagRelationTable;
 
 class TagController extends CategoryController
 {

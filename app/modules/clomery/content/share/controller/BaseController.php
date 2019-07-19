@@ -1,7 +1,7 @@
 <?php
 
 
-namespace support\content\controller;
+namespace clomery\content\controller;
 
 
 use exception\ContentException;

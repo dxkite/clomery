@@ -1,7 +1,7 @@
 <?php
 
 
-namespace support\content\table;
+namespace clomery\content\table;
 
 
 use suda\application\database\Table;

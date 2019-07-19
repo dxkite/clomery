@@ -1,15 +1,15 @@
 <?php
 
 
-namespace support\content\controller;
+namespace clomery\content\controller;
 
 
 use suda\application\database\Table;
-use support\content\table\CategoryTable;
+use clomery\content\table\CategoryTable;
 
 /**
  * Class CategoryController
- * @package support\content\controller
+ * @package clomery\content\controller
  */
 class CategoryController extends TreeController
 {

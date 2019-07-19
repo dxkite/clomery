@@ -1,5 +1,5 @@
 <?php
-namespace support\content\table;
+namespace clomery\content\table;
 
 
 use suda\application\database\Table;
@@ -9,7 +9,7 @@ use suda\database\struct\TableStruct;
  * Class TreeTable
  * 树形结构支持
  *
- * @package support\content\table
+ * @package clomery\content\table
  */
 class TreeTable extends Table {
 

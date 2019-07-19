@@ -1,19 +1,19 @@
 <?php
 
 
-namespace support\content\controller;
+namespace clomery\content\controller;
 
 
 use suda\application\database\Table;
 use suda\database\exception\SQLException;
 use suda\database\statement\Statement;
 use suda\framework\arrayobject\ArrayDotAccess;
-use support\content\table\TreeTable;
+use clomery\content\table\TreeTable;
 
 /**
  * Class TreeController
  * 树形结构控制器
- * @package support\content\controller
+ * @package clomery\content\controller
  */
 class TreeController extends BaseController
 {

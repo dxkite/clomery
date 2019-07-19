@@ -1,9 +1,9 @@
 {
-    "name": "support/content",
+    "name": "clomery/content",
     "version": "0.0.1",
     "import": {
         "share": {
-            "support\\content": "share"
+            "clomery\\content": "share"
         }
     },
     "description": "内容操作"
