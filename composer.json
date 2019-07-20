@@ -3,6 +3,8 @@
     "php": "^7.2",
     "dxkite/suda": "dev-dev",
     "ext-json": "*",
-    "symfony/yaml": "^4.3"
+    "symfony/yaml": "^4.3",
+    "joyqi/hyper-down": "master-dev",
+    "ezyang/htmlpurifier": "^4.11"
   }
 }

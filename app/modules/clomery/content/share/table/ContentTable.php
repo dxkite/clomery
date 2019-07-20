@@ -14,6 +14,7 @@ class ContentTable extends CategoryTable
         $struct->fields([
             $struct->field('title', 'varchar', 255)->comment('标题'),
             $struct->field('category', 'bigint', 20)->key()->comment('分类'),
+            $struct->field('image', 'bigint', 20)->comment('封面图片'),
             $struct->field('views', 'int', 11)->key()->comment('阅读量'),
             $struct->field('content', 'text')->comment('内容'),
             $struct->field('password', 'varchar', 32)->comment('访问密码'),
