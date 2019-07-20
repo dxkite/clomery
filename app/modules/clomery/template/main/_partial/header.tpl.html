@@ -1,0 +1,18 @@
+<header class="header">
+
+  <nav class="header-nav">
+
+    <span class="iconfont icon-menu mobile-toggle"></span>
+
+    <div class="header-menu">
+      @call('clomery.main.data.ConfigData::menu')
+      @foreach ($:menu as $menu)
+      @if ($menu['name'] === 'search')
+      <a class="iconfont icon-menu-search header-menu-link" id="header-menu-search"></a>
+      @else
+      <a class="header-menu-link" id="header-menu-{{$menu['name']}}" href="{{$menu['link']}}">{{ $menu['name'] }}</a>
+      @endif
+      @endforeach
+    </div>
+  </nav>
+</header>

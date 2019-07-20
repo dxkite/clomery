@@ -14,7 +14,7 @@ class CategoryTable extends TreeTable
         $struct->fields([
             $struct->field('id', 'bigint', 20)->primary()->unsigned()->auto(),
             $struct->field('slug', 'varchar', 128)->unique()->comment('缩写'),
-            $struct->field('description', 'text')->comment('分类描述'),
+            $struct->field('description', 'text')->comment('描述'),
             $struct->field('image', 'varchar', 255)->comment('图标'),
             $struct->field('user', 'bigint', 20)->unsigned()->key()->comment('创建用户'),
             $struct->field('time', 'int', 11)->key()->comment('创建时间'),

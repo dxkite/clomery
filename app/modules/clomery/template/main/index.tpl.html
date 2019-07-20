@@ -1,12 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Clomery Blog</title>
-</head>
-<body>
-    
-</body>
-</html>
+@extend('layout')
+@startInsert('body')
+{-- profile --}
+
+<div class="profile sildeUpMin">
+		@call('clomery.main.data.ConfigData::profile')
+	<a href="@u">
+		<img class="avatar" src="{{ $:profile.avatar }}">
+	</a>
+
+	<p class="author">{{ $:profile.author }}</p>
+
+	<div class="social">
+		@call('clomery.main.data.ConfigData::socialLinks')
+		@foreach ($:socialLinks([]) as $index => $link)
+		<a target="_blank" class="social-links" href="{{$link}}">
+			<i class="iconfont icon-{{$index}}"></i>
+		</a>
+		@endforeach
+	</div>
+</div>
+
+{-- article --}
+
+@foreach ($:articles([]) as $article)
+@set('post', $article)
+@include('_partial/article')
+@endforeach
+
+{-- paginator --}
+@include('_partial/paginator')
+@endInsert

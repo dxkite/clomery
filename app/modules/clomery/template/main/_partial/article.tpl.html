@@ -1,0 +1,22 @@
+{-- post --}
+
+<article class="article">
+    <div class="article-header">
+        <a class="article-title" href="@u('read-article', $:post.id)"> {{ $:post.title }}</a>
+        <div class='article-meta'>
+            <span>{{ date( "m月d日, Y年", $:post.modify) }}</span>
+            <span class="iconfont icon-star"></span>
+            <span><i class="iconfont icon-eye"></i>{{ $:post.views }}</span>
+            @foreach ($:post.tags as $tag)
+            <span class="iconfont icon-star"></span>
+            <a class="article-tag" href="@u('article-tag',$tag['name'])">{{$tag['name']}}</a>
+            @endforeach
+        </div>
+    </div>
+    <div class="article-excerpt">
+        {{! content_unpack2html($:post.excerpt) }}
+    </div>
+    <div class='article-bottom'>
+        <a class="article-readmore" href="@u('read-article', $:post.id)">{= 阅读更多 }</a>
+    </div>
+</article>
