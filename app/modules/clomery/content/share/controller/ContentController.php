@@ -13,6 +13,7 @@ use support\openmethod\PageData;
 class ContentController extends CategoryController
 {
     public static $showFields = ['id', 'slug', 'title', 'user', 'create_time', 'modify_time', 'category', 'description', 'image', 'views', 'status'];
+    public static $viewFields = ['id', 'slug', 'title', 'content', 'user', 'create_time', 'modify_time', 'category', 'description', 'image', 'views', 'status'];
 
     /**
      * @var TagController
@@ -33,10 +34,26 @@ class ContentController extends CategoryController
      * @return array
      * @throws SQLException
      */
-    public function getNearArticle(int $article): array
+    public function getNearArticle(string $article, array $fields = []): array
     {
-        $create = $this->table->read('create_time')->where(['id' => $article]);
-        return $this->getNearArticleByTime($create['create']);
+        $create = $this->table->read('create_time')->where(['id' => $article])->field('create_time');
+        return $this->getNearArticleByTime(intval($create), $fields);
+    }
+
+    /**
+     * @param string $article
+     * @return array|null
+     * @throws SQLException
+     */
+    public function getArticle(string $article): ?array
+    {
+        if (is_numeric($article)) {
+            $where['id'] = $article;
+        } else {
+            $where['slug'] = $article;
+        }
+        $data = $this->table->read(static::$viewFields)->where($where)->one();
+        return $data;
     }
 
     /**
@@ -46,12 +63,12 @@ class ContentController extends CategoryController
      * @return array
      * @throws SQLException
      */
-    public function getNearArticleByTime(int $create): array
+    public function getNearArticleByTime(int $create, array $fields = []): array
     {
         $previousCondition = ['create_time' => ['<', $create]];
         $nextCondition = ['create_time' => ['>', $create]];
-        $previous = $this->table->read(static::$showFields)->where($previousCondition)->orderBy('create_time', 'DESC')->one();
-        $next = $this->table->read(static::$showFields)->where($nextCondition)->orderBy('create_time')->one();
+        $previous = $this->table->read($fields ?: static::$showFields)->where($previousCondition)->orderBy('create_time', 'DESC')->one();
+        $next = $this->table->read($fields ?: static::$showFields)->where($nextCondition)->orderBy('create_time')->one();
         return [$previous, $next];
     }
 
@@ -79,12 +96,12 @@ class ContentController extends CategoryController
             $query = $this->buildSimple($wants, $parameter);
         }
         $name = $this->table->getName();
-        $condition = ' `_:'.$name.'`.`status` = :publish';
+        $condition = ' `_:' . $name . '`.`status` = :publish';
         $binder['publish'] = ArticleTable::PUBLISH;
         $condition = $this->buildCategoryFilter($category, $condition, $binder);
         $condition = $this->buildSearchFilter($search, $condition, $binder);
         $query = $query . ' WHERE ' . $condition;
-        $query.= $this->buildOrder($field, $order);
+        $query .= $this->buildOrder($field, $order);
         $parameter = array_merge($binder, $parameter);
         return PageData::create($this->table->query($query, $parameter), $page, $count);
     }
@@ -94,14 +111,15 @@ class ContentController extends CategoryController
      * @param int $order
      * @return string
      */
-    protected function buildOrder(int $field = 0, int $order = 0) {
+    protected function buildOrder(int $field = 0, int $order = 0)
+    {
         $name = $this->table->getName();
-        $query = ' ORDER BY `_:'.$name.'`.`stick` DESC';
+        $query = ' ORDER BY `_:' . $name . '`.`stick` DESC';
         $orderType = $order == 0 ? 'DESC' : 'ASC';
         if ($field == 0) {
-            $query .= ', `_:'.$name.'`.`modify_time` '.$orderType;
+            $query .= ', `_:' . $name . '`.`modify_time` ' . $orderType;
         } else {
-            $query .= ', `_:'.$name.'`.`create_time` '.$orderType;
+            $query .= ', `_:' . $name . '`.`create_time` ' . $orderType;
         }
         return $query;
     }
@@ -116,7 +134,7 @@ class ContentController extends CategoryController
     {
         if ($search !== null && mb_strlen($search) >= 2) {
             $name = $this->table->getName();
-            $condition = '`_:'.$name.'`.`title` LIKE :search AND ' . $condition;
+            $condition = '`_:' . $name . '`.`title` LIKE :search AND ' . $condition;
             $binder['search'] = $this->buildSearch($search);
         }
         return $condition;

@@ -25,11 +25,29 @@ class CategoryController extends TreeController
 
     /**
      * 根据简写获取ID
-     * @param string $slug
-     * @return null|string
+     * @param string $category
+     * @param array $fields
+     * @return array|null
      * @throws \suda\database\exception\SQLException
      */
-    public function getIdWithSlug(string $slug):?string {
-        return $this->table->read(['id'])->where(['slug' => $slug])->field('id');
+    public function getCategory(string $category, array $fields = []):?array {
+        if (is_numeric($category)) {
+            $where['id'] = $category;
+        } else {
+            $where['slug'] = $category;
+        }
+        return $this->table->read($fields?:'*')->where($where)->one();
+    }
+
+    /**
+     * @param array $categoryId
+     * @param array $fields
+     * @return array
+     * @throws \suda\database\exception\SQLException
+     */
+    public function getCategoryArray(array $categoryId, array $fields = []) {
+        return $this->table->read($fields?:'*')
+            ->where(['id' => new \ArrayObject($categoryId)])
+            ->withKey('id')->all();
     }
 }

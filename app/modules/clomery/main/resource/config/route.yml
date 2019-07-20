@@ -5,12 +5,9 @@ index:
 index-page:
   uri: "/page/{page:int}"
   class: \clomery\main\response\IndexResponse
-article-by-id:
-  uri: "/{article:int}"
-  class: \clomery\main\response\IndexResponse
-article-by-slug:
-  uri: "/article/{article:string}"
-  class: \clomery\main\response\IndexResponse
+article:
+  uri: "/{article:string}"
+  class: \clomery\main\response\ArticleResponse
 article-search:
   uri: "/search"
   class: \clomery\main\response\IndexResponse

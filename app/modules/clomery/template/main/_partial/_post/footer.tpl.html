@@ -1,6 +1,6 @@
 <div class="post-meta">
-  <i class="iconfont icon-category">{{ $:article.category.name }}</i>
-  @foreach ($:article.tags as $tag)
+  <i class="iconfont icon-category">{{ $:article.category.name('未分类') }}</i>
+  @foreach ($:article.tag as $tag)
   <i class="iconfont icon-tag">{{$tag['name']}}</i>
   @endforeach
 </div>
@@ -13,11 +13,12 @@
   </div>
   <div class="pf-right">
     <nav class="pf-paginator">
-      @if ($:article.near.previous)
-      <a href="@u('read-article',$:article.near.previous.id)" data-hover="{{$:article.near.previous.title}}">{= 上一篇文章 }</a>
+      @if ($:article.near.previous(''))
+      <a href="@u('article',$:article.near.previous.slug)" data-hover="{{$:article.near.previous.title}}">{= 上一篇文章 }</a>
       @endif
-      @if ($:article.near.next)
-      <a href="@u('read-article',$:article.near.next.id)" data-hover="{{$:article.near.next.title}}">{= 下一篇文章 }</a>
+
+      @if ($:article.near.next(''))
+      <a href="@u('article',$:article.near.next.slug)" data-hover="{{$:article.near.next.title}}">{= 下一篇文章 }</a>
       @endif
     </nav>
   </div>

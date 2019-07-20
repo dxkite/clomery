@@ -7,7 +7,7 @@
             <span>{{ date( "m月d日, Y年", $:post.modify_time ) }}</span>
             <span class="iconfont icon-star"></span>
             <span><i class="iconfont icon-eye"></i>{{ $:post.views }}</span>
-            @foreach ($:post.tags as $tag)
+            @foreach ($:post.tag as $tag)
             <span class="iconfont icon-star"></span>
             <a class="article-tag" href="@u('article-tag',$tag['name'])">{{$tag['name']}}</a>
             @endforeach
@@ -17,6 +17,6 @@
         {{! content_unpack2html($:post.description) }}
     </div>
     <div class='article-bottom'>
-        <a class="article-readmore" href="@u('read-article', $:post.id)">{= 阅读更多 }</a>
+        <a class="article-readmore" href="@u('article', $:post.slug)">{= 阅读更多 }</a>
     </div>
 </article>

@@ -4,6 +4,7 @@
 namespace clomery\content\provider;
 
 
+use clomery\content\controller\CategoryController;
 use clomery\content\controller\ContentController;
 use clomery\content\PageUtil;
 use suda\application\database\Table;
@@ -16,9 +17,15 @@ class ContentProvider
      */
     protected $controller;
 
-    public function __construct(Table $content, Table $tag, Table $relate)
+    /**
+     * @var CategoryController
+     */
+    protected $categoryController;
+
+    public function __construct(Table $content, Table $category, Table $tag, Table $relate)
     {
         $this->controller = new ContentController($content, $tag, $relate);
+        $this->categoryController = new CategoryController($category);
     }
 
     /**
@@ -37,9 +44,33 @@ class ContentProvider
         $data = $this->controller->getArticleList($search, $category, $tags, $page, $count, $field, $order);
         $data = PageUtil::parseKeyToColumn($data, 'id', [
            'tag' => function($idArray) {
-                return $this->controller->getTagController()->getTags($idArray);
+                return $this->controller->getTagController()->getTags($idArray, ['id', 'name', 'slug']);
            }
         ]);
+        $data = PageUtil::parseKeyToKey($data, 'category', [
+            'category' => function ($categoryArray) {
+                return $this->categoryController->getCategoryArray($categoryArray, ['id', 'name', 'slug']);
+            }
+        ]);
+        return $data;
+    }
+
+    /**
+     * @param string $article
+     * @return array|null
+     * @throws \suda\database\exception\SQLException
+     */
+    public function getArticle(string $article) {
+        $data = $this->controller->getArticle($article);
+        if ($data !== null) {
+            $data['tag'] = $this->controller->getTagController()->getTags($data['id'], ['id', 'name', 'slug', 'description', 'image']);
+            $data['category'] = $this->categoryController->getCategory(strval($data['category']), ['id', 'name', 'slug', 'description', 'image']);
+            list($previous, $next) =$this->controller->getNearArticle($data['id'], ['id', 'title', 'slug', 'description', 'image']);
+            $data['near'] = [
+                'previous' => $previous,
+                'next' => $next,
+            ];
+        }
         return $data;
     }
 }
