@@ -27,12 +27,14 @@ class ContentProvider
      * @param array|null $tags
      * @param int|null $page
      * @param int $count
+     * @param int $field
+     * @param int $order
      * @return PageData
      * @throws \suda\database\exception\SQLException
      */
-    public function getArticleList(?string $search, ?string $category, ?array $tags, ?int $page, int $count):PageData
+    public function getArticleList(?string $search, ?string $category, ?array $tags, ?int $page, int $count, int $field = 0, int $order = 0):PageData
     {
-        $data = $this->controller->getArticleList($search, $category, $tags, $page, $count);
+        $data = $this->controller->getArticleList($search, $category, $tags, $page, $count, $field, $order);
         $data = PageUtil::parseKeyToColumn($data, 'id', [
            'tag' => function($idArray) {
                 return $this->controller->getTagController()->getTags($idArray);

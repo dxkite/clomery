@@ -114,9 +114,10 @@ class ContentController extends CategoryController
      */
     protected function buildSearchFilter(?string $search, string $condition, array & $binder): string
     {
-        if ($search !== null && mb_strlen($search) > 2) {
-            $condition = 'title = LIKE :search AND ' . $condition;
-            $binder['title'] = $this->buildSearch($search);
+        if ($search !== null && mb_strlen($search) >= 2) {
+            $name = $this->table->getName();
+            $condition = '`_:'.$name.'`.`title` LIKE :search AND ' . $condition;
+            $binder['search'] = $this->buildSearch($search);
         }
         return $condition;
     }

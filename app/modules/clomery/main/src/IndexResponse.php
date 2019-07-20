@@ -25,7 +25,10 @@ class IndexResponse implements RequestProcessor
     {
         $provider = new ArticleProvider();
         $page = $request->get('page', 1);
-        $data = $provider->getArticleList(null, null,null, $page, 10);
+        $field = $request->get('sort', 0);
+        $order = $request->get('order', 0);
+        $search = $request->get('search', null);
+        $data = $provider->getArticleList($search, null, null, $page, 10, $field, $order);
         $page = $application->getTemplate('index', $request);
         $page->set('articles', $data->getRows());
         $page->set('page',$data->getPage());
