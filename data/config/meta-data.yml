@@ -1,0 +1,21 @@
+website:
+  name: dxkite的博客
+  keywords: 'dxkite,博客,'
+  description: 喜欢折腾的dxkite的折腾历史记录
+profile:
+  author: DXkite
+  avatar: /assets/clomery/main/0.0.1/static/images/dxkite.png
+  description: Hello! I am DXkite
+social-links:
+  Github: https://github.com/dxkite
+menu:
+  - name: 首页
+    link: /
+  - name: 标签
+    link: /tags
+  - name: 分类
+    link: /categorys
+  - name: 归档
+    link: /archives
+  - name: 框架
+    link: https://github.com/dxkite/suda
