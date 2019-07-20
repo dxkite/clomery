@@ -1,4 +1,5 @@
 <?php
+
 namespace clomery\content\parser;
 
 use clomery\content\parser\parser\HtmlParser;
@@ -26,12 +27,12 @@ use support\openmethod\MethodParameterInterface;
  */
 class Content implements \JsonSerializable, MethodParameterInterface
 {
-    const MD   = 'Markdown';
+    const MD = 'Markdown';
     const HTML = 'Html';
     const TEXT = 'Text';
     const RST = 'reStructuredText';
 
-    const MAGIC= "\x06\x02";
+    const MAGIC = "\x06\x02";
 
     protected $content;
     protected $type;
@@ -64,10 +65,10 @@ class Content implements \JsonSerializable, MethodParameterInterface
         if ($this->type == strtolower(self::TEXT)) {
             $class = TextParser::class;
             $this->type = 'text';
-        } elseif ($this->type == strtolower(self::RST) ||  $this->type == 'rst') {
+        } elseif ($this->type == strtolower(self::RST) || $this->type == 'rst') {
             $class = RstTextParser::class;
             $this->type = 'rst';
-        } elseif ($this->type == strtolower(self::MD) ||  $this->type == 'md') {
+        } elseif ($this->type == strtolower(self::MD) || $this->type == 'md') {
             $class = MarkdownParser::class;
             $this->type = 'md';
         } else {
@@ -77,7 +78,7 @@ class Content implements \JsonSerializable, MethodParameterInterface
         $this->content = $content;
     }
 
-    public function raw():string
+    public function raw(): string
     {
         return $this->content;
     }
@@ -87,14 +88,14 @@ class Content implements \JsonSerializable, MethodParameterInterface
      * 使用了文件缓存
      * @return string
      */
-    public function toHtml():string
+    public function toHtml(): string
     {
-        $key = __CLASS__.'.content.'.md5($this->content);
+        $key = __CLASS__ . '.content.' . md5($this->content);
         /** @var Parser $class */
         $class = new $this->class;
-        $debug = static::$context->getConfig()->get('debug');
-        $cache = static::$context->getCache();
-        $event = static::$context->getEvent();
+        $debug = self::$context->getConfig()->get('debug');
+        $cache = self::$context->getCache();
+        $event = self::$context->getEvent();
         if ($debug || !$cache->has($key)) {
             $html = $class->toHtml($this->content);
             $cache->set($key, $html);
@@ -110,11 +111,11 @@ class Content implements \JsonSerializable, MethodParameterInterface
      * @param integer $length
      * @return string
      */
-    public function toText(?int $length=null):string
+    public function toText(?int $length = null): string
     {
         $html = $this->toHtml();
         $text = strip_tags($html);
-        if ($length) {
+        if ($length > 0) {
             return mb_substr($text, 0, $length);
         }
         return $text;
@@ -126,10 +127,10 @@ class Content implements \JsonSerializable, MethodParameterInterface
      * @param Content $content
      * @return string
      */
-    public static function pack(Content $content):string
+    public static function pack(Content $content): string
     {
         $md5 = md5($content->content);
-        return Content::MAGIC.$content->type.','. $md5 .','.$content->class.','.$content->content;
+        return Content::MAGIC . $content->type . ',' . $md5 . ',' . $content->class . ',' . $content->content;
     }
 
     /**
@@ -138,7 +139,7 @@ class Content implements \JsonSerializable, MethodParameterInterface
      * @param string $content
      * @return Content|null
      */
-    public static function unpack(string $content):?Content
+    public static function unpack(string $content): ?Content
     {
         if (self::isContent($content)) {
             /** @var Content $class */
@@ -151,14 +152,14 @@ class Content implements \JsonSerializable, MethodParameterInterface
             list($class->type, $md5, $class->class, $class->content) = explode(',', $content, 4);
             if ($md5 === md5($class->content)) {
                 return $class;
-            }else{
+            } else {
                 $class->type = 'html';
                 return $class;
             }
         }
         return null;
     }
-    
+
     /**
      * 判断是否为打包字符
      *
@@ -167,7 +168,7 @@ class Content implements \JsonSerializable, MethodParameterInterface
      */
     public static function isContent(string $content)
     {
-        return strlen($content) > 2 &&  substr($content, 0, 2)  === Content::MAGIC;
+        return strlen($content) > 2 && substr($content, 0, 2) === Content::MAGIC;
     }
 
     public static function html(string $content, string $type)
@@ -175,9 +176,9 @@ class Content implements \JsonSerializable, MethodParameterInterface
         return (new self($content, $type))->toHtml();
     }
 
-    public static function createFromData($jsonData):?object
+    public static function createFromData($jsonData): ?object
     {
-        if (\is_array($jsonData) && \array_key_exists('type', $jsonData) &&  \array_key_exists('content', $jsonData)) {
+        if (\is_array($jsonData) && \array_key_exists('type', $jsonData) && \array_key_exists('content', $jsonData)) {
             return new Content($jsonData['content'], $jsonData['type']);
         }
         if (\is_string($jsonData)) {
@@ -189,9 +190,9 @@ class Content implements \JsonSerializable, MethodParameterInterface
     public function jsonSerialize()
     {
         return [
-            'type'=> $this->type,
-            'raw'=>$this->content,
-            'html'=>$this->toHtml()
+            'type' => $this->type,
+            'raw' => $this->content,
+            'html' => $this->toHtml(),
         ];
     }
 

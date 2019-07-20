@@ -30,7 +30,7 @@ class PageUtil
      * @param PageData $page
      * @param string $key
      * @param array $parseKey
-     * @param null $default
+     * @param mixed $default
      * @return PageData
      */
     public static function parseKeyToKey(PageData $page, string $key, array $parseKey = [], $default = null):PageData

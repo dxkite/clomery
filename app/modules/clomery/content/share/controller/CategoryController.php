@@ -32,6 +32,7 @@ class CategoryController extends TreeController
      * @throws \suda\database\exception\SQLException
      */
     public function get(string $category, array $fields = []):?array {
+        $where = [];
         if (is_numeric($category)) {
             $where['id'] = $category;
         } else {

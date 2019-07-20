@@ -105,11 +105,11 @@ class TagController extends CategoryController
     /**
      * 移除所有标签
      *
-     * @param string $relate
+     * @param $relate
      * @return bool
      * @throws SQLException
      */
-    public function removeTags(string $relate) {
+    public function removeTags($relate) {
         return $this->relationController->removeRelate($relate);
     }
 

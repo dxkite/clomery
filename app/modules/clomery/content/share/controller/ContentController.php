@@ -52,6 +52,7 @@ class ContentController extends CategoryController
      */
     public function getArticle(string $article): ?array
     {
+        $where = [];
         if (is_numeric($article)) {
             $where['id'] = $article;
         } else {
@@ -95,6 +96,7 @@ class ContentController extends CategoryController
     {
         $wants = $this->prepareReadFields(static::$showFields, '_:article');
         $parameter = [];
+        $binder = [];
         if (is_array($tags) && count($tags) > 0) {
             $query = $this->buildTagArrayFilter($wants, $tags, $parameter);
         } else {

@@ -57,6 +57,7 @@ class ArticleController extends ContentController
      */
     public function getListByDate(string $date, ?int $page=null, int $row=10):PageData
     {
+        $parameter = [];
         $parameter['date'] = $date;
         return PageData::create($this->table->read(static::$showFields)
             ->where('status = :publish AND FROM_UNIXTIME(`create_time`, \'%Y-%m\') = :date', [

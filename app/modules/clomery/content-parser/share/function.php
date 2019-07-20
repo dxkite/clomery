@@ -1,4 +1,5 @@
 <?php
+
 use \clomery\content\parser\Content;
 
 /**
@@ -8,7 +9,7 @@ use \clomery\content\parser\Content;
  * @param string $type
  * @return string
  */
-function html_content(string $content, string $type = 'text'):string
+function html_content(string $content, string $type = 'text'): string
 {
     return (new Content($content, $type))->toHtml();
 }
@@ -16,11 +17,11 @@ function html_content(string $content, string $type = 'text'):string
 /**
  * 打包内容
  *
- * @param string $content
+ * @param string|Content $content
  * @param string $type
  * @return string
  */
-function content_pack($content, string $type='text'):string
+function content_pack($content, string $type = 'text'): string
 {
     if ($content instanceof Content) {
         return Content::pack($content);
@@ -36,7 +37,7 @@ function content_pack($content, string $type='text'):string
  * @param string $type
  * @return Content
  */
-function content_create(string $content, string $type='text'):Content
+function content_create(string $content, string $type = 'text'): Content
 {
     return new Content($content, $type);
 }
@@ -47,7 +48,7 @@ function content_create(string $content, string $type='text'):Content
  * @param string $data
  * @return Content
  */
-function content_unpack(string $data):?Content
+function content_unpack(string $data): ?Content
 {
     return Content::unpack($data);
 }
@@ -55,57 +56,63 @@ function content_unpack(string $data):?Content
 /**
  * 解包直接输出HTML
  *
- * @param string|null|Content $data
+ * @param Content|string|null $data
  * @return string
  */
-function content_unpack2html($data):?string
+function content_unpack2html($data): string
 {
     if ($data) {
         if ($data instanceof Content) {
-            $content= $data;
+            $content = $data;
         } else {
-            $content= Content::unpack($data);
+            $content = Content::unpack($data);
         }
-        if ($content) {
+        if ($content instanceof Content) {
             return $content->toHtml();
         }
     }
-    return $data;
+    return strval($data);
 }
 
-function content_unpack2text($data,?int $length=null):?string
+/**
+ * @param Content|string|null $data
+ * @param int|null $length
+ * @return string
+ */
+function content_unpack2text($data, ?int $length = null): string
 {
-    if ($data) {
+    if ($data !== null) {
         if ($data instanceof Content) {
-            $content= $data;
+            $content = $data;
         } else {
-            $content= Content::unpack($data);
+            $content = Content::unpack($data);
         }
-        if ($content) {
+        if ($content instanceof Content) {
             return $content->toText($length);
         }
     }
-    return $data;
+    return strval($data);
 }
+
 /**
  * 解包直接输出数据源
  *
- * @param string|null|Content $data
+ * @param Content|string|null $data
  * @return string
  */
-function content_unpack2raw($data):?string
+function content_unpack2raw($data): string
 {
-    if ($data) {
+    if ($data !== null) {
         if ($data instanceof Content) {
-            $content= $data;
+            $content = $data;
         } else {
-            $content= Content::unpack($data);
+            $content = Content::unpack($data);
         }
-        if ($content) {
+        if ($content instanceof Content) {
             return $content->raw();
         }
     }
-    return $data;
+    return strval($data);
 }
 
 
@@ -113,7 +120,7 @@ function content_unpack2raw($data):?string
  * 判断内容是不是一个正常包
  *
  * @param string $data
- * @return void
+ * @return bool
  */
 function content_ispack(string $data)
 {
