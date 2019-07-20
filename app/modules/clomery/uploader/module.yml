@@ -1,8 +1,0 @@
-name: clomery/uploader
-version: 0.0.1
-import:
-  share:
-    clomery\uploader: share
-  src:
-    clomery\uploader\response: src
-description: 用于提供文章上传

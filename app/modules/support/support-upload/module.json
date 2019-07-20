@@ -1,0 +1,16 @@
+{
+    "name": "support/upload",
+    "version": "0.0.1",
+    "import": {
+        "share": {
+            "support\\upload": "share"
+        },
+        "src": {
+            "support\\upload\\response": "src"
+        }
+    },
+    "description": "上传控制",
+    "require": {
+        "support/open-method": ""
+    }
+}
