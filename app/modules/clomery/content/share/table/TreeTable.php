@@ -21,6 +21,7 @@ class TreeTable extends Table {
     public function onCreateStruct(TableStruct $table): TableStruct
     {
         return $table->fields([
+            $table->field('id', 'bigint', 20)->primary()->unsigned()->auto(),
             $table->field('name', 'varchar', 255)->key()->comment('名称'),
             $table->field('parent', 'bigint', 20)->key()->comment('父级'),
             $table->field('count', 'int', 11)->key()->comment('字列数量'),

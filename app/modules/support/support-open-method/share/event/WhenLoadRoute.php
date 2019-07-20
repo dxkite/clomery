@@ -39,7 +39,6 @@ class WhenLoadRoute
                 ]);
                 if ($routeConfig !== null) {
                     $prefix = $module->getConfig('route-prefix.open-method', '');
-                    
                     $this->prepareRoute($application, $fullName, $prefix, $module, $routeConfig);
                 }
             }

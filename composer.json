@@ -8,6 +8,7 @@
     "ezyang/htmlpurifier": "^4.11",
     "ext-mbstring": "*",
     "gregwar/rst": "^1.0",
-    "ext-gd": "*"
+    "ext-gd": "*",
+    "ext-exif": "*"
   }
 }

@@ -61,7 +61,7 @@ class FileArray implements IteratorAggregate, MethodParameterInterface
                     $parameter->files[$name] = $file;
                 }
             } catch (\Exception $e) {
-                if ($ignoreError == false) {
+                if ($ignoreError === false) {
                     throw  $e;
                 }
             }

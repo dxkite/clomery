@@ -9,9 +9,9 @@ class ExportMessage implements \JsonSerializable
     /**
      * 方法名
      *
-     * @var string
+     * @var ExportMethod
      */
-    protected $ExportMethod;
+    protected $method;
 
     /**
      * 创建导出类
@@ -31,7 +31,7 @@ class ExportMessage implements \JsonSerializable
         $method = $this->method->getReflectionMethod();
         $docs = $method->getDocComment();
 
-        if ($docs) {
+        if (is_string($docs)) {
             list($description, $paramDocs, $returnDoc, $data) = self::getDoc($docs);
             $message['description'] = $description;
             if (preg_match('/@acl/i', $docs, $match)) {
@@ -48,10 +48,14 @@ class ExportMessage implements \JsonSerializable
             }
             $message['parameters'][$param->getName()]['position'] = $param->getPosition();
             if ($param->hasType()) {
-                $message['parameters'][$param->getName()]['type'] = $param->getType()->__toString();
+                $message['parameters'][$param->getName()]['type'] = strval($param->getType());
             }
             if ($param->isDefaultValueAvailable()) {
-                $message['parameters'][$param->getName()]['default'] = $param->getDefaultValue();
+                try {
+                    $message['parameters'][$param->getName()]['default'] = $param->getDefaultValue();
+                } catch (\ReflectionException $e) {
+                    $message['parameters'][$param->getName()]['default'] = 'error:'.$e->getMessage();
+                }
             }
             if ($param->allowsNull()) {
                 $message['parameters'][$param->getName()]['nullable'] = true;

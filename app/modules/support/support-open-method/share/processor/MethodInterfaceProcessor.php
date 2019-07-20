@@ -63,7 +63,7 @@ class MethodInterfaceProcessor
         $this->application = $application;
 
         set_exception_handler([$this, 'uncaughtException']);
-        $module = $request->getAttribute('module');
+        $module = strval($request->getAttribute('module'));
 
         if ($request->getMethod() === 'OPTIONS') {
             $this->buildAccessControlOptions($application, $request, $response, $module);
@@ -235,14 +235,15 @@ class MethodInterfaceProcessor
         $parameter = $parameterBag->getParameter();
         $object = $method->getClass();
         $methodIsStatic = $method->getReflectionMethod()->isStatic();
-        if (is_string($object) && $methodIsStatic === false) {
-            $object = $method->getReflectionClass()->newInstance();
-        }
+
         if ($methodIsStatic) {
             $this->assertCanAccessMethod(null, $method);
             $this->contextAware(null, $method, $application, $request, $response);
             return $method->getReflectionMethod()->invokeArgs(null, $parameter);
         } else {
+            if (is_string($object)) {
+                $object = $method->getReflectionClass()->newInstance();
+            }
             $this->assertCanAccessMethod($object, $method);
             $this->contextAware($object, $method, $application, $request, $response);
             return $method->getReflectionMethod()->invokeArgs($object, $parameter);
@@ -299,7 +300,6 @@ class MethodInterfaceProcessor
     protected function buildMethodParameterBag(array $methods, ?int $id, ?string $method, Application $application, Request $request)
     {
         $json = $this->getJsonFromRequest($request);
-        $parameterBag = null;
         if ($method === null && $json !== null) {
             if ($this->isValidJsonMethodInvoke($json)) {
                 $method = $json['method'];
@@ -353,7 +353,7 @@ class MethodInterfaceProcessor
 
     protected function getExportClasses($classes): array
     {
-        if (\is_array($classes) && count($classes) > 0) {
+        if (is_array($classes) && count($classes) > 0) {
             return $classes;
         } elseif (is_string($classes)) {
             return [$classes];
@@ -373,7 +373,11 @@ class MethodInterfaceProcessor
             if (is_string($class)) {
                 $class = trim(str_replace('.', '\\', $class), '\\');
             }
-            $methods = $this->getExportMethodFromClass($class, $methods);
+            try {
+                $methods = $this->getExportMethodFromClass($class, $methods);
+            } catch (\ReflectionException $e) {
+                $this->application->dumpException($e);
+            }
         }
         return $methods;
     }
@@ -381,9 +385,10 @@ class MethodInterfaceProcessor
     /**
      * ExportMethod
      *
-     * @param ExportMethod[] $classObject
-     * @param array $methods
+     * @param string|object $classObject
+     * @param ExportMethod[] $methods
      * @return ExportMethod[]
+     * @throws \ReflectionException
      */
     protected function getExportMethodFromClass($classObject, array $methods = [])
     {
@@ -402,7 +407,7 @@ class MethodInterfaceProcessor
             }
             if (in_array($method->getDeclaringClass()->getName(), $exportClasses) && !preg_match('/^__/', $name)) {
                 // 如果有DOCS
-                if ($docs = $method->getDocComment()) {
+                if (is_string($docs = $method->getDocComment())) {
                     // 设置了是否开放
                     if (preg_match('/@open\s+(\w+)\s+/ims', $docs, $match)) {
                         // 是否开放端口

@@ -18,11 +18,15 @@ class PermissionException extends RuntimeException
      */
     public function __construct($permission, int $code = 0)
     {
+        $show = [];
         if ($permission instanceof Permission) {
             $permission = $permission->jsonSerialize();
+            foreach($permission as $key => $item) {
+                $show[]= $key.'('.$item.')';
+            }
         } elseif (is_string($permission)) {
-            $permission = [$permission];
+            $show = [$permission];
         }
-        parent::__construct('required '. \implode(',', $permission), $code);
+        parent::__construct('required permission: '. \implode(',', $show), $code);
     }
 }

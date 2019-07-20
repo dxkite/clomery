@@ -73,7 +73,7 @@ class File extends SplFileObject implements ResultProcessor, MethodParameterInte
         $type = strtolower($this->getExtension());
         if (preg_match('/image\/*/i', $this->mimeType) || in_array($type, ['swf','jpc','jbx','jb2','swc'])) {
             $imageType = static::getImageTypeIfy($this->getPathname());
-            if ($imageType) {
+            if ($imageType !== null) {
                 $this->mimeType = image_type_to_mime_type($imageType);
                 $this->extension = image_type_to_extension($imageType, false);
                 return true;
@@ -86,15 +86,15 @@ class File extends SplFileObject implements ResultProcessor, MethodParameterInte
      * 获取图片类型
      *
      * @param string $path
-     * @return string|null
+     * @return int|null
      */
-    public static function getImageTypeIfy(string $path):?string {
+    public static function getImageTypeIfy(string $path):?int {
         if (function_exists('exif_imagetype')) {
-            return exif_imagetype($path);
+            return intval(exif_imagetype($path));
         } else {
             $value = getimagesize($path);
-            if ($value) {
-                return $value[2];
+            if (is_array($value)) {
+                return intval($value[2]);
             }
         }
         return null;

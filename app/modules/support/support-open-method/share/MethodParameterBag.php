@@ -55,7 +55,8 @@ class MethodParameterBag
         $this->request = $request;
         $this->method = $method;
         $this->json = $json;
-        $this->sourceFrom = $this->getParameterFrom($method->getReflectionMethod()->getDocComment());
+        $doc = $method->getReflectionMethod()->getDocComment();
+        $this->sourceFrom = $this->getParameterFrom(is_string($doc)?$doc:'');
     }
 
     /**

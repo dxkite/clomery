@@ -1,15 +1,14 @@
 <?php
+
 namespace support\openmethod;
 
 use Countable;
 use ArrayIterator;
-use ReflectionClass;
 use ReflectionMethod;
 use IteratorAggregate;
 use ReflectionFunction;
 use suda\framework\Config;
 use suda\application\Application;
-use support\openmethod\Permission;
 use support\openmethod\exception\PermissionException;
 
 /**
@@ -51,11 +50,11 @@ class Permission implements \JsonSerializable, IteratorAggregate, Countable
     {
         static::$permissionFilter[] = $name;
         foreach ($permissions as $permission) {
-            static::$permissionFilter[] = $name.'.'.$permission;
+            static::$permissionFilter[] = $name . '.' . $permission;
         }
         static::$permissionTable[$name] = $permissions;
     }
-    
+
     public function merge(Permission $anthor_vargs)
     {
         $anthor_vargs = func_get_args();
@@ -78,16 +77,15 @@ class Permission implements \JsonSerializable, IteratorAggregate, Countable
      * @param \support\openmethod\Permission $anthor
      * @return bool
      */
-    public function surpass(Permission $anthor):bool
+    public function surpass(Permission $anthor): bool
     {
         return count($this->need($anthor)) === 0;
     }
- 
+
     /**
      * 权限断言
      *
      * @param \support\openmethod\Permission $anthor
-     * @return bool
      */
     public function assert(Permission $anthor)
     {
@@ -183,13 +181,13 @@ class Permission implements \JsonSerializable, IteratorAggregate, Countable
                 $childs = array_merge($childs, $parentChilds[$space]);
             }
         }
-        return [$parent,$childs];
+        return [$parent, $childs];
     }
 
     protected function removeChilds(string $parent, array $childs)
     {
         return \array_filter($childs, function ($child) use ($parent) {
-            if (strpos($child, $parent.'.') !== 0) {
+            if (strpos($child, $parent . '.') !== 0) {
                 return true;
             }
             return false;
@@ -228,7 +226,7 @@ class Permission implements \JsonSerializable, IteratorAggregate, Countable
 
     public function getSystemPermissions()
     {
-        return  array_keys(static::$permissionTable);
+        return array_keys(static::$permissionTable);
     }
 
     public function jsonSerialize()
@@ -240,7 +238,7 @@ class Permission implements \JsonSerializable, IteratorAggregate, Countable
         return $permissions;
     }
 
-    public function minimum():array
+    public function minimum(): array
     {
         list($this_parent, $this_childs) = $this->explode($this->permissions);
         return array_merge($this_parent, $this_childs);
@@ -267,7 +265,7 @@ class Permission implements \JsonSerializable, IteratorAggregate, Countable
         return $permissions;
     }
 
-    public static function alias(string $permission):string
+    public static function alias(string $permission): string
     {
         if (strpos($permission, '.')) {
             list($parent, $child) = explode('.', $permission, 2);
@@ -286,24 +284,27 @@ class Permission implements \JsonSerializable, IteratorAggregate, Countable
      * @param ReflectionMethod|ReflectionFunction|array|string $method 可调用的函数
      * @return Permission|null
      */
-    public static function createFromFunction($method):?Permission
+    public static function createFromFunction($method): ?Permission
     {
-    
+
         // -[x] authname,groupname
         // -[x] group.authname
         // -[x] group.*
         // -[x] group.[auth1,auth2]
- 
-        if ($method instanceof \ReflectionMethod || $method instanceof \ReflectionFunction) {
-        } elseif (is_array($method) && count($method) > 1) {
-            $method = new ReflectionMethod($method[0], $method[1]);
-        } elseif (is_array($method) && count($method) === 1) {
-            $method = new ReflectionFunction($method[0]);
-        } else {
-            $method = new ReflectionFunction($method);
+        try {
+            if ($method instanceof \ReflectionMethod || $method instanceof \ReflectionFunction) {
+            } elseif (is_array($method) && count($method) > 1) {
+                $method = new ReflectionMethod($method[0], $method[1]);
+            } elseif (is_array($method) && count($method) === 1) {
+                $method = new ReflectionFunction($method[0]);
+            } else {
+                $method = new ReflectionFunction($method);
+            }
+        } catch (\ReflectionException $e) {
+            return null;
         }
         $docs = $method->getDocComment();
-        if ($docs && preg_match('/@ACL(?:\s+(.+?)?\s*)?$/im', $docs, $match)) {
+        if (is_string($docs) && preg_match('/@ACL(?:\s+(.+?)?\s*)?$/im', $docs, $match)) {
             $acl = null;
             if (isset($match[1])) {
                 $permissions = preg_replace_callback('/([^.,]+)\.\[([^.]+)\]/', function ($matchs) {
@@ -311,7 +312,7 @@ class Permission implements \JsonSerializable, IteratorAggregate, Countable
                     $acls = explode(',', trim($childs, ','));
                     $premStr = '';
                     foreach ($acls as $perm) {
-                        $premStr .= $parent.'.'.$perm.',';
+                        $premStr .= $parent . '.' . $perm . ',';
                     }
                     return $premStr;
                 }, $match[1]);
@@ -327,7 +328,7 @@ class Permission implements \JsonSerializable, IteratorAggregate, Countable
      * @param array|string|Permission $permission
      * @return Permission
      */
-    public static function buildPermission($permission):Permission
+    public static function buildPermission($permission): Permission
     {
         if (!$permission instanceof Permission) {
             if (is_array($permission)) {

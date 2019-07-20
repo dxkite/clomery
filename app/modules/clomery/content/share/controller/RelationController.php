@@ -42,12 +42,12 @@ class RelationController extends BaseController
     }
 
     /**
-     * @param string $relate
+     * @param $relate
      * @param string $item
      * @return bool
      * @throws SQLException
      */
-    public function remove(string $item, string $relate) {
+    public function remove($item, string $relate) {
         return $this->table->delete(['relate' => $relate, 'item' => $item])->ok();
     }
 

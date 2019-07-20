@@ -88,7 +88,7 @@ class PageData implements JsonSerializable
                 'current' => $this->pageCurrent,
                 'next' => $this->pageNext,
                 'previous' => $this->pagePrevious,
-            ]
+            ],
         ];
     }
 
@@ -100,7 +100,7 @@ class PageData implements JsonSerializable
             $this->size = 0;
             $this->rows = [];
         }
-        if ($this->page) {
+        if ($this->page > 0) {
             $previous = true;
             $maxPage = ceil($this->total / $this->pageSize);
             if ($this->page >= $maxPage) {
@@ -152,22 +152,43 @@ class PageData implements JsonSerializable
      */
     public static function create($statement, int $page = null, int $row = 10): PageData
     {
-        $access = $statement->getAccess();
-        $fields = $access->getStruct()->all();
-        $total = clone $statement;
+        $total = self::createTotalStatement($statement);
+        $totalQuery = new QueryStatement($statement->getAccess(),
+            sprintf("SELECT count(*) as count from (%s) as total", $total),
+            $statement->getBinder());
+        $statement = self::applyPage($statement, $page, $row);
+        $totalQuery->wantType(null);
+        $data = $totalQuery->one();
+        $total = intval($data['count']);
+        return PageData::build($statement->all(), $total, $page, $row);
+    }
 
-        if (count($fields) > 0 && $statement instanceof ReadStatement) {
-            if ($statement->isRawRead() === false) {
+    /**
+     * @param ReadStatement|QueryStatement $statement
+     * @return QueryStatement|ReadStatement
+     */
+    private static function createTotalStatement($statement) {
+        if ($statement instanceof ReadStatement) {
+            $total = clone $statement;
+            $access = $statement->getAccess();
+            $fields = $access->getStruct()->all();
+            if (count($fields) > 0 && $statement->isRawRead() === false) {
                 $field = \array_shift($fields);
                 $total->read([$field->getName()]);
             }
             $total->clearOrderBy();
+            return $total;
         }
+        return clone $statement;
+    }
 
-        $totalQuery = new QueryStatement($access,
-            "SELECT count(*) as count from (" . $total . ") as total",
-            $statement->getBinder());
-
+    /**
+     * @param ReadStatement|QueryStatement $statement
+     * @param int|null $page
+     * @param int $row
+     * @return QueryStatement|ReadStatement
+     */
+    private static function applyPage($statement, ?int $page, int $row) {
         if ($page !== null) {
             if ($statement instanceof ReadStatement) {
                 $statement->page($page, $row);
@@ -182,11 +203,7 @@ class PageData implements JsonSerializable
                 $statement->setQuery($query);
             }
         }
-
-        $totalQuery->wantType(null);
-        $data = $totalQuery->one();
-        $total = intval($data['count']);
-        return PageData::build($statement->all(), $total, $page, $row);
+        return $statement;
     }
 
     /**
