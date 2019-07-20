@@ -87,4 +87,26 @@ class ContentProvider
         $data = $this->controller->getTagController()->get($tag, ['id', 'name', 'slug', 'description', 'image' ]);
         return $data;
     }
+
+    /**
+     * @param int $page
+     * @param int $row
+     * @return PageData
+     * @throws \suda\database\exception\SQLException
+     */
+    public function getTagList(?int $page = null, int $row = 10) {
+        $data = $this->controller->getTagController()->getList($page, $row);
+        return $data;
+    }
+
+    /**
+     * @param int|null $page
+     * @param int $row
+     * @return PageData
+     * @throws \suda\database\exception\SQLException
+     */
+    public function getCategoryList(?int $page = null, int $row = 10) {
+        $data = $this->controller->getCategoryController()->getList($page, $row);
+        return $data;
+    }
 }

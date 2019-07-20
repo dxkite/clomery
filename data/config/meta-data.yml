@@ -14,7 +14,7 @@ menu:
   - name: 标签
     link: /tags
   - name: 分类
-    link: /categorys
+    link: /categories
   - name: 归档
     link: /archives
   - name: 框架

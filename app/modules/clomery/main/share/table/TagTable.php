@@ -8,7 +8,7 @@ use suda\application\database\creator\MySQLTableCreator;
 use suda\application\database\Database;
 use suda\database\exception\SQLException;
 
-class TagTable extends \clomery\content\table\TagTable
+class TagTable extends \clomery\content\table\CategoryTable
 {
     public function __construct()
     {

@@ -8,7 +8,7 @@
     <meta name="keywords" content="{{ $:website.keywords }}{{ $:keywords('') }}">
     <meta name="author" content="{{ $:profile.author }}">
     @if ($?:title)
-    <title>{{ $:title }}</title>
+    <title>{{ $:title }} | {{ $:website.name }}</title>
     @else
     <title>{{ $:website.name }}</title>
     @endif

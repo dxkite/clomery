@@ -6,6 +6,7 @@ namespace clomery\content\controller;
 
 use suda\application\database\Table;
 use clomery\content\table\CategoryTable;
+use support\openmethod\PageData;
 
 /**
  * Class CategoryController
@@ -37,6 +38,17 @@ class CategoryController extends TreeController
             $where['slug'] = $category;
         }
         return $this->table->read($fields?:'*')->where($where)->one();
+    }
+
+    /**
+     * @param int $page
+     * @param int $row
+     * @param array $fields
+     * @return PageData
+     * @throws \suda\database\exception\SQLException
+     */
+    public function getList(?int $page, int $row, array $fields = []) {
+        return PageData::create($this->table->read($fields?:'*')->where(['status' => 1]), $page, $row);
     }
 
     /**
