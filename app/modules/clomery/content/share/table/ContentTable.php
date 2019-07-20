@@ -18,6 +18,7 @@ class ContentTable extends CategoryTable
             $struct->field('views', 'int', 11)->key()->comment('阅读量'),
             $struct->field('content', 'text')->comment('内容'),
             $struct->field('password', 'varchar', 32)->comment('访问密码'),
+            $struct->field('update_time', 'int', 11)->key()->comment('更新时间'),
             // 草稿|已发布|未发布|回收站
             $struct->field('status', 'tinyint', 1)->comment('发布状态'),
         ]);
