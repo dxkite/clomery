@@ -1,0 +1,6 @@
+name: clomery/content
+version: 0.0.1
+import:
+  share:
+    clomery\content: share
+description: 内容操作

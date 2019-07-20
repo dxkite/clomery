@@ -1,0 +1,13 @@
+name: clomery/content-parser
+homepage: http://dxkite.cn
+version: 1.0.0
+locale: zh-CN
+namespace: clomery\content\parser
+discription: 内容处理模块
+authors:
+- name: dxkite
+  email: dxkite@qq.com
+import:
+  share:
+    clomery\content\parser: share
+    text_content: share/function.php

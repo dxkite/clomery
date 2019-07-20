@@ -5,6 +5,8 @@
     "ext-json": "*",
     "symfony/yaml": "^4.3",
     "joyqi/hyper-down": "master-dev",
-    "ezyang/htmlpurifier": "^4.11"
+    "ezyang/htmlpurifier": "^4.11",
+    "ext-mbstring": "*",
+    "gregwar/rst": "^1.0"
   }
 }
