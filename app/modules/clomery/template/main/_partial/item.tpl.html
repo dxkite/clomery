@@ -1,7 +1,7 @@
 <article class="item slideDownMin">
 
-    <time class="item-date"> {{ date( "m月d日, Y年", $:post.modify) }} </time>
+    <time class="item-date"> {{ date( "m月d日, Y年", $:post.modify_time ) }} </time>
 
-    <a class="item-title" href="@u('read-article', $:post.id)">{{ $:post.title }}</a>
+    <a class="item-title" href="@u('article', $:post.slug)">{{ $:post.title }}</a>
 
 </article>

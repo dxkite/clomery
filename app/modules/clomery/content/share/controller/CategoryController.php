@@ -30,7 +30,7 @@ class CategoryController extends TreeController
      * @return array|null
      * @throws \suda\database\exception\SQLException
      */
-    public function getCategory(string $category, array $fields = []):?array {
+    public function get(string $category, array $fields = []):?array {
         if (is_numeric($category)) {
             $where['id'] = $category;
         } else {
@@ -40,12 +40,14 @@ class CategoryController extends TreeController
     }
 
     /**
+     * 获取键值对
+     *
      * @param array $categoryId
      * @param array $fields
      * @return array
      * @throws \suda\database\exception\SQLException
      */
-    public function getCategoryArray(array $categoryId, array $fields = []) {
+    public function getWithArray(array $categoryId, array $fields = []) {
         return $this->table->read($fields?:'*')
             ->where(['id' => new \ArrayObject($categoryId)])
             ->withKey('id')->all();

@@ -12,25 +12,30 @@ use support\openmethod\PageData;
 
 class ContentController extends CategoryController
 {
-    public static $showFields = ['id', 'slug', 'title', 'user', 'create_time', 'modify_time', 'category', 'description', 'image', 'views', 'status'];
-    public static $viewFields = ['id', 'slug', 'title', 'content', 'user', 'create_time', 'modify_time', 'category', 'description', 'image', 'views', 'status'];
+    public static $showFields = ['id', 'slug', 'title', 'stick', 'user', 'create_time', 'modify_time', 'category', 'description', 'image', 'views', 'status'];
+    public static $viewFields = ['id', 'slug', 'title', 'stick', 'user', 'content', 'create_time', 'modify_time', 'category', 'description', 'image', 'views', 'status'];
 
     /**
      * @var TagController
      */
     protected $tagController;
+    /**
+     * @var CategoryController
+     */
+    protected $categoryController;
 
-    public function __construct(Table $table, Table $tag, Table $relate)
+    public function __construct(Table $table, Table $category, Table $tag, Table $relate)
     {
         parent::__construct($table);
+        $this->categoryController = new CategoryController($category);
         $this->tagController = new TagController($tag, $relate);
     }
 
     /**
      * 获取 上一篇 下一篇 文章
      *
-     * @param integer|null $user
-     * @param integer $article
+     * @param string $article
+     * @param array $fields
      * @return array
      * @throws SQLException
      */
@@ -145,12 +150,19 @@ class ContentController extends CategoryController
      * @param string $condition
      * @param array $binder
      * @return string
+     * @throws SQLException
      */
     protected function buildCategoryFilter(?string $category, string $condition, array & $binder): string
     {
         if ($category !== null) {
-            $condition = '`category` = :category AND ' . $condition;
-            $binder['category'] = $category;
+            if (is_numeric($category)) {
+                $condition = '`category` = :category AND ' . $condition;
+                $binder['category'] = $category;
+            } else {
+                $category = $this->categoryController->getTable()->read(['id'])->where(['slug' => $category]);
+                $binder = array_merge($binder, $category->getBinder());
+                $condition = '`category` = (' . $category . ') AND ' . $condition;
+            }
         }
         return $condition;
     }
@@ -195,6 +207,14 @@ class ContentController extends CategoryController
     public function getTagController(): TagController
     {
         return $this->tagController;
+    }
+
+    /**
+     * @return CategoryController
+     */
+    public function getCategoryController(): CategoryController
+    {
+        return $this->categoryController;
     }
 
     /**

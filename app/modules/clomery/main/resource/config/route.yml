@@ -17,20 +17,20 @@ tags:
   class: \clomery\main\response\IndexResponse
 article-tag:
   uri: "/tag/{tag:string}"
-  class: \clomery\main\response\IndexResponse
+  class: \clomery\main\response\TagArticleResponse
 article-tag-page:
   uri: "/tag/{tag:string}/page/{page:int}"
-  class: \clomery\main\response\IndexResponse
+  class: \clomery\main\response\TagArticleResponse
 ## 分类
 categorys:
   uri: "/categorys"
   class: \clomery\main\response\IndexResponse
 article-category:
-  uri: "/category/{slug:string}"
-  class: \clomery\main\response\IndexResponse
+  uri: "/category/{category:string}"
+  class: \clomery\main\response\CategoryArticleResponse
 article-category-page:
-  uri: "/category/{slug:string}/page/{page:int}"
-  class: \clomery\main\response\IndexResponse
+  uri: "/category/{category:string}/page/{page:int}"
+  class: \clomery\main\response\CategoryArticleResponse
 ## 归档
 archives:
   uri: "/archives"
