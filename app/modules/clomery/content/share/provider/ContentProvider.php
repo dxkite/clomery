@@ -4,22 +4,21 @@
 namespace clomery\content\provider;
 
 
-use clomery\content\controller\CategoryController;
 use clomery\content\controller\ContentController;
 use clomery\content\PageUtil;
-use suda\application\database\Table;
 use support\openmethod\PageData;
+use support\visitor\provider\UserSessionAwareProvider;
 
-class ContentProvider
+class ContentProvider extends UserSessionAwareProvider
 {
     /**
      * @var ContentController
      */
     protected $controller;
 
-    public function __construct(Table $content, Table $category, Table $tag, Table $relate)
+    public function __construct(ContentController $controller)
     {
-        $this->controller = new ContentController($content, $category, $tag, $relate);
+        $this->controller = $controller;
     }
 
     /**

@@ -34,10 +34,10 @@ article-category-page:
 ## 归档
 archives:
   uri: "/archives"
-  class: \clomery\main\response\IndexResponse
+  class: \clomery\main\response\ArchivesResponse
 article-archive:
   uri: "/archive/{date:string}"
-  class: \clomery\main\response\IndexResponse
+  class: \clomery\main\response\ArchiveArticleResponse
 article-archive-page:
   uri: "/archive/{date:string}/page/{page:int}"
-  class: \clomery\main\response\IndexResponse
+  class: \clomery\main\response\ArchiveArticleResponse

@@ -155,9 +155,13 @@ class PageData implements JsonSerializable
         $access = $statement->getAccess();
         $fields = $access->getStruct()->all();
         $total = clone $statement;
+
         if (count($fields) > 0 && $statement instanceof ReadStatement) {
-            $field = \array_shift($fields);
-            $total->read([$field->getName()]);
+            if ($statement->isRawRead() === false) {
+                $field = \array_shift($fields);
+                $total->read([$field->getName()]);
+            }
+            $total->clearOrderBy();
         }
 
         $totalQuery = new QueryStatement($access,
