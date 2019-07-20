@@ -12,14 +12,14 @@
 <nav class="paginator scrollIn">
  
     @if ($:page.previous)
-    <a class="prev" href="@u('article-tag-page', $:tag.name, $:page.current -1 )">
+    <a class="prev" href="@u('article-tag-page', $:tag.slug, $:page.current -1 )">
         <i class="iconfont icon-left"></i>
         {= 上一页 }
     </a>
     @endif
     <span class="page-number"> @e('第$0页', $:page.current) </span>
     @if ($:page.next)
-    <a class="next" href="@u('article-tag-page', $:tag.name, $:page.current + 1 )">
+    <a class="next" href="@u('article-tag-page', $:tag.slug, $:page.current + 1 )">
         {= 下一页}
         <i class="iconfont icon-right"></i>
     </a>
