@@ -13,7 +13,7 @@ class TagController extends CategoryController
     /**
      * @var RelationController
      */
-    protected $relate;
+    protected $relationController;
 
     /**
      *
@@ -24,7 +24,15 @@ class TagController extends CategoryController
     public function __construct(Table $table, Table $relate)
     {
         parent::__construct($table);
-        $this->relate = new RelationController($relate);
+        $this->relationController = new RelationController($relate);
+    }
+
+    /**
+     * @return RelationController
+     */
+    public function getRelationController(): RelationController
+    {
+        return $this->relationController;
     }
 
     /**
@@ -53,10 +61,10 @@ class TagController extends CategoryController
     public function delete(array $data)
     {
         if (array_key_exists('id', $data)) {
-            $this->relate->removeItem($data['id']);
+            $this->relationController->removeItem($data['id']);
         } else {
             $node = $this->table->read(['id'])->where($data);
-            $this->relate->removeItem($node);
+            $this->relationController->removeItem($node);
         }
         return parent::delete($data);
     }
@@ -73,7 +81,7 @@ class TagController extends CategoryController
     {
         $tagUpdate = [];
         foreach ($tagArray as $index => $tag) {
-            if ($this->relate->relate($tag, $relate)) {
+            if ($this->relationController->relate($tag, $relate)) {
                 $tagUpdate [] = $tag;
             }
         }
@@ -91,7 +99,7 @@ class TagController extends CategoryController
     public function removeTag(array $tagArray, string $relate)
     {
         $this->table->write('`count_item` = `count_item` - 1')->write(['id' => $tagArray])->ok();
-        return $this->relate->remove(new \ArrayObject($tagArray), $relate);
+        return $this->relationController->remove(new \ArrayObject($tagArray), $relate);
     }
 
     /**
@@ -102,7 +110,7 @@ class TagController extends CategoryController
      * @throws SQLException
      */
     public function removeTags(string $relate) {
-        return $this->relate->removeRelate($relate);
+        return $this->relationController->removeRelate($relate);
     }
 
     /**
@@ -112,7 +120,7 @@ class TagController extends CategoryController
      * @throws SQLException
      */
     public function getTags(string $relate, array $fields = []) {
-        $relate = $this->relate->getTable()->read(['item'])->where(['relate' => $relate]);
+        $relate = $this->relationController->getTable()->read(['item'])->where(['relate' => $relate]);
         return $this->table->read($fields?: '*')->where(['id' => ['in', $relate]])->all();
     }
 }

@@ -17,7 +17,7 @@
         {= 上一页 }
     </a>
     @endif
-    <span class="page-number"> @{ __('第$0页', $:page.current ) } </span>
+    <span class="page-number"> @e('第$0页', $:page.current) </span>
     @if ($:page.next)
     <a class="next" href="@u('article-tag-page', $:tag.name, $:page.current + 1 )">
         {= 下一页}

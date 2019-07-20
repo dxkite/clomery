@@ -1,0 +1,2 @@
+application:load-environment:
+  - \clomery\content\parser\event\InvokeContext::invoke

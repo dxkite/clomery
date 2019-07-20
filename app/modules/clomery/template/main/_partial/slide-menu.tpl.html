@@ -6,7 +6,7 @@
       @if ($menu['name'] === 'search')
       <a class="mobile-menu-link mobile-menu-search" href="#">{= 搜索 }</a>
       @else
-      <a class="header-menu-link" id="header-menu-{{$menu['name']}}" href="{{$menu['link']}}">{{ $$menu['name'] }}</a>
+      <a class="header-menu-link" id="header-menu-{{$menu['name']}}" href="{{$menu['link']}}">{{ $menu['name'] }}</a>
       @endif
       @endforeach
 </div>

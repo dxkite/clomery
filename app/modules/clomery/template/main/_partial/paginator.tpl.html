@@ -9,7 +9,7 @@
     </a>
     @endif
 
-    <span class="page-number"> @{ __('第$0页', $:page.current ) }</span>
+    <span class="page-number"> @e('第$0页', $:page.current )</span>
 
     @if ($:page.next)
     <a class="next" href="@u('index-page', $:page.current + 1 )">
