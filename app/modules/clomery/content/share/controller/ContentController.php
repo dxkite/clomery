@@ -223,7 +223,7 @@ class ContentController extends CategoryController
         $articleName = $this->table->getName();
         $query = "SELECT DISTINCT {$wants} FROM _:{$tagTableName} 
         JOIN _:{$tagRelateTableName} ON `_:$tagRelateTableName`.`item` IN (:tag)  
-        JOIN _:{$articleName} ON `_:{$articleName}`.`id` = `_:$tagRelateTableName`.`item`";
+        JOIN _:{$articleName} ON `_:{$articleName}`.`id` = `_:$tagRelateTableName`.`relate`";
         $binder['tag'] = new ArrayObject($tagId);
         return $query;
     }
