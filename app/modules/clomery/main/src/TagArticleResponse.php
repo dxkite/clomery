@@ -28,7 +28,7 @@ class TagArticleResponse implements RequestProcessor
         $search = $request->get('search', null);
         $tag = $request->get('tag');
         $tagData = $provider->getTag($tag);
-        $data = $provider->getArticleList($search, $tagData['id'], null, $page, 10, $field, $order);
+        $data = $provider->getArticleList($search, null, [$tagData['id']], $page, 10, $field, $order);
         $page = $application->getTemplate('article-tag', $request);
         $page->set('tag', $tagData);
         $page->set('title', '标签 ' . $tagData['name']);

@@ -9,7 +9,7 @@
             <span><i class="iconfont icon-eye"></i>{{ $:post.views }}</span>
             @foreach ($:post.tag as $tag)
             <span class="iconfont icon-star"></span>
-            <a class="article-tag" href="@u('article-tag',$tag['name'])">{{$tag['name']}}</a>
+            <a class="article-tag" href="@u('article-tag',$tag['slug'])">{{$tag['name']}}</a>
             @endforeach
         </div>
     </div>

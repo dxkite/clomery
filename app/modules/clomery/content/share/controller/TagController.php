@@ -46,7 +46,6 @@ class TagController extends CategoryController
     {
         if ($id = $this->table->read(['id'])->where(['name' => $data['name']])->field('id')) {
             $data['id'] = $id;
-            return $data;
         }
         return parent::save($data);
     }
