@@ -26,6 +26,14 @@ class ContentProvider extends UserSessionAwareProvider
     }
 
     /**
+     * @return ContentController
+     */
+    public function getController(): ContentController
+    {
+        return $this->controller;
+    }
+
+    /**
      * @param string|null $search
      * @param string|null $category
      * @param array|null $tags

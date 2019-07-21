@@ -57,7 +57,7 @@ class CategoryController extends TreeController
      * @return bool
      * @throws SQLException
      */
-    public function updateCountItem(string $id, int $size) {
+    public function pushCountItem(string $id, int $size) {
         return $this->table->write('`count_item` = `count_item` + :num')
             ->addValue('num', $size)
             ->where(['id' => $id])

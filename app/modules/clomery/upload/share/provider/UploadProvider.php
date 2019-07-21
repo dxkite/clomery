@@ -56,7 +56,7 @@ class UploadProvider extends UserSessionAwareProvider
 
         if ($save !== null && is_array($tag)) {
             if ($categoryId > 0) {
-                $categoryController->updateCountItem($categoryId, 1);
+                $categoryController->pushCountItem($categoryId, 1);
             }
             $tagController = $articleController->getTagController();
             $tagArray = $tagController->createWithNameArray($tag);

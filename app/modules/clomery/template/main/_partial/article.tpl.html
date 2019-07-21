@@ -2,9 +2,9 @@
 
 <article class="article">
     <div class="article-header">
-        <a class="article-title" href="@u('read-article', $:post.id)"> {{ $:post.title }}</a>
+        <a class="article-title" href="@u('article', $:post.slug)"> {{ $:post.title }}</a>
         <div class='article-meta'>
-            <span>{{ date( "m月d日, Y年", $:post.modify_time ) }}</span>
+            <span>{{ date( "m月d日, Y年", $:post.create_time ) }}</span>
             <span class="iconfont icon-star"></span>
             <span><i class="iconfont icon-eye"></i>{{ $:post.views }}</span>
             @foreach ($:post.tag as $tag)

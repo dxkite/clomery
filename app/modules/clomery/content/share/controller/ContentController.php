@@ -44,6 +44,19 @@ class ContentController extends CategoryController
     }
 
     /**
+     * @param string $id
+     * @param int $size
+     * @return bool
+     * @throws SQLException
+     */
+    public function pushCountView(string $id, int $size) {
+        return $this->table->write('`views` = `views` + :num')
+            ->addValue('num', $size)
+            ->where(['id' => $id])
+            ->ok();
+    }
+
+    /**
      * 获取 上一篇 下一篇 文章
      *
      * @param string $article
