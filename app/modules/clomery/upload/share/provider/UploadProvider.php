@@ -15,6 +15,7 @@ use clomery\main\table\AttachmentTable;
 use clomery\main\table\CategoryTable;
 use clomery\main\table\TagRelationTable;
 use clomery\main\table\TagTable;
+use clomery\upload\exception\UploadException;
 use support\openmethod\parameter\File;
 use support\upload\provider\BlockUploadProvider;
 use support\upload\UploadUtil;
@@ -22,6 +23,11 @@ use support\visitor\provider\UserSessionAwareProvider;
 
 class UploadProvider extends UserSessionAwareProvider
 {
+    /**
+     * @var string
+     */
+    protected $group = 'clomery';
+
     /**
      * @param string $title
      * @param string $slug
@@ -35,6 +41,11 @@ class UploadProvider extends UserSessionAwareProvider
      * @throws \suda\database\exception\SQLException
      */
     public function save(string $title, string $slug, string $description, string $content, ?array $category, ?array $tag, int $create, int $status) {
+
+        if ($this->visitor->isGuest()) {
+            throw new UploadException('error user', UploadException::ERR_USER_ID);
+        }
+
         $articleController = new ArticleController(new ArticleTable(), new CategoryTable(), new TagTable(), new TagRelationTable());
         $categoryId = 0;
         $categoryController = $articleController->getCategoryController();
@@ -43,6 +54,7 @@ class UploadProvider extends UserSessionAwareProvider
         }
 
         $data = [
+            'user' => $this->visitor->getId(),
             'title' => $title,
             'slug' => $slug,
             'description' => new Content($description, Content::MD),
@@ -74,12 +86,15 @@ class UploadProvider extends UserSessionAwareProvider
      * @throws \ReflectionException
      */
     public function saveFile(string $article, string $name, File $file) {
+        if ($this->visitor->isGuest()) {
+            throw new UploadException('error user', UploadException::ERR_USER_ID);
+        }
         $controller = new FileController(new AttachmentTable(), new AttachmentRelationTable());
         $provider = new BlockUploadProvider();
         $provider->loadFromContext($this->context);
         $hash = UploadUtil::hash($file->getPathname());
         $uri = $provider->upload($file);
-        $controller->saveFile($file, $name, $uri, $hash,  $article);
+        $controller->saveFile($this->visitor->getId(), $file, $name, $uri, $hash,  $article);
         return $uri;
     }
 }

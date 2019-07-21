@@ -80,18 +80,20 @@ class FileController extends BaseController
     /**
      * 关联文件
      *
-     * @param SplFileObject $file
+     * @param string $user
+     * @param File $file
      * @param string $name
-     * @param string $originalName
      * @param string $uri
+     * @param string $hash
      * @param string $relate
      * @return bool
      * @throws SQLException
      */
-    public function saveFile(File $file, string $name, string $uri, string $hash, string $relate)
+    public function saveFile(string $user, File $file, string $name, string $uri, string $hash, string $relate)
     {
         $data = [];
         $data['name'] = $name;
+        $data['user'] = $user;
         $data['original_name'] = $file->getOriginalName();
         $data['type'] = pathinfo($file->getOriginalName(), PATHINFO_EXTENSION);
         $data['size'] = $file->getSize();

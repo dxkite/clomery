@@ -1,6 +1,7 @@
 {
     "name": "clomery",
     "version": "1.x",
+    "debug-key": "f277b7d056738efbdea42dd95dc4bee5",
     "language": "zh-CN",
     "module-paths": [
         "modules/support",

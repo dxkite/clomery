@@ -12,6 +12,11 @@ use support\visitor\provider\UserSessionAwareProvider;
 class ArticleResponse extends  UserSessionAwareProvider implements RequestProcessor {
 
     /**
+     * @var string
+     */
+    protected $group =  'clomery';
+
+    /**
      * @param Application $application
      * @param Request $request
      * @param Response $response

@@ -17,7 +17,7 @@ class UploadUtil
      * 计算文件Hash
      *
      * @param string $path
-     * @return boolean
+     * @return string
      */
     public static function hash(string $path)
     {
