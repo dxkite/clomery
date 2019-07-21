@@ -1,0 +1,4 @@
+upload-provider:
+  uri: /upload-article
+  class:
+    - \clomery\upload\provider\UploadProvider

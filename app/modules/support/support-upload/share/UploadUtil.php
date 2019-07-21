@@ -21,7 +21,7 @@ class UploadUtil
      */
     public static function hash(string $path)
     {
-        return static::md5encode(\md5_file($path, true));
+        return static::md5encode(md5_file($path));
     }
 
     /**
@@ -32,12 +32,13 @@ class UploadUtil
      */
     public static function md5encode(string $md5)
     {
-        return \str_replace(['+', '/', '='], ['$', '_', ''], \base64_encode(\hex2bin($md5)));
+        return \str_replace(['+', '/', '='], ['-', '_', ''], \base64_encode(\hex2bin($md5)));
     }
 
     /**
      * 保存文件
      *
+     * @param string $savePath
      * @param \support\openmethod\parameter\File $file
      * @return string
      */
@@ -66,7 +67,7 @@ class UploadUtil
             $savePath = $extension . '/' . $hash . '.' . $extension;
             $path = $savePath;
         }
-        $save = $uploadSavePath . $savePath;
+        $save = $uploadSavePath . '/' . $savePath;
         FileSystem::make(dirname($save));
         FileSystem::copy($file->getPathname(), $save);
         return $path;

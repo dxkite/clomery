@@ -3,6 +3,7 @@
 /data/extract-module
 /data/template
 /data/logs
+/data/upload
 /data/session
 ### 运行时资源
 /public/assets

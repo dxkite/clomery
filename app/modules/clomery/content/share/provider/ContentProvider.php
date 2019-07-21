@@ -16,6 +16,10 @@ class ContentProvider extends UserSessionAwareProvider
      */
     protected $controller;
 
+    /**
+     * ContentProvider constructor.
+     * @param ContentController $controller
+     */
     public function __construct(ContentController $controller)
     {
         $this->controller = $controller;

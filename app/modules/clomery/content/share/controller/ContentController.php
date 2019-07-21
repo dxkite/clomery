@@ -31,6 +31,18 @@ class ContentController extends CategoryController
         $this->tagController = new TagController($tag, $relate);
     }
 
+    public function save(array $data)
+    {
+        $data = $this->addIdIfUnique($data);
+        if (array_key_exists('id', $data) === false) {
+            $data['views'] = intval($data['views'] ?? 0);
+            $data['stick'] = intval($data['stick'] ?? 0);
+            $data['create_time'] = intval($data['create_time'] ?? time());
+            $data['modify_time'] = intval($data['modify_time'] ?? time());
+        }
+        return parent::save($data);
+    }
+
     /**
      * 获取 上一篇 下一篇 文章
      *

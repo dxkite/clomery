@@ -9,6 +9,7 @@
     "ext-mbstring": "*",
     "gregwar/rst": "^1.0",
     "ext-gd": "*",
-    "ext-exif": "*"
+    "ext-exif": "*",
+    "overtrue/pinyin": "^4.0"
   }
 }

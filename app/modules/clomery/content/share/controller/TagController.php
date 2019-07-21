@@ -82,10 +82,13 @@ class TagController extends CategoryController
         $tagUpdate = [];
         foreach ($tagArray as $index => $tag) {
             if ($this->relationController->relate($tag, $relate)) {
-                $tagUpdate [] = $tag;
+                $tagUpdate[] = $tag;
             }
         }
-        return $this->table->write('`count_item` = `count_item` + 1')->write(['id' => new \ArrayObject($tagUpdate)])->ok();
+        if (count($tagUpdate)) {
+            return $this->table->write('`count_item` = `count_item` + 1')->where(['id' => new \ArrayObject($tagUpdate)])->ok();
+        }
+        return false;
     }
 
     /**
