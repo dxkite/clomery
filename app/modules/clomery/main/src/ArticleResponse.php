@@ -29,6 +29,12 @@ class ArticleResponse extends  UserSessionAwareProvider implements RequestProces
         $provider = new ArticleProvider();
         $article = $request->get('article');
         $data = $provider->getArticle($article);
+
+        if ($data === null) {
+            $response->status(404);
+            return '';
+        }
+
         $page = $application->getTemplate('post', $request);
         $page->set('article', $data);
         $this->setContext($application,$request,$response);

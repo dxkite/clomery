@@ -23,6 +23,10 @@ class TagResponse implements RequestProcessor
     {
         $provider = new ArticleProvider();
         $data = $provider->getTagList();
+        if ($data === null) {
+            $response->status(404);
+            return '';
+        }
         $page = $application->getTemplate('tag', $request);
         $page->set('title','标签列表');
         $page->set('page',$data->getPage());

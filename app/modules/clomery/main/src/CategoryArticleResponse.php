@@ -28,6 +28,10 @@ class CategoryArticleResponse implements RequestProcessor
         $search = $request->get('search', null);
         $category = $request->get('category');
         $categoryData = $provider->getCategory($category);
+        if ($categoryData === null) {
+            $response->status(404);
+            return '';
+        }
         $data = $provider->getArticleList($search, $categoryData['id'], null, $page, 10, $field, $order);
         $page = $application->getTemplate('article-category', $request);
         $page->set('category', $categoryData);

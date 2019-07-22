@@ -24,6 +24,10 @@ class CategoryResponse implements RequestProcessor
         $provider = new ArticleProvider();
         $data = $provider->getCategoryList();
         $page = $application->getTemplate('category', $request);
+        if ($data === null) {
+            $response->status(404);
+            return '';
+        }
         $page->set('title','分类列表');
         $page->set('page',$data->getPage());
         $page->set('categories', $data->getRows());
