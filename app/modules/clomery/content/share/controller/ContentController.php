@@ -49,7 +49,8 @@ class ContentController extends CategoryController
      * @return bool
      * @throws SQLException
      */
-    public function pushCountView(string $id, int $size) {
+    public function pushCountView(string $id, int $size)
+    {
         return $this->table->write('`views` = `views` + :num')
             ->addValue('num', $size)
             ->where(['id' => $id])
@@ -71,6 +72,7 @@ class ContentController extends CategoryController
     }
 
     /**
+     * 获取文章
      * @param string $article
      * @return array|null
      * @throws SQLException
@@ -91,13 +93,14 @@ class ContentController extends CategoryController
      * 根据时间获取相近文章
      *
      * @param integer $create
+     * @param array $fields
      * @return array
      * @throws SQLException
      */
     public function getNearArticleByTime(int $create, array $fields = []): array
     {
-        $previousCondition = ['create_time' => ['<', $create]];
-        $nextCondition = ['create_time' => ['>', $create]];
+        $previousCondition = ['create_time' => ['<', $create], 'status' => ArticleTable::PUBLISH];
+        $nextCondition = ['create_time' => ['>', $create], 'status' => ArticleTable::PUBLISH];
         $previous = $this->table->read($fields ?: static::$showFields)->where($previousCondition)->orderBy('create_time', 'DESC')->one();
         $next = $this->table->read($fields ?: static::$showFields)->where($nextCondition)->orderBy('create_time')->one();
         return [$previous, $next];
@@ -202,7 +205,7 @@ class ContentController extends CategoryController
     protected function buildSimple(string $wants, array & $binder): string
     {
         $articleName = $this->table->getName();
-        $query = "SELECT {$wants} FROM _:{$articleName}";
+        $query = "SELECT " . $wants . " FROM _:" . $articleName;
         $binder = [];
         return $query;
     }
@@ -221,9 +224,9 @@ class ContentController extends CategoryController
         $tagRelate = $this->tagController->getRelationController()->getTable();
         $tagRelateTableName = $tagRelate->getName();
         $articleName = $this->table->getName();
-        $query = "SELECT DISTINCT {$wants} FROM _:{$tagTableName} 
-        JOIN _:{$tagRelateTableName} ON `_:$tagRelateTableName`.`item` IN (:tag)  
-        JOIN _:{$articleName} ON `_:{$articleName}`.`id` = `_:$tagRelateTableName`.`relate`";
+        $query = "SELECT DISTINCT " . $wants . " FROM _:" . $tagTableName . " 
+        JOIN _:" . $tagRelateTableName . " ON `_:" . $tagRelateTableName . "`.`item` IN (:tag)  
+        JOIN _:" . $articleName . " ON `_:" . $articleName . "`.`id` = `_:" . $tagRelateTableName . "`.`relate`";
         $binder['tag'] = new ArrayObject($tagId);
         return $query;
     }

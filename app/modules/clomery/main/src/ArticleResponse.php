@@ -3,6 +3,7 @@ namespace clomery\main\response;
 
 
 use clomery\main\provider\ArticleProvider;
+use clomery\main\table\ArticleTable;
 use suda\application\Application;
 use suda\application\processor\RequestProcessor;
 use suda\framework\Request;
@@ -30,8 +31,15 @@ class ArticleResponse extends  UserSessionAwareProvider implements RequestProces
         $article = $request->get('article');
         $data = $provider->getArticle($article);
 
+        // 没有文章
         if ($data === null) {
             $response->status(404);
+            return '';
+        }
+
+        // 文章不是显示状态
+        if ($data['status'] != ArticleTable::PUBLISH) {
+            $response->status(403);
             return '';
         }
 
