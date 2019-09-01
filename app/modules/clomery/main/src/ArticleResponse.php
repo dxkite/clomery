@@ -48,12 +48,6 @@ class ArticleResponse extends UserSessionAwareProvider implements RequestProcess
         $page = $application->getTemplate('post', $request);
         $page->set('article', $data);
         $page->set('title', $data['title']);
-        $this->setContext($application, $request, $response);
-        $session = $this->getContext()->getSession();
-        if ($session->has('read_' . $data['id']) === false) {
-            $provider->getController()->pushCountView($data['id'], 1);
-            $session->set('read_' . $data['id'], 1);
-        }
         return $page;
     }
 }

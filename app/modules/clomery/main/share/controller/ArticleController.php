@@ -27,19 +27,22 @@ class ArticleController extends ContentController
      */
     public function getArchives(?int $begin = null, ?int $end = null, ?int $page = null, int $row = 10): PageData
     {
-        $where = [
+        $where[] = 'status = :status';
+        $binder = [
             'status' => ArticleTable::PUBLISH,
         ];
         if (!is_null($begin)) {
-            $where['create'] = ['=>', $begin];
+            $binder['create_start'] = $begin;
+            $where[] = 'create >= :create_start';
         }
         if (!is_null($end)) {
-            $where['create'] = ['<=', $end];
+            $binder['create_end'] = $end;
+            $where[] = 'create <= :create_end';
         }
         return PageData::create(
             $this->table
                 ->read('FROM_UNIXTIME(`create_time`, \'%Y-%m\') AS date, count(id) AS count')
-                ->where($where)
+                ->where(implode(' AND ', $where), $binder)
                 ->groupBy('date')
                 ->orderBy('date', 'DESC')
             , $page, $row);
@@ -55,14 +58,14 @@ class ArticleController extends ContentController
      * @return PageData
      * @throws \suda\database\exception\SQLException
      */
-    public function getListByDate(string $date, ?int $page=null, int $row=10):PageData
+    public function getListByDate(string $date, ?int $page = null, int $row = 10): PageData
     {
         $parameter = [];
         $parameter['date'] = $date;
         return PageData::create($this->table->read(static::$showFields)
             ->where('status = :publish AND FROM_UNIXTIME(`create_time`, \'%Y-%m\') = :date', [
                 'publish' => ArticleTable::PUBLISH,
-                'date' => $date
+                'date' => $date,
             ]), $page, $row);
     }
 }

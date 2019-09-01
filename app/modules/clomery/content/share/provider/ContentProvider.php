@@ -35,13 +35,13 @@ class ContentProvider extends UserSessionAwareProvider
     }
 
     /**
-     * @param string|null $search
-     * @param string|null $category
-     * @param array|null $tags
+     * @param string|null $search 搜索标题
+     * @param string|null $category 分类ID
+     * @param array|null $tags 标签ID数组
      * @param int|null $page
      * @param int $row
-     * @param int $field
-     * @param int $order
+     * @param int $field 0 = modify_time 1 = create_time
+     * @param int $order ASC DESC
      * @return PageData
      * @throws \suda\database\exception\SQLException
      */
@@ -69,6 +69,11 @@ class ContentProvider extends UserSessionAwareProvider
     public function getArticle(string $article) {
         $data = $this->controller->getArticle($article);
         if ($data !== null) {
+            $session = $this->getContext()->getSession();
+            if ($session->has('read_' . $data['id']) === false) {
+                $this->controller->pushCountView($data['id'], 1);
+                $session->set('read_' . $data['id'], 1);
+            }
             $data['tag'] = $this->controller->getTagController()->getTags($data['id'], ['id', 'name', 'slug', 'description', 'image']);
             $data['category'] = $this->controller->getCategoryController()->get(strval($data['category']), ['id', 'name', 'slug', 'description', 'image']);
             list($previous, $next) =$this->controller->getNearArticle($data['id'], ['id', 'title', 'slug', 'description', 'image']);

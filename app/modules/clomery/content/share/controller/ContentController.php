@@ -31,6 +31,11 @@ class ContentController extends CategoryController
         $this->tagController = new TagController($tag, $relate);
     }
 
+    /**
+     * @param array $data
+     * @return array|null
+     * @throws SQLException
+     */
     public function save(array $data)
     {
         $data = $this->addIdIfUnique($data);
