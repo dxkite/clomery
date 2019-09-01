@@ -6,6 +6,8 @@ use ReflectionException;
 use suda\database\exception\SQLException;
 use suda\framework\Request;
 use suda\framework\Response;
+use support\openmethod\AuthorizationInterface;
+use support\openmethod\Permission;
 use support\visitor\Context;
 use support\visitor\Visitor;
 use support\session\UserSession;
@@ -13,7 +15,7 @@ use suda\application\Application;
 use support\openmethod\FrameworkContextAwareTrait;
 use support\openmethod\FrameworkContextAwareInterface;
 
-class UserSessionAwareProvider implements FrameworkContextAwareInterface
+class UserSessionAwareProvider implements FrameworkContextAwareInterface, AuthorizationInterface
 {
     use FrameworkContextAwareTrait {
         setContext as setBaseContext;
@@ -97,7 +99,6 @@ class UserSessionAwareProvider implements FrameworkContextAwareInterface
      *
      * @param Context $context
      * @return $this
-     * @throws ReflectionException
      * @throws SQLException
      */
     public function loadFromContext(Context $context)
@@ -148,5 +149,13 @@ class UserSessionAwareProvider implements FrameworkContextAwareInterface
     public function getContext(): Context
     {
         return $this->context;
+    }
+
+    /**
+     * @return Permission
+     */
+    public function getPermission(): Permission
+    {
+        return $this->visitor->getPermission();
     }
 }

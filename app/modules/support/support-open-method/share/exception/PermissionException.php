@@ -21,9 +21,11 @@ class PermissionException extends RuntimeException
         $show = [];
         if ($permission instanceof Permission) {
             $permission = $permission->jsonSerialize();
-            foreach($permission as $key => $item) {
-                $show[]= $key.'('.$item.')';
+            foreach ($permission as $key => $item) {
+                $show[] = $key.'('.$item.')';
             }
+        } elseif (is_array($permission)) {
+            $show = $permission;
         } elseif (is_string($permission)) {
             $show = [$permission];
         }

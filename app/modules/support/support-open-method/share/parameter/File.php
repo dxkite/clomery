@@ -90,7 +90,7 @@ class File extends SplFileObject implements ResultProcessor, MethodParameterInte
      */
     public static function getImageTypeIfy(string $path):?int {
         if (function_exists('exif_imagetype')) {
-            return intval(call_user_func('exif_imagetype', $path));
+            return intval(exif_imagetype($path));
         } else {
             $value = getimagesize($path);
             if (is_array($value)) {

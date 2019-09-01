@@ -117,6 +117,10 @@ class Visitor
         return $this;
     }
 
+    /**
+     * @param $method
+     * @return bool
+     */
     public function canAccess($method) : bool
     {
         if ($permission = Permission::createFromFunction($method)) {
@@ -124,7 +128,11 @@ class Visitor
         }
         return true;
     }
-    
+
+    /**
+     * @param array|Permission|string $permission
+     * @return bool
+     */
     public function hasPermission($permission): bool
     {
         if (!$permission instanceof Permission) {

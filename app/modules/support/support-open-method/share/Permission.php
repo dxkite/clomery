@@ -249,6 +249,7 @@ class Permission implements \JsonSerializable, IteratorAggregate, Countable
         $permissions = [];
         foreach ($app->getModules() as $fullName => $module) {
             if ($path = $module->getResource()->getConfigResourcePath('config/permissions')) {
+                $app->debug()->debug('load {module} permission from {path}', ['module' => $fullName, 'path' => $path]);
                 $tmp = Config::loadConfig($path, [
                     'module' => $fullName,
                     'config' => $module->getConfig(),

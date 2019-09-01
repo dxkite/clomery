@@ -78,9 +78,9 @@ class UserSession implements MethodParameterInterface, ResultProcessor, JsonSeri
      * @param string $ip 用户IP
      * @param integer $expireIn 过期时间
      * @param string $group 会话组
+     * @param string $tokenFrom
      * @return UserSession
      * @throws \suda\database\exception\SQLException
-     * @throws \ReflectionException
      */
     public static function save(string $userId, string $ip, int $expireIn = 0, string $group = 'system', string $tokenFrom = ''): UserSession
     {
@@ -329,7 +329,6 @@ class UserSession implements MethodParameterInterface, ResultProcessor, JsonSeri
      * @param string $group
      * @param string $debugKey
      * @return self
-     * @throws \ReflectionException
      * @throws \suda\database\exception\SQLException
      */
     public static function createFromRequest(Request $request, string $tokenFrom, string $group, string $debugKey)

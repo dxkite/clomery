@@ -2,27 +2,24 @@
 
 namespace support\openmethod\processor;
 
-use suda\application\template\RawTemplate;
-use suda\framework\Config;
-use suda\framework\debug\DebugObject;
+use ReflectionException;
+use RuntimeException;
 use Throwable;
 use ReflectionClass;
 use ReflectionMethod;
-use RuntimeException;
-use suda\framework\Route;
+use suda\framework\Config;
 use BadMethodCallException;
 use suda\framework\Request;
-use suda\application\Module;
 use suda\framework\Response;
 use InvalidArgumentException;
 use suda\application\Application;
 use support\openmethod\Permission;
 use support\openmethod\ExportMethod;
+use suda\framework\debug\DebugObject;
 use support\openmethod\ExportMessage;
+use suda\application\template\RawTemplate;
 use support\openmethod\MethodParameterBag;
 use support\openmethod\AuthorizationInterface;
-use suda\application\processor\RequestProcessor;
-use support\openmethod\processor\ResultProcessor;
 use support\openmethod\exception\PermissionException;
 use support\openmethod\FrameworkContextAwareInterface;
 
@@ -123,21 +120,25 @@ class MethodInterfaceProcessor
             if (count($method) > 0) {
                 $response->setHeader('access-control-allow-methods', implode(',', $method));
             }
-            $origin = $request->getHeader('origin', null);
-            $allow = $config['access-control']['allow-origin'] ?? '*';
-            $allowCookie = $config['access-control']['allow-credentials'] ?? false;
-            if ($allow === 'any') {
-                $response->setHeader('access-control-allow-origin', $origin === null ? '*' : $origin);
-            }
-            if ($allow === '*') {
-                $response->setHeader('access-control-allow-origin', '*');
-            }
-            if (is_array($allow)) {
-                $response->setHeader('access-control-allow-origin', implode(',', $allow));
-            }
-            if ($allowCookie) {
-                $response->setHeader('access-control-allow-credentials', 'true');
-            }
+            $this->buildAccessControlHeader($config['access-control'], $request, $response);
+        }
+    }
+
+    protected function buildAccessControlHeader(array $config, Request $request, Response $response) {
+        $origin = $request->getHeader('origin', null);
+        $allow = $config['allow-origin'] ?? '*';
+        $allowCookie = $config['allow-credentials'] ?? false;
+        if ($allow === 'any') {
+            $response->setHeader('access-control-allow-origin', $origin === null ? '*' : $origin);
+        }
+        if ($allow === '*') {
+            $response->setHeader('access-control-allow-origin', '*');
+        }
+        if (is_array($allow)) {
+            $response->setHeader('access-control-allow-origin', implode(',', $allow));
+        }
+        if ($allowCookie) {
+            $response->setHeader('access-control-allow-credentials', 'true');
         }
     }
 
@@ -145,21 +146,7 @@ class MethodInterfaceProcessor
     {
         $config = $this->getMethodConfig($application, $module);
         if (is_array($config) && array_key_exists('access-control', $config)) {
-            $origin = $request->getHeader('origin', null);
-            $allow = $config['access-control']['allow-origin'] ?? '*';
-            $allowCookie = $config['access-control']['allow-credentials'] ?? false;
-            if ($allow === 'any') {
-                $response->setHeader('access-control-allow-origin', $origin === null ? '*' : $origin);
-            }
-            if ($allow === '*') {
-                $response->setHeader('access-control-allow-origin', '*');
-            }
-            if (is_array($allow)) {
-                $response->setHeader('access-control-allow-origin', implode(',', $allow));
-            }
-            if ($allowCookie) {
-                $response->setHeader('access-control-allow-credentials', 'true');
-            }
+            $this->buildAccessControlHeader($config['access-control'], $request, $response);
         }
     }
 
@@ -227,7 +214,7 @@ class MethodInterfaceProcessor
      * @param Request $request
      * @param Response $response
      * @return mixed
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     protected function invokeMethod(MethodParameterBag $parameterBag, Application $application, Request $request, Response $response)
     {
@@ -237,15 +224,15 @@ class MethodInterfaceProcessor
         $methodIsStatic = $method->getReflectionMethod()->isStatic();
 
         if ($methodIsStatic) {
-            $this->assertCanAccessMethod(null, $method);
             $this->contextAware(null, $method, $application, $request, $response);
+            $this->assertCanAccessMethod(null, $method);
             return $method->getReflectionMethod()->invokeArgs(null, $parameter);
         } else {
             if (is_string($object)) {
                 $object = $method->getReflectionClass()->newInstance();
             }
-            $this->assertCanAccessMethod($object, $method);
             $this->contextAware($object, $method, $application, $request, $response);
+            $this->assertCanAccessMethod($object, $method);
             return $method->getReflectionMethod()->invokeArgs($object, $parameter);
         }
     }
@@ -256,7 +243,7 @@ class MethodInterfaceProcessor
      * @param Application $application
      * @param Request $request
      * @param Response $response
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     protected function contextAware($object, ExportMethod $export, Application $application, Request $request, Response $response)
     {
@@ -274,7 +261,7 @@ class MethodInterfaceProcessor
     /**
      * @param $object
      * @param ExportMethod $export
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     protected function assertCanAccessMethod($object, ExportMethod $export)
     {
@@ -324,7 +311,7 @@ class MethodInterfaceProcessor
         if ($request->getMethod() !== 'OPTIONS' && $request->isJson()) {
             $json = json_decode($request->input(), true);
             if (json_last_error() !== JSON_ERROR_NONE) {
-                throw new BadMethodCallException('create argument from json error:' . json_last_error_msg(), -32700);
+                throw new BadMethodCallException('create argument from json error: ' . json_last_error_msg(), -32700);
             }
             return $json;
         }
@@ -375,8 +362,9 @@ class MethodInterfaceProcessor
             }
             try {
                 $methods = $this->getExportMethodFromClass($class, $methods);
-            } catch (\ReflectionException $e) {
+            } catch (ReflectionException $e) {
                 $this->application->dumpException($e);
+                throw new RuntimeException('export method: ' . $e->getMessage(), $e->getCode(), $e);
             }
         }
         return $methods;
@@ -388,7 +376,7 @@ class MethodInterfaceProcessor
      * @param string|object $classObject
      * @param ExportMethod[] $methods
      * @return ExportMethod[]
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     protected function getExportMethodFromClass($classObject, array $methods = [])
     {

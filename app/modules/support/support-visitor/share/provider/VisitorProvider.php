@@ -55,14 +55,14 @@ class VisitorProvider extends UserSessionAwareProvider
      * 编辑角色
      *
      * @acl setting:role.edit
-     * @param integer $id
+     * @param string $id
      * @param string $name
      * @param array $permission
      * @param integer $sort
      * @return boolean
      * @throws SQLException
      */
-    public function editRole(int $id, string $name, array $permission, int $sort = 0): bool
+    public function editRole(string $id, string $name, array $permission, int $sort = 0): bool
     {
         $permission = new Permission($permission);
         $this->visitor->getPermission()->assert($permission);
@@ -73,11 +73,11 @@ class VisitorProvider extends UserSessionAwareProvider
      * 删除角色
      *
      * @acl setting:role.delete
-     * @param integer $id
+     * @param string $id
      * @return boolean
      * @throws SQLException
      */
-    public function deleteRole(int $id):bool
+    public function deleteRole(string $id):bool
     {
         return $this->controller->deleteRole($id);
     }
@@ -86,11 +86,11 @@ class VisitorProvider extends UserSessionAwareProvider
      * 获取
      *
      * @acl setting:role.edit
-     * @param integer $id
+     * @param string $id
      * @return array|null
      * @throws SQLException
      */
-    public function getRole(int $id):?array
+    public function getRole(string $id):?array
     {
         return $this->controller->getRole($id);
     }
@@ -99,27 +99,44 @@ class VisitorProvider extends UserSessionAwareProvider
      * 授权
      *
      * @acl setting:role.grant
-     * @param integer $id 角色ID
+     * @param string $id 角色ID
      * @param string $grantee 权限所有者
      * @return boolean
      * @throws SQLException
      */
-    public function grant(int $id, string $grantee): bool
+    public function grant(string $id, string $grantee): bool
     {
         $this->assert($id);
         return $this->controller->grant($id, $grantee, $this->context->getVisitor()->getId());
     }
 
+
+    /**
+     * 数组形式授权
+     * @param string $grantee
+     * @param array $roles
+     * @return bool
+     * @throws SQLException
+     */
+    public function grantArray(string $grantee, array $roles) {
+        $this->revokeAll($grantee);
+        foreach ($roles as $id) {
+            $this->grant($id, $grantee);
+        }
+        return true;
+    }
+
+
     /**
      * 收回权限
      *
      * @acl setting:role.revoke
-     * @param integer $id
+     * @param string $id
      * @param integer $grantee
      * @return boolean
      * @throws SQLException
      */
-    public function revoke(int $id, int $grantee): bool
+    public function revoke(string $id, int $grantee): bool
     {
         $this->assert($id);
         return $this->controller->revoke($id, $grantee);
@@ -129,11 +146,11 @@ class VisitorProvider extends UserSessionAwareProvider
      * 收回某个用户的全部权限
      *
      * @acl setting:role.revoke
-     * @param integer $grantee
+     * @param string $grantee
      * @return boolean
      * @throws SQLException
      */
-    public function revokeAll(int $grantee):bool
+    public function revokeAll(string $grantee):bool
     {
         return $this->controller->revokeAll($grantee);
     }
