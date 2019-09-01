@@ -1,4 +1,5 @@
 <?php
+
 namespace clomery\main\response;
 
 
@@ -10,12 +11,13 @@ use suda\framework\Request;
 use suda\framework\Response;
 use support\visitor\provider\UserSessionAwareProvider;
 
-class ArticleResponse extends  UserSessionAwareProvider implements RequestProcessor {
+class ArticleResponse extends UserSessionAwareProvider implements RequestProcessor
+{
 
     /**
      * @var string
      */
-    protected $group =  'clomery';
+    protected $group = 'clomery';
 
     /**
      * @param Application $application
@@ -45,11 +47,12 @@ class ArticleResponse extends  UserSessionAwareProvider implements RequestProces
 
         $page = $application->getTemplate('post', $request);
         $page->set('article', $data);
-        $this->setContext($application,$request,$response);
+        $page->set('title', $data['title']);
+        $this->setContext($application, $request, $response);
         $session = $this->getContext()->getSession();
-        if ($session->has('read_'.$data['id']) === false) {
+        if ($session->has('read_' . $data['id']) === false) {
             $provider->getController()->pushCountView($data['id'], 1);
-            $session->set('read_'.$data['id'], 1);
+            $session->set('read_' . $data['id'], 1);
         }
         return $page;
     }
