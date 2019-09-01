@@ -1,0 +1,12 @@
+access-control:
+  allow-header:
+    - x-basicuser-token
+    - x-wechat-context
+    - content-type
+  allow-method:
+    - GET
+    - POST
+    - OPTIONS
+  allow-origin: any
+  allow-credentials: true
+  max-age: 600

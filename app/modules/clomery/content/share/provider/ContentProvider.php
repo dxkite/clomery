@@ -26,6 +26,7 @@ class ContentProvider extends UserSessionAwareProvider
     }
 
     /**
+     * @open false
      * @return ContentController
      */
     public function getController(): ContentController
@@ -38,15 +39,15 @@ class ContentProvider extends UserSessionAwareProvider
      * @param string|null $category
      * @param array|null $tags
      * @param int|null $page
-     * @param int $count
+     * @param int $row
      * @param int $field
      * @param int $order
      * @return PageData
      * @throws \suda\database\exception\SQLException
      */
-    public function getArticleList(?string $search, ?string $category, ?array $tags, ?int $page, int $count, int $field = 0, int $order = 0):PageData
+    public function getArticleList(?string $search, ?string $category, ?array $tags, ?int $page, int $row = 10, int $field = 0, int $order = 0):PageData
     {
-        $data = $this->controller->getArticleList($search, $category, $tags, $page, $count, $field, $order);
+        $data = $this->controller->getArticleList($search, $category, $tags, $page, $row, $field, $order);
         $data = PageUtil::parseKeyToColumn($data, 'id', [
            'tag' => function($idArray) {
                 return $this->controller->getTagController()->getTags($idArray, ['id', 'name', 'slug']);

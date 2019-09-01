@@ -16,6 +16,11 @@ use clomery\main\table\TagTable;
 class ArticleProvider extends ContentProvider
 {
     /**
+     * 导出的类
+     */
+    const EXPORTS = [ContentProvider::class, ArticleProvider::class];
+
+    /**
      * @var ArticleController
      */
     protected $controller;

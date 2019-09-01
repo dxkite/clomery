@@ -114,13 +114,13 @@ class ContentController extends CategoryController
      * @param null|string $category
      * @param array|null $tags
      * @param int|null $page
-     * @param int $count
+     * @param int $row
      * @param int $field
      * @param int $order
      * @return PageData
      * @throws SQLException
      */
-    public function getArticleList(?string $search, ?string $category, ?array $tags, ?int $page = 1, int $count = 10, int $field = 0, int $order = 0): PageData
+    public function getArticleList(?string $search, ?string $category, ?array $tags, ?int $page = 1, int $row = 10, int $field = 0, int $order = 0): PageData
     {
         $wants = $this->prepareReadFields(static::$showFields, '_:article');
         $parameter = [];
@@ -138,7 +138,7 @@ class ContentController extends CategoryController
         $query = $query . ' WHERE ' . $condition;
         $query .= $this->buildOrder($field, $order);
         $parameter = array_merge($binder, $parameter);
-        return PageData::create($this->table->query($query, $parameter), $page, $count);
+        return PageData::create($this->table->query($query, $parameter), $page, $row);
     }
 
     /**

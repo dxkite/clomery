@@ -1,0 +1,5 @@
+article:
+  uri: '/article[/{_method:string}]'
+  class:
+    - \clomery\main\provider\ArticleProvider
+
