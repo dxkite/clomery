@@ -31,6 +31,7 @@ class ArticleResponse extends UserSessionAwareProvider implements RequestProcess
     {
         $provider = new ArticleProvider();
         $article = $request->get('article');
+        $provider->setContext($application, $request, $response);
         $data = $provider->getArticle($article);
 
         // 没有文章
