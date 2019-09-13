@@ -1,0 +1,18 @@
+{
+    "name": "dxkite/go-get",
+    "unique": "dxkite",
+    "authors": [
+        {
+            "name": "dxkite",
+            "email": "dxkite@qq.com"
+        }
+    ],
+    "import": {
+        "share": {
+            "dxkite\\goget": "share"
+        }
+    },
+    "discription": "Go语言GoGet支持",
+    "require": {},
+    "version": "1.0.0"
+}

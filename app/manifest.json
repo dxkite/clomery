@@ -5,6 +5,7 @@
     "language": "zh-CN",
     "module-paths": [
         "modules/support",
+        "modules/dxkite",
         "modules/clomery"
     ],
     "route-group": [
