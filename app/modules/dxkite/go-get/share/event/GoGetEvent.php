@@ -25,11 +25,14 @@ class GoGetEvent
     public static function injectGoLangProcessor(Config $config, Application $app)
     {
         $goget = $app->conf('go-get');
+        $processor = $config->get('processor', []);
+        $config->set('processor', array_merge([GoGetProcessor::class], $processor));
+
         if ($goget !== null) {
             static::$default = $app->route()->getDefaultRunnable();
             static::$app = $app;
             $app->route()->default(__CLASS__.'::defaultRunnable');
-            $processor = $config->get('processor', []);
+
             $config->set('processor', array_merge([GoGetProcessor::class], $processor));
         }
     }

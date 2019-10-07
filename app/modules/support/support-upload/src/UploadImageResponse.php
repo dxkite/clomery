@@ -9,7 +9,7 @@ use support\upload\UploadUtil;
 use suda\application\Application;
 use suda\framework\filesystem\FileSystem;
 use suda\application\processor\RequestProcessor;
-use suda\application\processor\FileRangeProccessor;
+use suda\application\processor\FileRangeProcessor;
 
 /**
  * 上传文件显示
@@ -39,9 +39,9 @@ class UploadImageResponse implements RequestProcessor
                 } else {
                     FileSystem::copy($path, $savePath);
                 }
-                (new FileRangeProccessor($savePath))->onRequest($application, $request, $response);
+                (new FileRangeProcessor($savePath))->onRequest($application, $request, $response);
             } else {
-                (new FileRangeProccessor($path))->onRequest($application, $request, $response);
+                (new FileRangeProcessor($path))->onRequest($application, $request, $response);
             }
         } else {
             $response->status(404);
