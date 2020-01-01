@@ -32,7 +32,6 @@ class GoGetEvent
             static::$default = $app->route()->getDefaultRunnable();
             static::$app = $app;
             $app->route()->default(__CLASS__.'::defaultRunnable');
-
             $config->set('processor', array_merge([GoGetProcessor::class], $processor));
         }
     }
@@ -40,6 +39,10 @@ class GoGetEvent
     public static function defaultRunnable(Request $request, Response $response) {
         if ($request->get('go-get') == 1) {
             return static::getGoGet(static::$app, $request);
+        }
+        if (static::$app->conf('go-get.only', false) == true) {
+            $response->status(503);
+            return '';
         }
         return GoGetEvent::$default->run($request, $response);
     }
