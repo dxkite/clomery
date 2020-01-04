@@ -1,7 +1,16 @@
 {
     "go-get": {
         "only": true,
-        "repo": "https://github.com/dxkite/golang",
-        "doc": "https://github.com/dxkite/golang"
+        "list": [
+            {
+                "name": "/GoProxy",
+                "repo": "https://github.com/dxkite/GoProxy",
+                "doc": "https://github.com/dxkite/GoProxy"
+            }
+        ],
+        "default": {
+            "repo": "https://github.com/dxkite/golang",
+            "doc": "https://github.com/dxkite/golang"
+        }
     }
 }

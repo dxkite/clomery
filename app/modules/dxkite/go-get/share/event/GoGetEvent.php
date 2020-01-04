@@ -31,12 +31,13 @@ class GoGetEvent
         if ($goget !== null) {
             static::$default = $app->route()->getDefaultRunnable();
             static::$app = $app;
-            $app->route()->default(__CLASS__.'::defaultRunnable');
+            $app->route()->default(__CLASS__ . '::defaultRunnable');
             $config->set('processor', array_merge([GoGetProcessor::class], $processor));
         }
     }
 
-    public static function defaultRunnable(Request $request, Response $response) {
+    public static function defaultRunnable(Request $request, Response $response)
+    {
         if ($request->get('go-get') == 1) {
             return static::getGoGet(static::$app, $request);
         }
@@ -47,14 +48,25 @@ class GoGetEvent
         return GoGetEvent::$default->run($request, $response);
     }
 
-    public static function getGoGet(Application $application, Request $request) {
-        $goget = $application->conf('go-get');
-        if ($goget === null) {
+    public static function getGoGet(Application $application, Request $request)
+    {
+        $goGet = $application->conf('go-get');
+        if ($goGet === null) {
             return 'Go Get Config Miss';
         }
         $template = $application->getTemplate('dxkite/go-get:go-get', $request);
-        $template->assign($goget);
-        $template->set('host', $request->getHost());
+        $path = $request->getUri();
+        foreach ($goGet['list'] as $item) {
+            if ($item['name'] == $path) {
+                $template->set('name', $request->getHost() . $path);
+                $template->set('repo', $item['repo']);
+                $template->set('doc', $item['doc']);
+                return $template;
+            }
+        }
+        $template->set('name', $request->getHost());
+        $template->set('repo', $goGet['default']['repo']);
+        $template->set('doc', $goGet['default']['doc']);
         return $template;
     }
 }

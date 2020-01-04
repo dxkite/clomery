@@ -1,10 +1,10 @@
 name: clomery
 version: 1.x
-# debug-key: KEY-FOR-DEBUG
+debug-key: f277b7d056738efbdea42dd95dc4bee5
 language: zh-CN
 module-paths:
   - modules/support
   - modules/dxkite
-  - modules/clomery
+  # - modules/clomery
 route-group:
   - default
