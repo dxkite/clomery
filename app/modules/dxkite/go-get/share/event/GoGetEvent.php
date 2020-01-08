@@ -56,17 +56,19 @@ class GoGetEvent
         }
         $template = $application->getTemplate('dxkite/go-get:go-get', $request);
         $path = $request->getUri();
+        $name = current(array_filter(explode('/', $path)));
+        $template->set('name', $request->getHost() . '/' . $name);
         foreach ($goGet['list'] as $item) {
-            if ($item['name'] == $path) {
-                $template->set('name', $request->getHost() . $path);
+            if ($item['name'] == $name) {
                 $template->set('repo', $item['repo']);
                 $template->set('doc', $item['doc']);
                 return $template;
             }
         }
-        $template->set('name', $request->getHost());
-        $template->set('repo', $goGet['default']['repo']);
-        $template->set('doc', $goGet['default']['doc']);
+        $defaultRepo = str_replace('{name}', $name, $goGet['default']['repo']);
+        $defaultDoc = str_replace('{name}', $name, $goGet['default']['repo']);
+        $template->set('repo', $defaultRepo);
+        $template->set('doc', $defaultDoc);
         return $template;
     }
 }

@@ -3,14 +3,19 @@
         "only": true,
         "list": [
             {
-                "name": "/GoProxy",
+                "name": "GoProxy",
                 "repo": "https://github.com/dxkite/GoProxy",
                 "doc": "https://github.com/dxkite/GoProxy"
+            },
+            {
+                "name": "demo",
+                "repo": "https://github.com/dxkite/golang",
+                "doc": "https://github.com/dxkite/golang"
             }
         ],
         "default": {
-            "repo": "https://github.com/dxkite/golang",
-            "doc": "https://github.com/dxkite/golang"
+            "repo": "https://github.com/dxkite/{name}",
+            "doc": "https://github.com/dxkite/{name}"
         }
     }
 }
