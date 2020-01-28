@@ -19,7 +19,7 @@ class TagRelationTable extends RelationTable
         // 避免多次重复创建表
         if ($cache->has($cacheKey) === false && SUDA_DEBUG) {
             try {
-                (new MySQLTableCreator($this->getSource()->write(), $this->getStruct()))->create();
+                (new MySQLTableCreator())->create($this->getSource()->write(), $this->getStruct());
                 $cache->set($cacheKey, true, 0);
             } catch (SQLException $e) {
                 Database::application()->dumpException($e);

@@ -1,8 +1,7 @@
 <footer id="footer">
 	<div class="footer-copyright">
 		@call('clomery.main.data.ConfigData::profile')
-		<div>&copy; {{date('Y')}} {{ $:profile.author }}</div>
-		<div>{= 模板 } <a href="https://github.com/Lemonreds/hexo-theme-Nayo" target="_blank">Nayo</a></div>
-		<div>{= 项目由 }<a href="https://github.com/dxkite/suda" target="_blank"> suda {{ SUDA_VERSION }}</a>{= 驱动}</div>
+		<div>&copy; {{date('Y')}} {{ $:profile.author }} <a href="http://www.beian.miit.gov.cn/" target="_blank" class="text">湘ICP备20002416号</a></div>
+		<div>{= 由 }<a href="https://github.com/dxkite/suda" target="_blank"> suda {{ SUDA_VERSION }}</a>{= 驱动} {= 模板 } <a href="https://github.com/Lemonreds/hexo-theme-Nayo" target="_blank">Nayo</a></div>
 	</div>
 </footer>
