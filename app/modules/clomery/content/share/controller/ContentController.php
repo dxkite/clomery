@@ -4,6 +4,7 @@
 namespace clomery\content\controller;
 
 use ArrayObject;
+use clomery\content\parser\Content;
 use clomery\main\table\ArticleTable;
 use suda\application\database\Table;
 use suda\database\exception\SQLException;
@@ -46,6 +47,34 @@ class ContentController extends CategoryController
             $data['modify_time'] = intval($data['modify_time'] ?? time());
         }
         return parent::save($data);
+    }
+
+    /**
+     * @param array $data
+     * @return array
+     * @throws SQLException
+     */
+    protected function addIdIfUnique(array $data)
+    {
+        if (array_key_exists('slug', $data)) {
+            $get = $this->table->read(['id', 'content_hash'])->where(['slug' => $data['slug']])->one();
+            if ($get) {
+                $data['id'] = $get['id'];
+                if (array_key_exists('content', $data)) {
+                    $content = $data['content'];
+                    if ($content instanceof Content) {
+                        $hash = md5($content->raw());
+                    } else {
+                        $hash = md5($content);
+                    }
+                    if (strcmp(strtolower($hash), strtolower($get['content_hash'])) != 0) {
+                        $data['content_hash'] = $hash;
+                        $data['modify_time'] = $data['modify_time'] ?? time();
+                    }
+                }
+            }
+        }
+        return $data;
     }
 
     /**
@@ -170,7 +199,7 @@ class ContentController extends CategoryController
      * @param array $binder
      * @return string
      */
-    protected function buildSearchFilter(?string $search, string $condition, array & $binder): string
+    protected function buildSearchFilter(?string $search, string $condition, array &$binder): string
     {
         if ($search !== null && mb_strlen($search) >= 2) {
             $name = $this->table->getName();
@@ -187,7 +216,7 @@ class ContentController extends CategoryController
      * @return string
      * @throws SQLException
      */
-    protected function buildCategoryFilter(?string $category, string $condition, array & $binder): string
+    protected function buildCategoryFilter(?string $category, string $condition, array &$binder): string
     {
         if ($category !== null) {
             if (is_numeric($category)) {
@@ -207,7 +236,7 @@ class ContentController extends CategoryController
      * @param array $binder
      * @return string
      */
-    protected function buildSimple(string $wants, array & $binder): string
+    protected function buildSimple(string $wants, array &$binder): string
     {
         $articleName = $this->table->getName();
         $query = "SELECT " . $wants . " FROM _:" . $articleName;
@@ -222,7 +251,7 @@ class ContentController extends CategoryController
      * @param array $binder
      * @return string
      */
-    protected function buildTagArrayFilter(string $wants, array $tagId, array & $binder): string
+    protected function buildTagArrayFilter(string $wants, array $tagId, array &$binder): string
     {
         $tag = $this->tagController->getTable();
         $tagTableName = $tag->getName();

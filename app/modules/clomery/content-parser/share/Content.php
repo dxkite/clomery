@@ -37,6 +37,8 @@ class Content implements \JsonSerializable, MethodParameterInterface
     protected $content;
     protected $type;
     protected $class;
+    protected $version = '0.1';
+
     /**
      * @var Context
      */
@@ -61,20 +63,21 @@ class Content implements \JsonSerializable, MethodParameterInterface
     public function __construct(string $content, string $type)
     {
         $this->type = strtolower($type);
-        $class = HtmlParser::class;
         if ($this->type == strtolower(self::TEXT)) {
-            $class = TextParser::class;
+            $this->class = TextParser::class;
             $this->type = 'text';
         } elseif ($this->type == strtolower(self::RST) || $this->type == 'rst') {
-            $class = RstTextParser::class;
+            $this->class = RstTextParser::class;
             $this->type = 'rst';
         } elseif ($this->type == strtolower(self::MD) || $this->type == 'md') {
-            $class = MarkdownParser::class;
+            $this->class = MarkdownParser::class;
             $this->type = 'md';
-        } else {
+        } elseif ($this->type == strtolower(self::MD) || $this->type == 'md') {
             $this->type = 'html';
+            $this->class = HtmlParser::class;
+        } else {
+            $this->class = '';
         }
-        $this->class = $class;
         $this->content = $content;
     }
 
@@ -91,6 +94,9 @@ class Content implements \JsonSerializable, MethodParameterInterface
     public function toHtml(): string
     {
         $key = __CLASS__ . '.content.' . md5($this->content);
+        if (strlen($this->class) == 0) {
+            return $this->content;
+        }
         /** @var Parser $class */
         $class = new $this->class;
         $debug = self::$context->getConfig()->get('debug');
@@ -129,8 +135,12 @@ class Content implements \JsonSerializable, MethodParameterInterface
      */
     public static function pack(Content $content): string
     {
-        $md5 = md5($content->content);
-        return Content::MAGIC . $content->type . ',' . $md5 . ',' . $content->class . ',' . $content->content;
+        $data = [
+            'type' => $content->type,
+            'content' => $content->content,
+            'version' => '1.0',
+        ];
+        return json_encode($data, JSON_UNESCAPED_UNICODE);
     }
 
     /**
@@ -141,15 +151,15 @@ class Content implements \JsonSerializable, MethodParameterInterface
      */
     public static function unpack(string $content): ?Content
     {
+        /** @var Content $class */
         if (self::isContent($content)) {
-            /** @var Content $class */
             try {
                 $class = (new ReflectionClass(Content::class))->newInstanceWithoutConstructor();
             } catch (\ReflectionException $e) {
                 return null;
             }
             $content = substr($content, 2);
-            list($class->type, $md5, $class->class, $class->content) = explode(',', $content, 4);
+            [$class->type, $md5, $class->class, $class->content] = explode(',', $content, 4);
             if ($md5 === md5($class->content)) {
                 return $class;
             } else {
@@ -157,7 +167,14 @@ class Content implements \JsonSerializable, MethodParameterInterface
                 return $class;
             }
         }
-        return null;
+        try {
+            $data = json_decode($content, true);
+            $obj = new static($data['content'], $data['type']);
+            $obj->version = $data['version'];
+            return $obj;
+        } catch (\ReflectionException $e) {
+            return null;
+        }
     }
 
     /**
@@ -192,6 +209,7 @@ class Content implements \JsonSerializable, MethodParameterInterface
         return [
             'type' => $this->type,
             'raw' => $this->content,
+            'version' => $this->version,
             'html' => $this->toHtml(),
         ];
     }

@@ -25,6 +25,10 @@ class ArticleProvider extends ContentProvider
      */
     protected $controller;
 
+    /**
+     * ArticleProvider constructor.
+     * @throws \suda\database\exception\SQLException
+     */
     public function __construct()
     {
         parent::__construct(new ArticleController(new ArticleTable(), new CategoryTable(), new TagTable(), new TagRelationTable()));
