@@ -19,6 +19,7 @@ class CategoryController extends TreeController
     /**
      * CategoryController constructor.
      * @param Table $table
+     * @throws SQLException
      */
     public function __construct(Table $table)
     {
