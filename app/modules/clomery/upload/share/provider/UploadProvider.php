@@ -37,10 +37,12 @@ class UploadProvider extends UserSessionAwareProvider
      * @param array|null $tag
      * @param int $create
      * @param int $status
+     * @param array $attribute
      * @return array|null
      * @throws \suda\database\exception\SQLException
      */
-    public function save(string $title, string $slug, string $description, string $content, ?array $category, ?array $tag, int $create, int $status) {
+    public function save(string $title, string $slug, string $description, string $content, ?array $category, ?array $tag, int $create, int $status, array $attribute = [])
+    {
 
         if ($this->visitor->isGuest()) {
             throw new UploadException('error user', UploadException::ERR_USER_ID);
@@ -48,10 +50,13 @@ class UploadProvider extends UserSessionAwareProvider
 
         $articleController = new ArticleController(new ArticleTable(), new CategoryTable(), new TagTable(), new TagRelationTable());
         $categoryId = 0;
+        $oldCid = 0;
         $categoryController = $articleController->getCategoryController();
+
         if ($category !== null) {
             $categoryId = $categoryController->createWithOrderNameArray($category);
         }
+
 
         $data = [
             'user' => $this->visitor->getId(),
@@ -64,15 +69,38 @@ class UploadProvider extends UserSessionAwareProvider
             'status' => $status,
         ];
 
+        $want = $articleController->getArticle($slug, ['id', 'category', 'content_hash', 'modify_time']);
+        if ($want !== null) {
+            $oldCid = $want['category'];
+            $data['id'] = $want['id'];
+            $hash = strtolower(md5($content));
+            $data['content_hash'] = $hash;
+            $data['modify_time'] = $want['modify_time'];
+            if (strcmp($hash, strtolower($want['content_hash'])) != 0) {
+                $data['modify_time'] = $data['modify_time'] ?? time();
+            }
+        }
+
         $save = $articleController->save($data);
 
-        if ($save !== null && is_array($tag)) {
-            if ($categoryId > 0) {
-                $categoryController->pushCountItem($categoryId, 1);
+        if ($save !== null) {
+            if (is_array($tag)) {
+                $tagController = $articleController->getTagController();
+                $tagArray = $tagController->createWithNameArray($tag);
+                $tagController->remove($save['id']);
+                $tagController->linkTag($tagArray, $save['id']);
             }
-            $tagController = $articleController->getTagController();
-            $tagArray = $tagController->createWithNameArray($tag);
-            $tagController->linkTag($tagArray, $save['id']);
+            $rewriteCategory = $attribute['rewrite_category_count'] ?? false;
+            if ($oldCid != $categoryId) {
+                if ($categoryId > 0) {
+                    $rewriteCategory || $categoryController->pushCountItem($categoryId, 1);
+                    $rewriteCategory && $categoryController->writeCount($categoryId, $articleController->getCategoryCount($categoryId));
+                }
+                if ($oldCid > 0) {
+                    $rewriteCategory || $categoryController->pushCountItem($oldCid, -1);
+                    $rewriteCategory && $categoryController->writeCount($oldCid, $articleController->getCategoryCount($oldCid));
+                }
+            }
         }
         return $save;
     }
@@ -85,7 +113,8 @@ class UploadProvider extends UserSessionAwareProvider
      * @throws \suda\database\exception\SQLException
      * @throws \ReflectionException
      */
-    public function saveFile(string $article, string $name, File $file) {
+    public function saveFile(string $article, string $name, File $file)
+    {
         if ($this->visitor->isGuest()) {
             throw new UploadException('error user', UploadException::ERR_USER_ID);
         }
@@ -94,7 +123,7 @@ class UploadProvider extends UserSessionAwareProvider
         $provider->loadFromContext($this->context);
         $hash = UploadUtil::hash($file->getPathname());
         $uri = $provider->upload($file);
-        $controller->saveFile($this->visitor->getId(), $file, $name, $uri, $hash,  $article);
+        $controller->saveFile($this->visitor->getId(), $file, $name, $uri, $hash, $article);
         return $uri;
     }
 }

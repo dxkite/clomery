@@ -27,6 +27,11 @@ class CategoryController extends TreeController
         parent::__construct($table);
     }
 
+    /**
+     * @param array $data
+     * @return array|null
+     * @throws SQLException
+     */
     public function save(array $data)
     {
         $data = $this->addIdIfUnique($data);
@@ -43,7 +48,7 @@ class CategoryController extends TreeController
      * @throws SQLException
      */
     protected function addIdIfUnique(array $data) {
-        if (array_key_exists('slug', $data)) {
+        if (array_key_exists('slug', $data) && array_key_exists('id', $data) === false) {
             $id = $this->table->read(['id'])->where(['slug' => $data['slug']])->field('id');
             if ($id > 0 ) {
                 $data['id'] = $id;
@@ -61,6 +66,18 @@ class CategoryController extends TreeController
     public function pushCountItem(string $id, int $size) {
         return $this->table->write('`count_item` = `count_item` + :num')
             ->addValue('num', $size)
+            ->where(['id' => $id])
+            ->ok();
+    }
+
+    /**
+     * @param string $id
+     * @param int $count
+     * @return bool
+     * @throws SQLException
+     */
+    public function writeCount(string $id, int $count) {
+        return $this->table->write(['count_item' => $count])
             ->where(['id' => $id])
             ->ok();
     }

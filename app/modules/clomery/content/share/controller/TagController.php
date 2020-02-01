@@ -20,6 +20,7 @@ class TagController extends CategoryController
      * TagController constructor.
      * @param Table $table
      * @param Table $relate
+     * @throws SQLException
      */
     public function __construct(Table $table, Table $relate)
     {
@@ -100,8 +101,21 @@ class TagController extends CategoryController
      */
     public function removeTag(array $tagArray, string $relate)
     {
-        $this->table->write('`count_item` = `count_item` - 1')->write(['id' => $tagArray])->ok();
+        $this->table->write('`count_item` = `count_item` - 1')->where(['id' => new \ArrayObject($tagArray)])->ok();
         return $this->relationController->remove(new \ArrayObject($tagArray), $relate);
+    }
+
+    /**
+     * @param string $relate
+     * @return bool
+     * @throws SQLException
+     */
+    public function remove(string $relate) {
+        $tagArray = $this->getTags($relate, ['id']);
+        if (count($tagArray)) {
+            return $this->removeTag(array_column($tagArray, 'id'), $relate);
+        }
+        return false;
     }
 
     /**

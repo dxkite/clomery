@@ -15,6 +15,7 @@ class RelationController extends BaseController
      *
      * TagController constructor.
      * @param Table $table
+     * @throws SQLException
      */
     public function __construct(Table $table)
     {

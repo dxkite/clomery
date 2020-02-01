@@ -56,21 +56,20 @@ class ContentController extends CategoryController
      */
     protected function addIdIfUnique(array $data)
     {
-        if (array_key_exists('slug', $data)) {
+        if (array_key_exists('id', $data) === false && array_key_exists('slug', $data)) {
             $get = $this->table->read(['id', 'content_hash'])->where(['slug' => $data['slug']])->one();
             if ($get) {
                 $data['id'] = $get['id'];
-                if (array_key_exists('content', $data)) {
-                    $content = $data['content'];
-                    if ($content instanceof Content) {
-                        $hash = md5($content->raw());
-                    } else {
-                        $hash = md5($content);
-                    }
-                    if (strcmp(strtolower($hash), strtolower($get['content_hash'])) != 0) {
-                        $data['content_hash'] = $hash;
-                        $data['modify_time'] = $data['modify_time'] ?? time();
-                    }
+                $content = $data['content'];
+                if ($content instanceof Content) {
+                    $hash = md5($content->raw());
+                } else {
+                    $hash = md5($content);
+                }
+                $hash = strtolower($hash);
+                if (strcmp($hash, strtolower($get['content_hash'])) != 0) {
+                    $data['content_hash'] = $hash;
+                    $data['modify_time'] = $data['modify_time'] ?? time();
                 }
             }
         }
@@ -108,10 +107,11 @@ class ContentController extends CategoryController
     /**
      * 获取文章
      * @param string $article
+     * @param array|null $select
      * @return array|null
      * @throws SQLException
      */
-    public function getArticle(string $article): ?array
+    public function getArticle(string $article, array $select = null): ?array
     {
         $where = [];
         if (is_numeric($article)) {
@@ -119,8 +119,17 @@ class ContentController extends CategoryController
         } else {
             $where['slug'] = $article;
         }
-        $data = $this->table->read(static::$viewFields)->where($where)->one();
-        return $data;
+        return $this->table->read($select ?? static::$viewFields)->where($where)->one();
+    }
+
+    /**
+     * @param string $categoryId
+     * @return int
+     * @throws SQLException
+     */
+    public function getCategoryCount(string $categoryId)
+    {
+        return $this->table->read('count(id) as count')->where(['category' => $categoryId])->field('count', 0);
     }
 
     /**
