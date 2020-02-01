@@ -100,6 +100,15 @@ class CategoryController extends TreeController
     }
 
     /**
+     * @param array $fields
+     * @return array
+     * @throws SQLException
+     */
+    public function getAll(array $fields = []) {
+        return $this->table->read($fields?:'*')->where(['status' => 1])->all();
+    }
+
+    /**
      * @param int $page
      * @param int $row
      * @param array $fields

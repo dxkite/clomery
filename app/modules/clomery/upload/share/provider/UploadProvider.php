@@ -91,15 +91,15 @@ class UploadProvider extends UserSessionAwareProvider
                 $tagController->linkTag($tagArray, $save['id']);
             }
             $rewriteCategory = $attribute['rewrite_category_count'] ?? false;
-            if ($oldCid != $categoryId) {
-                if ($categoryId > 0) {
-                    $rewriteCategory || $categoryController->pushCountItem($categoryId, 1);
-                    $rewriteCategory && $categoryController->writeCount($categoryId, $articleController->getCategoryCount($categoryId));
+            if ($rewriteCategory) {
+                $all = $categoryController->getAll(['id']);
+                $idArray = array_column($all, 'id');
+                foreach ($idArray as $id) {
+                    $categoryController->writeCount($id, $articleController->getCategoryCount($id));
                 }
-                if ($oldCid > 0) {
-                    $rewriteCategory || $categoryController->pushCountItem($oldCid, -1);
-                    $rewriteCategory && $categoryController->writeCount($oldCid, $articleController->getCategoryCount($oldCid));
-                }
+            } else {
+                $categoryId > 0 && $categoryController->pushCountItem($categoryId, 1);
+                $oldCid > 0 && $categoryController->pushCountItem($oldCid, -1);
             }
         }
         return $save;
